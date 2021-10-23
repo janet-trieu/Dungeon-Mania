@@ -38,7 +38,7 @@
         {
             "x": 7,
             "y": 0,
-            "type": "spawner"
+            "type": "zombie_spawner"
         },
         {
             "x": 8,
