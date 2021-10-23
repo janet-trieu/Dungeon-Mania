@@ -24,12 +24,12 @@ public class DungeonTest {
     public void testEntityLoad() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
        
-        // LOAD MAP - not sure if this is the correct way... waiting for a response in forums lol
-        String path = FileLoader.loadResourceFile("/dungeons/spawnable-entity.json");
-        controller.newGame(path, "Peaceful");
+        // LOAD MAP
+        String map = FileLoader.loadResourceFile("/dungeons/DungeonTest/spawnable-entity.json");
+        controller.newGame(map, "Peaceful");
 
         // TEST POSITION OF EACH ENTITY
-        // Very ugly and repetitive - might have a change if staff says their eyes are burning
+        // Very ugly and repetitive - might have a change if staff says their eyes are burning also getInfo may be in the wrong class
         // Player
         Position position = new Position(0, 0);
         assertEquals(new EntityResponse("Player0", "Player", position, false), controller.getInfo("Player0"));
