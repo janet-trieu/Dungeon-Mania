@@ -45,9 +45,9 @@ public class DungeonTest {
         // FloorSwitch
         position = new Position(4, 0);
         assertEquals(new EntityResponse("FloorSwitch0", "FloorSwitch", position, false), controller.getInfo("FloorSwitch0"));
-        // Door
+        // DoorClosed
         position = new Position(5, 0);
-        assertEquals(new EntityResponse("Door0", "Door", position, false), controller.getInfo("Door0"));
+        assertEquals(new EntityResponse("DoorClosed0", "DoorClosed", position, false), controller.getInfo("DoorClosed0"));
         // Portal
         position = new Position(6, 0);
         assertEquals(new EntityResponse("Portal0", "Portal", position, false), controller.getInfo("Portal0"));
@@ -90,5 +90,8 @@ public class DungeonTest {
         // Sword
         position = new Position(19, 0);
         assertEquals(new EntityResponse("Sword0", "Sword", position, false), controller.getInfo("Sword0"));
+        // DoorOpened
+        position = new Position(1, 0);
+        assertEquals(new EntityResponse("DoorOpen0", "DoorOpen", position, false), controller.getInfo("DoorOpen0"));
     }
 }
