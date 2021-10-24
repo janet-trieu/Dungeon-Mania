@@ -24,12 +24,12 @@ public class DungeonTest {
     public void testEntityLoad() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
        
-        // LOAD MAP - not sure if this is the correct way... waiting for a response in forums lol
-        String path = FileLoader.loadResourceFile("/dungeons/spawnable-entity.json");
-        controller.newGame(path, "Peaceful");
+        // LOAD MAP
+        String map = FileLoader.loadResourceFile("/dungeons/DungeonTest/spawnable-entity.json");
+        controller.newGame(map, "Peaceful");
 
         // TEST POSITION OF EACH ENTITY
-        // Very ugly and repetitive - might have a change if staff says their eyes are burning
+        // Very ugly and repetitive - might have a change if staff says their eyes are burning also getInfo may be in the wrong class
         // Player
         Position position = new Position(0, 0);
         assertEquals(new EntityResponse("Player0", "Player", position, false), controller.getInfo("Player0"));
@@ -45,9 +45,9 @@ public class DungeonTest {
         // FloorSwitch
         position = new Position(4, 0);
         assertEquals(new EntityResponse("FloorSwitch0", "FloorSwitch", position, false), controller.getInfo("FloorSwitch0"));
-        // Door
+        // DoorClosed
         position = new Position(5, 0);
-        assertEquals(new EntityResponse("Door0", "Door", position, false), controller.getInfo("Door0"));
+        assertEquals(new EntityResponse("DoorClosed0", "DoorClosed", position, false), controller.getInfo("DoorClosed0"));
         // Portal
         position = new Position(6, 0);
         assertEquals(new EntityResponse("Portal0", "Portal", position, false), controller.getInfo("Portal0"));
@@ -90,5 +90,8 @@ public class DungeonTest {
         // Sword
         position = new Position(19, 0);
         assertEquals(new EntityResponse("Sword0", "Sword", position, false), controller.getInfo("Sword0"));
+        // DoorOpened
+        position = new Position(1, 0);
+        assertEquals(new EntityResponse("DoorOpen0", "DoorOpen", position, false), controller.getInfo("DoorOpen0"));
     }
 }
