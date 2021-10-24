@@ -1,11 +1,14 @@
 package dungeonmania;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
@@ -24,7 +27,7 @@ public class Collectabletest {
      * @throws IOException
      */
     @Test
-    public void testHealthPotion() throws IOException {
+    public void testHealthPotion() {
         DungeonManiaController controller = new DungeonManiaController();
         /**
          * Entities are spawned in:
@@ -32,7 +35,7 @@ public class Collectabletest {
          * mercenary (2,0)
          * health_potion (3,0)
          */
-        String map = FileLoader.loadResourceFile("/dungeons/testHealthPotion.json");
+        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testHealthPotion.json");
         controller.newGame(map, "Standard");
 
         /** 
@@ -76,14 +79,14 @@ public class Collectabletest {
      * Test for the use of invincible potion
      * @throws IOException
      */
-    public void testInvinciblePotion() throws IOException {
+    public void testInvinciblePotion() {
         DungeonManiaController controller = new DungeonManiaController();
         /**
          * Entities are spawned in:
          * player (0,0)
          * invincible_potion (1,0)
          */
-        String map = FileLoader.loadResourceFile("/dungeons/testInvinciblePotion.json");
+        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testInvinciblePotion.json");
         controller.newGame(map, "Standard");
 
         // create a player at position (0,0)
@@ -108,14 +111,14 @@ public class Collectabletest {
      * Test for the use of invisible potion
      * @throws IOException
      */
-    public void testInvisiblePotion() throws IOException {
+    public void testInvisiblePotion() {
         DungeonManiaController controller = new DungeonManiaController();
         /**
          * Entities are spawned in:
          * player (0,0)
          * invisible_potion (1,0)
          */
-        String map = FileLoader.loadResourceFile("/dungeons/testInvisiblePotion.json");
+        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testInvisiblePotion.json");
         controller.newGame(map, "Standard");
 
         // create a player at position (0,0)
@@ -140,10 +143,10 @@ public class Collectabletest {
      * Test for the use of bomb
      * @throws IOException
      */
-    public void testBomb() throws IOException {
+    public void testBomb() {
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/testBomb.json");
+        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testBomb.json");
         controller.newGame(map, "Standard");
 
         // create a player at position (0,0)
@@ -226,10 +229,10 @@ public class Collectabletest {
      * Test for sword's application
      * @throws IOException
      */
-    public void testSwordApplication() throws IOException {
+    public void testSwordApplication() {
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/testSwordApplication.json");
+        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testSwordApplication.json");
         controller.newGame(map, "Standard");
 
         // create a player at position (0,0)
@@ -249,13 +252,13 @@ public class Collectabletest {
     }
 
     /**
-     * Test for sword's application
+     * Test for sword's durability
      * @throws IOException
      */
-    public void testSwordDurability() throws IOException {
+    public void testSwordDurability() {
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/testBomb.json");
+        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testSwordDurability.json");
         controller.newGame(map, "Standard");
 
         // create a player at position (0,0)
@@ -289,4 +292,67 @@ public class Collectabletest {
         assertEquals(player1.getDamage(), 10);
     }
 
+    /**
+     * Testing for player bribing the mercenary
+     * Player HAS treasure
+     * @throws IOException
+     */
+    public void testBribeHasTreasure() {
+        DungeonManiaController controller = new DungeonManiaController();
+
+        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testSwordDurability.json");
+        controller.newGame(map, "Standard");
+
+        // create a player at position (0,0)
+        Position playerPosition = new Position(0, 0);
+        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+
+        // create a treasure at position (1,0)
+        Position treasurePosition = new Position(1, 0);
+        CollectableEntity treasure1 = createEntity("treasure1", "treasure", treasurePosition, map);
+
+        // creates a mercenary at position (4,0)
+        Position mercenaryPosition = new Position(4,0);
+        MovingEntity mercenary1 = createMercenary("mercenary1", "mercenary", 80, 10, mercenaryPosition, map); 
+
+        // player moves one cell to the right to pick up the treasure
+        // mercenary has moved to (3,0)
+        controller.tick("", Direction.RIGHT);
+
+        // player moves one cell to the right again, (2,0) where it will enter the same cell with mercenary
+        controller.tick("", Direction.RIGHT);
+
+        // player attempts to bribe the mercenary with treasure
+        assertDoesNotThrow(() -> {
+            controller.interact("mercenary1");
+        });
+    }
+
+    /**
+     * Testing for player bribing the mercenary
+     * Player DOES NOT have treasure
+     * @throws IOException
+     */
+    public void testBribeNoTreasure() {
+        DungeonManiaController controller = new DungeonManiaController();
+
+        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testSwordDurability.json");
+        controller.newGame(map, "Standard");
+
+        // create a player at position (0,0)
+        Position playerPosition = new Position(0, 0);
+        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+
+
+        // creates a mercenary at position (2,0)
+        Position mercenaryPosition = new Position(2,0);
+        MovingEntity mercenary1 = createMercenary("mercenary1", "mercenary", 80, 10, mercenaryPosition, map); 
+
+        // player moves one cell to the right
+        // mercenary has moved to (2,0)
+        controller.tick("", Direction.RIGHT);
+
+        // player attempts to bribe the mercenary without treasure
+        assertThrows(InvalidActionException.class, () -> controller.interact("mercenary1"));
+    }
 }
