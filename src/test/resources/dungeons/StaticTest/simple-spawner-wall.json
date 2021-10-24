@@ -13,7 +13,7 @@
         {
             "x": 1,
             "y": 1,
-            "type": "zombie_spawner"
+            "type": "zombie_toast_spawner"
         }
     ]
 }
