@@ -49,9 +49,9 @@ public class Collectabletest {
         // doing similar steps as above for mercenary and health_potion
         // createPlayer(String id, String type, int health, int damage, Position position, String map)
         Position mercenaryPosition = new Position(2,0);
-        Mercenary mercenary1 = createMercenary("mercenary1", "mercenary", 10, 10, mercenaryPosition, map); 
+        MovingEntity mercenary1 = createMercenary("mercenary1", "mercenary", 10, 10, mercenaryPosition, map); 
         Position health_potionPosition = new Position(3,0);
-        Potion health_potion1 = createEntity("health_potion1", "health_potion", health_potionPosition, map); 
+        CollectableEntity health_potion1 = createEntity("health_potion1", "health_potion", health_potionPosition, map); 
 
 
         // Player moves 1 cell to the right, where it will enter a battle with mercenary (1,0)
@@ -91,8 +91,8 @@ public class Collectabletest {
         Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
 
         // create an invicible potion at position (1,0)
-        Position invincible_potionPosition = new Position(3,0);
-        Potion invincible_potion1 = createEntity("invincible_potion1", "invincible_potion", invincible_potionPosition, map); 
+        Position invincible_potionPosition = new Position(1,0);
+        CollectableEntity invincible_potion1 = createEntity("invincible_potion1", "invincible_potion", invincible_potionPosition, map); 
 
         // player moves one cell to the right and picks up the invincible potion
         controller.tick("", Direction.RIGHT);
@@ -123,8 +123,8 @@ public class Collectabletest {
         Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
 
         // create an invisible potion at position (1,0)
-        Position invisible_potionPosition = new Position(3,0);
-        Potion invisible_potion1 = createEntity("invisible_potion1", "invisible_potion", invisible_potionPosition, map); 
+        Position invisible_potionPosition = new Position(1,0);
+        CollectableEntity invisible_potion1 = createEntity("invisible_potion1", "invisible_potion", invisible_potionPosition, map); 
 
         // player moves one cell to the right and picks up the invisible potion
         controller.tick("", Direction.RIGHT);
@@ -141,6 +141,8 @@ public class Collectabletest {
      * @throws IOException
      */
     public void testBomb() throws IOException {
+        DungeonManiaController controller = new DungeonManiaController();
+
         String map = FileLoader.loadResourceFile("/dungeons/testBomb.json");
         controller.newGame(map, "Standard");
 
@@ -149,8 +151,8 @@ public class Collectabletest {
         Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
 
         // create a bomb at position (1,0)
-        Position bombPosition = new Position(0, 0);
-        Bomb bomb1 = createEntity("bomb1", "bomb", bombPosition, map);
+        Position bombPosition = new Position(1, 0);
+        CollectableEntity bomb1 = createEntity("bomb1", "bomb", bombPosition, map);
 
         // create a wall at position (0,1)
         Position wallPosition = new Position(0, 1);
@@ -219,4 +221,72 @@ public class Collectabletest {
         assertEquals(new EntityResponse("zombieSpawner1", "zombie_spawner", zombieSpawnerPosition, false), controller.getInfo("zombieSpawner1"));
 
     }
+
+    /**
+     * Test for sword's application
+     * @throws IOException
+     */
+    public void testSwordApplication() throws IOException {
+        DungeonManiaController controller = new DungeonManiaController();
+
+        String map = FileLoader.loadResourceFile("/dungeons/testSwordApplication.json");
+        controller.newGame(map, "Standard");
+
+        // create a player at position (0,0)
+        Position playerPosition = new Position(0, 0);
+        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+
+        // create a sword at position (1,0)
+        Position swordPosition = new Position(1, 0);
+        // createSword("String swordId", int durability, Position position, String map)
+        CollectableEntity sword1 = createSword("sword1", 3, swordPosition, map);
+
+        // the sword will double the player's damage
+        // the player's current damage is 10, after picking up the sword, it will be 20.
+        assertEquals(player1.getDamage(), 10);
+        controller.tick("", Direction.RIGHT);
+        assertEquals(player1.getDamage(), 20);
+    }
+
+    /**
+     * Test for sword's application
+     * @throws IOException
+     */
+    public void testSwordDurability() throws IOException {
+        DungeonManiaController controller = new DungeonManiaController();
+
+        String map = FileLoader.loadResourceFile("/dungeons/testBomb.json");
+        controller.newGame(map, "Standard");
+
+        // create a player at position (0,0)
+        Position playerPosition = new Position(0, 0);
+        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+
+        // create a sword at position (1,0)
+        Position swordPosition = new Position(1, 0);
+        CollectableEntity sword1 = createSword("sword1", 4, swordPosition, map);
+
+        // creates a mercenary at position (4,0)
+        Position mercenaryPosition = new Position(4,0);
+        MovingEntity mercenary1 = createMercenary("mercenary1", "mercenary", 80, 10, mercenaryPosition, map); 
+
+        // player moves one cell to the right to pick up the sword
+        // mercenary has moved to (3,0)
+        controller.tick("", Direction.RIGHT);
+
+        // player moves one cell to the right again, (2,0) where it will enter a battle with mercenary
+        controller.tick("", Direction.RIGHT);
+
+        // player will battle for 4 times
+        controller.tick("", Direction.NONE);
+        controller.tick("", Direction.NONE);
+        controller.tick("", Direction.NONE);
+        controller.tick("", Direction.NONE);
+
+        // sword will break as player has battled 4 times and the sword's durability was 4.
+        // this means that the player's damage has now returned to its original damage of 10.
+        assertEquals(controller.getInfo("sword1"), null);
+        assertEquals(player1.getDamage(), 10);
+    }
+
 }
