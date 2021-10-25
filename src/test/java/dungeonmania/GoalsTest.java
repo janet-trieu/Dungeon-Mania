@@ -11,7 +11,20 @@ import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 import jdk.jfr.Timestamp;
 
+/**
+ * Testing for goal functionality:
+ *      - ExitGoal
+ *      - EnemyGoal
+ *      - SwitchGoal
+ *      - TreasureGoal
+ *      - AndGoal
+ *      - OrGoal
+ */
 public class GoalsTest {
+    /**
+     * Unit tests for creation of Goals
+     */
+    
     /**
      * Create a basic exitGoal unit testing
      */
@@ -107,5 +120,13 @@ public class GoalsTest {
         goal.addSubGoal(orGoal);
         goal.addSubGoal(switchGoal);
         assertEquals("((:enemy OR :treasure) Or :switch)", goal.toString());
+    }
+
+    /**
+     * test for functionality of ExitGoal
+     */
+    @Test
+    public void testExitGoal() {
+        DungeonManiaController controller = new DungeonManiaController();
     }
 }
