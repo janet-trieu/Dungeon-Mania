@@ -74,4 +74,38 @@ public class GoalsTest {
         orGoal.addSubGoal(treasureGoal);
         assertEquals("(:enemy OR :treasure)", orGoal.toString());
     }
+
+    /**
+     * create an advanced andGoal
+     */
+    @Test
+    public void testCreateAdvancedAndGoal() {
+        Goal goal = new AndGoal();
+        Goal andGoal = new AndGoal();
+        Goal enemyGoal = new EnemyGoal();
+        Goal treasureGoal = new TreasureGoal();
+        Goal switchGoal = new SwitchGoal();
+        andGoal.addSubGoal(enemyGoal);
+        andGoal.addSubGoal(treasureGoal);
+        goal.addSubGoal(andGoal);
+        goal.addSubGoal(switchGoal);
+        assertEquals("((:enemy AND :treasure) AND :switch)", goal.toString());
+    }
+
+    /**
+     * create an advanced andGoal
+     */
+    @Test
+    public void testCreateAdvancedOrGoal() {
+        Goal goal = new OrGoal();
+        Goal orGoal = new OrGoal();
+        Goal enemyGoal = new EnemyGoal();
+        Goal treasureGoal = new TreasureGoal();
+        Goal switchGoal = new SwitchGoal();
+        orGoal.addSubGoal(enemyGoal);
+        orGoal.addSubGoal(treasureGoal);
+        goal.addSubGoal(orGoal);
+        goal.addSubGoal(switchGoal);
+        assertEquals("((:enemy OR :treasure) Or :switch)", goal.toString());
+    }
 }
