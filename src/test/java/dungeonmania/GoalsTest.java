@@ -12,31 +12,66 @@ import dungeonmania.util.Position;
 import jdk.jfr.Timestamp;
 
 public class GoalsTest {
-    
     /**
-     * Checks to see if goal is complete if player reaches 
-     * exit
+     * Create a basic exitGoal unit testing
      */
     @Test
-    public void testBasicExitGoal() {
-
+    public void testCreateExitGoal() {
+        Goal exitGoal = new ExitGoal();
+        assertEquals(":exit", exitGoal.toString());
     }
 
     /**
-     * Check to see if goal is incomplete if player attempts to
-     * do exit goal first before other goal in an AND goal
+     * Create a basic enemyGoal unit testing
      */
-    @Test 
-    public void testAndGoalExitGoalFirst() {
-
+    @Test
+    public void testCreateEnemyGoal() {
+        Goal enemyGoal = new enemyGoal();
+        assertEquals(":enemy", enemyGoal.toString());
     }
 
     /**
-     * Check to see if goal is complete if player reaches exit first
-     * before other goal in an OR goal
+     * Create a basic switchGoal unit testing
      */
-    @Test 
-    public void testOrGoalExitGoalFirst() {
+    @Test
+    public void testCreateSwitchGoal() {
+        Goal switchGoal = new switchGoal();
+        assertEquals(":switch", switchGoal.toString());
+    }
 
+    /**
+     * Create a basic treasureGoal unit testing
+     */
+    @Test
+    public void testCreateTreasureGoal() {
+        Goal treasureGoal = new treasureGoal();
+        assertEquals(":treasure", treasureGoal.toString());
+    }
+
+    /**
+     * Create a basic andGoal 
+     */
+    @Test
+    public void testCreateAndGoal() {
+        Goal andGoal = new AndGoal();
+        Goal enemyGoal = new EnemyGoal();
+        Goal treasureGoal = new TreasureGoal();
+        andGoal.addSubGoal(enemyGoal);
+        andGoal.addSubGoal(treasureGoal);
+        assertEquals("(:enemy AND :treasure)", andGoal.toString());
+    }
+
+    /**
+     * Create a basic orGoal
+     * 
+     */
+    @Test
+    public void testCreateOrGoal() {
+        Goal orGoal = new OrGoal();
+        Goal enemyGoal = new EnemyGoal();
+        Goal treasureGoal = new TreasureGoal();
+        orGoal.addSubGoal(enemyGoal);
+        orGoal.addSubGoal(treasureGoal);
+        assertEquals("(:enemy OR :treasure)", orGoal.toString());
     }
 }
