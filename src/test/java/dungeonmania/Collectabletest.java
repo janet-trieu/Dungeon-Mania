@@ -31,6 +31,9 @@ public class Collectabletest {
     public void testHealthPotion() {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
+        
+        // create an inventory instance
+        Inventory inventory = new Inventory();
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
@@ -48,7 +51,7 @@ public class Collectabletest {
         // player will battle 8 ticks (player health = 100, player damage = 10 | mercenary health = 80, mercenary damage = 10)
         player.moveRight();
         mercenary.move();
-        for (int i = 0; i < 8; i += 1) {
+        for (int i = 0; i < 8; i++) {
             player.battle(mercenary);
         }
         
@@ -58,13 +61,17 @@ public class Collectabletest {
         // Player moves 2 cell to the right, where it will collect a health potion
         player.moveRight();
         player.moveRight();
-        dungeon.addInventory(healthPotion);
+        inventory.addItem(healthPotion);
 
         // use health potion
         healthPotion.applyEntity();
 
         // assert that player's health is back to max health
         assertEquals(player.getHealth(), player.getMaxHealth());
+
+        // assert that the health potion is used up
+        inventory.removeItem(healthPotion);
+        assertEquals(false, inventory.getItems().contains(healthPotion));
     }
 
     /**
@@ -76,6 +83,9 @@ public class Collectabletest {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
 
+        // create an inventory instance
+        Inventory inventory = new Inventory();
+
         // create a player at position (0,0)
         Player player = new Player(0, 0);
         dungeon.createEntity(player);
@@ -86,13 +96,17 @@ public class Collectabletest {
 
         // player moves one cell to the right and picks up the invincible potion
         player.moveRight();
-        dungeon.addInventory(invinciblePotion);
+        inventory.addItem(invinciblePotion);
 
         // player uses the invincible potion
         invinciblePotion.applyEntity();
 
         // assert that the player's potion state is invincible
         assertEquals(player.getPotionState().isInvincible(), true);
+
+        // assert that the invincible potion is used up
+        inventory.removeItem(invinciblePotion);
+        assertEquals(false, inventory.getItems().contains(invinciblePotion));
     }
 
     /**
@@ -104,6 +118,9 @@ public class Collectabletest {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
 
+        // create an inventory instance
+        Inventory inventory = new Inventory();
+
         // create a player at position (0,0)
         Player player = new Player(0, 0);
         dungeon.createEntity(player);
@@ -114,13 +131,17 @@ public class Collectabletest {
 
         // player moves one cell to the right and picks up the invisible potion
         player.moveRight();
-        dungeon.addInventory(invisiblePotion);
+        inventory.addItem(invisiblePotion);
 
         // player uses the invisible potion
         invisiblePotion.applyEntity();
 
         // assert that the player's potion state is invisible
         assertEquals(player.getPotionState().isInvisible(), true);
+
+        // assert that the invisible potion is used up
+        inventory.removeItem(invisiblePotion);
+        assertEquals(false, inventory.getItems().contains(invisiblePotion));
     }
 
     /**
@@ -245,6 +266,9 @@ public class Collectabletest {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
 
+        // create an inventory instance
+        Inventory inventory = new Inventory();
+
         // create a player at position (0,0)
         Player player = new Player(0, 0);
         dungeon.createEntity(player);
@@ -260,13 +284,17 @@ public class Collectabletest {
         // player moves one cell to the right to pick up the treasure (1,0)
         // mercenary has moved to (3,0)
         player.moveRight();
-        dungeon.addInventory(treasure);
+        inventory.addItem(treasure);
         mercenary.move();
 
         // player attempts to bribe the mercenary with treasure
         assertDoesNotThrow(() -> {
             player.interact(mercenary.getId());
         });
+
+        // treasure is now used up so it should be removed from inventory
+        inventory.removeItem(treasure);
+        assertEquals(false, inventory.getItems().contains(treasure));
     }
 
     /**
@@ -290,7 +318,7 @@ public class Collectabletest {
         // player moves one cell to the right (1,0)
         player.moveRight();
         // mercenary moves one cell to the left (2,0)
-        mercenary.move()
+        mercenary.move();
 
         // player attempts to bribe the mercenary without treasure
         assertThrows(InvalidActionException.class, () -> player.interact(mercenary.getId()));
