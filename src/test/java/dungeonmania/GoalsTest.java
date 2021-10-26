@@ -173,7 +173,9 @@ public class GoalsTest {
         player.moveRight();
         assertEquals(player.getPosition(), mercenary.getPosition());
         // Player battles with mercenary and wins
-        player.battle(mercenary);
+        for (int i = 0, i < 8; i++){
+            player.battle(mercenary);
+        }
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
 
         // Goal is complete
@@ -224,6 +226,7 @@ public class GoalsTest {
     @Test
     public void testTreasureGoal() {
         Dungeon dungeon = new Dungeon();
+        Inventory inventory = dungeon.getInventory();
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
@@ -268,6 +271,7 @@ public class GoalsTest {
     @Test
     public void testAndGoal() {
         Dungeon dungeon = new Dungeon();
+        Inventory inventory = dungeon.getInventory();
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
@@ -397,7 +401,9 @@ public class GoalsTest {
         player.moveDown();
         assertEquals(player.getPosition() == mercenary.getPosition());
         // Player battles with mercenary and wins
-        player.battle(mercenary);
+        for (int i = 0, i < 8; i++){
+            player.battle(mercenary);
+        }
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
 
         // Goal is complete
