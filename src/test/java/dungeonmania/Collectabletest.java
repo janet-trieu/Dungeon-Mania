@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 
+import org.graalvm.compiler.lir.aarch64.AArch64ControlFlow.StrategySwitchOp.SwitchClosure;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.exceptions.InvalidActionException;
@@ -28,162 +29,121 @@ public class Collectabletest {
      */
     @Test
     public void testHealthPotion() {
-        DungeonManiaController controller = new DungeonManiaController();
-        /**
-         * Entities are spawned in:
-         * player (0,0)
-         * mercenary (2,0)
-         * health_potion (3,0)
-         */
-        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testHealthPotion.json");
-        controller.newGame(map, "Standard");
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
 
-        /** 
-         * Still unsure how implementation will work... 
-         * Not sure if newGame "creates" all the entities that are listed in the map.json file
-         * Assuming that it DOES NOT;
-         */
-        // setting player's position to (0,0)
-        // assuming there will be a create"Entity" method -> may be createPlayer or createEntity not sure yet..
-        // createPlayer(String id, String type, int health, int damage, Position position, String map)
-        Position playerPosition = new Position(0, 0);
-        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+        // create a player at position (0,0)
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
+
+        // create a mercenary at position (2,0)
+        Mercenary mercenary = new Mercenary(2, 0);
+        dungeon.createEntity(mercenary);
+
+        // create a health potion at position (3,0)
+        HealthPotion healthPotion = new HealthPotion(3,0);
+        dungeon.createEntity(healthPotion);
+
+        // player moves 1 cell to the right, where it will enter a battle with mercenary (1,0)
+        // player will battle 8 ticks (player health = 100, player damage = 10 | mercenary health = 80, mercenary damage = 10)
+        for (int i = 0; i < 8; i += 1) {
+            player.battle(mercenary);
+        }
         
-        // doing similar steps as above for mercenary and health_potion
-        // createPlayer(String id, String type, int health, int damage, Position position, String map)
-        Position mercenaryPosition = new Position(2,0);
-        MovingEntity mercenary1 = createMercenary("mercenary1", "mercenary", 10, 10, mercenaryPosition, map); 
-        Position health_potionPosition = new Position(3,0);
-        CollectableEntity health_potion1 = createEntity("health_potion1", "health_potion", health_potionPosition, map); 
-
-
-        // Player moves 1 cell to the right, where it will enter a battle with mercenary (1,0)
-        // Player wins after 1 tick, as Player's damage = 10 and Mercenary's health = 10
-        controller.tick("", Direction.RIGHT);
-
         // lose some health
-        assertEquals(player1.getHealth(), 90);
+        assertEquals(player.getHealth(), 20);
 
         // Player moves 2 cell to the right, where it will collect a health potion
-        controller.tick("", Direction.RIGHT);
-        controller.tick("", Direction.RIGHT);
+        player.moveRight();
+        player.moveRight();
+        dungeon.addInventory(healthPotion);
 
         // use health potion
-        controller.tick("health_potion1", Direction.NONE);
+        healthPotion.applyEntity();
 
-        // assert that player's health has been increased
-        assertEquals(player1.getHealth(), 100);
+        // assert that player's health is back to max health
+        assertEquals(player.getHealth(), player.maxHealth);
     }
 
     /**
      * Test for the use of invincible potion
      * @throws IOException
      */
+    @Test
     public void testInvinciblePotion() {
-        DungeonManiaController controller = new DungeonManiaController();
-        /**
-         * Entities are spawned in:
-         * player (0,0)
-         * invincible_potion (1,0)
-         */
-        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testInvinciblePotion.json");
-        controller.newGame(map, "Standard");
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
 
         // create a player at position (0,0)
-        Position playerPosition = new Position(0, 0);
-        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
-        // create an invicible potion at position (1,0)
-        Position invincible_potionPosition = new Position(1,0);
-        CollectableEntity invincible_potion1 = createEntity("invincible_potion1", "invincible_potion", invincible_potionPosition, map); 
+        // create an invincible potion at position (1,0)
+        InvinciblePotion invinciblePotion = new InvinciblePotion(1, 0);
+        dungeon.createEntity(invinciblePotion);
 
         // player moves one cell to the right and picks up the invincible potion
-        controller.tick("", Direction.RIGHT);
+        player.moveRight();
+        dungeon.addInventory(invinciblePotion);
 
         // player uses the invincible potion
-        controller.tick("invincible_potion1", Direction.NONE);
+        invinciblePotion.applyEntity();
 
         // assert that the player's potion state is invincible
-        assertEquals(player1.getPotionState(), "invincible");
+        assertEquals(player.getPotionState(), "invincible");
     }
 
     /**
      * Test for the use of invisible potion
      * @throws IOException
      */
+    @Test
     public void testInvisiblePotion() {
-        DungeonManiaController controller = new DungeonManiaController();
-        /**
-         * Entities are spawned in:
-         * player (0,0)
-         * invisible_potion (1,0)
-         */
-        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testInvisiblePotion.json");
-        controller.newGame(map, "Standard");
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
 
         // create a player at position (0,0)
-        Position playerPosition = new Position(0, 0);
-        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
         // create an invisible potion at position (1,0)
-        Position invisible_potionPosition = new Position(1,0);
-        CollectableEntity invisible_potion1 = createEntity("invisible_potion1", "invisible_potion", invisible_potionPosition, map); 
+        InvisiblePotion invisiblePotion = new InvisiblePosion(1, 0);
+        dungeon.createEntity(invisiblePotion);
 
         // player moves one cell to the right and picks up the invisible potion
-        controller.tick("", Direction.RIGHT);
+        player.moveRight();
+        dungeon.addInventory(invisiblePotion);
 
         // player uses the invisible potion
-        controller.tick("invisible_potion1", Direction.NONE);
+        invisiblePotion.applyEntity();
 
         // assert that the player's potion state is invisible
-        assertEquals(player1.getPotionState(), "invisible");
+        assertEquals(player.getPotionState(), "invisible");
     }
 
     /**
      * Test for the use of bomb
      * @throws IOException
      */
+    @Test
     public void testBomb() {
+        // create a player at position (0,0)
+        // create a bomb at position (1,0)
+        // create a wall at position (0,1)
+        // create an exit at position (0,2)
+        // create a door at position (0,3)
+        // create a portal at position (1,3)
+        // create a zombie toast spawner at position (2,3)
+        // create a switch at position (2,2)
+        // createa a boulder at position (2,1)
         DungeonManiaController controller = new DungeonManiaController();
 
         String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testBomb.json");
         controller.newGame(map, "Standard");
 
-        // create a player at position (0,0)
-        Position playerPosition = new Position(0, 0);
-        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
-
-        // create a bomb at position (1,0)
-        Position bombPosition = new Position(1, 0);
-        CollectableEntity bomb1 = createEntity("bomb1", "bomb", bombPosition, map);
-
-        // create a wall at position (0,1)
-        Position wallPosition = new Position(0, 1);
-        StaticEntity wall1 = createEntity("wall1", "wall", wallPosition, map);
-
-        // create an exit at position (0,2)
-        Position exitPosition = new Position(0, 2);
-        StaticEntity exit1 = createEntity("exit1", "exit", exitPosition, map);
-
-        // create a door at position (0,3)
-        Position doorPosition = new Position(0, 3);
-        StaticEntity door1 = createEntity("door1", "door", doorPosition, map);
-
-        // create a portal at position (1,3)
-        Position portalPosition = new Position(1, 3);
-        StaticEntity portal1 = createEntity("portal1", "portal", portalPosition, map);
-
-        // create a zombie toast spawner at position (2,3)
-        Position zombieSpawnerPosition = new Position(2, 3);
-        StaticEntity zombieSpawner1 = createEntity("zombieSpawner1", "zombie_spawner", zombieSpawnerPosition, map);
-
-        // create a switch at position (2,2)
-        Position switchPosition = new Position(2, 2);
-        StaticEntity switch1 = createEntity("switch1", "switch", switchPosition, map);
-
-        // createa a boulder at position (2,1)
-        Position boulderPosition = new Position(2, 1);
-        StaticEntity boulder = createEntity("boulder1", "boulder", boulderPosition, map);
+        Position exitPosition = new Position(0, 2, 0);
+        Position portalPosition = new Position(1, 3, 0);
+        Position zombieSpawnerPosition = new Position(2, 3, 0);
 
         // player moves one cell to the right and picks up the bomb 
         // new position = (1,0)
@@ -195,7 +155,7 @@ public class Collectabletest {
         controller.tick("", Direction.DOWN);
 
         // player uses/places the bomb
-        controller.tick("bomb1", Direction.NONE);
+        controller.tick("bomb0", Direction.NONE);
 
         // player moves two cells up, one cell to the right
         // new position = (2,0)
@@ -205,91 +165,72 @@ public class Collectabletest {
 
         // there is a boulder at position (2,1), which the player will push into the switch with position (2,2)
         controller.tick("", Direction.DOWN);
-        Position newBoulderPosition = new Position(2, 2);
-        assertEquals(new EntityResponse("boulder1", "boulder", newBoulderPosition, false), controller.getInfo("boulder1"));
+        Position newBoulderPosition = new Position(2, 2, 1);
+        assertEquals(new EntityResponse("Boulder0", "boulder", newBoulderPosition, false), controller.getInfo("Boulder0"));
 
         // as there is a bomb that is adjacent to the switch that a boulder has been pushed into, the bomb has now exploded
         // thus, ALL entities that are adjacent to the bomb except the player, exit, portal and the zombie toast spawner has now been destroyed.
-        assertEquals(controller.getInfo("wall1"), null);
-        assertEquals(controller.getInfo("door1"), null);
-        assertEquals(controller.getInfo("switch1"), null);
-        assertEquals(controller.getInfo("boulder1"), null);
-        assertEquals(controller.getInfo("bomb1"), null);
+        assertEquals(controller.getInfo("Wall0"), null);
+        assertEquals(controller.getInfo("Door0"), null);
+        assertEquals(controller.getInfo("Switch0"), null);
+        assertEquals(controller.getInfo("Boulder0"), null);
+        assertEquals(controller.getInfo("Bomb0"), null);
 
         // checking if player, exit, portal and zombie spawner has been destroyed
         Position newPlayerPosition = new Position(2, 1);
-        assertEquals(new EntityResponse("player1", "player", newPlayerPosition, false), controller.getInfo("player1"));
-        assertEquals(new EntityResponse("exit1", "exit", exitPosition, false), controller.getInfo("exit1"));
-        assertEquals(new EntityResponse("portal1", "portal", portalPosition, false), controller.getInfo("portal1"));
-        assertEquals(new EntityResponse("zombieSpawner1", "zombie_spawner", zombieSpawnerPosition, false), controller.getInfo("zombieSpawner1"));
-
+        assertEquals(new EntityResponse("Player", "player", newPlayerPosition, false), controller.getInfo("Player"));
+        assertEquals(new EntityResponse("Exit0", "exit", exitPosition, false), controller.getInfo("Exit0"));
+        assertEquals(new EntityResponse("Portal0", "portal", portalPosition, false), controller.getInfo("Portal0"));
+        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", zombieSpawnerPosition, false), controller.getInfo("ZombieToastSpawner0"));
     }
 
-    /**
-     * Test for sword's application
-     * @throws IOException
-     */
-    public void testSwordApplication() {
-        DungeonManiaController controller = new DungeonManiaController();
-
-        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testSwordApplication.json");
-        controller.newGame(map, "Standard");
-
-        // create a player at position (0,0)
-        Position playerPosition = new Position(0, 0);
-        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
-
-        // create a sword at position (1,0)
-        Position swordPosition = new Position(1, 0);
-        // createSword("String swordId", int durability, Position position, String map)
-        CollectableEntity sword1 = createSword("sword1", 3, swordPosition, map);
-
-        // the sword will double the player's damage
-        // the player's current damage is 10, after picking up the sword, it will be 20.
-        assertEquals(player1.getDamage(), 10);
-        controller.tick("", Direction.RIGHT);
-        assertEquals(player1.getDamage(), 20);
-    }
 
     /**
-     * Test for sword's durability
+     * Test for sword
+     * check for the player's damage increase
+     * check for the durability decrease when used
      * @throws IOException
      */
-    public void testSwordDurability() {
-        DungeonManiaController controller = new DungeonManiaController();
-
-        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testSwordDurability.json");
-        controller.newGame(map, "Standard");
+    @Test
+    public void testSword() {
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
 
         // create a player at position (0,0)
-        Position playerPosition = new Position(0, 0);
-        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
+
+        // create a mercenary at position (4,0)
+        Mercenary mercenary = new Mercenary(4, 0);
+        dungeon.createEntity(mercenary);
 
         // create a sword at position (1,0)
-        Position swordPosition = new Position(1, 0);
-        CollectableEntity sword1 = createSword("sword1", 4, swordPosition, map);
+        Sword sword = new Sword(1,0);
+        dungeon.createEntity(sword);
 
-        // creates a mercenary at position (4,0)
-        Position mercenaryPosition = new Position(4,0);
-        MovingEntity mercenary1 = createMercenary("mercenary1", "mercenary", 80, 10, mercenaryPosition, map); 
-
-        // player moves one cell to the right to pick up the sword
+        // player moves one cell to the right to pick up the sword (1,0)
+        // by picking up the sword, the player's damage has doubled
+        // player's normal damage is set to 10 -- after picking up sword --> 20
         // mercenary has moved to (3,0)
-        controller.tick("", Direction.RIGHT);
+        player.moveRight();
+        assertEquals(player.getDamage(), 10);
+        dungeon.addInventory(sword);
+        assertEquals(player.getDamage(), 20);
+        mercenary.moveLeft();
 
         // player moves one cell to the right again, (2,0) where it will enter a battle with mercenary
-        controller.tick("", Direction.RIGHT);
+        player.moveRight();
+        mercenary.moveLeft();
 
         // player will battle for 4 times
-        controller.tick("", Direction.NONE);
-        controller.tick("", Direction.NONE);
-        controller.tick("", Direction.NONE);
-        controller.tick("", Direction.NONE);
+        player.battle(mercenary);
+        player.battle(mercenary);
+        player.battle(mercenary);
+        player.battle(mercenary);
 
-        // sword will break as player has battled 4 times and the sword's durability was 4.
-        // this means that the player's damage has now returned to its original damage of 10.
-        assertEquals(controller.getInfo("sword1"), null);
-        assertEquals(player1.getDamage(), 10);
+        // sword will have lost 4 durability since the player has battled 4 times.
+        // given that the sword's durability is set to 6, the durability of this sword will be 2.
+        assertEquals(dungeon.getInfo(sword.getId()), 2);
     }
 
     /**
@@ -297,62 +238,111 @@ public class Collectabletest {
      * Player HAS treasure
      * @throws IOException
      */
+    @Test
     public void testBribeHasTreasure() {
-        DungeonManiaController controller = new DungeonManiaController();
-
-        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testSwordDurability.json");
-        controller.newGame(map, "Standard");
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
 
         // create a player at position (0,0)
-        Position playerPosition = new Position(0, 0);
-        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
-        // create a treasure at position (1,0)
-        Position treasurePosition = new Position(1, 0);
-        CollectableEntity treasure1 = createEntity("treasure1", "treasure", treasurePosition, map);
+        // create a mercenary at position (4,0)
+        Mercenary mercenary = new Mercenary(4, 0);
+        dungeon.createEntity(mercenary);
 
-        // creates a mercenary at position (4,0)
-        Position mercenaryPosition = new Position(4,0);
-        MovingEntity mercenary1 = createMercenary("mercenary1", "mercenary", 80, 10, mercenaryPosition, map); 
+        // create a treasure at point (1,0)
+        Treasure treasure = new Treasure(1, 0);
+        dungeon.createEntity(treasure);
 
-        // player moves one cell to the right to pick up the treasure
+        // player moves one cell to the right to pick up the treasure (1,0)
         // mercenary has moved to (3,0)
-        controller.tick("", Direction.RIGHT);
-
-        // player moves one cell to the right again, (2,0) where it will enter the same cell with mercenary
-        controller.tick("", Direction.RIGHT);
+        player.moveRight();
+        dungeon.addInventory(treasure);
+        mercenary.moveLeft();
 
         // player attempts to bribe the mercenary with treasure
         assertDoesNotThrow(() -> {
-            controller.interact("mercenary1");
+            player.interact(mercenary.getId());
         });
     }
 
     /**
      * Testing for player bribing the mercenary
      * Player DOES NOT have treasure
-     * @throws IOException
+     * @throws InvalidActionException
      */
+    @Test
     public void testBribeNoTreasure() {
-        DungeonManiaController controller = new DungeonManiaController();
-
-        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testSwordDurability.json");
-        controller.newGame(map, "Standard");
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
 
         // create a player at position (0,0)
-        Position playerPosition = new Position(0, 0);
-        Player player1 = createPlayer("player1", "player", 100, 10, playerPosition, map);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
+        // create a mercenary at position (3,0)
+        Mercenary mercenary = new Mercenary(3, 0);
+        dungeon.createEntity(mercenary);
 
-        // creates a mercenary at position (2,0)
-        Position mercenaryPosition = new Position(2,0);
-        MovingEntity mercenary1 = createMercenary("mercenary1", "mercenary", 80, 10, mercenaryPosition, map); 
-
-        // player moves one cell to the right
-        // mercenary has moved to (2,0)
-        controller.tick("", Direction.RIGHT);
+        // player moves one cell to the right (1,0)
+        player.moveRight();
+        // mercenary moves one cell to the left (2,0)
+        mercenary.moveLeft();
 
         // player attempts to bribe the mercenary without treasure
-        assertThrows(InvalidActionException.class, () -> controller.interact("mercenary1"));
+        assertThrows(InvalidActionException.class, () -> player.interact(mercenary.getId()));
     }
+
+    /**
+     * Test for armour's application
+     * check if player isShielded is true
+     */
+    @Test
+    public void testArmour() {
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
+
+        // create a player at position (0,0)
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
+
+        // create an armour at position (1,0)
+        // this is because we are testing this as unit testing, only wanting to see the application of armour
+        // thus, armour is spawned on the floor
+        Armour armour = new Armour(1, 0);
+        dungeon.createEntity(armour);
+
+        // player moves one cell to the right to pick up armour
+        player.moveRight();
+        dungeon.addInventory(armour);
+
+        assertEquals(player.getIsShielded(), true);
+    }
+
+     /**
+     * Test for one ring's application
+     */
+    @Test
+    public void testOneRing() {
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
+
+        // create a player at position (0,0)
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
+
+        // create the one ring at position (1,0)
+        // this is because we are testing this as unit testing, only wanting to see the application of the one ring
+        // thus, the one ring is spawned on the floor
+        One_ring one_ring = new One_ring(1, 0);
+        dungeon.createEntity(one_ring);
+
+        // player moves one cell to the right to pick up armour
+        player.moveRight();
+        dungeon.addInventory(one_ring);
+
+        assertEquals(player.getIsRespanwable(), true);
+    }
+
 }
