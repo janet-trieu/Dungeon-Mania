@@ -58,9 +58,19 @@ public class BuildableTest {
 
         controller.tick("", Direction.RIGHT);
         // current inventory = [arrow, arrow, arrow, wood]
+
+        // build the bow
         assertDoesNotThrow(() -> {
             controller.build("bow");
         });
+
+        // assert that bow has been added to inventory, 
+        // assert that the used collectable entities are removed
+        assertEquals(controller.getInfo("Arrow0"), null);
+        assertEquals(controller.getInfo("Arrow1"), null);
+        assertEquals(controller.getInfo("Arrow2"), null);
+        assertEquals(controller.getInfo("Wood0"), null);
+        assertEquals(controller.getDungeon().getInventory().contains("Bow0"), true);
     }
 
     /**
@@ -100,9 +110,17 @@ public class BuildableTest {
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood, wood, key]
 
+        // build the shield
         assertDoesNotThrow(() -> {
             controller.build("shield");
         });
+
+        // assert that shield has been added to inventory, 
+        // assert that the used collectable entities are removed
+        assertEquals(controller.getInfo("Wood0"), null);
+        assertEquals(controller.getInfo("Wood1"), null);
+        assertEquals(controller.getInfo("Key0"), null);
+        assertEquals(controller.getDungeon().getInventory().contains("Shield0"), true);
     }
 
     /**
@@ -142,9 +160,17 @@ public class BuildableTest {
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood, wood, treasure]
 
+        // build the shield
         assertDoesNotThrow(() -> {
             controller.build("shield");
         });
+
+        // assert that shield has been added to inventory, 
+        // assert that the used collectable entities are removed
+        assertEquals(controller.getInfo("Wood0"), null);
+        assertEquals(controller.getInfo("Wood1"), null);
+        assertEquals(controller.getInfo("Treasure0"), null);
+        assertEquals(controller.getDungeon().getInventory().contains("Shield0"), true);
     }
 
     /**
@@ -187,14 +213,18 @@ public class BuildableTest {
         controller.tick("", Direction.RIGHT);
         // current inventory = [wood, wood, treasure, key]
 
-        // build a bow using treasure, not key
+        // build a shield using treasure, not key
         assertDoesNotThrow(() -> {
             controller.build("shield");
         });
 
-        // assert that treasure is used and key still remains
+        // assert that shield is added to inventory
+        // assert that treasure and woods are used and key still remains
+        assertEquals(controller.getDungeon().getInventory().contains("Shield0"), true);
         assertEquals(controller.getInfo("Treasure0"), null);
-        assertEquals(controller.getDungeon().getInventory().contains("key0"), true);
+        assertEquals(controller.getInfo("Wood0"), null);
+        assertEquals(controller.getInfo("Wood1"), null);
+        assertEquals(controller.getDungeon().getInventory().contains("Key0"), true);
     }
 
 }
