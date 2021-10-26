@@ -18,11 +18,9 @@ public class InventoryTest {
     public void testCollectItem(){
         // create inventory and treasure
         Inventory inventory = new Inventory();
-        Treasure treasure0 = new Treasure(null, null);
+        Treasure treasure0 = new Treasure(1, 0);
         // Add treasure to inventory
         inventory.addItem(treasure0);
-        // Treasure is no longer on dungeon
-        assertEquals(new Position(null, null, null), treasure0.getPosition());
         // treasure is in inventory
         assertEquals(true, inventory.getItems().contains(treasure0));
     }
@@ -34,11 +32,9 @@ public class InventoryTest {
     public void testRemoveItem(){
         // create inventory and treasure
         Inventory inventory = new Inventory();
-        Treasure treasure0 = new Treasure(null, null);
+        Treasure treasure0 = new Treasure(1, 0);
         // Add treasure to inventory
         inventory.addItem(treasure0);
-        // Treasure is no longer on dungeon
-        assertEquals(new Position(null, null, null), treasure0.getPosition());
         // treasure is in inventory
         assertEquals(true, inventory.getItems().contains(treasure0));
 
@@ -55,14 +51,11 @@ public class InventoryTest {
     public void testCollectMultipleItem(){
         // create inventory and treasure
         Inventory inventory = new Inventory();
-        Treasure treasure0 = new Treasure(null, null);
-        Treasure treasure1 = new Treasure(null, null);
+        Treasure treasure0 = new Treasure(1, 0);
+        Treasure treasure1 = new Treasure(1, 0);
         // Add treasure0 and treasure1 to inventory
         inventory.addItem(treasure0);
         inventory.addItem(treasure1);
-        // Treasure is no longer on dungeon
-        assertEquals(new Position(null, null, null), treasure0.getPosition());
-        assertEquals(new Position(null, null, null), treasure1.getPosition());
         // treasure is in inventory
         assertEquals(true, inventory.getItems().contains(treasure0));
         assertEquals(true, inventory.getItems().contains(treasure1));
@@ -79,9 +72,6 @@ public class InventoryTest {
         Key key1 = new Key(null, null);
         // Add key0 to inventory
         inventory.addItem(key0);
-        
-        // key is no longer on dungeon
-        assertEquals(new Position(null, null, null), key0.getPosition());
         // key0 is in inventory
         assertEquals(true, inventory.getItems().contains(key0));
 
@@ -112,7 +102,7 @@ public class InventoryTest {
         inventory.addItem(treasure0);
 
         // treasure0 is no longer on the dungeon
-        assertEquals(new Position(null, null, null), treasure0.getPosition());
+        assertEquals(false, dungeon.getEntityList().contains(treasure0));
         // treasure0 is now in inventory
         assertEquals(true, inventory.getItems().contains(treasure0));
     }
@@ -142,16 +132,47 @@ public class InventoryTest {
         // player moves right and collects key
         player.moveRight();
         inventory.addItem(key0);
-        assertEquals(new Position(null, null, null), key0.getPosition());
+        assertEquals(false, dungeon.getEntityList().contains(key0));
         assertEquals(true, inventory.getItems().contains(key0));
 
         // player moves right and opens door
         player.moveRight();
-        player.interact(door0);
+        door0.open();
 
         // player is on same cell as door
         assertEquals(new Position(2, 0, 4), player.getPosition());
         // key is no longer in inventory
-        assertEquals(false, inventory.getItems().contains(key0));
+        assertEquals(false, dungeon.getEntityList().contains(key0));
     }   
+
+    /**
+     * System test for attempting to obtain a second armor
+     */
+    @Test
+    public void testOnlyOneArmour(){
+        Dungeon dungeon = new Dungeon();
+        Inventory inventory = dungeon.getInventory();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
+
+        // create armour at (1, 0)
+        Armour armour0 = new Armour(1, 0);
+        dungeon.createEntity(armour0);
+
+        // create armour at (2, 0)
+        Armour armour1 = new Armour(2, 0);
+        dungeon.createEntity(armour1);
+        
+        // player moves right and collects armour
+        player.moveRight();
+        inventory.addItem(armour0);
+        assertEquals(false, dungeon.getEntityList().contains(armour0));
+        assertEquals(true, inventory.getItems().contains(armour0));
+
+        player.moveRight();
+        assertEquals(true, dungeon.getEntityList().contains(armour1));
+        assertEquals(false, inventory.getItems().contains(armour1));
+    }
 }
