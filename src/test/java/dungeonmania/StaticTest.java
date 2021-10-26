@@ -38,37 +38,37 @@ public class StaticTest {
         // CASE: TELEPORT RIGHT
         // Player: (0,0) -> (5,0)
         controller.tick("", Direction.RIGHT);
-        Position playerPosition= new Position(5, 0);
-        assertEquals(new EntityResponse("Player0", "Player", playerPosition, false), controller.getInfo("Player0"));
+        Position playerPosition= new Position(5, 0, 4);
+        assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
 
         // CASE: TELEPORT RIGHT
         // Player: (5,0) -> (0,0)
         controller.tick("", Direction.LEFT);
-        playerPosition= new Position(0, 0);
-        assertEquals(new EntityResponse("Player0", "Player", playerPosition, false), controller.getInfo("Player0"));
+        playerPosition= new Position(0, 0, 4);
+        assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
 
         // MOVING TO SET UP NEXT CASES
         controller.tick("", Direction.RIGHT);
-        playerPosition= new Position(5, 0);
-        assertEquals(new EntityResponse("Player0", "Player", playerPosition, false), controller.getInfo("Player0"));
+        playerPosition= new Position(5, 0, 4);
+        assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
         controller.tick("", Direction.DOWN);
-        playerPosition = new Position(5, 1);
-        assertEquals(new EntityResponse("Player0", "Player", playerPosition, false), controller.getInfo("Player0"));
+        playerPosition = new Position(5, 1, 4);
+        assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
         controller.tick("", Direction.LEFT);
-        playerPosition = new Position(4, 1);
-        assertEquals(new EntityResponse("Player0", "Player", playerPosition, false), controller.getInfo("Player0"));
+        playerPosition = new Position(4, 1, 4);
+        assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
 
         // CASE: TELEPORT UP
         // Player: (4,1) -> (1, -1)
         controller.tick("", Direction.UP);
-        playerPosition = new Position(1, -1);
-        assertEquals(new EntityResponse("Player0", "Player", playerPosition, false), controller.getInfo("Player0"));
+        playerPosition = new Position(1, -1, 4);
+        assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
 
         // CASE: TELEPORT DOWN
         // Player: (1,-1) -> (4,1)
         controller.tick("", Direction.DOWN);
-        playerPosition = new Position(4, 1);
-        assertEquals(new EntityResponse("Player0", "Player", playerPosition, false), controller.getInfo("Player0"));
+        playerPosition = new Position(4, 1, 4);
+        assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
     }
 
     /**
@@ -95,11 +95,11 @@ public class StaticTest {
         // CASE: PLAYER CANNOT PUSH 2 BOULDER(S) AT ONCE
         player.moveDown();
         // Ensure Player, Boulder(s) are still in place
-        Position position = new Position(0, 0);
+        Position position = new Position(0, 0, 4);
         assertEquals(position, player.getPosition());
-        position = new Position(0, 1);
+        position = new Position(0, 1, 1);
         assertEquals(position, boulder0.getPosition());
-        position = new Position(0, 2);
+        position = new Position(0, 2, 1);
         assertEquals(position, boulder1.getPosition());
 
         // CASE: PUSH BOULDER ONTO FLOORSWITCH ACTIVATES IT
@@ -107,9 +107,9 @@ public class StaticTest {
         player.moveRight();
         player.moveDown();
         player.moveLeft();
-        position = new Position(0, 1);
+        position = new Position(0, 1, 4);
         assertEquals(position, player.getPosition());
-        position = new Position(-1, 1);
+        position = new Position(-1, 1, 1);
         assertEquals(position, boulder0.getPosition());
         assertEquals(true, switch0.isActivated());
         
@@ -121,9 +121,9 @@ public class StaticTest {
         player.moveLeft();
         player.moveUp();
         player.moveRight();
-        position = new Position(0, 2);
+        position = new Position(0, 2, 4);
         assertEquals(position, player.getPosition());
-        position = new Position(1, 2);
+        position = new Position(1, 2, 1);
         assertEquals(position, boulder1.getPosition());
         assertEquals(true, switch1.isActivated());
     }
@@ -148,30 +148,37 @@ public class StaticTest {
         dungeon.createEntity(door);
         dungeon.createEntity(exit);
         dungeon.addGoal(goal);
-        assertEquals("((:enemy AND :treasure) AND :switch)", goal.toString()); // TODO: Check goal string
+        assertEquals(false, goal.isComplete());
+        assertEquals(":exit", goal.toString());
 
         // CASE: PLAYER WALKS TO DOORCLOSED WITH NO KEY
         player.moveRight();
-        Position position = new Position(0, 0);
+        Position position = new Position(0, 0, 4);
         assertEquals(position, player.getPosition());
         position = new Position(1, 0);
-        assertEquals(position, door.getPosition()); // TODO: check door state as well
+        assertEquals(position, door.getPosition());
+        assertEquals(false, door.getState().canPassThrough());
 
         // PLAYER PICKS UP KEY
         player.moveDown();
-        // TODO: check inventory has key
+        dungeon.addInventory(key);
+        assertEquals(true, dungeon.getInventory().getItems().contains(key));
 
         // CASE: PLAYER WALKS TO DOORCLOSED WITH KEY
         player.moveUp();
         player.moveRight();
-        position = new Position(1, 0);
+        position = new Position(1, 0, 4);
         assertEquals(position, player.getPosition());
-        assertEquals(position, door.getPosition()); // TODO: check door state as well
-        // TODO: check inventory does not have key
+        position = new Position(1, 0);
+        assertEquals(position, door.getPosition());
+        assertEquals(true, door.getState().canPassThrough());
+        dungeon.removeFromInventory(key);
+        assertEquals(false, dungeon.getInventory().getItems().contains(key));
 
         // CASE: PLAYER SAME CELL AS EXIT
         player.moveRight();
-        assertEquals(true, goal.isComplete()); // TODO: check exitGoal
+        assertEquals(true, goal.isComplete());
+        assertEquals("", goal.toString());
     }
 
     /**
@@ -192,23 +199,23 @@ public class StaticTest {
         }
 
         // ENSURE WALL AND PLAYER IN PLACE
-        Position position = new Position(0, 0);
-        assertEquals(new EntityResponse("Player0", "Player", position, false), controller.getInfo("Player0"));
+        Position position = new Position(0, 0, 4);
+        assertEquals(new EntityResponse("Player", "player", position, false), controller.getInfo("Player"));
         position = new Position(-1, 0);
-        assertEquals(new EntityResponse("Wall0", "Wall", position, false), controller.getInfo("Wall0"));
+        assertEquals(new EntityResponse("Wall0", "wall", position, false), controller.getInfo("Wall0"));
 
         // ASSERT THERE IS A ZOMBIE TOAST SOMEWHERE
         assertEquals(controller.getDungeon().getInfo("ZombieToast0"), controller.getInfo("ZombieToast0"));
 
         controller.tick("", Direction.DOWN);
         position = new Position(1, 1);
-        assertEquals(new EntityResponse("ZombieToastSpawner0", "ZombieToastSpawner", position, false), controller.getInfo("ZombieToastSpawner0"));
+        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
         
         // INTERACT WITH SPAWNER TO DESTROY IT
         controller.interact("ZombieToastSpawner0");
         // getInfo should return null if it does not exist
         position = new Position(1, 1);
-        assertThrows(new EntityResponse("ZombieToastSpawner0", "ZombieToastSpawner", position, false), controller.getInfo("ZombieToastSpawner0"));
+        assertThrows(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
     }
 
     /**
@@ -229,22 +236,22 @@ public class StaticTest {
         }
 
         // ENSURE WALL AND PLAYER IN PLACE
-        Position position = new Position(0, 0);
-        assertEquals(new EntityResponse("Player0", "Player", position, false), controller.getInfo("Player0"));
+        Position position = new Position(0, 0, 4);
+        assertEquals(new EntityResponse("Player", "player", position, false), controller.getInfo("Player"));
         position = new Position(-1, 0);
-        assertEquals(new EntityResponse("Wall0", "Wall", position, false), controller.getInfo("Wall0"));
+        assertEquals(new EntityResponse("Wall0", "wall", position, false), controller.getInfo("Wall0"));
 
         // ASSERT THERE IS A ZOMBIE TOAST SOMEWHERE
         assertEquals(controller.getDungeon().getInfo("ZombieToast0"), controller.getInfo("ZombieToast0"));
 
         controller.tick("", Direction.DOWN);
         position = new Position(1, 1);
-        assertEquals(new EntityResponse("ZombieToastSpawner0", "ZombieToastSpawner", position, false), controller.getInfo("ZombieToastSpawner0"));
+        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
         
         // INTERACT WITH SPAWNER TO DESTROY IT
         controller.interact("ZombieToastSpawner0");
         // getInfo should return null if it does not exist
         position = new Position(1, 1);
-        assertThrows(new EntityResponse("ZombieToastSpawner0", "ZombieToastSpawner", position, false), controller.getInfo("ZombieToastSpawner0"));
+        assertThrows(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
     }
 }
