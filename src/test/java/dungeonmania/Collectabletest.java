@@ -31,9 +31,9 @@ public class Collectabletest {
     public void testHealthPotion() {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
-        
-        // create an inventory instance
-        Inventory inventory = new Inventory();
+
+        // get the inventory
+        Inventory inventory = dungeon.getInventory();
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
@@ -83,8 +83,8 @@ public class Collectabletest {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
 
-        // create an inventory instance
-        Inventory inventory = new Inventory();
+        // get the inventory
+        Inventory inventory = dungeon.getInventory();
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
@@ -118,8 +118,8 @@ public class Collectabletest {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
 
-        // create an inventory instance
-        Inventory inventory = new Inventory();
+        // get the inventory
+        Inventory inventory = dungeon.getInventory();
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
@@ -266,8 +266,8 @@ public class Collectabletest {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
 
-        // create an inventory instance
-        Inventory inventory = new Inventory();
+        // get the inventory
+        Inventory inventory = dungeon.getInventory();
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
