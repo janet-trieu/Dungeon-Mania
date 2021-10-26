@@ -36,7 +36,7 @@
         {
             "x": 2,
             "y": 3,
-            "type": "zombie_spawner"
+            "type": "zombie_toast_spawner"
         },
         {
             "x": 2,

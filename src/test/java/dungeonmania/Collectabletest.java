@@ -46,6 +46,8 @@ public class Collectabletest {
 
         // player moves 1 cell to the right, where it will enter a battle with mercenary (1,0)
         // player will battle 8 ticks (player health = 100, player damage = 10 | mercenary health = 80, mercenary damage = 10)
+        player.moveRight();
+        mercenary.move();
         for (int i = 0; i < 8; i += 1) {
             player.battle(mercenary);
         }
@@ -62,7 +64,7 @@ public class Collectabletest {
         healthPotion.applyEntity();
 
         // assert that player's health is back to max health
-        assertEquals(player.getHealth(), player.maxHealth);
+        assertEquals(player.getHealth(), player.getMaxHealth());
     }
 
     /**
@@ -90,7 +92,7 @@ public class Collectabletest {
         invinciblePotion.applyEntity();
 
         // assert that the player's potion state is invincible
-        assertEquals(player.getPotionState(), "invincible");
+        assertEquals(player.getPotionState().isInvincible(), true);
     }
 
     /**
@@ -118,7 +120,7 @@ public class Collectabletest {
         invisiblePotion.applyEntity();
 
         // assert that the player's potion state is invisible
-        assertEquals(player.getPotionState(), "invisible");
+        assertEquals(player.getPotionState().isInvisible(), true);
     }
 
     /**
@@ -155,7 +157,7 @@ public class Collectabletest {
         controller.tick("", Direction.DOWN);
 
         // player uses/places the bomb
-        controller.tick("bomb0", Direction.NONE);
+        controller.tick("Bomb0", Direction.NONE);
 
         // player moves two cells up, one cell to the right
         // new position = (2,0)
@@ -177,7 +179,7 @@ public class Collectabletest {
         assertEquals(controller.getInfo("Bomb0"), null);
 
         // checking if player, exit, portal and zombie spawner has been destroyed
-        Position newPlayerPosition = new Position(2, 1);
+        Position newPlayerPosition = new Position(2, 1, 4);
         assertEquals(new EntityResponse("Player", "player", newPlayerPosition, false), controller.getInfo("Player"));
         assertEquals(new EntityResponse("Exit0", "exit", exitPosition, false), controller.getInfo("Exit0"));
         assertEquals(new EntityResponse("Portal0", "portal", portalPosition, false), controller.getInfo("Portal0"));
@@ -216,11 +218,11 @@ public class Collectabletest {
         assertEquals(player.getDamage(), 10);
         dungeon.addInventory(sword);
         assertEquals(player.getDamage(), 20);
-        mercenary.moveLeft();
+        mercenary.move();
 
         // player moves one cell to the right again, (2,0) where it will enter a battle with mercenary
         player.moveRight();
-        mercenary.moveLeft();
+        mercenary.move();
 
         // player will battle for 4 times
         player.battle(mercenary);
@@ -259,7 +261,7 @@ public class Collectabletest {
         // mercenary has moved to (3,0)
         player.moveRight();
         dungeon.addInventory(treasure);
-        mercenary.moveLeft();
+        mercenary.move();
 
         // player attempts to bribe the mercenary with treasure
         assertDoesNotThrow(() -> {
@@ -288,7 +290,7 @@ public class Collectabletest {
         // player moves one cell to the right (1,0)
         player.moveRight();
         // mercenary moves one cell to the left (2,0)
-        mercenary.moveLeft();
+        mercenary.move()
 
         // player attempts to bribe the mercenary without treasure
         assertThrows(InvalidActionException.class, () -> player.interact(mercenary.getId()));
