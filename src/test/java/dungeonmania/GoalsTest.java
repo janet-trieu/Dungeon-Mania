@@ -130,7 +130,8 @@ public class GoalsTest {
         Dungeon dungeon = new Dungeon();
 
         // Create player at (0, 0)
-        Player player = dungeon.createEntity("player", 0, 0);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
         // Create exit at (1, 0)
         Exit exit = dungeon.createEntity("exit", 1, 0);
@@ -156,10 +157,12 @@ public class GoalsTest {
 
 
         // Create player at (0, 0)
-        Player player = dungeon.createEntity("player", 0, 0);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
         // Create mercenary at (1, 0)
-        Mercenary mercenary = dungeon.createEntity("mercenary", 1, 0);
+        Mercenary mercenary = Mercenary(1, 0);
+        dungeon.createEntity(mercenary);
     
         // add EnemyGoal to dungeon
         Goal goal = new EnemyGoal();
@@ -186,13 +189,16 @@ public class GoalsTest {
 
 
         // Create player at (0, 0)
-        Player player = dungeon.createEntity("player", 0, 0);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
         // Create boulder at (1, 0)
-        Boulder boulder = dungeon.createEntity("boulder", 1, 0);
+        Boulder boulder = Boulder(1, 0);
+        dungeon.createEntity(boulder);
     
         // Create switch at (2, 0)
-        Switch switch = dungeon.createEntity("switch", 2, 0);
+        Switch switch = Switch(2, 0);
+        dungeon.createEntity(switch);
 
         // add SwitchGoal to dungeon
         Goal goal = new SwitchGoal();
@@ -220,12 +226,16 @@ public class GoalsTest {
         Dungeon dungeon = new Dungeon();
 
         // Create player at (0, 0)
-        Player player = dungeon.createEntity("player", 0, 0);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
         // Create treasure at (1, 0), (2, 0), & (3, 0)
-        Treasure treasure1 = dungeon.createEntity("treasure", 1, 0);
-        Treasure treasure2 = dungeon.createEntity("treasure", 2, 0);
-        Treasure treasure3 = dungeon.createEntity("treasure", 3, 0);
+        Treasure treasure1 = Treasure(1, 0);
+        dungeon.createEntity(treasure1);
+        Treasure treasure2 = Treasure(2, 0);
+        dungeon.createEntity(treasure2);
+        Treasure treasure3 = Treasure(3, 0); 
+        dungeon.createEntity(treasure3);
 
         // add TreasureGoal to dungeon
         Goal goal = new TreasureGoal();
@@ -257,14 +267,20 @@ public class GoalsTest {
         Dungeon dungeon = new Dungeon();
 
         // Create player at (0, 0)
-        Player player = dungeon.createEntity("player", 0, 0);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
         // Create treasure at (1, 0), (2, 0), & (3, 0)
-        Treasure treasure1 = dungeon.createEntity("treasure",1, 0);
-        Treasure treasure2 = dungeon.createEntity("treasure", 2, 0);
-        Treasure treasure3 = dungeon.createEntity("treasure", 3, 0);
+        Treasure treasure1 = Treasure(1, 0);
+        dungeon.createEntity(treasure1);
+        Treasure treasure2 = Treasure(2, 0);
+        dungeon.createEntity(treasure2);
+        Treasure treasure3 = Treasure(3, 0); 
+        dungeon.createEntity(treasure3);
+
         // Create exit at (4, 0)
-        Exit exit = dungeon.createEntity(4, 0, "exit");
+        Exit exit = Exit(4, 0);
+        dungeon.createEntity(exit);
 
         // add TreasureGoal AND ExitGoal to dungeon
         Goal goal = new AndGoal();
@@ -305,14 +321,20 @@ public class GoalsTest {
         Dungeon dungeon = new Dungeon();
 
         // Create player at (0, 0)
-        Player player = dungeon.createEntity("player", 0, 0);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
-        // Create boulder at (1, 0) and switch at (2, 0)
-        Boulder boulder = dungeon.createEntity("boulder", 1, 0);
-        Switch switch = dungeon.createEntity("switch", 2, 0);
+        // Create boulder at (1, 0)
+        Boulder boulder = Boulder(1, 0);
+        dungeon.createEntity(boulder);
+    
+        // Create switch at (2, 0)
+        Switch switch = Switch(2, 0);
+        dungeon.createEntity(switch);
 
-        // Create exit at (0, 4)
-        Mercenary mercenary = dungeon.createEntity("mercenary", 0, 1);
+        // Create mercenary at (0, 1)
+        Mercenary mercenary = Mercenary(0, 1);
+        dungeon.createEntity(mercenary);
 
         // add TreasureGoal AND ExitGoal to dungeon
         Goal goal = new OrGoal();
@@ -342,14 +364,19 @@ public class GoalsTest {
         Dungeon dungeon = new Dungeon();
 
         // Create player at (0, 0)
-        Player player = dungeon.createEntity("player", 0, 0);
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
 
         // Create boulder at (1, 0) and switch at (2, 0)
-        Boulder boulder = dungeon.createEntity("boulder", 1, 0);
-        Switch switch = dungeon.createEntity("switch", 2, 0);
+        Boulder boulder = Boulder(1, 0);
+        dungeon.createEntity(boulder);
+
+        Switch switch = Switch(2, 0);
+        dungeon.createEntity(switch);
 
         // Create exit at (0, 4)
-        Mercenary mercenary = dungeon.createEntity("mercenary", 0, 1);
+        Mercenary mercenary = Mercenary(0, 1);
+        dungeon.createEntity(mercenary);
 
         // add TreasureGoal AND ExitGoal to dungeon
         Goal goal = new OrGoal();
