@@ -399,7 +399,7 @@ public class GoalsTest {
 
         // Player should be on same cell as mercenary
         player.moveDown();
-        assertEquals(player.getPosition() == mercenary.getPosition());
+        assertEquals(player.getPosition(), mercenary.getPosition());
         // Player battles with mercenary and wins
         for (int i = 0, i < 8; i++){
             player.battle(mercenary);
