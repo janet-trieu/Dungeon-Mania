@@ -174,7 +174,7 @@ public class GoalsTest {
         assertEquals(player.getPosition(), mercenary.getPosition());
         // Player battles with mercenary and wins
         player.battle(mercenary);
-        assertEquals(null, mercenary);
+        assertEquals(false, dungeon.getEntityList().contains(mercenary));
 
         // Goal is complete
         assertEquals("", goal.toString());
@@ -245,15 +245,18 @@ public class GoalsTest {
         // Player collects treasure
         player.moveRight();
         assertEquals(new Position(1, 0, 4), player.getPosition());
-        assertEquals(null, treasure1);
+        inventory.addItem(treasure1);
+        assertEquals(false, dungeon.getEntityList().contains(treasure1));
 
         player.moveRight();
         assertEquals(new Position(2, 0, 4), player.getPosition());
-        assertEquals(null, treasure2);
+        inventory.addItem(treasure2);
+        assertEquals(false, dungeon.getEntityList().contains(treasure2));
 
         player.moveRight();
         assertEquals(new Position(3, 0, 4), player.getPosition());
-        assertEquals(null, treasure3);
+        inventory.addItem(treasure3);
+        assertEquals(false, dungeon.getEntityList().contains(treasure3));
 
         // Goal is complete
         assertEquals("", goal.toString());
@@ -294,15 +297,18 @@ public class GoalsTest {
         // Player collects treasure
         player.moveRight();
         assertEquals(new Position(1, 0, 4), player.getPosition());
-        assertEquals(null, treasure1);
+        inventory.addItem(treasure1);
+        assertEquals(false, dungeon.getEntityList().contains(treasure1));
 
         player.moveRight();
         assertEquals(new Position(2, 0, 4), player.getPosition());
-        assertEquals(null, treasure2);
+        inventory.addItem(treasure2);
+        assertEquals(false, dungeon.getEntityList().contains(treasure2));
 
         player.moveRight();
         assertEquals(new Position(3, 0, 4), player.getPosition());
-        assertEquals(null, treasure3);
+        inventory.addItem(treasure3);
+        assertEquals(false, dungeon.getEntityList().contains(treasure3));
 
         // TreasureGoal is complete
         assertEquals(":exit", goal.toString());
@@ -390,9 +396,9 @@ public class GoalsTest {
         // Player should be on same cell as mercenary
         player.moveDown();
         assertEquals(player.getPosition() == mercenary.getPosition());
-        // Player battles with spider and wins
-        // player.battle(mercenary);
-        assertEquals(null, mercenary);
+        // Player battles with mercenary and wins
+        player.battle(mercenary);
+        assertEquals(false, dungeon.getEntityList().contains(mercenary));
 
         // Goal is complete
         assertEquals("", goal.toString());
