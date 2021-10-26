@@ -134,7 +134,8 @@ public class GoalsTest {
         dungeon.createEntity(player);
 
         // Create exit at (1, 0)
-        Exit exit = dungeon.createEntity("exit", 1, 0);
+        Exit exit = new Exit(1, 0);
+        Dungeon.createEntity(exit);
     
         // add ExitGoal to dungeon
         Goal goal = new ExitGoal();
@@ -143,7 +144,7 @@ public class GoalsTest {
 
         player.moveRight();
 
-        assertEquals(player.getPosition() == exit.getPosition());
+        assertEquals(player.getPosition(), exit.getPosition());
 
         assertEquals("", goal.toString());
     }
@@ -155,13 +156,12 @@ public class GoalsTest {
     public void testEnemyGoal() {
         Dungeon dungeon = new Dungeon();
 
-
         // Create player at (0, 0)
         Player player = new Player(0, 0);
         dungeon.createEntity(player);
 
         // Create mercenary at (1, 0)
-        Mercenary mercenary = Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0);
         dungeon.createEntity(mercenary);
     
         // add EnemyGoal to dungeon
@@ -171,9 +171,9 @@ public class GoalsTest {
 
         // Player should be on same cell as mercenary
         player.moveRight();
-        assertEquals(player.getPosition() == mercenary.getPosition());
-        // Player battles with spider and wins
-        // player.battle(mercenary);
+        assertEquals(player.getPosition(), mercenary.getPosition());
+        // Player battles with mercenary and wins
+        player.battle(mercenary);
         assertEquals(null, mercenary);
 
         // Goal is complete
@@ -193,12 +193,12 @@ public class GoalsTest {
         dungeon.createEntity(player);
 
         // Create boulder at (1, 0)
-        Boulder boulder = Boulder(1, 0);
+        Boulder boulder = new Boulder(1, 0);
         dungeon.createEntity(boulder);
     
         // Create switch at (2, 0)
-        Switch switch = Switch(2, 0);
-        dungeon.createEntity(switch);
+        Switch switch0 = new Switch(2, 0);
+        dungeon.createEntity(switch0);
 
         // add SwitchGoal to dungeon
         Goal goal = new SwitchGoal();
@@ -207,8 +207,8 @@ public class GoalsTest {
 
         // Player should have moved boulder on switch
         player.moveRight();
-        assertEquals(new Position(1, 0), player.getPosition());
-        assertEquals(new Position(2, 0), boulder.getPosition());
+        assertEquals(new Position(1, 0, 4), player.getPosition());
+        assertEquals(new Position(2, 0, 1), boulder.getPosition());
         assertEquals(switch.getPosition(), boulder.getPosition());
 
         // Switch should be activated
@@ -230,11 +230,11 @@ public class GoalsTest {
         dungeon.createEntity(player);
 
         // Create treasure at (1, 0), (2, 0), & (3, 0)
-        Treasure treasure1 = Treasure(1, 0);
+        Treasure treasure1 = new Treasure(1, 0);
         dungeon.createEntity(treasure1);
-        Treasure treasure2 = Treasure(2, 0);
+        Treasure treasure2 = new Treasure(2, 0);
         dungeon.createEntity(treasure2);
-        Treasure treasure3 = Treasure(3, 0); 
+        Treasure treasure3 = new Treasure(3, 0); 
         dungeon.createEntity(treasure3);
 
         // add TreasureGoal to dungeon
@@ -244,15 +244,15 @@ public class GoalsTest {
 
         // Player collects treasure
         player.moveRight();
-        assertEquals(new Position(1, 0), player.getPosition());
+        assertEquals(new Position(1, 0, 4), player.getPosition());
         assertEquals(null, treasure1);
 
         player.moveRight();
-        assertEquals(new Position(2, 0), player.getPosition());
+        assertEquals(new Position(2, 0, 4), player.getPosition());
         assertEquals(null, treasure2);
 
         player.moveRight();
-        assertEquals(new Position(3, 0), player.getPosition());
+        assertEquals(new Position(3, 0, 4), player.getPosition());
         assertEquals(null, treasure3);
 
         // Goal is complete
@@ -271,15 +271,15 @@ public class GoalsTest {
         dungeon.createEntity(player);
 
         // Create treasure at (1, 0), (2, 0), & (3, 0)
-        Treasure treasure1 = Treasure(1, 0);
+        Treasure treasure1 = new Treasure(1, 0);
         dungeon.createEntity(treasure1);
-        Treasure treasure2 = Treasure(2, 0);
+        Treasure treasure2 = new Treasure(2, 0);
         dungeon.createEntity(treasure2);
-        Treasure treasure3 = Treasure(3, 0); 
+        Treasure treasure3 = new Treasure(3, 0); 
         dungeon.createEntity(treasure3);
 
         // Create exit at (4, 0)
-        Exit exit = Exit(4, 0);
+        Exit exit = new Exit(4, 0);
         dungeon.createEntity(exit);
 
         // add TreasureGoal AND ExitGoal to dungeon
@@ -293,15 +293,15 @@ public class GoalsTest {
 
         // Player collects treasure
         player.moveRight();
-        assertEquals(new Position(1, 0), player.getPosition());
+        assertEquals(new Position(1, 0, 4), player.getPosition());
         assertEquals(null, treasure1);
 
         player.moveRight();
-        assertEquals(new Position(2, 0), player.getPosition());
+        assertEquals(new Position(2, 0, 4), player.getPosition());
         assertEquals(null, treasure2);
 
         player.moveRight();
-        assertEquals(new Position(3, 0), player.getPosition());
+        assertEquals(new Position(3, 0, 4), player.getPosition());
         assertEquals(null, treasure3);
 
         // TreasureGoal is complete
@@ -325,12 +325,12 @@ public class GoalsTest {
         dungeon.createEntity(player);
 
         // Create boulder at (1, 0)
-        Boulder boulder = Boulder(1, 0);
+        Boulder boulder = new Boulder(1, 0);
         dungeon.createEntity(boulder);
     
         // Create switch at (2, 0)
-        Switch switch = Switch(2, 0);
-        dungeon.createEntity(switch);
+        Switch switch0 = new Switch(2, 0);
+        dungeon.createEntity(switch0);
 
         // Create mercenary at (0, 1)
         Mercenary mercenary = Mercenary(0, 1);
@@ -368,11 +368,11 @@ public class GoalsTest {
         dungeon.createEntity(player);
 
         // Create boulder at (1, 0) and switch at (2, 0)
-        Boulder boulder = Boulder(1, 0);
+        Boulder boulder = new Boulder(1, 0);
         dungeon.createEntity(boulder);
 
-        Switch switch = Switch(2, 0);
-        dungeon.createEntity(switch);
+        Switch switch0 = new Switch(2, 0);
+        dungeon.createEntity(switch0);
 
         // Create exit at (0, 4)
         Mercenary mercenary = Mercenary(0, 1);
