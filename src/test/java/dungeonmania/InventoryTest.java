@@ -68,8 +68,8 @@ public class InventoryTest {
     public void testOnlyOneKeyItem(){
         // create inventory and treasure
         Inventory inventory = new Inventory();
-        Key key0 = new Key(null, null);
-        Key key1 = new Key(null, null);
+        Key key0 = new Key(1, 0);
+        Key key1 = new Key(1, 0);
         // Add key0 to inventory
         inventory.addItem(key0);
         // key0 is in inventory
