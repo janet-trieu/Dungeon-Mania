@@ -319,7 +319,7 @@ public class GoalsTest {
 
         // ExitGoal is completed
         player.moveRight();
-        assertEquals(player.getPosition() == exit.getPosition());
+        assertEquals(player.getPosition(), exit.getPosition());
 
         assertEquals("", goal.toString());
     }
