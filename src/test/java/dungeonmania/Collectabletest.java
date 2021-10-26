@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 
-import org.graalvm.compiler.lir.aarch64.AArch64ControlFlow.StrategySwitchOp.SwitchClosure;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.exceptions.InvalidActionException;
@@ -22,7 +21,7 @@ import dungeonmania.util.Position;
  * Therefore, this file will only test for the application/use of the collectable entities
  * P.S this is currently initial stages of testing!!
  */
-public class Collectabletest {
+public class CollectableTest {
     /**
      * Test for use of health potion
      * @throws IOException
