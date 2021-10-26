@@ -61,8 +61,8 @@ public class PersistenceTest {
 
         // TELEPORT AND MAKE SURE POSITION IS CORRECT
         controller0.tick("", Direction.RIGHT);
-        Position position = new Position(5, 0);
-        assertEquals(new EntityResponse("Player0", "Player", position, false), controller0.getInfo("Player0"));
+        Position position = new Position(5, 0, 4);
+        assertEquals(new EntityResponse("Player", "player", position, false), controller0.getInfo("Player"));
 
         // SAVE GAME (response0)
         String save0 = "SaveData0";
