@@ -50,12 +50,12 @@ public class CollectableTest {
         // player will battle 8 ticks (player health = 100, player damage = 10 | mercenary health = 80, mercenary damage = 10)
         player.moveRight();
         mercenary.move();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 7; i++) {
             player.battle(mercenary);
         }
         
         // lose some health
-        assertEquals(player.getHealth(), 20);
+        assertEquals(player.getMaxHealth() > player.getHealth(), true);
 
         // Player moves 2 cell to the right, where it will collect a health potion
         player.moveRight();
@@ -235,9 +235,9 @@ public class CollectableTest {
         // player's normal damage is set to 10 -- after picking up sword --> 20
         // mercenary has moved to (3,0)
         player.moveRight();
-        assertEquals(player.getDamage(), 10);
+        assertEquals(player.getDamage(), 1);
         dungeon.addInventory(sword);
-        assertEquals(player.getDamage(), 20);
+        assertEquals(player.getDamage(), 2);
         mercenary.move();
 
         // player moves one cell to the right again, (2,0) where it will enter a battle with mercenary
