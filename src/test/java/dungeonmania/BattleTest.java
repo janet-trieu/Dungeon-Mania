@@ -304,10 +304,52 @@ public class BattleTest {
         // mercenary is not alive after 1 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
     }
-    /*
+    @Test
+    public void testPlayerDies(){
+        Dungeon dungeon = new Dungeon();
+        Inventory inventory = dungeon.getInventory();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
+
+        // Create mercenary0 at (1, 0)
+        Mercenary mercenary0 = new Mercenary(1, 0);
+        dungeon.createEntity(mercenary0);
+ 
+        // Create mercenary1 at (2, 0)
+        Mercenary mercenary1 = new Mercenary(2, 0);
+        dungeon.createEntity(mercenary1);       
+
+        // battle mercenary0
+        player.moveRight();
+        player.battle(mercenary0);
+        // mercenary is alive after 1 tick
+        assertEquals(true, dungeon.getEntityList().contains(mercenary0));
+        // Player received damage
+        assertEquals(true, player.getMaxHealth() > player.getHealth());
+        for (int i = 0; i < 5; i++) {
+            player.battle(mercenary0);
+        }
+        // mercenary is not alive after 6 ticks instead of 7
+        assertEquals(false, dungeon.getEntityList().contains(mercenary0));
+        // battle mercenary1
+        player.moveRight();
+        player.battle(mercenary1);
+        // mercenary is alive after 1 tick
+        assertEquals(true, dungeon.getEntityList().contains(mercenary1));
+        // Player received damage
+        assertEquals(true, player.getMaxHealth() > player.getHealth());
+        for (int i = 0; i < 8; i++) {
+            player.battle(mercenary1);
+        }
+        // player battling mercenary0 and mercenary1 consecutively
+        assertEquals(false, dungeon.getEntityList().contains(player));
+
+    }
     @Test
     public void testSimulate() {
-        double playerHealth = 10;
+        double playerHealth = 6.3154235141760005;
         double playerDamage = 1;
 
         double mercHealth = 10;
@@ -315,10 +357,10 @@ public class BattleTest {
 
         double allyHealth = 0;
         double allyDamage = 0;
-        int bow = 3;
-        int sword = 6;
-        int shield = 5;
-        boolean armour = true;
+        int bow = 0;
+        int sword = 0;
+        int shield = 0;
+        boolean armour = false;
 
 
         for (int i = 1; playerHealth > 0 && mercHealth > 0; i++) {
@@ -369,5 +411,5 @@ public class BattleTest {
             System.out.println("merc Health is " + mercHealth);
         }
     }
-    */
+    
 }
