@@ -2,6 +2,6 @@ package dungeonmania.entities.collectableEntity;
 
 import dungeonmania.entities.Entity;
 
-public class CollectableEntity extends Entity {
+public abstract class CollectableEntity extends Entity {
     
 }
