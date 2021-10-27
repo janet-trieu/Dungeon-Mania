@@ -328,10 +328,10 @@ public class BattleTest {
         assertEquals(true, dungeon.getEntityList().contains(mercenary0));
         // Player received damage
         assertEquals(true, player.getMaxHealth() > player.getHealth());
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             player.battle(mercenary0);
         }
-        // mercenary is not alive after 6 ticks instead of 7
+        // mercenary is dead
         assertEquals(false, dungeon.getEntityList().contains(mercenary0));
         // battle mercenary1
         player.moveRight();
