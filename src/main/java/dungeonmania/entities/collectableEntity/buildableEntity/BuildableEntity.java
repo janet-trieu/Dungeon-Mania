@@ -1,5 +1,7 @@
 package dungeonmania.entities.collectableEntity.buildableEntity;
 
-public abstract class BuildableEntity {
+import dungeonmania.entities.collectableEntity.CollectableEntity;
+
+public abstract class BuildableEntity extends CollectableEntity{
     
 }

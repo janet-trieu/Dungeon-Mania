@@ -1,5 +1,5 @@
 package dungeonmania.entities.staticEntity;
 
-public class Portal {
+public class Portal extends StaticEntity {
     
 }

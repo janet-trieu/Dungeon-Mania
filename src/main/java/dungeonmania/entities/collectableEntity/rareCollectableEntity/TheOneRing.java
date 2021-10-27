@@ -1,5 +1,5 @@
 package dungeonmania.entities.collectableEntity.rareCollectableEntity;
 
-public class TheOneRing {
+public class TheOneRing extends RareCollectableEntity {
     
 }

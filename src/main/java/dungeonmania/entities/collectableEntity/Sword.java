@@ -1,5 +1,5 @@
 package dungeonmania.entities.collectableEntity;
 
-public class Sword {
+public class Sword extends CollectableEntity {
     
 }

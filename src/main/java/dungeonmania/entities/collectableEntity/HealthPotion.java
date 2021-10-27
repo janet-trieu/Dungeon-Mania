@@ -1,5 +1,5 @@
 package dungeonmania.entities.collectableEntity;
 
-public class HealthPotion {
+public class HealthPotion extends CollectableEntity {
     
 }

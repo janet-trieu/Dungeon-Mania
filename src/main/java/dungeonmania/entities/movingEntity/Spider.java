@@ -1,5 +1,5 @@
 package dungeonmania.entities.movingEntity;
 
-public class Spider {
+public class Spider extends MovingEntity {
     
 }

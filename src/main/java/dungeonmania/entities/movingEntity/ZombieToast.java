@@ -1,5 +1,5 @@
 package dungeonmania.entities.movingEntity;
 
-public class ZombieToast {
+public class ZombieToast extends MovingEntity {
     
 }

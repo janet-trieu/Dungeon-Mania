@@ -1,5 +1,7 @@
 package dungeonmania.entities.collectableEntity;
 
-public class CollectableEntity {
+import dungeonmania.entities.Entity;
+
+public class CollectableEntity extends Entity {
     
 }

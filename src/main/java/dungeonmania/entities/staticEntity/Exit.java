@@ -1,5 +1,5 @@
 package dungeonmania.entities.staticEntity;
 
-public class Exit {
+public class Exit extends StaticEntity {
     
 }

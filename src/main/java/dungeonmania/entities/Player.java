@@ -1,5 +1,5 @@
 package dungeonmania.entities;
 
-public class Player {
+public class Player extends Entity {
     
 }

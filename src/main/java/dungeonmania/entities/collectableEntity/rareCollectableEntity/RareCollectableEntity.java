@@ -1,5 +1,7 @@
 package dungeonmania.entities.collectableEntity.rareCollectableEntity;
 
-public class RareCollectableEntity {
+import dungeonmania.entities.collectableEntity.CollectableEntity;
+
+public class RareCollectableEntity extends CollectableEntity {
     
 }

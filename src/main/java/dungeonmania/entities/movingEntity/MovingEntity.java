@@ -1,5 +1,7 @@
 package dungeonmania.entities.movingEntity;
 
-public abstract class MovingEntity {
+import dungeonmania.entities.Entity;
+
+public abstract class MovingEntity extends Entity {
     
 }

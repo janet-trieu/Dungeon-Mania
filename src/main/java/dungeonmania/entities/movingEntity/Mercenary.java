@@ -1,5 +1,5 @@
 package dungeonmania.entities.movingEntity;
 
-public class Mercenary {
+public class Mercenary extends MovingEntity {
     
 }

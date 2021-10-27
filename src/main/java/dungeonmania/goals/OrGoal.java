@@ -1,5 +1,5 @@
 package dungeonmania.goals;
 
-public class OrGoal {
+public class OrGoal extends Goal {
     
 }

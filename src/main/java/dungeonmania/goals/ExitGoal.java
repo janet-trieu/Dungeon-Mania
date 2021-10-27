@@ -1,5 +1,5 @@
 package dungeonmania.goals;
 
-public class ExitGoal {
+public class ExitGoal extends Goal {
     
 }

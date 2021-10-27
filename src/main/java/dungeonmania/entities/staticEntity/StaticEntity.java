@@ -1,5 +1,7 @@
 package dungeonmania.entities.staticEntity;
 
-public abstract class StaticEntity {
+import dungeonmania.entities.Entity;
+
+public abstract class StaticEntity extends Entity {
     
 }

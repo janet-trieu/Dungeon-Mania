@@ -1,5 +1,5 @@
 package dungeonmania.entities.collectableEntity.buildableEntity;
 
-public class Shield {
+public class Shield extends BuildableEntity {
     
 }

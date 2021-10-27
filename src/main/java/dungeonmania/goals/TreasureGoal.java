@@ -1,5 +1,5 @@
 package dungeonmania.goals;
 
-public class TreasureGoal {
+public class TreasureGoal extends Goal {
     
 }

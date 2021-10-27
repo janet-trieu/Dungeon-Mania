@@ -1,5 +1,5 @@
 package dungeonmania.entities.collectableEntity.buildableEntity;
 
-public class Bow {
+public class Bow extends BuildableEntity {
     
 }

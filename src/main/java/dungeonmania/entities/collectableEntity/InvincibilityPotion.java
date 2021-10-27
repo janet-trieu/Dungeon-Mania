@@ -1,5 +1,5 @@
 package dungeonmania.entities.collectableEntity;
 
-public class InvincibilityPotion {
+public class InvincibilityPotion extends CollectableEntity {
     
 }

@@ -1,5 +1,5 @@
 package dungeonmania.goals;
 
-public class SwitchGoal {
+public class SwitchGoal extends Goal {
     
 }

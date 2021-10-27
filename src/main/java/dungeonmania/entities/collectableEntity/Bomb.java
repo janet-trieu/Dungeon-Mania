@@ -1,5 +1,5 @@
 package dungeonmania.entities.collectableEntity;
 
-public class Bomb {
+public class Bomb extends CollectableEntity {
     
 }
