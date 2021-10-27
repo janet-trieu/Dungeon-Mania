@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.entities.Player;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;

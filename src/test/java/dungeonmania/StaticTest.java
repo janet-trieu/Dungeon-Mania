@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.entities.Player;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
