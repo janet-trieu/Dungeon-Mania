@@ -64,7 +64,7 @@ public class Dungeon {
         return goal;
     }
 
-    public void setGoal(Goal goal) {
+    public void addGoal(Goal goal) {
         this.goal = goal;
     }
 
@@ -88,9 +88,6 @@ public class Dungeon {
 
     public void addEntity(Entity entity) {
         entityList.add(entity);
-    }
-
-    public void addGoal(Goal goal) {
     }
 
     /**
