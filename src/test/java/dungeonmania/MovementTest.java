@@ -11,6 +11,8 @@ import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.*;
+import dungeonmania.entities.movingEntity.Spider;
+import dungeonmania.entities.staticEntity.Boulder;
 
 public class MovementTest {
 
@@ -85,7 +87,7 @@ public class MovementTest {
         String map = FileLoader.loadResourceFile("/dungeons/advanced.json");
 
         Spider spider0 = new Spider(7,13,3);
-        createEntity(spider);
+        createEntity(spider0);
         Boulder boulder0 = new Boulder(8,12,1);
         createEntity(boulder);
 
@@ -93,7 +95,7 @@ public class MovementTest {
         controller.tick("", Direction.NONE);
         Position pos = new Position(6,12,3);
 
-        assertEquals(pos, spider.getPosition());
+        assertEquals(pos, spider0.getPosition());
         
     }
 
