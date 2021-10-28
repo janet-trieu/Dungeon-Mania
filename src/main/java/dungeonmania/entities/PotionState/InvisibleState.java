@@ -32,4 +32,12 @@ public class InvisibleState implements PotionState{
     public Boolean isInvisible() {
         return true;
     }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }

@@ -116,6 +116,41 @@ public class CollectableTest {
         assertEquals(false, inventory.getItems().contains(invinciblePotion));
     }
 
+    @Test
+    public void testInvincibilityPotionKillEnemy() {
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
+
+        // get the inventory
+        Inventory inventory = dungeon.getInventory();
+
+        // create a player at position (0,0)
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
+
+        // create a mercenary at position (4,0)
+        Mercenary mercenary = new Mercenary(4, 0);
+        dungeon.createEntity(mercenary);
+
+        // create an invincibility potion at position (1,0)
+        InvincibilityPotion invinciblePotion = new InvincibilityPotion(1,0);
+        dungeon.createEntity(invinciblePotion);
+
+        // player moves 1 cell to the right to pick up invincibility potion
+        player.moveRight();
+        inventory.addItem(invinciblePotion);
+
+        // player moves 1 cell to the right again to enter a battle with mercenary
+        player.moveRight();
+        player.battle(mercenary);
+
+        // player uses the invincibility potion 
+        invinciblePotion.applyEntity();
+
+        // assert that mercenary has been killed instantly
+        assertEquals(mercenary.getHealth(), 0);
+    }
+
     /**
      * Test for the use of invisible potion
      * @throws IOException
@@ -153,10 +188,11 @@ public class CollectableTest {
 
     /**
      * Test for the use of bomb
+     * @throws IllegalArgumentException
      * @throws IOException
      */
     @Test
-    public void testBomb() {
+    public void testBomb() throws IllegalArgumentException, IOException {
         // create a player at position (0,0)
         // create a bomb at position (1,0)
         // create a wall at position (0,1)
@@ -168,8 +204,7 @@ public class CollectableTest {
         // createa a boulder at position (2,1)
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/testCollectableMaps/testBomb.json");
-        controller.newGame(map, "Standard");
+        controller.newGame("testBomb", "Standard");
 
         Position exitPosition = new Position(0, 2, 0);
         Position portalPosition = new Position(1, 3, 0);
@@ -244,7 +279,7 @@ public class CollectableTest {
         // mercenary has moved to (3,0)
         player.moveRight();
         assertEquals(player.getDamage(), 1);
-        dungeon.addInventory(sword);
+        dungeon.getInventory().addItem(sword);
         assertEquals(player.getDamage(), 2);
         mercenary.move();
 
@@ -352,7 +387,7 @@ public class CollectableTest {
 
         // player moves one cell to the right to pick up armour
         player.moveRight();
-        dungeon.addInventory(armour);
+        dungeon.getInventory().addItem(armour);
 
         assertEquals(player.getIsShielded(), true);
     }
@@ -377,9 +412,9 @@ public class CollectableTest {
 
         // player moves one cell to the right to pick up armour
         player.moveRight();
-        dungeon.addInventory(one_ring);
+        dungeon.getInventory().addItem(one_ring);
 
-        assertEquals(player.getIsRespanwable(), true);
+        assertEquals(player.getRespawnable(), true);
     }
 
 }

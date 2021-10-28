@@ -3,6 +3,7 @@ package dungeonmania;
 import java.util.ArrayList;
 import java.util.List;
 
+import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 
 public class Inventory {
@@ -12,11 +13,19 @@ public class Inventory {
         // TODO
     }
 
-    public void addItem() {
+    public void addItem(CollectableEntity item) {
         //TODO
     }
 
-    public void removeItem() {
+    public void removeItem(CollectableEntity item) {
         //TODO
+    }
+
+    public List<CollectableEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<CollectableEntity> items) {
+        this.items = items;
     }
 }

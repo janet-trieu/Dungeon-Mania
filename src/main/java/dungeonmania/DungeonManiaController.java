@@ -2,6 +2,7 @@ package dungeonmania;
 
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
@@ -11,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DungeonManiaController {
+    private Dungeon dungeon;
+
     public DungeonManiaController() {
     }
 
@@ -39,7 +42,27 @@ public class DungeonManiaController {
         }
     }
 
-    public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
+    /**
+     * Creates a new game
+     * @param dungeonName
+     * @param gameMode
+     * @return
+     * @throws IllegalArgumentException
+     * @throws IOException
+     */
+    public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException, IOException {
+        // EXCEPTION CHECKS //
+        // If dungeonName does not exist
+        List<String> maps = FileLoader.listFileNamesInResourceDirectory("dungeons");
+        if (!maps.contains(dungeonName)) {
+            throw new IllegalArgumentException("Invalid dungeonName");
+        }
+
+        // If gameMode is invalid
+        if (!getGameModes().contains(gameMode)) {
+            throw new IllegalArgumentException("Invalid gameMode");
+        }
+        
         return null;
     }
     
@@ -65,5 +88,17 @@ public class DungeonManiaController {
 
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
         return null;
+    }
+
+    public EntityResponse getInfo(String entityId) {
+        return null;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+
+    public void clearData() {
+        
     }
 }

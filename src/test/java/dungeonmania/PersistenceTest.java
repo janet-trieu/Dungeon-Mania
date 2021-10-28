@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
-import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
 /**
@@ -29,8 +28,7 @@ public class PersistenceTest {
         controller0.clearData();
 
         // LOAD MAP (response0)
-        String map = FileLoader.loadResourceFile("/dungeons/portals.json");
-        DungeonResponse response0 = controller0.newGame(map, "Standard");
+        DungeonResponse response0 = controller0.newGame("portals", "Standard");
 
         // SAVE GAME
         String save0 = "SaveData0";
@@ -56,8 +54,7 @@ public class PersistenceTest {
         controller0.clearData();
 
         // LOAD MAP
-        String map = FileLoader.loadResourceFile("/dungeons/portals.json");
-        controller0.newGame(map, "Standard");
+        controller0.newGame("portals", "Standard");
 
         // TELEPORT AND MAKE SURE POSITION IS CORRECT
         controller0.tick("", Direction.RIGHT);
@@ -87,8 +84,7 @@ public class PersistenceTest {
         controller0.clearData();
 
         // LOAD MAP + SAVE
-        String map = FileLoader.loadResourceFile("/dungeons/portals.json");
-        controller0.newGame(map, "Standard");
+        controller0.newGame("portals", "Standard");
         controller0.saveGame("SaveData0");
 
         // TELPORT AND MOVE + SAVE
@@ -103,27 +99,27 @@ public class PersistenceTest {
 
     /**
      * Test if saveGame and loadGame works for multiple saves in different maps
+     * @throws IOException
+     * @throws IllegalArgumentException
      */
     @Test
-    public void testPersistenceMultipleDifferent() {
+    public void testPersistenceMultipleDifferent() throws IllegalArgumentException, IOException {
         DungeonManiaController controller0 = new DungeonManiaController();
 
         // CLEAR DATA
         controller0.clearData();
 
         // LOAD MAP + SAVE
-        String map = FileLoader.loadResourceFile("/dungeons/portals.json");
-        controller0.newGame(map, "Standard");
+        controller0.newGame("portals", "Standard");
         controller0.saveGame("SaveData0");
 
         // RESTART, LOAD DIFFERENT MAP AND SAVE
         DungeonManiaController controller1 = new DungeonManiaController();
-        map = FileLoader.loadResourceFile("/dungeons/maze.json");
-        controller0.newGame(map, "Standard");
-        controller0.saveGame("SaveData1");
+        controller1.newGame("maze", "Standard");
+        controller1.saveGame("SaveData1");
 
         // THERE SHOULD BE 2 SAVES
-        assertEquals(2, controller0.allGames().size());
+        assertEquals(2, controller1.allGames().size());
         // Due to the UNIX timestamp stuff, I can't test names?
     }
 }

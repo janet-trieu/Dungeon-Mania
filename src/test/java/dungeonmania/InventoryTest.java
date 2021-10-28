@@ -8,6 +8,7 @@ import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
+import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.util.Position;
 
 public class InventoryTest {
@@ -82,10 +83,10 @@ public class InventoryTest {
     }
 
     /**
-     * System tests for adding item to inventory
+     * Unit Test for adding item to inventory
      */
     @Test
-    public void testSystemAddItem(){
+    public void testAddItem() {
         Dungeon dungeon = new Dungeon();
         Inventory inventory = dungeon.getInventory();
 
@@ -108,10 +109,10 @@ public class InventoryTest {
     }
 
     /**
-     * system tests for using key at door
+     * Unit test for using key at door
      */
     @Test
-    public void testSystemAddItem(){
+    public void testKey(){
         Dungeon dungeon = new Dungeon();
         Inventory inventory = dungeon.getInventory();
 
@@ -120,14 +121,14 @@ public class InventoryTest {
         dungeon.createEntity(player);
 
         // create key at (1, 0)
-        Treasure key0 = new Key(1, 0);
+        Key key0 = new Key(1, 0);
         dungeon.createEntity(key0);
-        key0.setId = 0;
+        key0.setKeyId(0);;
 
         // create door at (2, 0)
         Door door0 = new Door(2, 0);
         dungeon.createEntity(door0);
-        door.setId = 0;
+        door0.setId(0);
 
         // player moves right and collects key
         player.moveRight();

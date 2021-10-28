@@ -10,10 +10,15 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.Key;
+import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.Door;
+import dungeonmania.entities.staticEntity.Exit;
+import dungeonmania.entities.staticEntity.FloorSwitch;
+import dungeonmania.goals.Goal;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
-import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
 /**
@@ -28,13 +33,14 @@ public class StaticTest {
     /**
      * Testing portal functionality (system test)
      * - Player must teleport to corresponding portal and teleport to cardinally adjacent cell
+     * @throws IOException
+     * @throws IllegalArgumentException
      */
     @Test
-    public void testPortals() {
+    public void testPortals() throws IllegalArgumentException, IOException {
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/portals.json");
-        controller.newGame(map, "Standard");
+        controller.newGame("portals", "Standard");
 
         // CASE: TELEPORT RIGHT
         // Player: (0,0) -> (5,0)
@@ -162,7 +168,7 @@ public class StaticTest {
 
         // PLAYER PICKS UP KEY
         player.moveDown();
-        dungeon.addInventory(key);
+        dungeon.getInventory().addItem(key);
         assertEquals(true, dungeon.getInventory().getItems().contains(key));
 
         // CASE: PLAYER WALKS TO DOORCLOSED WITH KEY
@@ -173,7 +179,7 @@ public class StaticTest {
         position = new Position(1, 0);
         assertEquals(position, door.getPosition());
         assertEquals(true, door.getState().canPassThrough());
-        dungeon.removeFromInventory(key);
+        dungeon.getInventory().removeItem(key);
         assertEquals(false, dungeon.getInventory().getItems().contains(key));
 
         // CASE: PLAYER SAME CELL AS EXIT
@@ -191,8 +197,7 @@ public class StaticTest {
     public void testStandardSpawner() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/StaticTest/simple-spawner-wall.json");
-        controller.newGame(map, "Standard");
+        controller.newGame("simple-spawner-wall.", "Standard");
 
         // 20 TICKS
         for (int i = 0; i <= 20; i++) {
@@ -216,7 +221,7 @@ public class StaticTest {
         controller.interact("ZombieToastSpawner0");
         // getInfo should return null if it does not exist
         position = new Position(1, 1);
-        assertThrows(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
+        assertThrows(NullPointerException.class, () -> controller.getInfo("ZombieToastSpawner0"));
     }
 
     /**
@@ -228,8 +233,7 @@ public class StaticTest {
     public void testHardSpawner() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/StaticTest/simple-spawner-wall.json");
-        controller.newGame(map, "Hard");
+        controller.newGame("simple-spawner-wall", "Hard");
 
         // 15 TICKS
         for (int i = 0; i <= 15; i++) {
@@ -253,6 +257,6 @@ public class StaticTest {
         controller.interact("ZombieToastSpawner0");
         // getInfo should return null if it does not exist
         position = new Position(1, 1);
-        assertThrows(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
+        assertThrows(NullPointerException.class, () -> controller.getInfo("ZombieToastSpawner0"));
     }
 }

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
-import dungeonmania.util.FileLoader;
 
 /**
  * Class to test Buildable Entity
@@ -20,9 +19,10 @@ public class BuildableTest {
     /**
      * Test for building a bow
      * @throws IOException
+     * @throws IllegalArgumentException
      */
     @Test
-    public void testBuildBow() throws IOException {
+    public void testBuildBow() throws IllegalArgumentException, IOException {
         /**
          * Entities are spawned in:
          * player   (0,0)
@@ -33,8 +33,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/BuildableTest/testBow.json");
-        controller.newGame(map, "Standard");
+        controller.newGame("testBow", "Standard");
 
         // testing if a wrong input is given for a buildable entity
         assertThrows(IllegalArgumentException.class, () -> controller.build("not buildable"));
@@ -67,16 +66,17 @@ public class BuildableTest {
         assertEquals(controller.getInfo("Arrow1"), null);
         assertEquals(controller.getInfo("Arrow2"), null);
         assertEquals(controller.getInfo("Wood0"), null);
-        assertEquals(controller.getDungeon().getInventory().contains("Bow0"), true);
+        assertEquals(controller.getDungeon().getInventory().getItems().contains("Bow0"), true); //TODO: FIX THIS UP
     }
 
     /**
      * Test for building a shield
      * with key rather than a treasure
      * @throws IOException
+     * @throws IllegalArgumentException
      */
     @Test
-    public void testBuildShieldWithKey() throws IOException {
+    public void testBuildShieldWithKey() throws IllegalArgumentException, IOException {
         /**
          * Entities are spawned in:
          * player       (0,0)
@@ -87,8 +87,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/BuildableTest/testShield.json");
-        controller.newGame(map, "Standard");
+        controller.newGame("testShield", "Standard");
 
         // testing if a wrong input is given for a buildable entity
         assertThrows(IllegalArgumentException.class, () -> controller.build("not buildable"));
@@ -117,16 +116,17 @@ public class BuildableTest {
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(controller.getInfo("Wood1"), null);
         assertEquals(controller.getInfo("Key0"), null);
-        assertEquals(controller.getDungeon().getInventory().contains("Shield0"), true);
+        assertEquals(controller.getDungeon().getInventory().getItems().contains("Shield0"), true); //TODO: FIX THIS UP
     }
 
     /**
      * Test for building a shield
      * with treasure instead of key
      * @throws IOException
+     * @throws IllegalArgumentException
      */
     @Test
-    public void testBuildShieldWithTreasure() throws IOException {
+    public void testBuildShieldWithTreasure() throws IllegalArgumentException, IOException {
         /**
          * Entities are spawned in:
          * player       (0,0)
@@ -137,8 +137,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/BuildableTest/testShield2.json");
-        controller.newGame(map, "Standard");
+        controller.newGame("testShield2", "Standard");
 
         // testing if a wrong input is given for a buildable entity
         assertThrows(IllegalArgumentException.class, () -> controller.build("not buildable"));
@@ -167,7 +166,7 @@ public class BuildableTest {
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(controller.getInfo("Wood1"), null);
         assertEquals(controller.getInfo("Treasure0"), null);
-        assertEquals(controller.getDungeon().getInventory().contains("Shield0"), true);
+        assertEquals(controller.getDungeon().getInventory().getItems().contains("Shield0"), true); //TODO: FIX THIS UP
     }
 
     /**
@@ -175,9 +174,10 @@ public class BuildableTest {
      * in the case that the player holds both a key and a treasure
      * the use of treasure is favoured
      * @throws IOException
+     * @throws IllegalArgumentException
      */
     @Test
-    public void testBuildShieldFavourTreasure() throws IOException {
+    public void testBuildShieldFavourTreasure() throws IllegalArgumentException, IOException {
         /**
          * Entities are spawned in:
          * player       (0,0)
@@ -188,8 +188,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        String map = FileLoader.loadResourceFile("/dungeons/BuildableTest/testShield2.json");
-        controller.newGame(map, "Standard");
+        controller.newGame("testShield2", "Standard");
 
         // testing if a wrong input is given for a buildable entity
         assertThrows(IllegalArgumentException.class, () -> controller.build("not buildable"));
@@ -217,11 +216,11 @@ public class BuildableTest {
 
         // assert that shield is added to inventory
         // assert that treasure and woods are used and key still remains
-        assertEquals(controller.getDungeon().getInventory().contains("Shield0"), true);
+        assertEquals(controller.getDungeon().getInventory().getItems().contains("Shield0"), true); //TODO: FIX THIS UP
         assertEquals(controller.getInfo("Treasure0"), null);
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(controller.getInfo("Wood1"), null);
-        assertEquals(controller.getDungeon().getInventory().contains("Key0"), true);
+        assertEquals(controller.getDungeon().getInventory().getItems().contains("Key0"), true); //TODO: FIX THIS UP
     }
 
 }
