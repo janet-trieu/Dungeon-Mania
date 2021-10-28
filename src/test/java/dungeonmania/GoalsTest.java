@@ -2,15 +2,21 @@ package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
-import dungeonmania.response.models.EntityResponse;
-import dungeonmania.util.FileLoader;
+import dungeonmania.entities.collectableEntity.Treasure;
+import dungeonmania.entities.movingEntity.Mercenary;
+import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.Exit;
+import dungeonmania.goals.AndGoal;
+import dungeonmania.goals.EnemyGoal;
+import dungeonmania.goals.ExitGoal;
+import dungeonmania.goals.Goal;
+import dungeonmania.goals.OrGoal;
+import dungeonmania.goals.SwitchGoal;
+import dungeonmania.goals.TreasureGoal;
 import dungeonmania.util.Position;
-import jdk.jfr.Timestamp;
 
 /**
  * Testing for goal functionality:
