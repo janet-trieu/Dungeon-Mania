@@ -32,19 +32,17 @@ public class Player extends Entity implements Moveable {
         // TODO
     }
 
-<<<<<<< HEAD
     public void moveUp() {
-        // TODO
+        move(Direction.UP, this);
     }
 
     public void moveDown() {
-        // TODO
-    }
+        move(Direction.DOWN, this);
     public void moveLeft() {
-        // TODO
+        move(Direction.LEFT, this);
     }
     public void moveRight() {
-        // TODO
+        move(Direction.RIGHT, this);
     }
 
     public int getHealth() {
@@ -102,10 +100,4 @@ public class Player extends Entity implements Moveable {
         this.respawnable = respawnable;
     }
     
-=======
-    public void moveUp() {move(Direction.UP, this);}
-    public void moveDown() {move(Direction.DOWN, this);}
-    public void moveLeft() {move(Direction.LEFT, this);}
-    public void moveRight() {move(Direction.RIGHT, this);}
->>>>>>> a404b6036df779c8b1f038f141b1e853227cdcac
 }
