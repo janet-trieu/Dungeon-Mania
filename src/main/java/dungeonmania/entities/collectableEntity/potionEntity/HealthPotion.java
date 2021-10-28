@@ -1,9 +1,14 @@
 package dungeonmania.entities.collectableEntity.potionEntity;
 
 public class HealthPotion extends PotionEntity {
-    
+   
+    // storing the number of Health potions created to help with fluid entityId generation
+    private static int counter = 0;
+
     public HealthPotion(int x, int y) {
         super(x, y, "health_potion");
+        setId("health_potion" + String.valueOf(counter));
+        counter++;
     }
 
 }
