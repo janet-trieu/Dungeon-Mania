@@ -26,4 +26,7 @@ public class NoInvincibleState implements PotionState {
         return;        
     }
     
+    public Boolean isInvincible() {
+        return false;
+    }
 }

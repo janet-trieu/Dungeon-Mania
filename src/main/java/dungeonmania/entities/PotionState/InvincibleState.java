@@ -28,5 +28,8 @@ public class InvincibleState implements PotionState{
             removeEffect();
         }
     }
-    
+
+    public Boolean isInvincible() {
+        return true;
+    }
 }

@@ -29,4 +29,7 @@ public class InvisibleState implements PotionState{
         }
     }
     
+    public Boolean isInvisible() {
+        return true;
+    }
 }
