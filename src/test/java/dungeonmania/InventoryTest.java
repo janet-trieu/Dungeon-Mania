@@ -92,11 +92,11 @@ public class InventoryTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);   
+        dungeon.addEntity(player);   
         
         // create treasure at (1, 0)
         Treasure treasure0 = new Treasure(1, 0);
-        dungeon.createEntity(treasure0);
+        dungeon.addEntity(treasure0);
 
         // player moves right
         player.moveRight();
@@ -118,16 +118,16 @@ public class InventoryTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create key at (1, 0)
         Key key0 = new Key(1, 0);
-        dungeon.createEntity(key0);
+        dungeon.addEntity(key0);
         key0.setKeyId(0);;
 
         // create door at (2, 0)
         Door door0 = new Door(2, 0);
-        dungeon.createEntity(door0);
+        dungeon.addEntity(door0);
         door0.setId(0);
 
         // player moves right and collects key
@@ -156,15 +156,15 @@ public class InventoryTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create armour at (1, 0)
         Armour armour0 = new Armour(1, 0);
-        dungeon.createEntity(armour0);
+        dungeon.addEntity(armour0);
 
         // create armour at (2, 0)
         Armour armour1 = new Armour(2, 0);
-        dungeon.createEntity(armour1);
+        dungeon.addEntity(armour1);
         
         // player moves right and collects armour
         player.moveRight();

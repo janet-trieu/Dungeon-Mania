@@ -44,15 +44,15 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create a mercenary at position (2,0)
         Mercenary mercenary = new Mercenary(2, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
 
         // create a health potion at position (3,0)
         HealthPotion healthPotion = new HealthPotion(3,0);
-        dungeon.createEntity(healthPotion);
+        dungeon.addEntity(healthPotion);
 
         // player moves 1 cell to the right, where it will enter a battle with mercenary (1,0)
         // player will battle 8 ticks (player health = 100, player damage = 10 | mercenary health = 80, mercenary damage = 10)
@@ -95,11 +95,11 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create an invincible potion at position (1,0)
         InvincibilityPotion invinciblePotion = new InvincibilityPotion(1, 0);
-        dungeon.createEntity(invinciblePotion);
+        dungeon.addEntity(invinciblePotion);
 
         // player moves one cell to the right and picks up the invincible potion
         player.moveRight();
@@ -130,11 +130,11 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create an invisible potion at position (1,0)
         InvisibilityPotion invisiblePotion = new InvisibilityPotion(1, 0);
-        dungeon.createEntity(invisiblePotion);
+        dungeon.addEntity(invisiblePotion);
 
         // player moves one cell to the right and picks up the invisible potion
         player.moveRight();
@@ -228,15 +228,15 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create a mercenary at position (4,0)
         Mercenary mercenary = new Mercenary(4, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
 
         // create a sword at position (1,0)
         Sword sword = new Sword(1,0);
-        dungeon.createEntity(sword);
+        dungeon.addEntity(sword);
 
         // player moves one cell to the right to pick up the sword (1,0)
         // by picking up the sword, the player's damage has doubled
@@ -278,15 +278,15 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create a mercenary at position (4,0)
         Mercenary mercenary = new Mercenary(4, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
 
         // create a treasure at point (1,0)
         Treasure treasure = new Treasure(1, 0);
-        dungeon.createEntity(treasure);
+        dungeon.addEntity(treasure);
 
         // player moves one cell to the right to pick up the treasure (1,0)
         // mercenary has moved to (3,0)
@@ -316,11 +316,11 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create a mercenary at position (3,0)
         Mercenary mercenary = new Mercenary(3, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
 
         // player moves one cell to the right (1,0)
         player.moveRight();
@@ -342,13 +342,13 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create an armour at position (1,0)
         // this is because we are testing this as unit testing, only wanting to see the application of armour
         // thus, armour is spawned on the floor
         Armour armour = new Armour(1, 0);
-        dungeon.createEntity(armour);
+        dungeon.addEntity(armour);
 
         // player moves one cell to the right to pick up armour
         player.moveRight();
@@ -367,13 +367,13 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create the one ring at position (1,0)
         // this is because we are testing this as unit testing, only wanting to see the application of the one ring
         // thus, the one ring is spawned on the floor
         TheOneRing one_ring = new TheOneRing(1, 0);
-        dungeon.createEntity(one_ring);
+        dungeon.addEntity(one_ring);
 
         // player moves one cell to the right to pick up armour
         player.moveRight();

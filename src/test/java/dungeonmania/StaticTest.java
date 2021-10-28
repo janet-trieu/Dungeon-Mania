@@ -15,6 +15,7 @@ import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.Exit;
 import dungeonmania.entities.staticEntity.FloorSwitch;
+import dungeonmania.goals.ExitGoal;
 import dungeonmania.goals.Goal;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -93,11 +94,11 @@ public class StaticTest {
         Boulder boulder1 = new Boulder(0, 2);
         FloorSwitch switch0 = new FloorSwitch(-1, 1);
         FloorSwitch switch1 = new FloorSwitch(1, 2);
-        dungeon.createEntity(player);
-        dungeon.createEntity(boulder0);
-        dungeon.createEntity(boulder1);
-        dungeon.createEntity(switch0);
-        dungeon.createEntity(switch1);
+        dungeon.addEntity(player);
+        dungeon.addEntity(boulder0);
+        dungeon.addEntity(boulder1);
+        dungeon.addEntity(switch0);
+        dungeon.addEntity(switch1);
 
         // CASE: PLAYER CANNOT PUSH 2 BOULDER(S) AT ONCE
         player.moveDown();
@@ -150,10 +151,10 @@ public class StaticTest {
         Door door = new Door(1, 0);
         Exit exit = new Exit(2, 0);
         Goal goal = new ExitGoal();
-        dungeon.createEntity(player);
-        dungeon.createEntity(key);
-        dungeon.createEntity(door);
-        dungeon.createEntity(exit);
+        dungeon.addEntity(player);
+        dungeon.addEntity(key);
+        dungeon.addEntity(door);
+        dungeon.addEntity(exit);
         dungeon.addGoal(goal);
         assertEquals(false, goal.isComplete());
         assertEquals(":exit", goal.toString());
