@@ -128,4 +128,12 @@ public class Dungeon {
         }
         return response;
     }
+
+    /**
+     * Returns goal string
+     * @return
+     */
+    public String getGoalString() {
+        return null;
+    }
 }
