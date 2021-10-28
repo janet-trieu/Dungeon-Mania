@@ -7,7 +7,6 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.response.models.EntityResponse;
-import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
 /**
@@ -24,9 +23,7 @@ public class DungeonTest {
     public void testEntityLoad() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
        
-        // LOAD MAP
-        String map = FileLoader.loadResourceFile("/dungeons/DungeonTest/spawnable-entity.json");
-        controller.newGame(map, "Peaceful");
+        controller.newGame("spawnable-entity", "Peaceful");
 
         // TEST POSITION OF EACH ENTITY
         // Very ugly and repetitive - might have a change if staff says their eyes are burning also getInfo may be in the wrong class

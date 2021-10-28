@@ -13,11 +13,19 @@ public class Inventory {
         // TODO
     }
 
-    public void addItem(Entity item) {
+    public void addItem(CollectableEntity item) {
         //TODO
     }
 
-    public void removeItem() {
+    public void removeItem(CollectableEntity item) {
         //TODO
+    }
+
+    public List<CollectableEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<CollectableEntity> items) {
+        this.items = items;
     }
 }
