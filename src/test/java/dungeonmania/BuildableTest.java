@@ -9,11 +9,8 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.exceptions.InvalidActionException;
-import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
-import dungeonmania.util.Position;
 
 /**
  * Class to test Buildable Entity

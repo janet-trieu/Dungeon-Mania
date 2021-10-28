@@ -9,8 +9,15 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.Treasure;
+import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
+import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
+import dungeonmania.entities.collectableEntity.potionEntity.HealthPotion;
+import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
+import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
+import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
+import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.exceptions.InvalidActionException;
-import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
@@ -91,7 +98,7 @@ public class CollectableTest {
         dungeon.createEntity(player);
 
         // create an invincible potion at position (1,0)
-        InvinciblePotion invinciblePotion = new InvinciblePotion(1, 0);
+        InvincibilityPotion invinciblePotion = new InvincibilityPotion(1, 0);
         dungeon.createEntity(invinciblePotion);
 
         // player moves one cell to the right and picks up the invincible potion
@@ -126,7 +133,7 @@ public class CollectableTest {
         dungeon.createEntity(player);
 
         // create an invisible potion at position (1,0)
-        InvisiblePotion invisiblePotion = new InvisiblePosion(1, 0);
+        InvisibilityPotion invisiblePotion = new InvisibilityPotion(1, 0);
         dungeon.createEntity(invisiblePotion);
 
         // player moves one cell to the right and picks up the invisible potion
@@ -365,7 +372,7 @@ public class CollectableTest {
         // create the one ring at position (1,0)
         // this is because we are testing this as unit testing, only wanting to see the application of the one ring
         // thus, the one ring is spawned on the floor
-        One_ring one_ring = new One_ring(1, 0);
+        TheOneRing one_ring = new TheOneRing(1, 0);
         dungeon.createEntity(one_ring);
 
         // player moves one cell to the right to pick up armour
