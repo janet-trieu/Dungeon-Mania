@@ -68,6 +68,13 @@ public class Player extends Entity {
         this.invincibleState = state;
     }
 
+    public void consumeInvisibilityPotion() {
+        invisibleState.applyEffect();
+    }
+    public void consumeInvincibilityPotion() {
+        invincibleState.applyEffect();
+    }
+
     public PotionState getInvisibleState() {
         return invisibleState;
     }
