@@ -6,8 +6,9 @@ import dungeonmania.entities.PotionState.NoInvincibleState;
 import dungeonmania.entities.PotionState.NoInvisibleState;
 import dungeonmania.entities.PotionState.PotionState;
 import dungeonmania.entities.movingEntity.MovingEntity;
+import dungeonmania.util.Direction;
 
-public class Player extends Entity {
+public class Player extends Entity implements Moveable {
     private int health;
     private int maxHealth = 10;
     private PotionState invisibleState;
@@ -31,6 +32,7 @@ public class Player extends Entity {
         // TODO
     }
 
+<<<<<<< HEAD
     public void moveUp() {
         // TODO
     }
@@ -100,4 +102,10 @@ public class Player extends Entity {
         this.respawnable = respawnable;
     }
     
+=======
+    public void moveUp() {move(Direction.UP, this);}
+    public void moveDown() {move(Direction.DOWN, this);}
+    public void moveLeft() {move(Direction.LEFT, this);}
+    public void moveRight() {move(Direction.RIGHT, this);}
+>>>>>>> a404b6036df779c8b1f038f141b1e853227cdcac
 }
