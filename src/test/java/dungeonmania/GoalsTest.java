@@ -9,6 +9,7 @@ import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Exit;
+import dungeonmania.entities.staticEntity.FloorSwitch;
 import dungeonmania.goals.AndGoal;
 import dungeonmania.goals.EnemyGoal;
 import dungeonmania.goals.ExitGoal;
@@ -142,7 +143,7 @@ public class GoalsTest {
 
         // Create exit at (1, 0)
         Exit exit = new Exit(1, 0);
-        Dungeon.createEntity(exit);
+        dungeon.createEntity(exit);
     
         // add ExitGoal to dungeon
         Goal goal = new ExitGoal();
@@ -206,7 +207,7 @@ public class GoalsTest {
         dungeon.createEntity(boulder);
     
         // Create switch at (2, 0)
-        Switch switch0 = new Switch(2, 0);
+        FloorSwitch switch0 = new FloorSwitch(2, 0);
         dungeon.createEntity(switch0);
 
         // add SwitchGoal to dungeon
@@ -218,10 +219,10 @@ public class GoalsTest {
         player.moveRight();
         assertEquals(new Position(1, 0, 4), player.getPosition());
         assertEquals(new Position(2, 0, 1), boulder.getPosition());
-        assertEquals(switch.getPosition(), boulder.getPosition());
+        assertEquals(switch0.getPosition(), boulder.getPosition());
 
         // Switch should be activated
-        assertEquals(true, switch.isActivated());
+        assertEquals(true, switch0.isActivated());
 
         // Goal is complete
         assertEquals("", goal.toString());
@@ -346,7 +347,7 @@ public class GoalsTest {
         dungeon.createEntity(boulder);
     
         // Create switch at (2, 0)
-        Switch switch0 = new Switch(2, 0);
+        FloorSwitch switch0 = new FloorSwitch(2, 0);
         dungeon.createEntity(switch0);
 
         // Create mercenary at (0, 1)
@@ -388,7 +389,7 @@ public class GoalsTest {
         Boulder boulder = new Boulder(1, 0);
         dungeon.createEntity(boulder);
 
-        Switch switch0 = new Switch(2, 0);
+        FloorSwitch switch0 = new FloorSwitch(2, 0);
         dungeon.createEntity(switch0);
 
         // Create exit at (0, 4)
@@ -408,7 +409,7 @@ public class GoalsTest {
         player.moveDown();
         assertEquals(player.getPosition(), mercenary.getPosition());
         // Player battles with mercenary and wins
-        for (int i = 0, i < 8; i++){
+        for (int i = 0; i < 8; i++){
             player.battle(mercenary);
         }
         assertEquals(false, dungeon.getEntityList().contains(mercenary));

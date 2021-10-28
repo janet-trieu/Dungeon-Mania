@@ -32,4 +32,12 @@ public class InvincibleState implements PotionState{
     public Boolean isInvincible() {
         return true;
     }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }
