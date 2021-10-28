@@ -17,7 +17,7 @@ public class Player extends Entity {
         // TODO
     }
 
-    public void interact(String EntityId) {
+    public void interact(String entityId) {
         // TODO
     }
 
