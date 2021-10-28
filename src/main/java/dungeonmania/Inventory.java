@@ -7,25 +7,34 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 
 public class Inventory {
-    private List<CollectableEntity> items = new ArrayList<CollectableEntity>();
+    private List<CollectableEntity> items;
     
     public Inventory() {
-        // TODO
+        items = new ArrayList<CollectableEntity>();
     }
 
     public void addItem(CollectableEntity item) {
-        //TODO
+        items.add(item);
     }
 
     public void removeItem(CollectableEntity item) {
-        //TODO
+        items.remove(item);
     }
 
-    public List<CollectableEntity> getItems() {
-        return items;
+    public int numberOfItem(String type) {
+        int counter = 0;
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getType() == type) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
-    public void setItems(List<CollectableEntity> items) {
-        this.items = items;
+    public Boolean contains(Entity entity) {
+        return items.contains(entity);
     }
+
+    
+
 }
