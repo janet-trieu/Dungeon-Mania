@@ -116,6 +116,41 @@ public class CollectableTest {
         assertEquals(false, inventory.getItems().contains(invinciblePotion));
     }
 
+    @Test
+    public void testInvincibilityPotionKillEnemy() {
+        // create a dungeon instance
+        Dungeon dungeon = new Dungeon();
+
+        // get the inventory
+        Inventory inventory = dungeon.getInventory();
+
+        // create a player at position (0,0)
+        Player player = new Player(0, 0);
+        dungeon.createEntity(player);
+
+        // create a mercenary at position (4,0)
+        Mercenary mercenary = new Mercenary(4, 0);
+        dungeon.createEntity(mercenary);
+
+        // create an invincibility potion at position (1,0)
+        InvincibilityPotion invinciblePotion = new InvincibilityPotion(1,0);
+        dungeon.createEntity(invinciblePotion);
+
+        // player moves 1 cell to the right to pick up invincibility potion
+        player.moveRight();
+        inventory.addItem(invinciblePotion);
+
+        // player moves 1 cell to the right again to enter a battle with mercenary
+        player.moveRight();
+        player.battle(mercenary);
+
+        // player uses the invincibility potion 
+        invinciblePotion.applyEntity();
+
+        // assert that mercenary has been killed instantly
+        assertEquals(mercenary.getHealth(), 0);
+    }
+
     /**
      * Test for the use of invisible potion
      * @throws IOException
