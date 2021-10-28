@@ -9,7 +9,7 @@ import dungeonmania.entities.movingEntity.MovingEntity;
 
 public class Player extends Entity {
     private int health;
-    private int maxHealth;
+    private int maxHealth = 10;
     private PotionState invisibleState;
     private PotionState invincibleState;
     private Boolean isShielded;
@@ -19,6 +19,7 @@ public class Player extends Entity {
         super(x, y, "player");
         invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
+        setHealth(maxHealth);
         setId("player");
     }
 
