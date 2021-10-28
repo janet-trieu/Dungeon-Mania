@@ -1,5 +1,7 @@
 package dungeonmania.entities;
 
+import dungeonmania.util.Position;
+
 public abstract class Entity {
     private int x;
     private int y;
@@ -7,7 +9,6 @@ public abstract class Entity {
     private String id;
     private String type;
     private Boolean isInteractable;
-    private Boolean isPassable;
     
     /**
      * Constructor for Entity with x, y, and type
@@ -19,6 +20,7 @@ public abstract class Entity {
         this.x = x;
         this.y = y;
         this.type = type;
+        this.isInteractable = false;
     }
 
     public int getX() {
@@ -69,13 +71,7 @@ public abstract class Entity {
         this.isInteractable = isInteractable;
     }
 
-    public Boolean getIsPassable() {
-        return isPassable;
+    public Position getPosition() {
+        return new Position(x, y, layer);
     }
-
-    public void setIsPassable(Boolean isPassable) {
-        this.isPassable = isPassable;
-    }
-
-    
 }
