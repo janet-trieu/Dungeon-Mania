@@ -19,7 +19,7 @@ public class MovementTest {
     @Test
     public void testSimpleMovement() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        String map = FileLoader.loadResourceFile("/dungeons/advanced.json");
+        controller.newGame("advanced.json", "Standard");
        
         controller.tick("", Direction.DOWN);
         Position posP = new Position(1,2,4);
@@ -35,7 +35,7 @@ public class MovementTest {
     @Test
     public void testPlayerWall() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        String map = FileLoader.loadResourceFile("/dungeons/advanced.json");
+        controller.newGame("advanced.json", "Standard");
        
         controller.tick("", Direction.UP);
         Position pos = new Position(1,1,4);
@@ -46,7 +46,7 @@ public class MovementTest {
     @Test
     public void testMercMovement() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        String map = FileLoader.loadResourceFile("/dungeons/advanced.json");
+        controller.newGame("advanced.json", "Standard");
 
         controller.tick("", Direction.NONE);
 
@@ -55,7 +55,7 @@ public class MovementTest {
     @Test
     public void testWasteMovement() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        String map = FileLoader.loadResourceFile("/dungeons/advanced.json");
+        controller.newGame("advanced.json", "Standard");
        
         controller.tick("", Direction.NONE);
         Position posP = new Position(1,1,4);
@@ -69,7 +69,7 @@ public class MovementTest {
     @Test
     public void testSpiderMovement() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        String map = FileLoader.loadResourceFile("/dungeons/advanced.json");
+        controller.newGame("advanced.json", "Standard");
 
         Spider spider = new Spider(7,13,3);
         createEntity(spider);
@@ -84,7 +84,7 @@ public class MovementTest {
     @Test
     public void testSpiderBoulder() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        String map = FileLoader.loadResourceFile("/dungeons/advanced.json");
+        controller.newGame("advanced.json", "Standard");
 
         Spider spider0 = new Spider(7,13,3);
         createEntity(spider0);
@@ -102,7 +102,7 @@ public class MovementTest {
     @Test
     public void testEnemyAway() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        String map = FileLoader.loadResourceFile("/dungeons/advanced.json");
+        controller.newGame("advanced.json", "Standard");
     }
     
 }
