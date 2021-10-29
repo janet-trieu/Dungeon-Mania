@@ -1,55 +1,59 @@
 package dungeonmania.entities.movingEntity;
+import java.util.Collections;
 import java.util.List;
 
 import dungeonmania.Dungeon;
+import dungeonmania.entities.Entity;
 import dungeonmania.util.*;
 
-public class Spider extends MovingEntity implements Moveable {
-    
-    private int movementCounter = 0;
-    private String way = "Right";
-    Dungeon dungeon;
 public class Spider extends MovingEntity {
-    // storing the number of entities created to help with fluid entityId generation
+    
+    Dungeon dungeon;
     private static int counter = 0;
-    private int movementCounter;
+    private List<Position> path;
 
     public Spider(int x, int y, Dungeon dungeon) {
         super(x, y, "spider", 1, 10);
         this.dungeon = dungeon;
+        this.path = new Position(x,y).getAdjacentPositions();
+        
         setId("Spider" + String.valueOf(counter));
         counter++;
     }
 
-    public void move() {
-        if(movementCounter == 0) {
-            move(Direction.UP, this);
-            increment();
-        }
-
-        if(way == "Right") {
-            if(movementCounter == 1 || movementCounter == 8) {move(Direction.RIGHT, this);}
-            else if(movementCounter == 2 || movementCounter == 3) {move(Direction.DOWN, this);}
-            else if(movementCounter == 4 || movementCounter == 5) {move(Direction.LEFT, this);}
-            else if(movementCounter == 6 || movementCounter == 7) {move(Direction.UP,this);}
-            increment();
-        }
-
-        if(way == "Left") {
-            if(movementCounter == 5 || movementCounter == 6) {move(Direction.RIGHT, this);}
-            else if(movementCounter == 7 || movementCounter == 8) {move(Direction.DOWN, this);}
-            else if(movementCounter == 1 || movementCounter == 2) {move(Direction.LEFT, this);}
-            else if(movementCounter == 3 || movementCounter == 4) {move(Direction.UP,this);}
-            increment();
-        }
-
+    public void addSpider() {
+        dungeon.addEntity(this);
     }
 
-    public void increment() {
-        if (movementCounter == 8) {
-            this.movementCounter = 1;
+    public void move() {
+        Position next;
+        //if spider is in spawn position, move it up
+        if (!path.contains(this.getPosition())) {
+            next = path.get(1);
+            this.setPosition(next.getX(), next.getY());
             return;
         }
-        this.movementCounter = movementCounter + 1;
+        //getting the position the spider is to move to
+        int idx = 0;
+        for (int i = 0; i < path.size(); i++) {
+            if (path.get(i) == this.getPosition()) {
+                idx = i++;
+                break;
+            }
+        }
+        //check if boulder exists in the position spider is to be moved to
+        next = path.get(idx);
+        List<Entity> list = dungeon.getEntitiesOnSamePosition(next);
+        for(Entity current : list) {
+            if (current.getType() == "boulder") {
+                //reverse the path the spider takes
+                Collections.reverse(this.path);
+                move();
+                return;
+            }
+        }
+        //Set the spiders position
+        this.setPosition(next.getX(), next.getY());
     }
+        
 }

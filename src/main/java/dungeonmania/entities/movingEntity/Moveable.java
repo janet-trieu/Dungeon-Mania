@@ -1,26 +1,34 @@
 package dungeonmania.entities.movingEntity;
+import java.util.List;
+
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
-import dungeonmania.util.*;
+import dungeonmania.util.Position;
+import dungeonmania.util.Direction;
 
 
 public interface Moveable {
     
     default void move(Direction direction, Entity entity) {
         
-        int x = entity.getX();
-        int y = entity.getY();
-
-        if (direction == Direction.NONE) {return;}
-        if (direction == Direction.UP) {y = y - 1;}
-        if (direction == Direction.DOWN) {y = y + 1;}
-        if (direction == Direction.LEFT) {x = x - 1;}
-        if (direction == Direction.RIGHT) {x = x + 1;}
-
-        entity.setX(x);
-        entity.setY(y);
-
+        Dungeon dungeon = Dungeon.getDungeon();
+        Position move = entity.getPosition().translateBy(direction);
+        String type = entity.getType();
+        
+        List<Entity> list = dungeon.getEntitiesOnSamePosition(move);
+        
+        for(Entity current : list) {
+            if (current.getType() == "boulder" || current.getType() == "wall") {
+                if(type == "mercenary" || type == "zombie_toast") {
+                    return;
+                }
+            }
+        }
+        
+        entity.setPosition(move.getX(), move.getY());
     }
 
-         
+
+    
 
 }
