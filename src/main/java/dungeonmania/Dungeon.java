@@ -18,12 +18,14 @@ public class Dungeon {
     private List<BuildableEntity> buildableList;
     private Inventory inventory;
     private Goal goal;
+    private static Dungeon thisDungeon = null;
 
     public Dungeon() {
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<BuildableEntity>();
         this.inventory = new Inventory();
+        thisDungeon = this;
     }
 
     public Dungeon(String dungeonName) {
@@ -32,6 +34,15 @@ public class Dungeon {
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<BuildableEntity>();
         this.inventory = new Inventory();
+        thisDungeon = this;
+    }
+
+    /**
+     * Return the instance of the current dungeon
+     * @return
+     */
+    public static Dungeon getDungeon() {
+        return thisDungeon;
     }
 
     public String getDungeonName() {
@@ -129,5 +140,20 @@ public class Dungeon {
      */
     public String getGoalString() {
         return goal.toString();
+    }
+
+    /**
+     * 
+     * @return list of entities on same position as entity
+     */
+    public List<Entity> getEntitiesOnSamePosition(Entity entity) {
+        List<Entity> listOfEntities = new ArrayList<Entity>();
+        for (Entity otherEntity : entityList) {
+            // if other entity is not entity and have the same position, add to 
+            if (!otherEntity.equals(entity) && otherEntity.getPosition().equals(entity.getPosition()) {
+                listOfEntities.add(otherEntity);
+            }
+        }
+        return listOfEntities;
     }
 }

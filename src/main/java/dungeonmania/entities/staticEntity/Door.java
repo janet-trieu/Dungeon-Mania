@@ -1,9 +1,13 @@
 package dungeonmania.entities.staticEntity;
 
+import dungeonmania.entities.collectableEntity.Key;
+
 public class Door extends StaticEntity {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
+
+    //
     private int key;
 
     public Door(int x, int y, int key) {
@@ -20,8 +24,13 @@ public class Door extends StaticEntity {
         setPassable(isPassable);
     }
 
-    public static int getCounter() {
-        return counter;
+    public boolean insertKey(Key key) {
+        boolean keyWorked = false;
+        if (key.getKeyId() == getKey()) {
+            setPassable(true);
+            keyWorked = true;
+        }
+        return keyWorked;
     }
 
     public int getKey() {

@@ -6,10 +6,13 @@ import dungeonmania.entities.PotionState.NoInvincibleState;
 import dungeonmania.entities.PotionState.NoInvisibleState;
 import dungeonmania.entities.PotionState.PotionState;
 import dungeonmania.entities.movingEntity.MovingEntity;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class Player extends Entity {
     private int health;
     private int maxHealth = 10;
+    private int layer = 4;
     private PotionState invisibleState;
     private PotionState invincibleState;
     private Boolean isShielded;
@@ -33,18 +36,23 @@ public class Player extends Entity {
         // TODO
     }
 
+    public void move(Direction direction) {
+        Position newPosition = this.getPosition().translateBy(direction);
+        setPosition(newPosition.getX(), newPosition.getY());
+    }
+
     public void moveUp() {
-        // TODO
+        setY(getY() - 1);
     }
 
     public void moveDown() {
-        // TODO
+        setY(getY() + 1);
     }
     public void moveLeft() {
-        // TODO
+        setX(getX() + 1);
     }
     public void moveRight() {
-        // TODO
+        setX(getX() - 1);
     }
 
     public int getHealth() {

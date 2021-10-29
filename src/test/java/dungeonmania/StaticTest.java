@@ -119,7 +119,7 @@ public class StaticTest {
         assertEquals(position, player.getPosition());
         position = new Position(-1, 1, 1);
         assertEquals(position, boulder0.getPosition());
-        assertEquals(true, switch0.isActivated());
+        assertEquals(true, switch0.getIsActive());
         
         // Push Boulder1 to FloorSwitch1
         player.moveRight();
@@ -133,7 +133,7 @@ public class StaticTest {
         assertEquals(position, player.getPosition());
         position = new Position(1, 2, 1);
         assertEquals(position, boulder1.getPosition());
-        assertEquals(true, switch1.isActivated());
+        assertEquals(true, switch1.getIsActive());
     }
 
     /**

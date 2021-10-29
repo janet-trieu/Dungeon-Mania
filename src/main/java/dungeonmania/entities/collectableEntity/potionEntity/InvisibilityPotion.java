@@ -12,6 +12,7 @@ public class InvisibilityPotion extends PotionEntity {
         super(x, y, "invisibility_potion");
         setId("InvisibilityPotion" + String.valueOf(counter));
         counter++;
+        setDuration(duration);
     }
 
 }

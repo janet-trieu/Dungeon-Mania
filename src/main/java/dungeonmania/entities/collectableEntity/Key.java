@@ -20,4 +20,5 @@ public class Key extends CollectableEntity {
     public void setKeyId(int keyId) {
         this.keyId = keyId;
     }
+    
 }

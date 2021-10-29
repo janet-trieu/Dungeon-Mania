@@ -93,7 +93,7 @@ public class DungeonManiaController {
         // Add "goals"
         if (mapObj.has("goal-condition")) {
             JSONObject goalObj = mapObj.getJSONObject("goal-condition");
-            Goal goal = createGoal(goalObj);
+            Goal goal = createGoal(goalObj, dungeon);
             dungeon.addGoal(goal);
             return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
         }
@@ -235,34 +235,34 @@ public class DungeonManiaController {
      * Loop through JSON "goal-condition" and "subgoals" (if exists) and adds data to the Dungeon class
      * @param mapObj
      */
-    private Goal createGoal(JSONObject goalObj) {
+    private Goal createGoal(JSONObject goalObj, Dungeon dungeon) {
 
         String goal = goalObj.getString("goal");
 
         if (goal.equals("AND") || goal.equals("OR")) {
-            Goal compositeGoal;
+            CompositeGoal compositeGoal;
             if (goal.equals("AND")) {
-                compositeGoal = new AndGoal();
-            } else if (goal.equals("OR")) {
-                compositeGoal = new OrGoal();
+                compositeGoal = new AndGoal(dungeon);
+            } else {
+                compositeGoal = new OrGoal(dungeon);
             }
             JSONArray subgoals = goalObj.getJSONArray("subgoals");
             for (int i = 0; i < subgoals.length(); i++) {
-                Goal leafGoal = createGoal(subgoals.getJSONObject(i));
-                //compositeGoal.addSubGoal(leafGoal);
+                Goal leafGoal = createGoal(subgoals.getJSONObject(i), dungeon);
+                compositeGoal.addSubGoal(leafGoal);
             }
             //return compositeGoal;
         }
 
         switch (goal) {
             case "exit":
-                return new ExitGoal();
+                return new ExitGoal(dungeon);
             case "enemies":
-                return new EnemyGoal();
+                return new EnemyGoal(dungeon);
             case "boulders":
-                return new SwitchGoal();
+                return new SwitchGoal(dungeon);
             case "treasure":
-                return new TreasureGoal();
+                return new TreasureGoal(dungeon);
             default:
                 return null;
         }
