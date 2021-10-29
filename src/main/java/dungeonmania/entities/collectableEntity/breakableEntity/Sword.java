@@ -8,7 +8,7 @@ public class Sword extends BreakableEntity {
 
     public Sword(int x, int y) {
         super(x, y, "sword");
-        setId("sword" + String.valueOf(counter));
+        setId("Sword" + String.valueOf(counter));
         counter++;
         setDurability(durability);
     }

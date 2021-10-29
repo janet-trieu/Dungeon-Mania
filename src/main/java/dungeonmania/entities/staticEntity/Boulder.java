@@ -21,7 +21,7 @@ public class Boulder extends StaticEntity {
      */
     public Boulder(int x, int y) {
         super(x, y, "boulder");
-        setId("boulder" + String.valueOf(counter));
+        setId("Boulder" + String.valueOf(counter));
         counter++;
         setLayer(layer);
     }
@@ -45,7 +45,9 @@ public class Boulder extends StaticEntity {
                 }
             // if the new position of boulder is in the same cell as another static entity, remain in current position    
             } else {
-                newPos = currPos;
+                if (newPos.equals(entity.getPosition())) {
+                    newPos = currPos;
+                }
             }
         }
         setPosition(newPos.getX(), newPos.getY());

@@ -1,12 +1,14 @@
 package dungeonmania.entities;
 
-import dungeonmania.entities.PotionState.InvincibleState;
-import dungeonmania.entities.PotionState.InvisibleState;
+import java.util.List;
+
+import dungeonmania.Dungeon;
 import dungeonmania.entities.PotionState.NoInvincibleState;
 import dungeonmania.entities.PotionState.NoInvisibleState;
 import dungeonmania.entities.PotionState.PotionState;
 import dungeonmania.entities.movingEntity.Moveable;
 import dungeonmania.entities.movingEntity.MovingEntity;
+import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.util.Direction;
 
 public class Player extends Entity implements Moveable {
@@ -22,7 +24,12 @@ public class Player extends Entity implements Moveable {
         invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
         setHealth(maxHealth);
+<<<<<<< HEAD
         setId("player");
+=======
+        setId("Player");
+        setLayer(layer);
+>>>>>>> a8a4937af071013297b94a6e93b5e226c6c1afe0
     }
 
     public void battle(MovingEntity otherEntity) {
@@ -33,20 +40,63 @@ public class Player extends Entity implements Moveable {
         // TODO
     }
 
+    public void move(Direction direction) {
+        Position newPosition = this.getPosition().translateBy(direction);
+        Boolean boulderBoolean = false;
+        // if the player can go through in new position or a boulder is at new position
+        if (Dungeon.getDungeon().canPlayerGoThrough(newPosition)) {
+            // get a list of all entities on new position
+            List<Entity> list = Dungeon.getDungeon().getEntitiesOnSamePosition(newPosition); 
+            for (Entity entity : list) {
+                // if there is a boulder
+                if (entity instanceof Boulder) {
+                    Boulder boulder = (Boulder) entity;
+                    boulderBoolean = true;
+                    // push boulder
+                    boulder.push(newPosition, direction);
+                    // if boulder moves, change position to new Position
+                    if (!boulder.getPosition().equals(newPosition)) {
+                        setPosition(newPosition.getX(), newPosition.getY());
+                        System.out.println("boulder moved");
+                    }
+                }
+            }
+            if (boulderBoolean == false) {
+                setPosition(newPosition.getX(), newPosition.getY());
+            }
+        }        
+    }
+
     public void moveUp() {
-        move(Direction.UP, this);
+        if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.UP))) {
+            System.out.println("tried to move up");
+            move(Direction.UP);
+            System.out.println(getPosition());
+        }
     }
 
     public void moveDown() {
-        move(Direction.DOWN, this);
+        if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.DOWN))) {
+            System.out.println("tried to move down");
+            move(Direction.DOWN);
+            System.out.println(getPosition());
+        }
     }
 
     public void moveLeft() {
-        move(Direction.LEFT, this);
+        if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.LEFT))) {
+            System.out.println("tried to move left");
+            move(Direction.LEFT);
+            System.out.println(getPosition());
+        }
     }
     
     public void moveRight() {
-        move(Direction.RIGHT, this);
+        if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.RIGHT))) {
+            System.out.println("tried to move right");
+            move(Direction.RIGHT);
+            System.out.println(getPosition());
+        }
     }
 
     public int getHealth() {

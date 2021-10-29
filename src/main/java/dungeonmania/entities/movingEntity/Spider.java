@@ -9,10 +9,16 @@ public class Spider extends MovingEntity implements Moveable {
     private int movementCounter = 0;
     private String way = "Right";
     Dungeon dungeon;
+public class Spider extends MovingEntity {
+    // storing the number of entities created to help with fluid entityId generation
+    private static int counter = 0;
+    private int movementCounter;
 
     public Spider(int x, int y, Dungeon dungeon) {
         super(x, y, "spider", 1, 10);
         this.dungeon = dungeon;
+        setId("Spider" + String.valueOf(counter));
+        counter++;
     }
 
     public void move() {

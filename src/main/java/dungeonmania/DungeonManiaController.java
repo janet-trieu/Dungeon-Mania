@@ -76,6 +76,9 @@ public class DungeonManiaController {
             throw new IllegalArgumentException("Invalid gameMode");
         }
 
+        // Generate dungeonId
+        String dungeonId = dungeonName + Instant.now().getEpochSecond();
+
         // Initialise dungeon
         dungeon = new Dungeon(dungeonName);
 
@@ -92,12 +95,11 @@ public class DungeonManiaController {
             JSONObject goalObj = mapObj.getJSONObject("goal-condition");
             Goal goal = createGoal(goalObj, dungeon);
             dungeon.addGoal(goal);
+            return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
         }
 
-        // Generate dungeonId
-        String dungeonId = dungeonName + Instant.now().getEpochSecond();
-
-        return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
+        // For maps that do not have goals
+        return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), "");
     }
 
     /**
@@ -112,8 +114,8 @@ public class DungeonManiaController {
             int x = obj.getInt("x");
             int y = obj.getInt("y");
             String type = obj.getString("type");
-            int keyId;
-            String colour;
+            int keyId = -1;
+            String colour = "";
             
             if (obj.has("key")) {
                 keyId = obj.getInt("key");
@@ -249,7 +251,7 @@ public class DungeonManiaController {
                 Goal leafGoal = createGoal(subgoals.getJSONObject(i), dungeon);
                 compositeGoal.addSubGoal(leafGoal);
             }
-            return compositeGoal;
+            //return compositeGoal;
         }
 
         switch (goal) {
