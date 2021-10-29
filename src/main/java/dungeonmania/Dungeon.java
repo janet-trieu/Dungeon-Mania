@@ -130,4 +130,19 @@ public class Dungeon {
     public String getGoalString() {
         return goal.toString();
     }
+
+    /**
+     * 
+     * @return list of entities on same position as entity
+     */
+    public List<Entity> getEntitiesOnSamePosition(Entity entity) {
+        List<Entity> listOfEntities = new ArrayList<Entity>();
+        for (Entity otherEntity : entityList) {
+            // if other entity is not entity and have the same position, add to 
+            if (!otherEntity.equals(entity) && otherEntity.getPosition().equals(entity.getPosition()) {
+                listOfEntities.add(otherEntity);
+            }
+        }
+        return listOfEntities;
+    }
 }
