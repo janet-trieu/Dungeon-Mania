@@ -1,15 +1,18 @@
 package dungeonmania.entities.movingEntity;
 import java.util.List;
 
+import dungeonmania.Dungeon;
 import dungeonmania.util.*;
 
 public class Spider extends MovingEntity implements Moveable {
     
     private int movementCounter = 0;
     private String way = "Right";
+    Dungeon dungeon;
 
-    public Spider(int x, int y) {
+    public Spider(int x, int y, Dungeon dungeon) {
         super(x, y, "spider", 1, 10);
+        this.dungeon = dungeon;
     }
 
     public void move() {
