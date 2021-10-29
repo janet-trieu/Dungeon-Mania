@@ -19,7 +19,7 @@ public class AndGoal extends CompositeGoal {
     @Override
     public void update() {
         super.update();
-        if (getSubGoalList().size() == 0) {
+        if (getSubGoalList().size() == 0 || subGoalsIsComplete()) {
             setComplete(true);
         }
     }
