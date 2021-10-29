@@ -21,7 +21,7 @@ public class OrGoal extends CompositeGoal {
     @Override
     public void update() {
         super.update();
-        if (getSubGoalList().size() <= 1) {
+        if (getSubGoalList().size() <= 1 || subGoalsIsComplete()) {
             setComplete(true);
         }
     }

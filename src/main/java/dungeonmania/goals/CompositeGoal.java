@@ -45,4 +45,14 @@ public abstract class CompositeGoal extends Goal {
             }
         }
     } 
+
+    public Boolean subGoalsIsComplete() {
+        Boolean complete = true;
+        for (int i = 0; i < subGoalList.size(); i++) {
+            if (subGoalList.get(i).isComplete() == false) {
+                complete = false;
+            }
+        }
+        return complete;
+    }
 }
