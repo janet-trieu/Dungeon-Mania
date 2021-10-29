@@ -1,5 +1,11 @@
 package dungeonmania.entities.collectableEntity;
 
+import java.util.List;
+
+import dungeonmania.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.util.Position;
+
 public class Bomb extends CollectableEntity {
     
     // storing the number of entities created to help with fluid entityId generation
@@ -13,10 +19,20 @@ public class Bomb extends CollectableEntity {
 
     /**
      * Method to achieve the bomb explosion
-     * @param bombId
+     * Assumption: this method will only be called when a switch is activated next to this bomb
+     * @param bomb
      */
-    public void explode(String bombId) {
-        // TO-DO
+    public void explode(Bomb bomb) {
+        List<Position> bombAdjacentPositions = bomb.getPosition().getAdjacentPositions();
+        List<Entity> existingEntities = Dungeon.getDungeon().getEntityList();
+
+        // loop through the bomb's adjacent positions 
+        for (Entity thisEntity : existingEntities) {
+            if (bombAdjacentPositions.contains(thisEntity.getPosition())) {
+                // it should get deleted
+                Dungeon.getDungeon().getEntityList().remove(thisEntity);
+            }
+        }
     }
 
 }
