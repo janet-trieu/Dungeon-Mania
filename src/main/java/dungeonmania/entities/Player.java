@@ -10,6 +10,7 @@ import dungeonmania.entities.movingEntity.Moveable;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class Player extends Entity implements Moveable {
     private int health;
@@ -24,12 +25,8 @@ public class Player extends Entity implements Moveable {
         invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
         setHealth(maxHealth);
-<<<<<<< HEAD
-        setId("player");
-=======
         setId("Player");
         setLayer(layer);
->>>>>>> a8a4937af071013297b94a6e93b5e226c6c1afe0
     }
 
     public void battle(MovingEntity otherEntity) {
