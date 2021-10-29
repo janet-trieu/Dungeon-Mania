@@ -69,8 +69,8 @@ public class InventoryTest {
     public void testOnlyOneKeyItem(){
         // create inventory and treasure
         Inventory inventory = new Inventory();
-        Key key0 = new Key(1, 0);
-        Key key1 = new Key(1, 0);
+        Key key0 = new Key(1, 0, 0);
+        Key key1 = new Key(1, 0, 1);
         // Add key0 to inventory
         inventory.addItem(key0);
         // key0 is in inventory
@@ -121,14 +121,12 @@ public class InventoryTest {
         dungeon.addEntity(player);
 
         // create key at (1, 0)
-        Key key0 = new Key(1, 0);
+        Key key0 = new Key(1, 0, 0);
         dungeon.addEntity(key0);
-        key0.setKeyId(0);;
 
         // create door at (2, 0)
-        Door door0 = new Door(2, 0);
+        Door door0 = new Door(2, 0, 0);
         dungeon.addEntity(door0);
-        door0.setId(0);
 
         // player moves right and collects key
         player.moveRight();
@@ -138,7 +136,7 @@ public class InventoryTest {
 
         // player moves right and opens door
         player.moveRight();
-        door0.open();
+        door0.insertKey(key0);
 
         // player is on same cell as door
         assertEquals(new Position(2, 0, 4), player.getPosition());

@@ -147,8 +147,8 @@ public class StaticTest {
         // SPAWN ALL NECESSARY INSTANCES
         Dungeon dungeon = new Dungeon();
         Player player = new Player(0, 0);
-        Key key = new Key(0, 1);
-        Door door = new Door(1, 0);
+        Key key = new Key(0, 1, 0);
+        Door door = new Door(1, 0, 0);
         Exit exit = new Exit(2, 0);
         Goal goal = new ExitGoal();
         dungeon.addEntity(player);
@@ -165,7 +165,7 @@ public class StaticTest {
         assertEquals(position, player.getPosition());
         position = new Position(1, 0);
         assertEquals(position, door.getPosition());
-        assertEquals(false, door.getState().canPassThrough());
+        assertEquals(false, door.isPassable());
 
         // PLAYER PICKS UP KEY
         player.moveDown();
@@ -179,7 +179,7 @@ public class StaticTest {
         assertEquals(position, player.getPosition());
         position = new Position(1, 0);
         assertEquals(position, door.getPosition());
-        assertEquals(true, door.getState().canPassThrough());
+        assertEquals(true, door.isPassable());
         dungeon.getInventory().removeItem(key);
         assertEquals(false, dungeon.getInventory().getItems().contains(key));
 
