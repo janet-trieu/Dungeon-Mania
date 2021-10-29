@@ -7,7 +7,7 @@ public class Bomb extends CollectableEntity {
 
     public Bomb(int x, int y) {
         super(x, y, "bomb");
-        setId("bomb" + String.valueOf(counter));
+        setId("Bomb" + String.valueOf(counter));
         counter++;
     }
 

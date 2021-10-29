@@ -7,7 +7,7 @@ public class Wood extends CollectableEntity {
     
     public Wood(int x, int y) {
         super(x, y, "wood");
-        setId("wood" + String.valueOf(counter));
+        setId("Wood" + String.valueOf(counter));
         counter++;
     }
 

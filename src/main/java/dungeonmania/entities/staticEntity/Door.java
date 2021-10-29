@@ -12,14 +12,14 @@ public class Door extends StaticEntity {
 
     public Door(int x, int y, int key) {
         super(x, y, "door");
-        setId("door" + String.valueOf(counter));
+        setId("Door" + String.valueOf(counter));
         counter++;
         setKey(key);
     }
 
     public Door(int x, int y, Boolean isPassable) {
         super(x, y, "door");
-        setId("door" + String.valueOf(counter));
+        setId("Door" + String.valueOf(counter));
         counter++;
         setPassable(isPassable);
     }

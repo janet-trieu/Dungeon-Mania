@@ -8,7 +8,7 @@ public class Armour extends BreakableEntity {
 
     public Armour(int x, int y) {
         super(x, y, "armour");
-        setId("armour" + String.valueOf(counter));
+        setId("Armour" + String.valueOf(counter));
         counter++;
         setDurability(durability);
     }

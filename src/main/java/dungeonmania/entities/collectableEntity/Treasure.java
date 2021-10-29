@@ -7,7 +7,7 @@ public class Treasure extends CollectableEntity {
 
     public Treasure(int x, int y) {
         super(x, y, "treasure");
-        setId("treasure" + String.valueOf(counter));
+        setId("Treasure" + String.valueOf(counter));
         counter++;
     }
     

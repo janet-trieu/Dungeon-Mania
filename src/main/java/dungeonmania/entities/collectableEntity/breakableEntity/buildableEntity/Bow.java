@@ -8,7 +8,7 @@ public class Bow extends BuildableEntity {
 
     public Bow(int x, int y) {
         super(x, y, "bow");
-        setId("bow" + String.valueOf(counter));
+        setId("Bow" + String.valueOf(counter));
         counter++;
         setDurability(durability);
     }

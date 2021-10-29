@@ -10,7 +10,7 @@ public class InvincibilityPotion extends PotionEntity {
 
     public InvincibilityPotion(int x, int y) {
         super(x, y, "invincibility_potion");
-        setId("invincibility_potion" + String.valueOf(counter));
+        setId("InvincibilityPotion" + String.valueOf(counter));
         counter++;
         setDuration(duration);
     }
