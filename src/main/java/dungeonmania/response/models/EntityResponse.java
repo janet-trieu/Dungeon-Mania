@@ -1,5 +1,7 @@
 package dungeonmania.response.models;
 
+import java.util.Objects;
+
 import dungeonmania.util.Position;
 
 public final class EntityResponse {
@@ -29,5 +31,24 @@ public final class EntityResponse {
 
     public final Position getPosition() {
         return position;
+    }
+
+    @Override
+    public String toString() {
+        return "EntityResponse [id=" + id + ", type=" + type + ", position=" + position + ", isInteractable=" + isInteractable +"]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        EntityResponse other = (EntityResponse) obj;
+        return Objects.equals(id, other.id) && Objects.equals(type, other.type)
+                && Objects.equals(position, other.position) && Objects.equals(isInteractable, other.isInteractable);
     }
 }

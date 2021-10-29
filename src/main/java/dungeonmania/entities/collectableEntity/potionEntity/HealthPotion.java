@@ -7,7 +7,7 @@ public class HealthPotion extends PotionEntity {
 
     public HealthPotion(int x, int y) {
         super(x, y, "health_potion");
-        setId("health_potion" + String.valueOf(counter));
+        setId("HealthPotion" + String.valueOf(counter));
         counter++;
     }
 

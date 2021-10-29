@@ -8,7 +8,7 @@ public class Shield extends BuildableEntity {
 
     public Shield(int x, int y) {
         super(x, y, "shield");
-        setId("shield" + String.valueOf(counter));
+        setId("Shield" + String.valueOf(counter));
         counter++;
         setDurability(durability);
     }

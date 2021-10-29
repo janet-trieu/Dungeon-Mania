@@ -8,7 +8,7 @@ public class Key extends CollectableEntity {
 
     public Key(int x, int y, int keyId) {
         super(x, y, "key");
-        setId("key" + String.valueOf(counter));
+        setId("Key" + String.valueOf(counter));
         counter++;
         setKeyId(keyId);
     }

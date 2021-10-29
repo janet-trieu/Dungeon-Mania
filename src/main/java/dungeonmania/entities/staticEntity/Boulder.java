@@ -21,7 +21,7 @@ public class Boulder extends StaticEntity {
      */
     public Boulder(int x, int y) {
         super(x, y, "boulder");
-        setId("boulder" + String.valueOf(counter));
+        setId("Boulder" + String.valueOf(counter));
         counter++;
         setLayer(layer);
     }

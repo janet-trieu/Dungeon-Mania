@@ -18,9 +18,10 @@ public class DungeonTest {
      * Test to check if all possible entities on the map are spawned
      * EXCLUDES DROPS AND BUILDABLES: 'Armour', 'TheOneRing', 'Bow', 'Shield'
      * @throws IOException
+     * @throws IllegalArgumentException
      */
     @Test
-    public void testEntityLoad() throws IOException {
+    public void testEntityLoad() throws IllegalArgumentException, IOException  {
         DungeonManiaController controller = new DungeonManiaController();
        
         controller.newGame("spawnable-entity", "Peaceful");
