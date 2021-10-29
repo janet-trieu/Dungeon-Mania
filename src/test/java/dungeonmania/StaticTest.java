@@ -121,6 +121,7 @@ public class StaticTest {
         assertEquals(position, boulder0.getPosition());
         assertEquals(true, switch0.getIsActive());
         
+        System.out.println("HELLLLLLLLo");
         // Push Boulder1 to FloorSwitch1
         player.moveRight();
         player.moveDown();

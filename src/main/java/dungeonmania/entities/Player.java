@@ -6,6 +6,7 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.PotionState.NoInvincibleState;
 import dungeonmania.entities.PotionState.NoInvisibleState;
 import dungeonmania.entities.PotionState.PotionState;
+import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.util.Direction;
@@ -54,8 +55,12 @@ public class Player extends Entity {
                     // if boulder moves, change position to new Position
                     if (!boulder.getPosition().equals(newPosition)) {
                         setPosition(newPosition.getX(), newPosition.getY());
-                        System.out.println("boulder moved");
                     }
+                }
+                if (entity instanceof CollectableEntity) {
+                    CollectableEntity collectable = (CollectableEntity) entity;
+                    collectable.setPosition(-1, -1);
+                    Dungeon.getDungeon().getInventory().addItem(collectable);
                 }
             }
             if (boulderBoolean == false) {
@@ -66,7 +71,6 @@ public class Player extends Entity {
 
     public void moveUp() {
         if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.UP))) {
-            System.out.println("tried to move up");
             move(Direction.UP);
             System.out.println(getPosition());
         }
@@ -74,21 +78,18 @@ public class Player extends Entity {
 
     public void moveDown() {
         if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.DOWN))) {
-            System.out.println("tried to move down");
             move(Direction.DOWN);
             System.out.println(getPosition());
         }
     }
     public void moveLeft() {
         if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.LEFT))) {
-            System.out.println("tried to move left");
             move(Direction.LEFT);
             System.out.println(getPosition());
         }
     }
     public void moveRight() {
         if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.RIGHT))) {
-            System.out.println("tried to move right");
             move(Direction.RIGHT);
             System.out.println(getPosition());
         }
