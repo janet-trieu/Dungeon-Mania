@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.Dungeon;
+import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingEntity.Mercenary;
 
 public class EnemyGoal extends LeafGoal {
@@ -36,9 +37,10 @@ public class EnemyGoal extends LeafGoal {
 
     public List<Mercenary> mercenaryList() {
         List<Mercenary> listOfEntity = new ArrayList<Mercenary>();
-        for (int i = 0; i < dungeon.getEntityList().size(); i++) {
-            if (dungeon.getEntityList().get(i).getType().equals("mercenary")) {
-                listOfEntity.add((Mercenary) dungeon.getEntityList().get(i));
+        List<Entity> entityList = dungeon.getEntityList();
+        for (Entity entity : entityList) {
+            if (entity.getType().equals("mercenary")) {
+                listOfEntity.add((Mercenary) entity);
             }
         }
         return listOfEntity;
@@ -47,9 +49,9 @@ public class EnemyGoal extends LeafGoal {
     public List<Mercenary> hostileMercenaryList() {
         List<Mercenary> mercenaryList = mercenaryList();
         List<Mercenary> listOfHostile = new ArrayList<Mercenary>();
-        for (int i = 0; i < mercenaryList.size(); i++) {
-            if (mercenaryList.get(i).getState().isHostile()) {
-                listOfHostile.add(mercenaryList.get(i));
+        for (Mercenary mercenary : mercenaryList) {
+            if (mercenary.getState().isHostile()) {
+                listOfHostile.add(mercenary);
             }
         }
     }

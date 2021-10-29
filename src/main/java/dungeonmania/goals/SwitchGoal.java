@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.Dungeon;
+import dungeonmania.entities.Entity;
 import dungeonmania.entities.staticEntity.FloorSwitch;
 
 public class SwitchGoal extends LeafGoal {
@@ -24,20 +25,21 @@ public class SwitchGoal extends LeafGoal {
     public void update() {
         List<FloorSwitch> switchList = switchList();
         setComplete(true);
-        for (int i = 0; i < switchList.size(); i++) {
-            if (!switchList.get(i).isActivated()) {
+        for (FloorSwitch floorSwitch : switchList) {
+            if (!floorSwitch.isActivated()) {
                 setComplete(false);
             }
         }
     }
 
     public List<FloorSwitch> switchList() {
-        List<FloorSwitch> listOfEntity = new ArrayList<FloorSwitch>();
-        for (int i = 0; i < dungeon.getEntityList().size(); i++) {
-            if (dungeon.getEntityList().get(i).getType().equals("switch")) {
-                listOfEntity.add((FloorSwitch) dungeon.getEntityList().get(i));
+        List<FloorSwitch> listOfFloorSwitch = new ArrayList<FloorSwitch>();
+        List<Entity> entityList = dungeon.getEntityList();
+        for (Entity entity : entityList) {
+            if (entity.getType().equals("switch")) {
+                listOfFloorSwitch.add((FloorSwitch) entity);
             }
         }
-        return listOfEntity;
+        return listOfFloorSwitch;
     }
 }
