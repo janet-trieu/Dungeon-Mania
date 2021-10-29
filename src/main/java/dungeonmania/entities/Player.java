@@ -32,17 +32,17 @@ public class Player extends Entity {
     }
 
     public void moveUp() {
-        // TODO
+        setY(getY() - 1);
     }
 
     public void moveDown() {
-        // TODO
+        setY(getY() + 1);
     }
     public void moveLeft() {
-        // TODO
+        setX(getX() + 1);
     }
     public void moveRight() {
-        // TODO
+        setX(getX() - 1);
     }
 
     public int getHealth() {
