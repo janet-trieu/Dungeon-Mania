@@ -35,6 +35,7 @@ public class Inventory {
         return items.contains(entity);
     }
 
-    
-
+    public List<CollectableEntity> getItems() {
+        return items;
+    }
 }
