@@ -24,9 +24,8 @@ public class EnemyGoal extends LeafGoal {
     @Override
     public void update() {
         int numberOfHostileMonster = getEntitiesOfType("spider").size();
-        numberOfHostileMonster += getEntitiesOfType("zombieToast").size();
-        numberOfHostileMonster += getEntitiesOfType("zombieToast").size();
-        numberOfHostileMonster += getEntitiesOfType("zombieToastSpawner").size();
+        numberOfHostileMonster += getEntitiesOfType("zombie_toast").size();
+        numberOfHostileMonster += getEntitiesOfType("zombie_toast_spawner").size();
         numberOfHostileMonster += hostileMercenaryList().size();
         if (numberOfHostileMonster == 0) {
             setComplete(true);
