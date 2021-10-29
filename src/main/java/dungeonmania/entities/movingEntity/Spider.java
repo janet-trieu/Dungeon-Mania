@@ -8,4 +8,7 @@ public class Spider extends MovingEntity {
         super(x, y, "spider", 1, 10);
     }
 
+    public void move() {
+        
+    }
 }
