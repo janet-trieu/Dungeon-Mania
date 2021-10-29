@@ -17,7 +17,6 @@ public class Player extends Entity {
     private PotionState invincibleState;
     private Boolean isShielded;
     private Boolean respawnable;
-    private int layer = 4;
 
     public Player(int x, int y) {
         super(x, y, "player");
