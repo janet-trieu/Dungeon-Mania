@@ -28,12 +28,14 @@
         {
             "x": 5,
             "y": 0,
-            "type": "door_closed"
+            "type": "door_closed",
+            "key": 0
         },
         {
             "x": 6,
             "y": 0,
-            "type": "portal"
+            "type": "portal",
+            "colour": "BLUE"
         },
         {
             "x": 7,
@@ -63,7 +65,8 @@
         {
             "x": 12,
             "y": 0,
-            "type": "key"
+            "type": "key",
+            "key": 0
         },
         {
             "x": 13,

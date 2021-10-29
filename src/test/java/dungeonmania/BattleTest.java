@@ -21,11 +21,11 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create spider at (1, 0)
         Spider spider = new Spider(1, 0);
-        dungeon.createEntity(spider);
+        dungeon.addEntity(spider);
         // battle spider
         player.moveRight();
         player.battle(spider);
@@ -42,11 +42,11 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create zombieToast at (1, 0)
         ZombieToast zombieToast = new ZombieToast(1, 0);
-        dungeon.createEntity(zombieToast);
+        dungeon.addEntity(zombieToast);
         // battle ZombieToast
         player.moveRight();
         player.battle(zombieToast);
@@ -67,11 +67,11 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create Mercenary at (1, 0)
         Mercenary mercenary = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
         player.battle(mercenary);
@@ -93,7 +93,7 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create and add bow to inventory
         Bow bow = new Bow(-1, -1);
@@ -101,7 +101,7 @@ public class BattleTest {
 
         // Create Mercenary at (1, 0)
         Mercenary mercenary = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
         player.battle(mercenary);
@@ -122,7 +122,7 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create and add sword to inventory
         Sword sword = new Sword(-1, -1);
@@ -130,7 +130,7 @@ public class BattleTest {
 
         // Create Mercenary at (1, 0)
         Mercenary mercenary = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
         player.battle(mercenary);
@@ -151,7 +151,7 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create and add shield to inventory
         Shield shield = new Shield(-1, -1);
@@ -159,7 +159,7 @@ public class BattleTest {
 
         // Create Mercenary at (1, 0)
         Mercenary mercenary = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
         player.battle(mercenary);
@@ -180,7 +180,7 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create and add Armour to inventory
         Armour armour = new Armour(-1, -1);
@@ -188,7 +188,7 @@ public class BattleTest {
 
         // Create Mercenary at (1, 0)
         Mercenary mercenary = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
         player.battle(mercenary);
@@ -209,7 +209,7 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create and add bow to inventory
         Bow bow = new Bow(-1, -1);
@@ -221,7 +221,7 @@ public class BattleTest {
 
         // Create Mercenary at (1, 0)
         Mercenary mercenary = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
         player.battle(mercenary);
@@ -240,7 +240,7 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create and add Armour to inventory
         Armour armour = new Armour(-1, -1);
@@ -252,7 +252,7 @@ public class BattleTest {
 
         // Create Mercenary at (1, 0)
         Mercenary mercenary = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
         player.battle(mercenary);
@@ -273,7 +273,7 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create and add bow to inventory
         Bow bow = new Bow(-1, -1);
@@ -293,7 +293,7 @@ public class BattleTest {
 
         // Create Mercenary at (1, 0)
         Mercenary mercenary = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
         player.battle(mercenary);
@@ -313,15 +313,15 @@ public class BattleTest {
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // Create mercenary0 at (1, 0)
         Mercenary mercenary0 = new Mercenary(1, 0);
-        dungeon.createEntity(mercenary0);
+        dungeon.addEntity(mercenary0);
  
         // Create mercenary1 at (2, 0)
         Mercenary mercenary1 = new Mercenary(2, 0);
-        dungeon.createEntity(mercenary1);       
+        dungeon.addEntity(mercenary1);       
 
         // battle mercenary0
         player.moveRight();
