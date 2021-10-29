@@ -1,8 +1,16 @@
 package dungeonmania.entities.staticEntity;
 
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
+import dungeonmania.entities.movingEntity.Mercenary;
+import dungeonmania.util.Position;
+
 public class Portal extends StaticEntity {
     
+    // portal is passable for a player
     private boolean isPassable = true;
+
+    // attribute to create a corresponding pair of portals by their colour
     private String colour;
 
     // storing the number of entities created to help with fluid entityId generation
@@ -16,6 +24,13 @@ public class Portal extends StaticEntity {
         setColour(colour);
     }
 
+    public void teleport(Entity entity, Position otherPortal) {
+        Position newPos = otherPortal;
+        if (entity instanceof Player || entity instanceof Mercenary) {
+            entity.setPosition(newPos.getX(), newPos.getY());
+        }
+    }
+
     public String getColour() {
         return colour;
     }
@@ -24,7 +39,4 @@ public class Portal extends StaticEntity {
         this.colour = colour;
     }
 
-    public static int getCounter() {
-        return counter;
-    }
 }
