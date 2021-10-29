@@ -12,7 +12,6 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Position;
 
 public class Dungeon {
-    private String dungeonId;
     private String dungeonName;
     private List<Entity> entityList;
     private List<CollectableEntity> spawnedCollectables;
@@ -27,17 +26,12 @@ public class Dungeon {
         this.buildables = new ArrayList<BuildableEntity>();
     }
 
-    public Dungeon(String dungeonId, String dungeonName) {
-        this.dungeonId = dungeonId;
+    public Dungeon(String dungeonName) {
         this.dungeonName = dungeonName;
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectables = new ArrayList<CollectableEntity>();
         this.inventory = new Inventory();
         this.buildables = new ArrayList<BuildableEntity>();
-    }
-
-    public String getDungeonId() {
-        return dungeonId;
     }
 
     public String getDungeonName() {
