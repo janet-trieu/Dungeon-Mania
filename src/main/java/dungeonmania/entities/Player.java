@@ -1,11 +1,13 @@
 package dungeonmania.entities;
 
-import dungeonmania.entities.PotionState.InvincibleState;
-import dungeonmania.entities.PotionState.InvisibleState;
+import java.util.List;
+
+import dungeonmania.Dungeon;
 import dungeonmania.entities.PotionState.NoInvincibleState;
 import dungeonmania.entities.PotionState.NoInvisibleState;
 import dungeonmania.entities.PotionState.PotionState;
 import dungeonmania.entities.movingEntity.MovingEntity;
+import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -37,21 +39,42 @@ public class Player extends Entity {
 
     public void move(Direction direction) {
         Position newPosition = this.getPosition().translateBy(direction);
-        setPosition(newPosition.getX(), newPosition.getY());
+        if (Dungeon.getDungeon().canPlayerGoThrough(newPosition)) {
+            List<Entity> list = Dungeon.getDungeon().getEntitiesOnSamePosition(newPosition); 
+            for (Entity entity : list) {
+                if (entity instanceof Boulder) {
+                    Boulder boulder = (Boulder) entity;
+                    boulder.push(newPosition, direction);
+                    if (!boulder.getPosition().equals(newPosition)) {
+                        setPosition(newPosition.getX(), newPosition.getY());
+                    }
+                } else {
+                    setPosition(newPosition.getX(), newPosition.getY());
+                }
+            }
+        }
     }
 
     public void moveUp() {
-        setY(getY() - 1);
+        if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.UP))) {
+            move(Direction.UP);
+        }
     }
 
     public void moveDown() {
-        setY(getY() + 1);
+        if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.DOWN))) {
+            move(Direction.DOWN);
+        }
     }
     public void moveLeft() {
-        setX(getX() + 1);
+        if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.LEFT))) {
+            move(Direction.LEFT);
+        }
     }
     public void moveRight() {
-        setX(getX() - 1);
+        if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.RIGHT))) {
+            move(Direction.RIGHT);
+        }
     }
 
     public int getHealth() {

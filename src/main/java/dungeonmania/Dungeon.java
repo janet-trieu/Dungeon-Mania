@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.BuildableEntity;
+import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.StaticEntity;
 import dungeonmania.goals.Goal;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
@@ -146,14 +149,27 @@ public class Dungeon {
      * 
      * @return list of entities on same position as entity
      */
-    public List<Entity> getEntitiesOnSamePosition(Entity entity) {
+    public List<Entity> getEntitiesOnSamePosition(Position position) {
         List<Entity> listOfEntities = new ArrayList<Entity>();
         for (Entity otherEntity : entityList) {
-            // if other entity is not entity and have the same position, add to 
-            if (!otherEntity.equals(entity) && otherEntity.getPosition().equals(entity.getPosition()) {
+            // if entity is on the same cell as position, add to list
+            if (otherEntity.getPosition().equals(position)) {
                 listOfEntities.add(otherEntity);
             }
         }
         return listOfEntities;
+    }
+
+    public Boolean canPlayerGoThrough(Position position) {
+        Boolean canGoThrough = true;
+        for (Entity entity : getEntitiesOnSamePosition(position)) {
+            if (entity instanceof StaticEntity) {
+                StaticEntity staticEntity = (StaticEntity) entity;
+                if (!(staticEntity instanceof Boulder) && !staticEntity.isPassable()) {
+                    canGoThrough = false;
+                }
+            }
+        }
+        return canGoThrough;
     }
 }
