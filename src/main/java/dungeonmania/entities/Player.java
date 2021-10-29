@@ -38,9 +38,12 @@ public class Player extends Entity implements Moveable {
 
     public void moveDown() {
         move(Direction.DOWN, this);
+    }
+
     public void moveLeft() {
         move(Direction.LEFT, this);
     }
+    
     public void moveRight() {
         move(Direction.RIGHT, this);
     }
