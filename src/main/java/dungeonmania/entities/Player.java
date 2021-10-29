@@ -6,6 +6,8 @@ import dungeonmania.entities.PotionState.NoInvincibleState;
 import dungeonmania.entities.PotionState.NoInvisibleState;
 import dungeonmania.entities.PotionState.PotionState;
 import dungeonmania.entities.movingEntity.MovingEntity;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class Player extends Entity {
     private int health;
@@ -29,6 +31,11 @@ public class Player extends Entity {
 
     public void interact(String entityId) {
         // TODO
+    }
+
+    public void move(Direction direction) {
+        Position newPosition = this.getPosition().translateBy(direction);
+        setPosition(newPosition.getX(), newPosition.getY());
     }
 
     public void moveUp() {
