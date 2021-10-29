@@ -16,6 +16,12 @@ public class Portal extends StaticEntity {
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
 
+    /**
+     * Constructor for a portal 
+     * @param x position
+     * @param y position
+     * @param colour of portal
+     */
     public Portal(int x, int y, String colour) {
         super(x, y, "portal");
         setId("Portal" + String.valueOf(counter));
@@ -24,6 +30,11 @@ public class Portal extends StaticEntity {
         setColour(colour);
     }
 
+    /**
+     * Method that allows player and mercenary to teleport to the corresponding portal
+     * @param entity
+     * @param otherPortal
+     */
     public void teleport(Entity entity, Position otherPortal) {
         Position newPos = otherPortal;
         if (entity instanceof Player || entity instanceof Mercenary) {
@@ -31,10 +42,18 @@ public class Portal extends StaticEntity {
         }
     }
 
+    /**
+     * Getter for the colour of portal
+     * @return
+     */
     public String getColour() {
         return colour;
     }
 
+    /**
+     * Setter for the colour of portal
+     * @param colour
+     */
     public void setColour(String colour) {
         this.colour = colour;
     }
