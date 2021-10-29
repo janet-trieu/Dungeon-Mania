@@ -74,4 +74,10 @@ public abstract class Entity {
     public Position getPosition() {
         return new Position(x, y, layer);
     }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    
 }
