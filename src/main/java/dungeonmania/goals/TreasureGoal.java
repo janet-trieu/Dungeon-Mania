@@ -1,9 +1,7 @@
 package dungeonmania.goals;
 
-import java.util.List;
 
 import dungeonmania.Dungeon;
-import dungeonmania.entities.Entity;
 
 public class TreasureGoal extends LeafGoal {
     public TreasureGoal(Dungeon dungeon) {
@@ -12,7 +10,11 @@ public class TreasureGoal extends LeafGoal {
 
     @Override
     public String toString() {
-        return ":treasure";
+        if (isComplete()) {
+            return "";
+        } else {
+            return ":treasure";
+        }
     }
 
     @Override

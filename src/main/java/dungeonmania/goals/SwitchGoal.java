@@ -13,7 +13,11 @@ public class SwitchGoal extends LeafGoal {
 
     @Override
     public String toString() {
-        return ":switch";
+        if (isComplete()) {
+            return "";
+        } else {
+            return ":switch";
+        }
     }
 
     @Override

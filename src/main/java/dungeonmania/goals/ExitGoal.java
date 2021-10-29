@@ -12,7 +12,11 @@ public class ExitGoal extends LeafGoal {
 
     @Override
     public String toString() {
-        return ":exit";
+        if (isComplete()) {
+            return "";
+        } else {
+            return ":exit";
+        }
     }
 
     @Override
@@ -21,7 +25,7 @@ public class ExitGoal extends LeafGoal {
         Boolean playerAtExit = false;
         for (int i = 0; i < exitList.size(); i++) {
             // if player is at same position as an exit, goal is true
-            if (dungeon.getPlayer().getPosition().equals(exitList.get(i).getPosition())) {
+            if (dungeon.getInfo("player").getPosition().equals(exitList.get(i).getPosition())) {
                 setComplete(true);
                 playerAtExit = true;
             }

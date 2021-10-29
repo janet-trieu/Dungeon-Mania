@@ -13,7 +13,11 @@ public class EnemyGoal extends LeafGoal {
 
     @Override
     public String toString() {
-        return ":enemy";
+        if (isComplete()) {
+            return "";
+        } else {
+            return ":enemy";
+        }
     }
 
     @Override
