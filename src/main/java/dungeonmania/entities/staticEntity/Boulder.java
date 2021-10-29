@@ -37,7 +37,7 @@ public class Boulder extends StaticEntity {
 
         for (Entity entity : existingEntities) {
             // if the new position of boulder is the same cell as floor switch
-            if (entity.getType().equals("floor_switch")) {
+            if (entity.getType().equals("switch")) {
                 if (newPos.equals(entity.getPosition())) {
                     // set floor switch isActive = true
                     FloorSwitch thisEntity = (FloorSwitch)entity;
