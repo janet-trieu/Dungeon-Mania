@@ -26,7 +26,7 @@ public class SwitchGoal extends LeafGoal {
         List<FloorSwitch> switchList = switchList();
         setComplete(true);
         for (FloorSwitch floorSwitch : switchList) {
-            if (!floorSwitch.isActivated()) {
+            if (!floorSwitch.getIsActive()) {
                 setComplete(false);
             }
         }
