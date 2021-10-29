@@ -20,9 +20,9 @@ public class Door extends StaticEntity {
         setPassable(isPassable);
     }
 
-    public static int getCounter() {
-        return counter;
-    }
+    // public static int getCounter() {
+    //     return counter;
+    // }
 
     public int getKey() {
         return key;

@@ -18,12 +18,14 @@ public class Dungeon {
     private List<BuildableEntity> buildableList;
     private Inventory inventory;
     private Goal goal;
+    private static Dungeon thisDungeon = null;
 
     public Dungeon() {
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<BuildableEntity>();
         this.inventory = new Inventory();
+        thisDungeon = this;
     }
 
     public Dungeon(String dungeonName) {
@@ -32,6 +34,15 @@ public class Dungeon {
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<BuildableEntity>();
         this.inventory = new Inventory();
+        thisDungeon = this;
+    }
+
+    /**
+     * Return the instance of the current dungeon
+     * @return
+     */
+    public static Dungeon getDungeon() {
+        return thisDungeon;
     }
 
     public String getDungeonName() {
