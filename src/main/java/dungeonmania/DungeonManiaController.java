@@ -94,12 +94,23 @@ public class DungeonManiaController {
         JSONObject goalCondition = mapObj.getJSONObject("goal-condition");
         // JSON Map: Goals
         String goal = goalCondition.getString("goal");
+        JSONArray subgoals = goalCondition.getJSONArray("subgoals");
         switch (goal) {
             case "AND":
-                // there are subgoals
+                AndGoal and = new AndGoal();
+                for (int i = 0; i < subgoals.length(); i++) {
+                    String subgoal = subgoals.getJSONObject(i).getString("goal");
+                    and.addSubgoal(subgoal);
+                }
+                dungeon.addGoal(and);
                 break;
             case "OR":
-                // there are subgoals
+                OrGoal or = new OrGoal();
+                for (int i = 0; i < subgoals.length(); i++) {
+                    String subgoal = subgoals.getJSONObject(i).getString("goal");
+                    or.addSubgoal(subgoal);
+                }
+                dungeon.addGoal(or);
                 break;
             case "exit":
                 ExitGoal exit = new ExitGoal();
@@ -121,9 +132,8 @@ public class DungeonManiaController {
                 break;
 
         }
-        // TODO: Add goal in dungeon class and return in response. THEN DUNGEON + NEWGAME IS DONEEEEEEE LESSS FKKNNN GOOOOOOOOOOOOOO
 
-        DungeonResponse response = new DungeonResponse("fillerID", dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), "poop");
+        DungeonResponse response = new DungeonResponse("fillerID", dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
 
         return response;
     }

@@ -134,6 +134,6 @@ public class Dungeon {
      * @return
      */
     public String getGoalString() {
-        return null;
+        return goal.toString();
     }
 }

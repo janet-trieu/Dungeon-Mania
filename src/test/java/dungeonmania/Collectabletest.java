@@ -126,15 +126,15 @@ public class CollectableTest {
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
-        dungeon.createEntity(player);
+        dungeon.addEntity(player);
 
         // create a mercenary at position (4,0)
         Mercenary mercenary = new Mercenary(4, 0);
-        dungeon.createEntity(mercenary);
+        dungeon.addEntity(mercenary);
 
         // create an invincibility potion at position (1,0)
         InvincibilityPotion invinciblePotion = new InvincibilityPotion(1,0);
-        dungeon.createEntity(invinciblePotion);
+        dungeon.addEntity(invinciblePotion);
 
         // player moves 1 cell to the right to pick up invincibility potion
         player.moveRight();
