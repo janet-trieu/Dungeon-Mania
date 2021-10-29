@@ -9,7 +9,7 @@ public class ZombieToastSpawner extends StaticEntity {
 
     public ZombieToastSpawner(int x, int y) {
         super(x, y, "zombie_toast_spawner");
-        setId("zombie_toast_spawner" + String.valueOf(counter));
+        setId("ZombieToastSpawner" + String.valueOf(counter));
         counter++;
         setIsInteractable(isInteractable);
     }

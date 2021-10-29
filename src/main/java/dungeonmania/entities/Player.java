@@ -20,7 +20,7 @@ public class Player extends Entity {
         invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
         setHealth(maxHealth);
-        setId("player");
+        setId("Player");
     }
 
     public void battle(MovingEntity otherEntity) {

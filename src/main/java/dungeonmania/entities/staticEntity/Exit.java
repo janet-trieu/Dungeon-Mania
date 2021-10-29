@@ -9,7 +9,7 @@ public class Exit extends StaticEntity {
 
     public Exit(int x, int y) {
         super(x, y, "exit");
-        setId("exit" + String.valueOf(counter));
+        setId("Exit" + String.valueOf(counter));
         counter++;
         setPassable(isPassable);
     }

@@ -7,7 +7,7 @@ public class Wall extends StaticEntity {
 
     public Wall(int x, int y) {
         super(x, y, "wall");
-        setId("wall" + String.valueOf(counter));
+        setId("Wall" + String.valueOf(counter));
         counter++;
     }
     

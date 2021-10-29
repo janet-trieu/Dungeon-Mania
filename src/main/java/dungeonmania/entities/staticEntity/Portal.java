@@ -10,7 +10,7 @@ public class Portal extends StaticEntity {
 
     public Portal(int x, int y, String colour) {
         super(x, y, "portal");
-        setId("portal" + String.valueOf(counter));
+        setId("Portal" + String.valueOf(counter));
         counter++;
         setPassable(isPassable);
         setColour(colour);
