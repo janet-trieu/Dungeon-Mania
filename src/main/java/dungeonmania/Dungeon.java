@@ -72,7 +72,7 @@ public class Dungeon {
         EntityResponse response;
         for (Entity entity : entityList) {
             if (entityId.equals(entity.getId())) {
-                Position position = new Position(entity.getX(), entity.getY());
+                Position position = new Position(entity.getX(), entity.getY(), entity.getLayer());
                 response = new EntityResponse(entity.getId(), entity.getType(), position, entity.getIsInteractable());
                 return response;
             }
