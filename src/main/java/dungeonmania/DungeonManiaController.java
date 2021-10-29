@@ -64,7 +64,7 @@ public class DungeonManiaController {
      * @throws IllegalArgumentException
      * @throws IOException
      */
-    public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException, IOException {
+    public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
         List<String> maps = null;
         try {
             maps = FileLoader.listFileNamesInResourceDirectory("dungeons");
