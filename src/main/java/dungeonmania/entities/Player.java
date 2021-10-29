@@ -5,6 +5,7 @@ import dungeonmania.entities.PotionState.InvisibleState;
 import dungeonmania.entities.PotionState.NoInvincibleState;
 import dungeonmania.entities.PotionState.NoInvisibleState;
 import dungeonmania.entities.PotionState.PotionState;
+import dungeonmania.entities.movingEntity.Moveable;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.util.Direction;
 
