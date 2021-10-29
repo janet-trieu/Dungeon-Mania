@@ -89,7 +89,8 @@ public class DungeonManiaController {
         }
         // Add "goals"
         if (mapObj.has("goal-condition")) {
-            createGoals(mapObj);
+            JSONObject goalObj = mapObj.getJSONObject("goal-condition");
+            createGoal(goalObj);
         }
 
         // Generate dungeonId
@@ -231,46 +232,31 @@ public class DungeonManiaController {
      * Loop through JSON "goal-condition" and "subgoals" (if exists) and adds data to the Dungeon class
      * @param mapObj
      */
-    private void createGoals(JSONObject mapObj) {
-        JSONObject goalCondition = mapObj.getJSONObject("goal-condition");
-        String goal = goalCondition.getString("goal");
-        JSONArray subgoals = goalCondition.getJSONArray("subgoals");
+    private Goal createGoal(JSONObject goalObj) {
+
+        String goal = goalObj.getString("goal");
+
+        if (goal.equals("AND") || goal.equals("OR")) {
+            CompositeGoal compositeGoal = new CompositeGoal(dungeon);
+            JSONArray subgoals = goalObj.getJSONArray("subgoals");
+            for (int i = 0; i < subgoals.length(); i++) {
+                Goal leafGoal = createGoal(subgoals.getJSONObject(i));
+                compositeGoal.addSubGoal(leafGoal);
+            }
+            return compositeGoal;
+        }
 
         switch (goal) {
-            case "AND":
-                AndGoal and = new AndGoal();
-                for (int i = 0; i < subgoals.length(); i++) {
-                    String subgoal = subgoals.getJSONObject(i).getString("goal");
-                    and.addSubgoal(subgoal);
-                }
-                dungeon.addGoal(and);
-                break;
-            case "OR":
-                OrGoal or = new OrGoal();
-                for (int i = 0; i < subgoals.length(); i++) {
-                    String subgoal = subgoals.getJSONObject(i).getString("goal");
-                    or.addSubgoal(subgoal);
-                }
-                dungeon.addGoal(or);
-                break;
             case "exit":
-                ExitGoal exit = new ExitGoal();
-                dungeon.addGoal(exit);
-                break;
+                return new ExitGoal();
             case "enemies":
-                EnemyGoal enemy = new EnemyGoal();
-                dungeon.addGoal(enemy);
-                break;
+                return new EnemyGoal();
             case "boulders":
-                SwitchGoal boulders = new SwitchGoal();
-                dungeon.addGoal(boulders);
-                break;
+                return new SwitchGoal();
             case "treasure":
-                TreasureGoal treasure = new TreasureGoal();
-                dungeon.addGoal(treasure);
-                break;
+                return new TreasureGoal();
             default:
-                break;
+                return null;
         }
     }
 

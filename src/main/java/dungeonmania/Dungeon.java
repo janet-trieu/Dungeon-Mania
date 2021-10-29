@@ -14,24 +14,24 @@ import dungeonmania.util.Position;
 public class Dungeon {
     private String dungeonName;
     private List<Entity> entityList;
-    private List<CollectableEntity> spawnedCollectables;
+    private List<CollectableEntity> spawnedCollectablesList;
+    private List<BuildableEntity> buildableList;
     private Inventory inventory;
-    private List<BuildableEntity> buildables;
     private Goal goal;
 
     public Dungeon() {
         this.entityList = new ArrayList<Entity>();
-        this.spawnedCollectables = new ArrayList<CollectableEntity>();
+        this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
+        this.buildableList = new ArrayList<BuildableEntity>();
         this.inventory = new Inventory();
-        this.buildables = new ArrayList<BuildableEntity>();
     }
 
     public Dungeon(String dungeonName) {
         this.dungeonName = dungeonName;
         this.entityList = new ArrayList<Entity>();
-        this.spawnedCollectables = new ArrayList<CollectableEntity>();
+        this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
+        this.buildableList = new ArrayList<BuildableEntity>();
         this.inventory = new Inventory();
-        this.buildables = new ArrayList<BuildableEntity>();
     }
 
     public String getDungeonName() {
@@ -43,7 +43,7 @@ public class Dungeon {
     }
 
     public List<CollectableEntity> getSpawnedCollectables() {
-        return spawnedCollectables;
+        return spawnedCollectablesList;
     }
 
     public Inventory getInventory() {
@@ -51,7 +51,7 @@ public class Dungeon {
     }
 
     public List<BuildableEntity> getBuildables() {
-        return buildables;
+        return buildableList;
     }
 
     public Goal getGoal() {
@@ -117,7 +117,7 @@ public class Dungeon {
      */
     public List<String> getBuildableString() {
         List<String> response = new ArrayList<String>();
-        for (BuildableEntity entity : buildables) {
+        for (BuildableEntity entity : buildableList) {
             response.add(entity.getType());
         }
         return response;
