@@ -7,6 +7,7 @@ public class FloorSwitch extends StaticEntity {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
+    private Boolean passable = true;
 
     /**
      * Floor switch constructor
@@ -17,6 +18,8 @@ public class FloorSwitch extends StaticEntity {
         super(x, y, "switch");
         setId("FloorSwitch" + String.valueOf(counter));
         counter++;
+        setPassable(passable);
+
     }
 
     /**
