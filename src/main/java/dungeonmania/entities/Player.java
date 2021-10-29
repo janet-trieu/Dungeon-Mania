@@ -14,6 +14,7 @@ public class Player extends Entity {
     private PotionState invincibleState;
     private Boolean isShielded;
     private Boolean respawnable;
+    private int layer = 4;
 
     public Player(int x, int y) {
         super(x, y, "player");
@@ -21,6 +22,7 @@ public class Player extends Entity {
         invincibleState = new NoInvincibleState(this);
         setHealth(maxHealth);
         setId("Player");
+        setLayer(layer);
     }
 
     public void battle(MovingEntity otherEntity) {
