@@ -3,7 +3,8 @@ package dungeonmania.entities.movingEntity;
 import dungeonmania.entities.Entity;
 
 public abstract class MovingEntity extends Entity {
-
+    // Moving entities will always be in layer 3
+    private int layer = 3;
     private int health;
     private int damage;
    
@@ -11,6 +12,7 @@ public abstract class MovingEntity extends Entity {
         super(x,y,type);
         this.health = health;
         this.damage = damage;
+        setLayer(layer);
     }
 
     public int getHealth() {return health;}
