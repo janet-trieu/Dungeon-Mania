@@ -37,13 +37,14 @@ public abstract class Goal {
      * @return List<Entity>
      */
     public List<Entity> getEntitiesOfType(String type) {
-        List<Entity> listOfEntity = new ArrayList<Entity>();
-        for (int i = 0; i < dungeon.getEntityList().size(); i++) {
-            if (dungeon.getEntityList().get(i).getType().equals(type)) {
-                listOfEntity.add(dungeon.getEntityList().get(i));
+        List<Entity> listOfTypeEntity = new ArrayList<Entity>();
+        List<Entity> entityList = dungeon.getEntityList();
+        for (Entity entity : entityList) {
+            if (entity.getType().equals(type)) {
+                listOfTypeEntity.add(entity);
             }
         }
-        return listOfEntity;
+        return listOfTypeEntity;
     }
 
     public abstract Boolean isLeaf();
