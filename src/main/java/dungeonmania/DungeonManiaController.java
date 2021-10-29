@@ -90,7 +90,8 @@ public class DungeonManiaController {
         // Add "goals"
         if (mapObj.has("goal-condition")) {
             JSONObject goalObj = mapObj.getJSONObject("goal-condition");
-            createGoal(goalObj);
+            Goal goal = createGoal(goalObj);
+            dungeon.addGoal(goal);
         }
 
         // Generate dungeonId
@@ -237,7 +238,12 @@ public class DungeonManiaController {
         String goal = goalObj.getString("goal");
 
         if (goal.equals("AND") || goal.equals("OR")) {
-            CompositeGoal compositeGoal = new CompositeGoal(dungeon);
+            Goal compositeGoal;
+            if (goal.equals("AND")) {
+                compositeGoal = new AndGoal();
+            } else if (goal.equals("OR")) {
+                compositeGoal = new OrGoal();
+            }
             JSONArray subgoals = goalObj.getJSONArray("subgoals");
             for (int i = 0; i < subgoals.length(); i++) {
                 Goal leafGoal = createGoal(subgoals.getJSONObject(i));

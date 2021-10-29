@@ -50,7 +50,7 @@ public class Dungeon {
         return inventory;
     }
 
-    public List<BuildableEntity> getBuildables() {
+    public List<BuildableEntity> getBuildableList() {
         return buildableList;
     }
 
