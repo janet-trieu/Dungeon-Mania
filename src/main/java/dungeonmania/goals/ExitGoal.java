@@ -23,9 +23,9 @@ public class ExitGoal extends LeafGoal {
     public void update() {
         List<Entity> exitList = getEntitiesOfType("exit");
         Boolean playerAtExit = false;
-        for (int i = 0; i < exitList.size(); i++) {
+        for (Entity exit : exitList) {
             // if player is at same position as an exit, goal is true
-            if (dungeon.getInfo("player").getPosition().equals(exitList.get(i).getPosition())) {
+            if (dungeon.getInfo("player").getPosition().equals(exit.getPosition())) {
                 setComplete(true);
                 playerAtExit = true;
             }
