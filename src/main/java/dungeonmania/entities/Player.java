@@ -12,6 +12,7 @@ import dungeonmania.util.Position;
 public class Player extends Entity {
     private int health;
     private int maxHealth = 10;
+    private int layer = 4;
     private PotionState invisibleState;
     private PotionState invincibleState;
     private Boolean isShielded;
@@ -22,6 +23,7 @@ public class Player extends Entity {
         invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
         setHealth(maxHealth);
+        setLayer(layer);
         setId("player");
     }
 
