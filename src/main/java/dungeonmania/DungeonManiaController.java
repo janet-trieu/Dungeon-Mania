@@ -130,8 +130,11 @@ public class DungeonManiaController {
             return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
         }
 
+        Goal goal = new ExitGoal(dungeon);
+        dungeon.addGoal(goal);
+
         // For maps that do not have goals
-        return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), ":exit");
+        return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
     }
 
     /**
@@ -177,13 +180,9 @@ public class DungeonManiaController {
                     Bow bow = new Bow(x, y);
                     dungeon.addEntity(bow);
                     break;
-                case "door_closed":
+                case "door":
                     Door doorClosed = new Door(x, y, keyId);
                     dungeon.addEntity(doorClosed);
-                    break;
-                case "door_open":
-                    Door doorOpen = new Door(x, y, true);
-                    dungeon.addEntity(doorOpen);
                     break;
                 case "exit":
                     Exit exit = new Exit(x, y);
@@ -361,6 +360,14 @@ public class DungeonManiaController {
         return new ArrayList<>();
     }
 
+    /**
+     * Tick game state
+     * @param itemUsed
+     * @param movementDirection
+     * @return new dungeon state
+     * @throws IllegalArgumentException
+     * @throws InvalidActionException
+     */
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
         Dungeon currDungeon = Dungeon.getDungeon();
         Inventory currInventory = currDungeon.getInventory();
@@ -373,7 +380,7 @@ public class DungeonManiaController {
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
         // EXCEPTION CHECKS
-        // If itemUsed is not a usuable item or not null
+        // If itemUsed is not a usable item or not null
         if (!getUsableItems().contains(itemUsed) && itemUsed != null) {
             throw new IllegalArgumentException("Item is not usable");
         }
@@ -518,10 +525,10 @@ public class DungeonManiaController {
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
-
+        System.out.println(buildable);
         if (!buildable.equals("bow") || !buildable.equals("shield")) {
             throw new IllegalArgumentException("Incorrect buildable entity");
-        }  
+        }
         // check for InvalidActionException
         if (buildable.equals("bow") && !canBuildBow) {
             throw new InvalidActionException("Not enough ingredients to build this");
