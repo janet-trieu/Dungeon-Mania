@@ -6,6 +6,7 @@ import java.util.List;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Arrow;
+import dungeonmania.entities.collectableEntity.Bomb;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.Treasure;
@@ -344,5 +345,19 @@ public class Dungeon {
             }
         }
         return spawnerList;
+    }
+
+    /**
+     * Gets all current Bombs in Dungeon
+     * @return list of Bombs in Dungeon
+     */
+    public List<Bomb> getBombs() {
+        List<Bomb> bombList = new ArrayList<Bomb>();
+        for (Entity entity : entityList) {
+            if (entity instanceof Bomb) {
+                bombList.add((Bomb) entity);
+            }
+        }
+        return bombList;
     }
 }
