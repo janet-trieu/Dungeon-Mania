@@ -57,7 +57,7 @@ public class PersistenceTest {
         controller0.newGame("portals", "Standard");
 
         // TELEPORT AND MAKE SURE POSITION IS CORRECT
-        controller0.tick("", Direction.RIGHT);
+        controller0.tick(null, Direction.RIGHT);
         Position position = new Position(5, 0, 4);
         assertEquals(new EntityResponse("Player", "player", position, false), controller0.getInfo("Player"));
 
@@ -88,8 +88,8 @@ public class PersistenceTest {
         controller0.saveGame("SaveData0");
 
         // TELPORT AND MOVE + SAVE
-        controller0.tick("", Direction.RIGHT);
-        controller0.tick("", Direction.RIGHT);
+        controller0.tick(null, Direction.RIGHT);
+        controller0.tick(null, Direction.RIGHT);
         controller0.saveGame("SaveData1");
 
         // THERE SHOULD BE 2 SAVES NOW
