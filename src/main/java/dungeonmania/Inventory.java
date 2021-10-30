@@ -29,8 +29,8 @@ public class Inventory {
 
     public int numberOfItem(String type) {
         int counter = 0;
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getType() == type) {
+        for (CollectableEntity item : items) {
+            if (item.getType().equals(type)) {
                 counter++;
             }
         }
@@ -53,5 +53,14 @@ public class Inventory {
             }
         }
         return null;
+    }
+
+    public void breakItem(String type) {
+        for (CollectableEntity item : items) {
+            if (item.getType().equals(type)) {
+                removeItem(item);
+                return;
+            }
+        }
     }
 }

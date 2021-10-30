@@ -3,32 +3,32 @@ package dungeonmania.entities.PlayerState;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
-public class NoInvisibleState implements PlayerState {
+public class OneRingState implements PlayerState {
     private Player player;
 
-    public NoInvisibleState(Player player) {
+    public OneRingState(Player player) {
         this.player = player;
     }
 
     @Override
     public void applyEffect() {
-        player.changeInvisibleState(new InvisibleState(player));
-        Dungeon.getDungeon().getInventory().breakItem("invisibility_potion");
+        // does nothing
     }
 
     @Override
     public void removeEffect() {
-        // Does nothing
-        return;        
+        player.healToFullHealth();
+        player.changeOneRingState(new NoOneRingState(player));
+        Dungeon.getDungeon().getInventory().breakItem("the_one_ring");
     }
 
     @Override
     public void reduceDuration() {
-        // Does nothing
-        return;        
+        // does nothing
     }
-    
+
+    @Override
     public Boolean isApplied() {
-        return false;
+        return true;
     }
 }

@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Arrow;
+import dungeonmania.entities.collectableEntity.Bomb;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.Wood;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.BuildableEntity;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
+import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.StaticEntity;
+import dungeonmania.entities.staticEntity.ZombieToastSpawner;
 import dungeonmania.goals.Goal;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
@@ -77,15 +78,21 @@ public class Dungeon {
         return goal;
     }
 
-    public void addGoal(Goal goal) {
-        this.goal = goal;
-    }
-
-
     public String getGameMode() {
         return gameMode;
     }
+
+    /**
+     * Add goal to goal
+     * @param goal
+     */
+    public void addGoal(Goal goal) {
+        this.goal = goal;
+    }
     
+    /**
+     * Updates goal
+     */
     public void updateGoal() {
         goal.update();
     }
@@ -108,26 +115,51 @@ public class Dungeon {
         return null;
     }
 
+    /**
+     * Adds entity to EntityList
+     * @param entity
+     */
     public void addEntity(Entity entity) {
         entityList.add(entity);
     }
 
+    /**
+     * Removes entity from EntityList
+     * @param entity
+     */
     public void removeEntity(Entity entity) {
         entityList.remove(entity);
     }
 
+    /**
+     * Add item to Inventory
+     * @param item
+     * @return
+     */
     public Boolean addItem(CollectableEntity item) {
         return inventory.addItem(item);
     }
 
+    /**
+     * Remove item from Inventory
+     * @param item
+     */
     public void removeItem(CollectableEntity item) {
         inventory.removeItem(item);
     }
 
+    /**
+     * Get Key from Inventory
+     * @return Key
+     */
     public Key getKey() {
         return inventory.getKey();
     }
 
+    /**
+     * Get the Player
+     * @return player
+     */
     public Entity getPlayer() {
         for (Entity entity : entityList) {
             if (entity instanceof Player) {
@@ -181,7 +213,7 @@ public class Dungeon {
     }
 
     /**
-     * 
+     * Gets a list of entities on the same position as entity
      * @return list of entities on same position as entity
      */
     public List<Entity> getEntitiesOnSamePosition(Position position) {
@@ -195,6 +227,11 @@ public class Dungeon {
         return listOfEntities;
     }
 
+    /**
+     * Checks if player can go through a static entity in a specific position
+     * @param position
+     * @return boolean
+     */
     public Boolean canPlayerGoThrough(Position position) {
         Boolean canGoThrough = true;
         for (Entity entity : getEntitiesOnSamePosition(position)) {
@@ -209,6 +246,11 @@ public class Dungeon {
         return canGoThrough;
     }
 
+    /**
+     * Gets a list of entities that is cardinally adjacent
+     * @param position
+     * @return lsit of entities cardinally adjacent
+     */
     public List<Entity> getEntitiesCardinallyAdjacent(Position position) {
         List<Entity> listOfEntities = new ArrayList<Entity>();
         listOfEntities.addAll(getEntitiesOnSamePosition(position.translateBy(Direction.UP)));
@@ -218,7 +260,15 @@ public class Dungeon {
         return listOfEntities;
     }
 
-    public boolean updateBuildableListBow() {
+    /**
+     * Checks if 'bow' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if bow is buildable
+     */
+    public Boolean updateBuildableListBow() {
+        if (buildableList.contains("bow")) {
+            return true;
+        }
         Boolean bool = false;
         List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
         int arrowCounter = 0;
@@ -238,7 +288,15 @@ public class Dungeon {
         return bool;
     }
 
-    public boolean updateBuildableListShield() {
+    /**
+     * Checks if 'shield' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if shield is buildable
+     */
+    public Boolean updateBuildableListShield() {
+        if (buildableList.contains("shield")) {
+            return true;
+        }
         Boolean bool = false;
         List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
         int woodCounter = 0;
@@ -261,4 +319,105 @@ public class Dungeon {
         return bool;
     }
 
+
+    /**
+     * Gets all current MovingEntity in Dungeon
+     * @return list of MovingEntity in Dungeon
+     */
+    public List<MovingEntity> getMovingEntities() {
+        List<MovingEntity> movingList = new ArrayList<MovingEntity>();
+        for (Entity entity : entityList) {
+            if (entity instanceof MovingEntity) {
+                movingList.add((MovingEntity)entity);
+            }
+        }
+        return movingList;
+    }
+
+    /**
+     * Gets all current ZombieToastSpawners in Dungeon
+     * @return list of ZombieToastSpawnrs in Dungeon
+     */
+    public List<ZombieToastSpawner> getZombieToastSpawners() {
+        List<ZombieToastSpawner> spawnerList = new ArrayList<ZombieToastSpawner>();
+        for (Entity entity : entityList) {
+            if (entity instanceof ZombieToastSpawner) {
+                spawnerList.add((ZombieToastSpawner) entity);
+            }
+        }
+        return spawnerList;
+    }
+
+    /**
+     * Gets all current Bombs in Dungeon
+     * @return list of Bombs in Dungeon
+     */
+    public List<Bomb> getBombs() {
+        List<Bomb> bombList = new ArrayList<Bomb>();
+        for (Entity entity : entityList) {
+            if (entity instanceof Bomb) {
+                bombList.add((Bomb) entity);
+            }
+        }
+        return bombList;
+    }
+    
+    public List<Position> getCardinalAdjacent2Cells(Entity entity) {
+        List<Position> positions = new ArrayList<Position>();
+        int x = entity.getX();
+        int y = entity.getY();
+        positions.add(new Position(x, y - 2));
+        positions.add(new Position(x + 2, y));
+        positions.add(new Position(x, y + 2));
+        positions.add(new Position(x - 2, y));
+
+        return positions;
+    }
+
+    public List<Position> getCardinalAdjacentCell(Entity entity) {
+        List<Position> positions = new ArrayList<Position>();
+        int x = entity.getX();
+        int y = entity.getY();
+        positions.add(new Position(x, y - 1));
+        positions.add(new Position(x + 1, y));
+        positions.add(new Position(x, y + 1));
+        positions.add(new Position(x - 1, y));
+
+        return positions;
+    }
+
+    public boolean checkBribeRange(Entity otherEntity) {
+        Boolean twoCells = false;
+        Boolean oneCell = false;
+        Position otherPos = otherEntity.getPosition();
+        List<Position> twoCellList = getCardinalAdjacent2Cells(getPlayer());
+        List<Position> oneCellList = getCardinalAdjacentCell(getPlayer());
+
+        // check if player and mercenary positions' are within 2 cardinally adjacent cells
+        for (Position position : twoCellList) {
+            if (position.equals(otherPos)) {
+                twoCells = true;
+            }
+        }
+
+        // check if player and mercanry positions' are cardinally adjacent
+        for (Position position : oneCellList) {
+            if (position.equals(otherPos)) {
+                oneCell = true;
+            }
+        }
+
+        // if distance between cells are greater than 2, return false
+        if (oneCell == false && twoCells == false) {
+            return false;
+        // if distance between cells are 2 cells, return true
+        } else if (oneCell == true && twoCells == true) {
+            return true;
+        // if distance between cells are 1 cell, return true
+        } else if (oneCell == true && twoCells == false) {
+            return true;
+        }
+
+        return false;
+    }
 }

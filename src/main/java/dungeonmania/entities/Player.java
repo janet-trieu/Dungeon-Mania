@@ -3,11 +3,11 @@ package dungeonmania.entities;
 import java.util.List;
 
 import dungeonmania.Dungeon;
-import dungeonmania.entities.PlayerState.NoInvincibleState;
-import dungeonmania.entities.PlayerState.NoInvisibleState;
-import dungeonmania.entities.PlayerState.PlayerState;
+import dungeonmania.Inventory;
+import dungeonmania.entities.PlayerState.*;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
+import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Door;
@@ -21,29 +21,49 @@ public class Player extends Entity {
     private double hardMaxHealth = standardMaxHealth * 8/10;
     private double maxHealth;
     private double damage;
+    private double protection;
     private String gameMode;
     private int layer = 4;
-    private PlayerState invisibleState;
+
+    // Player States
     private PlayerState invincibleState;
-    private Boolean isShielded;
-    private Boolean respawnable;
+    private PlayerState invisibleState;
+    private PlayerState shieldState;
+    private PlayerState armourState;
+    private PlayerState swordState;
+    private PlayerState bowState;
+    private PlayerState oneRingState;
 
     public Player(int x, int y) {
         super(x, y, "player");
-        invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
+        invisibleState = new NoInvisibleState(this);
+        oneRingState = new NoOneRingState(this);
+        shieldState = new NoShieldState(this);
+        armourState = new NoArmourState(this);
+        swordState = new NoSwordState(this);
+        bowState = new NoBowState(this);
         setId("Player");
         setLayer(layer);
+        setDamage(1);
+        setProtection(1);
         setHealth(standardMaxHealth);
+        setMaxHealth(standardMaxHealth);
     }
 
     public Player(int x, int y, String gameMode) {
         super(x, y, "player");
-        invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
+        invisibleState = new NoInvisibleState(this);
+        oneRingState = new NoOneRingState(this);
+        shieldState = new NoShieldState(this);
+        armourState = new NoArmourState(this);
+        swordState = new NoSwordState(this);
+        bowState = new NoBowState(this);
         setId("Player");
         setLayer(layer);
         setDamage(1);
+        setProtection(1);
         if (gameMode.equals("Hard")) {
             setHealth(hardMaxHealth);
             this.maxHealth = hardMaxHealth;
@@ -55,7 +75,40 @@ public class Player extends Entity {
     }
 
     public void battle(MovingEntity otherEntity) {
-        // TODO
+        // check inventory and change states accordingly
+        equipCombat();
+        // Character Health = Character Health - ((Enemy Health * Enemy Attack Damage) / 10) / protection
+        if (isInvincible()) {
+            Dungeon.getDungeon().removeEntity(otherEntity);
+            return;
+        }
+        setHealth(getHealth() - ((otherEntity.getHealth() * otherEntity.getDamage()) / 10) / getProtection());
+        if (getHealth() <= 0) {
+            oneRingState.removeEffect();
+        }
+        if (getHealth() <= 0) {
+            Dungeon.getDungeon().removeEntity(this);
+            return;
+        }
+        // Enemy Health = Enemy Health - ((Character Health * Character Attack Damage) / 5)
+        otherEntity.setHealth(otherEntity.getHealth() - ((getHealth() * getDamage()) / 5));
+
+        if (otherEntity.getHealth() <= 0) {
+            Dungeon.getDungeon().removeEntity(otherEntity);
+        }
+        allyAssistBattle(otherEntity);
+        updateCombatDurability();
+    }
+
+    public void allyAssistBattle(MovingEntity otherEntity) {
+        for (Entity entity : Dungeon.getDungeon().getEntityList()) {
+            if (entity instanceof Mercenary) {
+                Mercenary mercenary = (Mercenary) entity;
+                if (mercenary.IsBribed()) {
+                    otherEntity.setHealth(otherEntity.getHealth() - (mercenary.getHealth() * mercenary.getDamage()) / 5);
+                }
+            }
+        }
     }
 
     public void interact(String entityId) {
@@ -106,7 +159,8 @@ public class Player extends Entity {
         if (otherPortalPosition != null) {
             portal.teleport(this, otherPortalPosition);
             move(direction);
-            // if theres a static entity blocking the way, go back to where u were
+            // if position is still at otherPortal, it means theres something blocking the way
+            // go back
             if (getPosition().equals(otherPortalPosition)) {
                 setPosition(currPosition.getX(), currPosition.getY());
             }
@@ -208,6 +262,106 @@ public class Player extends Entity {
         move(Direction.RIGHT);
     }
 
+    /**
+     * States
+     */
+    /**
+     * Change States
+     */
+    public void changeInvisibleState(PlayerState state) {
+        this.invisibleState = state;
+    }
+
+    public void changeInvincibleState(PlayerState state) {
+        this.invincibleState = state;
+    }
+
+    public void changeArmourState(PlayerState state) {
+        this.armourState = state;
+    }
+
+    public void changeShieldState(PlayerState state) {
+        this.shieldState = state;
+    }
+
+    public void changeSwordState(PlayerState state) {
+        this.swordState = state;
+    }
+
+    public void changeBowState(PlayerState state) {
+        this.bowState = state;
+    }
+
+    public void changeOneRingState(PlayerState state) {
+        this.oneRingState = state;
+    }
+
+    /**
+     * Apply state
+     */
+    public void consumeInvisibilityPotion() {
+        invisibleState.applyEffect();
+    }
+    public void consumeInvincibilityPotion() {
+        invincibleState.applyEffect();
+    }
+    public void equipBow() {
+        bowState.applyEffect();
+    }
+    public void equipSword() {
+        swordState.applyEffect();
+    }
+    public void equipShield() {
+        shieldState.applyEffect();
+    }
+    public void equipArmour() {
+        armourState.applyEffect();
+    }
+    public void equipOneRing() {
+        oneRingState.applyEffect();
+    }
+
+    public void equipCombat() {
+        Inventory inventory = Dungeon.getDungeon().getInventory();
+        if (inventory.numberOfItem("armour") >= 1) {
+            equipArmour();
+        }
+        if (inventory.numberOfItem("shield") >= 1) {
+            equipShield();
+        }
+        if (inventory.numberOfItem("sword") >= 1) {
+            equipSword();
+        }
+        if (inventory.numberOfItem("bow") >= 1) {
+            equipBow();
+        }
+        if (inventory.numberOfItem("the_one_ring") >= 1) {
+            equipOneRing();
+        }
+    }
+
+    /**
+     * Update Duration of items
+     */
+    public void updatePotionDuration() {
+        invisibleState.reduceDuration();
+        invincibleState.reduceDuration();
+    }
+
+    public void updateCombatDurability() {
+        armourState.reduceDuration();
+        shieldState.reduceDuration();
+        bowState.reduceDuration();
+        swordState.reduceDuration();
+    }
+
+    public Boolean isInvincible() {
+        return invincibleState.isApplied();
+    }
+
+    /**
+     * Getters and Setters
+     */
     public double getHealth() {
         return health;
     }
@@ -220,49 +374,8 @@ public class Player extends Entity {
         return maxHealth;
     }
 
-    public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
-    }
-
-    public void changeInvisibleState(PlayerState state) {
-        this.invisibleState = state;
-    }
-
-    public void changeInvincibleState(PlayerState state) {
-        this.invincibleState = state;
-    }
-
-    public void consumeInvisibilityPotion() {
-        invisibleState.applyEffect();
-    }
-    public void consumeInvincibilityPotion() {
-        invincibleState.applyEffect();
-    }
-
-    public void updatePotionDuration() {
-        invisibleState.reduceDuration();
-        invincibleState.reduceDuration();
-    }
-
-    /*
-    public Boolean isInvisible() {
-        return invisibleState.isInvisible();
-    }
-*/
-    public Boolean getIsShielded() {
-        return isShielded;
-    }
-
-    public void setIsShielded(Boolean isShielded) {
-        this.isShielded = isShielded;
-    }
-
-    public Boolean getRespawnable() {
-        return respawnable;
-    }
-
-    public void setRespawnable(Boolean respawnable) {
-        this.respawnable = respawnable;
+    public void setMaxHealth(double standardMaxHealth2) {
+        this.maxHealth = standardMaxHealth2;
     }
 
     public String getGameMode() {
@@ -277,8 +390,20 @@ public class Player extends Entity {
         return damage;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
+    public void setDamage(double d) {
+        this.damage = d;
+    }
+
+    public double getProtection() {
+        return protection;
+    }
+
+    public void setProtection(double protection) {
+        this.protection = protection;
+    }
+
+    public void healToFullHealth() {
+        this.health = maxHealth;
     }
     
 }

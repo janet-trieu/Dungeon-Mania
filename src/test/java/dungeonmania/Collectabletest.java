@@ -212,24 +212,24 @@ public class CollectableTest {
 
         // player moves one cell to the right and picks up the bomb 
         // new position = (1,0)
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
 
         // player moves two cells down
         // new position = (1,2)
-        controller.tick("", Direction.DOWN);
-        controller.tick("", Direction.DOWN);
+        controller.tick(null, Direction.DOWN);
+        controller.tick(null, Direction.DOWN);
 
         // player uses/places the bomb
         controller.tick("Bomb0", Direction.NONE);
 
         // player moves two cells up, one cell to the right
         // new position = (2,0)
-        controller.tick("", Direction.UP);
-        controller.tick("", Direction.UP);
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.UP);
+        controller.tick(null, Direction.UP);
+        controller.tick(null, Direction.RIGHT);
 
         // there is a boulder at position (2,1), which the player will push into the switch with position (2,2)
-        controller.tick("", Direction.DOWN);
+        controller.tick(null, Direction.DOWN);
         Position newBoulderPosition = new Position(2, 2, 1);
         assertEquals(new EntityResponse("Boulder0", "boulder", newBoulderPosition, false), controller.getInfo("Boulder0"));
 

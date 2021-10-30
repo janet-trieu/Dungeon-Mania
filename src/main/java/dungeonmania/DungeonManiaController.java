@@ -15,6 +15,7 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
+import dungeonmania.util.Position;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -52,6 +53,10 @@ public class DungeonManiaController {
 
     public List<String> getGameModes() {
         return Arrays.asList("Standard", "Peaceful", "Hard");
+    }
+
+    public List<String> getUsableItems() {
+        return Arrays.asList("bomb", "health_potion", "invincibility_potion", "invisibility_potion");
     }
 
     /**
@@ -126,7 +131,7 @@ public class DungeonManiaController {
         }
 
         // For maps that do not have goals
-        return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), "");
+        return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), ":exit");
     }
 
     /**
@@ -201,7 +206,7 @@ public class DungeonManiaController {
                     dungeon.addEntity(key);
                     break;
                 case "mercenary":
-                    Mercenary mercenary = new Mercenary(x, y);
+                    Mercenary mercenary = new Mercenary(x, y, dungeon);
                     dungeon.addEntity(mercenary);
                     break;
                 case "player":
@@ -245,7 +250,7 @@ public class DungeonManiaController {
                     dungeon.addEntity(wood);
                     break;
                 case "zombie_toast":
-                    ZombieToast zombieToast = new ZombieToast(x, y);
+                    ZombieToast zombieToast = new ZombieToast(x, y, dungeon);
                     dungeon.addEntity(zombieToast);
                     break;
                 case "zombie_toast_spawner":
@@ -357,13 +362,147 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
-        
-        // update goal at the end, check if null
-        return null;
+        Dungeon currDungeon = Dungeon.getDungeon();
+        Inventory currInventory = currDungeon.getInventory();
+        Player player = (Player) currDungeon.getPlayer();
+        List<MovingEntity> enemyList = currDungeon.getMovingEntities();
+        List<ZombieToastSpawner> spawnerList = currDungeon.getZombieToastSpawners();
+        List<Bomb> bombList = currDungeon.getBombs();
+        List<Entity> entityList = currDungeon.getEntityList();
+
+        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
+
+        // EXCEPTION CHECKS
+        // If itemUsed is not a usuable item or not null
+        if (!getUsableItems().contains(itemUsed) && itemUsed != null) {
+            throw new IllegalArgumentException("Item is not usable");
+        }
+        // If itemUsed is not in inventory
+        if (currInventory.numberOfItem(itemUsed) == 0 && itemUsed != null) {
+            throw new InvalidActionException("Item is not in the inventory");
+        }
+
+        if (!movementDirection.equals(Direction.NONE)) {
+            player.move(movementDirection);
+            for (MovingEntity enemy : enemyList) {
+                enemy.move();
+                if (player.getPosition().equals(enemy.getPosition())) {
+                    if (enemy instanceof Mercenary) {
+                        Mercenary mercenary = (Mercenary) enemy;
+                        if (!mercenary.IsBribed()) {
+                            player.battle(enemy);
+                        }
+                    } else {
+                        player.battle(enemy);
+                    }
+                }
+            }
+        } else {
+            switch (itemUsed) {
+                case "bomb":
+                    currInventory.breakItem("bomb");
+                    Bomb bomb = new Bomb(player.getX(), player.getY());
+                    entityList.add(bomb);
+                    break;
+                case "health_potion":
+                    // If player health FULL, do not use
+                    if (player.getHealth() == player.getMaxHealth()) {
+                        break;
+                    }
+                    player.healToFullHealth();
+                    currInventory.breakItem("health_potion");
+                case "invincibility_potion":
+                    player.consumeInvincibilityPotion();
+                    break;
+                case "invisibility_potion":
+                    player.consumeInvisibilityPotion();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Attempt to spawn any ZombieToastSpawners
+        for (ZombieToastSpawner spawner : spawnerList) {
+            spawner.spawnZombieToast(spawner, currDungeon);
+        }
+
+        for (Bomb bomb : bombList) {
+            Position bombPosition = bomb.getPosition();
+            List<Entity> cardinallyAdjacentList = currDungeon.getEntitiesCardinallyAdjacent(bombPosition);
+            for (Entity entity : cardinallyAdjacentList) {
+                if (entity instanceof FloorSwitch) {
+                    FloorSwitch floorSwitch = (FloorSwitch) entity;
+                    if (floorSwitch.getIsActive()) {
+                        bomb.explode(bomb);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Update
+        player.updatePotionDuration();
+        currDungeon.updateBuildableListBow();
+        currDungeon.updateBuildableListShield();
+        currDungeon.updateGoal();
+
+        DungeonResponse response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                                        currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+        return response;
     }
 
+    /**
+     * Method for the player interacting with a mercenary or zombie toast spawner
+     * @param entityId of entity
+     * @return
+     * @throws IllegalArgumentException
+     * @throws InvalidActionException
+     */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Dungeon currDungeon = Dungeon.getDungeon();
+        DungeonResponse response = null;
+        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
+        Position playerPos = currDungeon.getPlayer().getPosition();
+        List<Entity> entityCardinallyAdjacent = currDungeon.getEntitiesCardinallyAdjacent(playerPos);
+        List<Entity> entities = currDungeon.getEntityList();
+        Inventory inventory = currDungeon.getInventory();
+
+        // check whether the entityId is valid
+        if (!entityId.equals("mercenary") || !entityId.equals("zombie_toast_spawner")) {
+            throw new IllegalArgumentException("Incorrect interactable entity");
+        } else if (entityId.equals("mercenary")) {
+            for (Entity entity : entities) {
+                if (entity instanceof Mercenary) {
+                    if (!currDungeon.checkBribeRange(entity)) {
+                        throw new IllegalArgumentException("Not close enough to bribe");
+                    } else if (currDungeon.checkBribeRange(entity)) {
+                        // check if player has treasure
+                        if (inventory.numberOfItem("treasure") < 1) {
+                            throw new InvalidActionException("Cannot bribe without treasure");
+                        } 
+                        Mercenary mercenary = (Mercenary)entity;
+                        mercenary.bribe();
+                    }
+                }
+            }
+        } else if (entityId.equals("zombie_toast_spawner")) {
+            for (Entity entity : entityCardinallyAdjacent) {
+                if (entity instanceof ZombieToastSpawner) {
+                    // check if player has weapon
+                    if (inventory.numberOfItem("sword") < 1 && inventory.numberOfItem("bow") < 1) {
+                        throw new InvalidActionException("Cannot destroy zombie toast spawner without a weapon");
+                    } else if (inventory.numberOfItem("sword") >=1 || inventory.numberOfItem("bow") >= 1) { 
+                        entities.remove(entity);
+                    }
+                }
+            }
+        }
+        currDungeon.updateGoal();
+        response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                        currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+  
+        return response;
     }
 
     /**
@@ -376,7 +515,6 @@ public class DungeonManiaController {
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
         Dungeon currDungeon = Dungeon.getDungeon();
         DungeonResponse response = null;
-        List<String> currentBuildableList = currDungeon.getBuildableString();
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
@@ -385,25 +523,25 @@ public class DungeonManiaController {
             throw new IllegalArgumentException("Incorrect buildable entity");
         }  
         // check for InvalidActionException
-        if (buildable.equals("bow") && canBuildBow == false) {
+        if (buildable.equals("bow") && !canBuildBow) {
             throw new InvalidActionException("Not enough ingredients to build this");
-        } else if (buildable.equals("shield") && canBuildShield == false) {
+        } else if (buildable.equals("shield") && !canBuildShield) {
             throw new InvalidActionException("Not enough ingredients to build this");
         }
 
-        if (currentBuildableList.contains("bow") && buildable.equals("bow")) {
+        if (canBuildBow && buildable.equals("bow")) {
             Bow bow = new Bow(-1, -1);
             bow.useIngredient();
             currDungeon.updateBuildableListBow();
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
-        } else if (currentBuildableList.contains("shield") && buildable.equals("shield")) {
+        } else if (canBuildShield && buildable.equals("shield")) {
             Shield shield = new Shield(-1, -1);
             shield.useIngredient();
             currDungeon.updateBuildableListShield();
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
-        }   
+        }
 
         return response;
     }
@@ -418,4 +556,5 @@ public class DungeonManiaController {
 
     public void clearData() {
     }
+
 }

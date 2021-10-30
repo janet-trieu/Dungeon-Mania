@@ -45,36 +45,36 @@ public class StaticTest {
 
         // CASE: TELEPORT RIGHT
         // Player: (0,0) -> (5,0)
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         Position playerPosition= new Position(5, 0, 4);
         assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
 
         // CASE: TELEPORT RIGHT
         // Player: (5,0) -> (0,0)
-        controller.tick("", Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
         playerPosition= new Position(0, 0, 4);
         assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
 
         // MOVING TO SET UP NEXT CASES
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         playerPosition= new Position(5, 0, 4);
         assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
-        controller.tick("", Direction.DOWN);
+        controller.tick(null, Direction.DOWN);
         playerPosition = new Position(5, 1, 4);
         assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
-        controller.tick("", Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
         playerPosition = new Position(4, 1, 4);
         assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
 
         // CASE: TELEPORT UP
         // Player: (4,1) -> (1, -1)
-        controller.tick("", Direction.UP);
+        controller.tick(null, Direction.UP);
         playerPosition = new Position(1, -1, 4);
         assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
 
         // CASE: TELEPORT DOWN
         // Player: (1,-1) -> (4,1)
-        controller.tick("", Direction.DOWN);
+        controller.tick(null, Direction.DOWN);
         playerPosition = new Position(4, 1, 4);
         assertEquals(new EntityResponse("Player", "player", playerPosition, false), controller.getInfo("Player"));
     }
@@ -203,7 +203,7 @@ public class StaticTest {
 
         // 20 TICKS
         for (int i = 0; i <= 20; i++) {
-            controller.tick("", Direction.LEFT);
+            controller.tick(null, Direction.LEFT);
         }
 
         // ENSURE WALL AND PLAYER IN PLACE
@@ -215,7 +215,7 @@ public class StaticTest {
         // ASSERT THERE IS A ZOMBIE TOAST SOMEWHERE
         assertEquals(controller.getDungeon().getInfo("ZombieToast0"), controller.getInfo("ZombieToast0"));
 
-        controller.tick("", Direction.DOWN);
+        controller.tick(null, Direction.DOWN);
         position = new Position(1, 1);
         assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
         
@@ -239,7 +239,7 @@ public class StaticTest {
 
         // 15 TICKS
         for (int i = 0; i <= 15; i++) {
-            controller.tick("", Direction.LEFT);
+            controller.tick(null, Direction.LEFT);
         }
 
         // ENSURE WALL AND PLAYER IN PLACE
@@ -251,7 +251,7 @@ public class StaticTest {
         // ASSERT THERE IS A ZOMBIE TOAST SOMEWHERE
         assertEquals(controller.getDungeon().getInfo("ZombieToast0"), controller.getInfo("ZombieToast0"));
 
-        controller.tick("", Direction.DOWN);
+        controller.tick(null, Direction.DOWN);
         position = new Position(1, 1);
         assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
         

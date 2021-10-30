@@ -31,7 +31,7 @@ public class InvincibleState implements PlayerState{
         }
     }
 
-    public Boolean isInvincible() {
+    public Boolean isApplied() {
         return true;
     }
 

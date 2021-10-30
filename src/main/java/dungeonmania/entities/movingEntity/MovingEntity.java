@@ -21,7 +21,7 @@ public abstract class MovingEntity extends Entity {
 
     public double getDamage() {return damage;}
 
-    public void setDamage(double damage) {this.damage = damage;} 
+    public void setDamage(double damage) {this.damage = damage;}
 
-    
+    public abstract void move();
 }
