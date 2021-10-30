@@ -29,24 +29,23 @@ public class Dungeon {
     private Inventory inventory;
     private Goal goal;
     private static Dungeon thisDungeon = null;
-    private String gamemode;
+    private String gameMode;
 
     public Dungeon() {
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<String>();
         this.inventory = new Inventory();
-        this.gamemode = gamemode;
         thisDungeon = this;
     }
 
-    public Dungeon(String dungeonName) {
+    public Dungeon(String dungeonName, String gameMode) {
         this.dungeonName = dungeonName;
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<String>();
         this.inventory = new Inventory();
-        this.gamemode = gamemode;
+        this.gameMode = gameMode;
         thisDungeon = this;
     }
 
@@ -82,15 +81,13 @@ public class Dungeon {
         this.goal = goal;
     }
 
+
+    public String getGameMode() {
+        return gameMode;
+    }
+    
     public void updateGoal() {
         goal.update();
-    }
-    public String getGamemode() {
-        return gamemode;
-    }
-
-    public void setGamemode(String gamemode) {
-        this.gamemode = gamemode;
     }
 
     /**

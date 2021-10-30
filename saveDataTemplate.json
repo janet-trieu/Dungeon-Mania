@@ -1,0 +1,27 @@
+{
+	"__comment": "THIS IS A TEMPLATE, DO NOT USE!!!",
+	"name": "String",
+	"gameMode": "String",
+	"dungeonResponse":
+	{
+		"dungeonId": "String",
+		"dungeonName": "String",
+		"entities":
+		[
+			{
+				"id": "int",
+				"type": "type",
+				"position": "Position",
+				"isInteractable": "boolean"
+			}
+		],
+		"inventory":
+		[
+			{
+				"id": "String",
+				"type": "String"
+			}
+		],
+		"goals": "String"
+	}
+}
