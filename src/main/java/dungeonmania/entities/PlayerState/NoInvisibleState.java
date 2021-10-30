@@ -1,8 +1,9 @@
-package dungeonmania.entities.PotionState;
+package dungeonmania.entities.PlayerState;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
-public class NoInvisibleState implements PotionState {
+public class NoInvisibleState implements PlayerState {
     private Player player;
 
     public NoInvisibleState(Player player) {
@@ -12,7 +13,7 @@ public class NoInvisibleState implements PotionState {
     @Override
     public void applyEffect() {
         player.changeInvisibleState(new InvisibleState(player));
-        
+        Dungeon.getDungeon().getInventory().breakItem("invisibility_potion");
     }
 
     @Override
@@ -27,7 +28,7 @@ public class NoInvisibleState implements PotionState {
         return;        
     }
     
-    public Boolean isInvisible() {
+    public Boolean isApplied() {
         return false;
     }
 }

@@ -2,12 +2,17 @@ package dungeonmania.entities.collectableEntity.potionEntity;
 
 public class InvisibilityPotion extends PotionEntity {
     
-    // will be changed later
+    // storing the duration of invisibility potion as 10 (ticks)
     private int duration = 0;
 
     // storing the number of Invisibility potions created to help with fluid entityId generation
     private static int counter = 0;
 
+    /**
+     * Constructor for an invisibility potion
+     * @param x position 
+     * @param y position
+     */
     public InvisibilityPotion(int x, int y) {
         super(x, y, "invisibility_potion");
         setId("InvisibilityPotion" + String.valueOf(counter));
