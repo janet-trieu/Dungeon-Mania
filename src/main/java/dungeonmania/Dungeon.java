@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Arrow;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
@@ -218,7 +219,15 @@ public class Dungeon {
         return listOfEntities;
     }
 
+    /**
+     * Checks if 'bow' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if bow is buildable
+     */
     public boolean updateBuildableListBow() {
+        if (buildableList.contains("bow")) {
+            return true;
+        }
         Boolean bool = false;
         List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
         int arrowCounter = 0;
@@ -238,7 +247,15 @@ public class Dungeon {
         return bool;
     }
 
+    /**
+     * Checks if 'shield' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if shield is buildable
+     */
     public boolean updateBuildableListShield() {
+        if (buildableList.contains("shield")) {
+            return true;
+        }
         Boolean bool = false;
         List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
         int woodCounter = 0;
