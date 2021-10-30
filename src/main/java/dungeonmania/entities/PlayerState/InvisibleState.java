@@ -29,7 +29,7 @@ public class InvisibleState implements PlayerState{
         }
     }
     
-    public Boolean isInvisible() {
+    public Boolean isApplied() {
         return true;
     }
 

@@ -2,31 +2,30 @@ package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
 
-public class NoInvisibleState implements PlayerState {
+public class NoBowState implements PlayerState {
     private Player player;
 
-    public NoInvisibleState(Player player) {
+    public NoBowState(Player player) {
         this.player = player;
     }
 
     @Override
     public void applyEffect() {
-        player.changeInvisibleState(new InvisibleState(player));
-        Dungeon.getDungeon().getInventory().breakItem("invisibility_potion");
+        player.changeArmourState(new BowState(player));
+        player.setDamage(player.getDamage() * 2);
     }
 
     @Override
     public void removeEffect() {
-        // Does nothing
-        return;        
+        // does nothing
     }
 
     @Override
     public void reduceDuration() {
-        // Does nothing
-        return;        
+        // does nothing
     }
-    
+
+    @Override
     public Boolean isApplied() {
         return false;
     }
