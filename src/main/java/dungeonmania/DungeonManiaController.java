@@ -17,8 +17,11 @@ import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,6 +29,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.xml.crypto.Data;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -354,23 +360,35 @@ public class DungeonManiaController {
      * @throws IllegalArgumentException
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        List<String> maps = null;
-        try {
-            maps = FileLoader.listFileNamesInResourceDirectory("saves");
-        } catch (IOException e) {
-            System.err.println("Save directory does not exist: " + e.getMessage());
-        }
+        File gameFile = new File(savesPath + "\\" + name + ".json");
 
         // EXCEPTION CHECKING
-        // If name is not a valid game id
-        if (!maps.contains(name)) {
+        // If filename does not exist/valid
+        if (!gameFile.exists()) {
             throw new IllegalArgumentException("Name is not a valid game name");
         }
 
-        // Load file
-        // Read gameMode and dungeonResponse
-        // Replace dungeon class with new info
-        // return dungeonresponse
+        // Read gameMode and dungeonResponse data
+        dungeon = new Dungeon();
+        String data = "";
+        try {
+            data = FileLoader.loadResourceFile("saves/" + name + ".json");
+        } catch (IOException e) {
+            System.err.println("File load error: " + e.getMessage());
+        }
+
+        JSONObject dataObj = new JSONObject(data);
+        System.out.println(dataObj);
+        // Get dungeonId
+        // Get dungeonName
+        // Get entities (id,type,position[x,y],isInteractable), set necessary attributes
+        // Get inventory (id, type), set necessary attributes
+        // Get buildables
+        // Get goal
+        // Get animations, not implemented
+        // Get gameMode
+        // Replace dungeon class with new info from file
+        // Create new dungeonresposne from dungeon class to ensure its correct and return
 
         return null;
     }
@@ -605,14 +623,5 @@ public class DungeonManiaController {
             File gameFile = new File(savesPath + "\\" + games + ".json");
             gameFile.delete();
         }
-    }
-
-    public static void main(String[] args) {
-        DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("portals", "Standard");
-        controller.saveGame("portal");
-        controller.newGame("maze", "Standard");
-        controller.saveGame("maze");
-        controller.loadGame("maze");
     }
 }

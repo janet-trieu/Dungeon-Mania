@@ -2,26 +2,31 @@
 	"__comment": "THIS IS A TEMPLATE, DO NOT USE!!!",
 	"name": "String",
 	"gameMode": "String",
-	"dungeonResponse":
-	{
+	"dungeonResponse": {
 		"dungeonId": "String",
 		"dungeonName": "String",
-		"entities":
-		[
+		"entities": [
 			{
 				"id": "int",
 				"type": "type",
-				"position": "Position",
+				"position": {
+					"x": "int",
+					"y": "int",
+					"layer": "int"
+				},
 				"isInteractable": "boolean"
 			}
 		],
-		"inventory":
-		[
+		"inventory": [
 			{
 				"id": "String",
 				"type": "String"
 			}
 		],
-		"goals": "String"
+		"buildables": [
+			"String"
+		],
+		"goals": "String",
+		"animations": []
 	}
 }
