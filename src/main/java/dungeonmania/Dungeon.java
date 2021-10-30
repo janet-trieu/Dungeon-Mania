@@ -10,12 +10,11 @@ import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.Wood;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.BuildableEntity;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
+import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.StaticEntity;
+import dungeonmania.entities.staticEntity.ZombieToastSpawner;
 import dungeonmania.goals.Goal;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
@@ -78,15 +77,21 @@ public class Dungeon {
         return goal;
     }
 
-    public void addGoal(Goal goal) {
-        this.goal = goal;
-    }
-
-
     public String getGameMode() {
         return gameMode;
     }
+
+    /**
+     * Add goal to goal
+     * @param goal
+     */
+    public void addGoal(Goal goal) {
+        this.goal = goal;
+    }
     
+    /**
+     * Updates goal
+     */
     public void updateGoal() {
         goal.update();
     }
@@ -109,26 +114,51 @@ public class Dungeon {
         return null;
     }
 
+    /**
+     * Adds entity to EntityList
+     * @param entity
+     */
     public void addEntity(Entity entity) {
         entityList.add(entity);
     }
 
+    /**
+     * Removes entity from EntityList
+     * @param entity
+     */
     public void removeEntity(Entity entity) {
         entityList.remove(entity);
     }
 
+    /**
+     * Add item to Inventory
+     * @param item
+     * @return
+     */
     public Boolean addItem(CollectableEntity item) {
         return inventory.addItem(item);
     }
 
+    /**
+     * Remove item from Inventory
+     * @param item
+     */
     public void removeItem(CollectableEntity item) {
         inventory.removeItem(item);
     }
 
+    /**
+     * Get Key from Inventory
+     * @return Key
+     */
     public Key getKey() {
         return inventory.getKey();
     }
 
+    /**
+     * Get the Player
+     * @return player
+     */
     public Entity getPlayer() {
         for (Entity entity : entityList) {
             if (entity instanceof Player) {
@@ -182,7 +212,7 @@ public class Dungeon {
     }
 
     /**
-     * 
+     * Gets a list of entities on the same position as entity
      * @return list of entities on same position as entity
      */
     public List<Entity> getEntitiesOnSamePosition(Position position) {
@@ -196,6 +226,11 @@ public class Dungeon {
         return listOfEntities;
     }
 
+    /**
+     * Checks if player can go through a static entity in a specific position
+     * @param position
+     * @return boolean
+     */
     public Boolean canPlayerGoThrough(Position position) {
         Boolean canGoThrough = true;
         for (Entity entity : getEntitiesOnSamePosition(position)) {
@@ -210,6 +245,11 @@ public class Dungeon {
         return canGoThrough;
     }
 
+    /**
+     * Gets a list of entities that is cardinally adjacent
+     * @param position
+     * @return lsit of entities cardinally adjacent
+     */
     public List<Entity> getEntitiesCardinallyAdjacent(Position position) {
         List<Entity> listOfEntities = new ArrayList<Entity>();
         listOfEntities.addAll(getEntitiesOnSamePosition(position.translateBy(Direction.UP)));
@@ -224,7 +264,7 @@ public class Dungeon {
      * If so and not already in 'buildableList', add to 'buildableList' and return true
      * @return boolean if bow is buildable
      */
-    public boolean updateBuildableListBow() {
+    public Boolean updateBuildableListBow() {
         if (buildableList.contains("bow")) {
             return true;
         }
@@ -252,7 +292,7 @@ public class Dungeon {
      * If so and not already in 'buildableList', add to 'buildableList' and return true
      * @return boolean if shield is buildable
      */
-    public boolean updateBuildableListShield() {
+    public Boolean updateBuildableListShield() {
         if (buildableList.contains("shield")) {
             return true;
         }
@@ -278,4 +318,31 @@ public class Dungeon {
         return bool;
     }
 
+    /**
+     * Gets all current MovingEntity in Dungeon
+     * @return list of MovingEntity in Dungeon
+     */
+    public List<MovingEntity> getMovingEntities() {
+        List<MovingEntity> movingList = new ArrayList<MovingEntity>();
+        for (Entity entity : entityList) {
+            if (entity instanceof MovingEntity) {
+                movingList.add((MovingEntity)entity);
+            }
+        }
+        return movingList;
+    }
+
+    /**
+     * Gets all current ZombieToastSpawners in Dungeon
+     * @return list of ZombieToastSpawnrs in Dungeon
+     */
+    public List<ZombieToastSpawner> getZombieToastSpawners() {
+        List<ZombieToastSpawner> spawnerList = new ArrayList<ZombieToastSpawner>();
+        for (Entity entity : entityList) {
+            if (entity instanceof ZombieToastSpawner) {
+                spawnerList.add((ZombieToastSpawner) entity);
+            }
+        }
+        return spawnerList;
+    }
 }
