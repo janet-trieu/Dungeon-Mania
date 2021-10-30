@@ -36,7 +36,7 @@ public class EnemyGoal extends LeafGoal {
 
     public List<Mercenary> mercenaryList() {
         List<Mercenary> listOfEntity = new ArrayList<Mercenary>();
-        List<Entity> entityList = dungeon.getEntityList();
+        List<Entity> entityList = getDungeon().getEntityList();
         for (Entity entity : entityList) {
             if (entity.getType().equals("mercenary")) {
                 listOfEntity.add((Mercenary) entity);

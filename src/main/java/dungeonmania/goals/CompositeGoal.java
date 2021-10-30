@@ -55,4 +55,5 @@ public abstract class CompositeGoal extends Goal {
         }
         return complete;
     }
+
 }

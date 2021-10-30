@@ -1,8 +1,8 @@
-package dungeonmania.entities.PotionState;
+package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
 
-public class NoInvisibleState implements PotionState {
+public class NoInvisibleState implements PlayerState {
     private Player player;
 
     public NoInvisibleState(Player player) {

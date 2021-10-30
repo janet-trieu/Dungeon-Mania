@@ -1,6 +1,6 @@
-package dungeonmania.entities.PotionState;
+package dungeonmania.entities.PlayerState;
 
-public interface PotionState {
+public interface PlayerState {
     public void applyEffect();
     public void removeEffect();
     public void reduceDuration();

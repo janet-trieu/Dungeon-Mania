@@ -19,7 +19,7 @@ public class FloorSwitch extends StaticEntity {
         setId("FloorSwitch" + String.valueOf(counter));
         counter++;
         setPassable(passable);
-
+        
     }
 
     /**
