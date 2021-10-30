@@ -4,15 +4,7 @@ import java.util.List;
 
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
-import dungeonmania.entities.PlayerState.NoArmourState;
-import dungeonmania.entities.PlayerState.NoBowState;
-import dungeonmania.entities.PlayerState.NoInvincibleState;
-import dungeonmania.entities.PlayerState.NoInvisibleState;
-import dungeonmania.entities.PlayerState.NoOneRingState;
-import dungeonmania.entities.PlayerState.NoShieldState;
-import dungeonmania.entities.PlayerState.NoSwordState;
-import dungeonmania.entities.PlayerState.OneRingState;
-import dungeonmania.entities.PlayerState.PlayerState;
+import dungeonmania.entities.PlayerState.*;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.movingEntity.Mercenary;
@@ -44,11 +36,19 @@ public class Player extends Entity {
 
     public Player(int x, int y) {
         super(x, y, "player");
-        invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
+        invisibleState = new NoInvisibleState(this);
+        oneRingState = new NoOneRingState(this);
+        shieldState = new NoShieldState(this);
+        armourState = new NoArmourState(this);
+        swordState = new NoSwordState(this);
+        bowState = new NoBowState(this);
         setId("Player");
         setLayer(layer);
+        setDamage(1);
+        setProtection(1);
         setHealth(standardMaxHealth);
+        setMaxHealth(standardMaxHealth);
     }
 
     public Player(int x, int y, String gameMode) {
@@ -78,13 +78,25 @@ public class Player extends Entity {
         // check inventory and change states accordingly
         equipCombat();
         // Character Health = Character Health - ((Enemy Health * Enemy Attack Damage) / 10) / protection
+        if (isInvincible()) {
+            Dungeon.getDungeon().removeEntity(otherEntity);
+            return;
+        }
         setHealth(getHealth() - ((otherEntity.getHealth() * otherEntity.getDamage()) / 10) / getProtection());
         if (getHealth() <= 0) {
             oneRingState.removeEffect();
         }
-        // Enemy Health = Enemy Health - ((Character Health * Character Attack Damage) / 5) * damage
-        otherEntity.setHealth(otherEntity.getHealth() - ((getHealth() * getDamage()) / 5) * getDamage());
-        allyAssistBattle(otherEntity);
+        if (getHealth() <= 0) {
+            Dungeon.getDungeon().removeEntity(this);
+            return;
+        }
+        // Enemy Health = Enemy Health - ((Character Health * Character Attack Damage) / 5)
+        otherEntity.setHealth(otherEntity.getHealth() - ((getHealth() * getDamage()) / 5));
+
+        if (otherEntity.getHealth() <= 0) {
+            Dungeon.getDungeon().removeEntity(otherEntity);
+        }
+        //allyAssistBattle(otherEntity);
         updateCombatDurability();
     }
 
@@ -343,6 +355,10 @@ public class Player extends Entity {
         swordState.reduceDuration();
     }
 
+    public Boolean isInvincible() {
+        return invincibleState.isApplied();
+    }
+
     /**
      * Getters and Setters
      */
@@ -358,8 +374,8 @@ public class Player extends Entity {
         return maxHealth;
     }
 
-    public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
+    public void setMaxHealth(double standardMaxHealth2) {
+        this.maxHealth = standardMaxHealth2;
     }
 
     public String getGameMode() {

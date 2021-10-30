@@ -319,6 +319,7 @@ public class Dungeon {
         return bool;
     }
 
+
     /**
      * Gets all current MovingEntity in Dungeon
      * @return list of MovingEntity in Dungeon
@@ -359,5 +360,64 @@ public class Dungeon {
             }
         }
         return bombList;
+    }
+    
+    public List<Position> getCardinalAdjacent2Cells(Entity entity) {
+        List<Position> positions = new ArrayList<Position>();
+        int x = entity.getX();
+        int y = entity.getY();
+        positions.add(new Position(x, y - 2));
+        positions.add(new Position(x + 2, y));
+        positions.add(new Position(x, y + 2));
+        positions.add(new Position(x - 2, y));
+
+        return positions;
+    }
+
+    public List<Position> getCardinalAdjacentCell(Entity entity) {
+        List<Position> positions = new ArrayList<Position>();
+        int x = entity.getX();
+        int y = entity.getY();
+        positions.add(new Position(x, y - 1));
+        positions.add(new Position(x + 1, y));
+        positions.add(new Position(x, y + 1));
+        positions.add(new Position(x - 1, y));
+
+        return positions;
+    }
+
+    public boolean checkBribeRange(Entity otherEntity) {
+        Boolean twoCells = false;
+        Boolean oneCell = false;
+        Position otherPos = otherEntity.getPosition();
+        List<Position> twoCellList = getCardinalAdjacent2Cells(getPlayer());
+        List<Position> oneCellList = getCardinalAdjacentCell(getPlayer());
+
+        // check if player and mercenary positions' are within 2 cardinally adjacent cells
+        for (Position position : twoCellList) {
+            if (position.equals(otherPos)) {
+                twoCells = true;
+            }
+        }
+
+        // check if player and mercanry positions' are cardinally adjacent
+        for (Position position : oneCellList) {
+            if (position.equals(otherPos)) {
+                oneCell = true;
+            }
+        }
+
+        // if distance between cells are greater than 2, return false
+        if (oneCell == false && twoCells == false) {
+            return false;
+        // if distance between cells are 2 cells, return true
+        } else if (oneCell == true && twoCells == true) {
+            return true;
+        // if distance between cells are 1 cell, return true
+        } else if (oneCell == true && twoCells == false) {
+            return true;
+        }
+
+        return false;
     }
 }
