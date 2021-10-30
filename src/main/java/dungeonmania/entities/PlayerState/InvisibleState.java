@@ -1,12 +1,12 @@
-package dungeonmania.entities.PotionState;
+package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
 
-public class InvincibleState implements PotionState{
+public class InvisibleState implements PlayerState{
     private Player player;
     private int duration;
-    
-    public InvincibleState(Player player) {
+
+    public InvisibleState(Player player) {
         this.player = player;
         this.duration = 5;
     }
@@ -18,7 +18,7 @@ public class InvincibleState implements PotionState{
 
     @Override
     public void removeEffect() {
-        player.changeInvincibleState(new NoInvincibleState(player));
+        player.changeInvisibleState(new NoInvisibleState(player));
     }
 
     @Override
@@ -28,8 +28,8 @@ public class InvincibleState implements PotionState{
             removeEffect();
         }
     }
-
-    public Boolean isInvincible() {
+    
+    public Boolean isInvisible() {
         return true;
     }
 

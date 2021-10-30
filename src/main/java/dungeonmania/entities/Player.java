@@ -3,9 +3,9 @@ package dungeonmania.entities;
 import java.util.List;
 
 import dungeonmania.Dungeon;
-import dungeonmania.entities.PotionState.NoInvincibleState;
-import dungeonmania.entities.PotionState.NoInvisibleState;
-import dungeonmania.entities.PotionState.PotionState;
+import dungeonmania.entities.PlayerState.NoInvincibleState;
+import dungeonmania.entities.PlayerState.NoInvisibleState;
+import dungeonmania.entities.PlayerState.PlayerState;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.movingEntity.MovingEntity;
@@ -16,11 +16,15 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Player extends Entity {
-    private int health;
-    private int maxHealth = 10;
+    private double health;
+    private double standardMaxHealth = 10;
+    private double hardMaxHealth = standardMaxHealth * 8/10;
+    private double maxHealth;
+    private double damage;
+    private String gameMode;
     private int layer = 4;
-    private PotionState invisibleState;
-    private PotionState invincibleState;
+    private PlayerState invisibleState;
+    private PlayerState invincibleState;
     private Boolean isShielded;
     private Boolean respawnable;
 
@@ -28,9 +32,26 @@ public class Player extends Entity {
         super(x, y, "player");
         invisibleState = new NoInvisibleState(this);
         invincibleState = new NoInvincibleState(this);
-        setHealth(maxHealth);
         setId("Player");
         setLayer(layer);
+        setHealth(standardMaxHealth);
+    }
+
+    public Player(int x, int y, String gameMode) {
+        super(x, y, "player");
+        invisibleState = new NoInvisibleState(this);
+        invincibleState = new NoInvincibleState(this);
+        setId("Player");
+        setLayer(layer);
+        setDamage(1);
+        if (gameMode.equals("Hard")) {
+            setHealth(hardMaxHealth);
+            this.maxHealth = hardMaxHealth;
+        } else {
+            setHealth(standardMaxHealth);
+            this.maxHealth = standardMaxHealth;
+        }
+        this.gameMode = gameMode;
     }
 
     public void battle(MovingEntity otherEntity) {
@@ -181,15 +202,15 @@ public class Player extends Entity {
         move(Direction.RIGHT);
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setHealth(double standardMaxHealth2) {
+        this.health = standardMaxHealth2;
     }
 
-    public int getMaxHealth() {
+    public double getMaxHealth() {
         return maxHealth;
     }
 
@@ -197,11 +218,11 @@ public class Player extends Entity {
         this.maxHealth = maxHealth;
     }
 
-    public void changeInvisibleState(PotionState state) {
+    public void changeInvisibleState(PlayerState state) {
         this.invisibleState = state;
     }
 
-    public void changeInvincibleState(PotionState state) {
+    public void changeInvincibleState(PlayerState state) {
         this.invincibleState = state;
     }
 
@@ -212,14 +233,16 @@ public class Player extends Entity {
         invincibleState.applyEffect();
     }
 
-    public PotionState getInvisibleState() {
-        return invisibleState;
+    public void updatePotionDuration() {
+        invisibleState.reduceDuration();
+        invincibleState.reduceDuration();
     }
 
-    public PotionState getInvincibleState() {
-        return invincibleState;
+    /*
+    public Boolean isInvisible() {
+        return invisibleState.isInvisible();
     }
-
+*/
     public Boolean getIsShielded() {
         return isShielded;
     }
@@ -234,6 +257,22 @@ public class Player extends Entity {
 
     public void setRespawnable(Boolean respawnable) {
         this.respawnable = respawnable;
+    }
+
+    public String getGameMode() {
+        return gameMode;
+    }
+
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
     
 }
