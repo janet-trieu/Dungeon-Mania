@@ -64,17 +64,28 @@ public class DungeonManiaController {
      * @throws IllegalArgumentException
      * @throws IOException
      */
-    public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException, IOException {
-        // EXCEPTION CHECKS //
-        // If dungeonName does not exist
-        List<String> maps = FileLoader.listFileNamesInResourceDirectory("dungeons");
-        if (!maps.contains(dungeonName)) {
-            throw new IllegalArgumentException("Invalid dungeonName");
+    public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
+        List<String> maps = null;
+        try {
+            maps = FileLoader.listFileNamesInResourceDirectory("dungeons");
+        } catch (IOException e) {
+            System.err.println("Invalid directory: " + e.getMessage());
         }
-        // If gameMode is invalid
-        if (!getGameModes().contains(gameMode)) {
-            throw new IllegalArgumentException("Invalid gameMode");
+
+        try {
+            // EXCEPTION CHECKS //
+            // If dungeonName does not exist
+            if (!maps.contains(dungeonName)) {
+                throw new IllegalArgumentException("Invalid dungeonName");
+            }
+            // If gameMode is invalid
+            if (!getGameModes().contains(gameMode)) {
+                throw new IllegalArgumentException("Invalid gameMode");
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
+
 
         // Generate dungeonId
         String dungeonId = dungeonName + Instant.now().getEpochSecond();
@@ -83,7 +94,13 @@ public class DungeonManiaController {
         dungeon = new Dungeon(dungeonName);
 
         // Load the map
-        String map = FileLoader.loadResourceFile("dungeons/" + dungeonName +".json");
+        String map = "";
+        try {
+            map = FileLoader.loadResourceFile("dungeons/" + dungeonName +".json");
+        } catch (IOException e) {
+            System.err.println("Invalid file: " + e.getMessage());
+        }
+
         JSONObject mapObj = new JSONObject(map);
 
         // Add "entities"
@@ -251,7 +268,7 @@ public class DungeonManiaController {
                 Goal leafGoal = createGoal(subgoals.getJSONObject(i), dungeon);
                 compositeGoal.addSubGoal(leafGoal);
             }
-            //return compositeGoal;
+            return compositeGoal;
         }
 
         switch (goal) {
