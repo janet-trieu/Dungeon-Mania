@@ -2,7 +2,6 @@
 	"__comment": "THIS IS A TEMPLATE, DO NOT USE!!!",
 	"name": "String",
 	"gameMode": "String",
-	"goals": "String",
 	"dungeonResponse":
 	{
 		"dungeonId": "String",
@@ -22,6 +21,7 @@
 				"id": "String",
 				"type": "String"
 			}
-		]
+		],
+		"goals": "String"
 	}
 }
