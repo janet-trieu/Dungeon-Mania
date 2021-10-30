@@ -1,6 +1,6 @@
 package dungeonmania.entities.movingEntity;
 
-public class Mercenary extends MovingEntity {
+public class Mercenary extends MovingEntity implements Moveable {
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
     private boolean isInteractable = true;
@@ -17,6 +17,12 @@ public class Mercenary extends MovingEntity {
     public void move() {
 
     }
+
+    public void ShortestPath() {
+
+    }
+
+
 
     public void dropArmour() {
         

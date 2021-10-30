@@ -207,7 +207,7 @@ public class DungeonManiaController {
                     dungeon.addEntity(shield);
                     break;
                 case "spider":
-                    Spider spider = new Spider(x, y);
+                    Spider spider = new Spider(x, y, dungeon);
                     dungeon.addEntity(spider);
                     break;
                 case "switch":

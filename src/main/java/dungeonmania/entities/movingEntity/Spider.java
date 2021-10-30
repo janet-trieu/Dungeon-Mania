@@ -28,9 +28,10 @@ public class Spider extends MovingEntity {
     public void move() {
         Position next;
         //if spider is in spawn position, move it up
-        if (!path.contains(this.getPosition())) {
+        if (counter == 0) {
             next = path.get(1);
             this.setPosition(next.getX(), next.getY());
+            counter++;
             return;
         }
         //getting the position the spider is to move to
