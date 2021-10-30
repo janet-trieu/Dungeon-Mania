@@ -361,9 +361,17 @@ public class DungeonManiaController {
             System.err.println("Save directory does not exist: " + e.getMessage());
         }
 
-        if (!(maps.contains(name))) {
-            throw new IllegalArgumentException("Name is not a valid game id");
+        // EXCEPTION CHECKING
+        // If name is not a valid game id
+        if (!maps.contains(name)) {
+            throw new IllegalArgumentException("Name is not a valid game name");
         }
+
+        // Load file
+        // Read gameMode and dungeonResponse
+        // Replace dungeon class with new info
+        // return dungeonresponse
+
         return null;
     }
 
@@ -588,7 +596,23 @@ public class DungeonManiaController {
         return dungeon;
     }
 
+    /**
+     * USED FOR TESTING
+     * Clears all save data
+     */
     public void clearData() {
+        for (String games : allGames()) {
+            File gameFile = new File(savesPath + "\\" + games + ".json");
+            gameFile.delete();
+        }
     }
 
+    public static void main(String[] args) {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("portals", "Standard");
+        controller.saveGame("portal");
+        controller.newGame("maze", "Standard");
+        controller.saveGame("maze");
+        controller.loadGame("maze");
+    }
 }
