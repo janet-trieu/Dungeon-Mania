@@ -13,5 +13,10 @@ public abstract class BuildableEntity extends BreakableEntity {
     public BuildableEntity(int x, int y, String type) {
         super(x, y, type);
     }
+
+    /**
+     * Abstract method for building a buildable entity
+     */
+    public abstract void buildEntity();
     
 }
