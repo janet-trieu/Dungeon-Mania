@@ -15,6 +15,7 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
+import dungeonmania.util.Position;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -362,8 +363,57 @@ public class DungeonManiaController {
         return null;
     }
 
+    /**
+     * Method for the player interacting with a mercenary or zombie toast spawner
+     * @param entityId of entity
+     * @return
+     * @throws IllegalArgumentException
+     * @throws InvalidActionException
+     */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Dungeon currDungeon = Dungeon.getDungeon();
+        DungeonResponse response = null;
+        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
+        Position playerPos = currDungeon.getPlayer().getPosition();
+        List<Entity> entityCardinallyAdjacent = currDungeon.getEntitiesCardinallyAdjacent(playerPos);
+        List<Entity> entities = currDungeon.getEntityList();
+        Inventory inventory = currDungeon.getInventory();
+
+        // check whether the entityId is valid
+        if (!entityId.equals("mercenary") || !entityId.equals("zombie_toast_spawner")) {
+            throw new IllegalArgumentException("Incorrect interactable entity");
+        } else if (entityId.equals("mercenary")) {
+            for (Entity entity : entities) {
+                if (entity instanceof Mercenary) {
+                    if (!currDungeon.checkBribeRange(entity)) {
+                        throw new IllegalArgumentException("Not close enough to bribe");
+                    } else if (currDungeon.checkBribeRange(entity)) {
+                        // check if player has treasure
+                        if (inventory.numberOfItem("treasure") < 1) {
+                            throw new InvalidActionException("Cannot bribe without treasure");
+                        } 
+                        Mercenary mercenary = (Mercenary)entity;
+                        mercenary.bribe();
+                    }
+                }
+            }
+        } else if (entityId.equals("zombie_toast_spawner")) {
+            for (Entity entity : entityCardinallyAdjacent) {
+                if (entity instanceof ZombieToastSpawner) {
+                    // check if player has weapon
+                    if (inventory.numberOfItem("sword") < 1 && inventory.numberOfItem("bow") < 1) {
+                        throw new InvalidActionException("Cannot destroy zombie toast spawner without a weapon");
+                    } else if (inventory.numberOfItem("sword") >=1 || inventory.numberOfItem("bow") >= 1) { 
+                        entities.remove(entity);
+                    }
+                }
+            }
+        }
+        currDungeon.updateGoal();
+        response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                        currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+  
+        return response;
     }
 
     /**
