@@ -8,11 +8,9 @@ import dungeonmania.Dungeon;
 
 public abstract class CompositeGoal extends Goal {
     private List<Goal> subGoalList = new ArrayList<Goal>();
-    private int subGoals; 
     
     public CompositeGoal(Dungeon dungeon) {
         super(dungeon);
-        subGoals = 0;
     }
 
     public List<Goal> getSubGoalList() {
@@ -21,12 +19,10 @@ public abstract class CompositeGoal extends Goal {
 
     public void addSubGoal(Goal goal) {
         subGoalList.add(goal);
-        subGoals++;
     }
 
     public void removeSubGoal(Goal goal) {
         subGoalList.remove(goal);
-        subGoals--;
     }
     
     @Override
@@ -46,7 +42,6 @@ public abstract class CompositeGoal extends Goal {
             // if goal is complete, remove from goal list
             } else if (current.isComplete()) {
                 iter.remove();
-                subGoals--;
             }
         }
     } 
@@ -59,10 +54,6 @@ public abstract class CompositeGoal extends Goal {
             }
         }
         return complete;
-    }
-
-    public int getSubGoals() {
-        return subGoals;
     }
 
 }
