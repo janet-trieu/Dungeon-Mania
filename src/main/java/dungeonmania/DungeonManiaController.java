@@ -519,23 +519,23 @@ public class DungeonManiaController {
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
-        if (!buildable.equals("bow") || !buildable.equals("shield")) {
+        if (!buildable.equals("Bow") || !buildable.equals("Shield")) {
             throw new IllegalArgumentException("Incorrect buildable entity");
         }  
         // check for InvalidActionException
-        if (buildable.equals("bow") && !canBuildBow) {
+        if (buildable.equals("Bow") && !canBuildBow) {
             throw new InvalidActionException("Not enough ingredients to build this");
-        } else if (buildable.equals("shield") && !canBuildShield) {
+        } else if (buildable.equals("Shield") && !canBuildShield) {
             throw new InvalidActionException("Not enough ingredients to build this");
         }
 
-        if (canBuildBow && buildable.equals("bow")) {
+        if (canBuildBow && buildable.equals("Bow")) {
             Bow bow = new Bow(-1, -1);
             bow.useIngredient();
             currDungeon.updateBuildableListBow();
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
-        } else if (canBuildShield && buildable.equals("shield")) {
+        } else if (canBuildShield && buildable.equals("Shield")) {
             Shield shield = new Shield(-1, -1);
             shield.useIngredient();
             currDungeon.updateBuildableListShield();
