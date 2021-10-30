@@ -30,107 +30,6 @@ import dungeonmania.util.Position;
  */
 public class GoalsTest {
     /**
-     * Unit tests for creation of Goals
-     */
-    
-    /**
-     * Create a basic exitGoal unit testing
-     */
-    @Test
-    public void testCreateExitGoal() {
-        Goal exitGoal = new ExitGoal();
-        assertEquals(":exit", exitGoal.toString());
-    }
-
-    /**
-     * Create a basic enemyGoal unit testing
-     */
-    @Test
-    public void testCreateEnemyGoal() {
-        Goal enemyGoal = new EnemyGoal();
-        assertEquals(":enemy", enemyGoal.toString());
-    }
-
-    /**
-     * Create a basic switchGoal unit testing
-     */
-    @Test
-    public void testCreateSwitchGoal() {
-        Goal switchGoal = new SwitchGoal();
-        assertEquals(":switch", switchGoal.toString());
-    }
-
-    /**
-     * Create a basic TreasureGoal unit testing
-     */
-    @Test
-    public void testCreateTreasureGoal() {
-        Goal treasureGoal = new TreasureGoal();
-        assertEquals(":treasure", treasureGoal.toString());
-    }
-
-    /**
-     * Create a basic andGoal 
-     */
-    @Test
-    public void testCreateAndGoal() {
-        Goal andGoal = new AndGoal();
-        Goal enemyGoal = new EnemyGoal();
-        Goal treasureGoal = new TreasureGoal();
-        andGoal.addSubGoal(enemyGoal);
-        andGoal.addSubGoal(treasureGoal);
-        assertEquals("(:enemy AND :treasure)", andGoal.toString());
-    }
-
-    /**
-     * Create a basic OrGoal
-     * 
-     */
-    @Test
-    public void testCreateOrGoal() {
-        Goal orGoal = new OrGoal();
-        Goal enemyGoal = new EnemyGoal();
-        Goal treasureGoal = new TreasureGoal();
-        orGoal.addSubGoal(enemyGoal);
-        orGoal.addSubGoal(treasureGoal);
-        assertEquals("(:enemy OR :treasure)", orGoal.toString());
-    }
-
-    /**
-     * create an advanced AndGoal
-     */
-    @Test
-    public void testCreateAdvancedAndGoal() {
-        Goal goal = new AndGoal();
-        Goal andGoal = new AndGoal();
-        Goal enemyGoal = new EnemyGoal();
-        Goal treasureGoal = new TreasureGoal();
-        Goal switchGoal = new SwitchGoal();
-        andGoal.addSubGoal(enemyGoal);
-        andGoal.addSubGoal(treasureGoal);
-        goal.addSubGoal(andGoal);
-        goal.addSubGoal(switchGoal);
-        assertEquals("((:enemy AND :treasure) AND :switch)", goal.toString());
-    }
-
-    /**
-     * create an advanced OrGoal
-     */
-    @Test
-    public void testCreateAdvancedOrGoal() {
-        Goal goal = new OrGoal();
-        Goal orGoal = new OrGoal();
-        Goal enemyGoal = new EnemyGoal();
-        Goal treasureGoal = new TreasureGoal();
-        Goal switchGoal = new SwitchGoal();
-        orGoal.addSubGoal(enemyGoal);
-        orGoal.addSubGoal(treasureGoal);
-        goal.addSubGoal(orGoal);
-        goal.addSubGoal(switchGoal);
-        assertEquals("((:enemy OR :treasure) Or :switch)", goal.toString());
-    }
-
-    /**
      * test for functionality of ExitGoal
      */
     @Test
@@ -146,7 +45,7 @@ public class GoalsTest {
         dungeon.addEntity(exit);
     
         // add ExitGoal to dungeon
-        Goal goal = new ExitGoal();
+        Goal goal = new ExitGoal(dungeon);
         dungeon.addGoal(goal);
         assertEquals(":exit", goal.toString());
 
@@ -154,6 +53,7 @@ public class GoalsTest {
 
         assertEquals(player.getPosition(), exit.getPosition());
 
+        dungeon.updateGoal();
         assertEquals("", goal.toString());
     }
 
@@ -173,7 +73,7 @@ public class GoalsTest {
         dungeon.addEntity(mercenary);
     
         // add EnemyGoal to dungeon
-        Goal goal = new EnemyGoal();
+        Goal goal = new EnemyGoal(dungeon);
         dungeon.addGoal(goal);
         assertEquals(":enemy", goal.toString());
 
@@ -181,7 +81,7 @@ public class GoalsTest {
         player.moveRight();
         assertEquals(player.getPosition(), mercenary.getPosition());
         // Player battles with mercenary and wins
-        for (int i = 0, i < 8; i++){
+        for (int i = 0; i < 8; i++){
             player.battle(mercenary);
         }
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
@@ -211,7 +111,7 @@ public class GoalsTest {
         dungeon.addEntity(switch0);
 
         // add SwitchGoal to dungeon
-        Goal goal = new SwitchGoal();
+        Goal goal = new SwitchGoal(dungeon);
         dungeon.addGoal(goal);
         assertEquals(":switch", goal.toString());
 
@@ -222,8 +122,9 @@ public class GoalsTest {
         assertEquals(switch0.getPosition(), boulder.getPosition());
 
         // Switch should be activated
-        assertEquals(true, switch0.isActivated());
+        assertEquals(true, switch0.getIsActive());
 
+        dungeon.updateGoal();
         // Goal is complete
         assertEquals("", goal.toString());
     }
@@ -249,7 +150,7 @@ public class GoalsTest {
         dungeon.addEntity(treasure3);
 
         // add TreasureGoal to dungeon
-        Goal goal = new TreasureGoal();
+        Goal goal = new TreasureGoal(dungeon);
         dungeon.addGoal(goal);
         assertEquals(":treasure", goal.toString());
 
@@ -269,6 +170,7 @@ public class GoalsTest {
         inventory.addItem(treasure3);
         assertEquals(false, dungeon.getEntityList().contains(treasure3));
 
+        dungeon.updateGoal();
         // Goal is complete
         assertEquals("", goal.toString());
     }
@@ -298,13 +200,13 @@ public class GoalsTest {
         dungeon.addEntity(exit);
 
         // add TreasureGoal AND ExitGoal to dungeon
-        Goal goal = new AndGoal();
-        Goal treasureGoal = new TreasureGoal();
-        Goal exitGoal = new ExitGoal();
+        AndGoal goal = new AndGoal(dungeon);
+        Goal treasureGoal = new TreasureGoal(dungeon);
+        Goal exitGoal = new ExitGoal(dungeon);
         goal.addSubGoal(treasureGoal);
         goal.addSubGoal(exitGoal);
         dungeon.addGoal(goal);
-        assertEquals(":treasure AND :exit", goal.toString());
+        assertEquals("(:treasure AND :exit)", goal.toString());
 
         // Player collects treasure
         player.moveRight();
@@ -322,6 +224,7 @@ public class GoalsTest {
         inventory.addItem(treasure3);
         assertEquals(false, dungeon.getEntityList().contains(treasure3));
 
+        dungeon.updateGoal();
         // TreasureGoal is complete
         assertEquals(":exit", goal.toString());
 
@@ -329,6 +232,7 @@ public class GoalsTest {
         player.moveRight();
         assertEquals(player.getPosition(), exit.getPosition());
 
+        dungeon.updateGoal();
         assertEquals("", goal.toString());
     }
     /**
@@ -355,9 +259,9 @@ public class GoalsTest {
         dungeon.addEntity(mercenary);
 
         // add TreasureGoal AND ExitGoal to dungeon
-        Goal goal = new OrGoal();
-        Goal switchGoal = new SwitchGoal();
-        Goal enemyGoal = new EnemyGoal();
+        OrGoal goal = new OrGoal(dungeon);
+        Goal switchGoal = new SwitchGoal(dungeon);
+        Goal enemyGoal = new EnemyGoal(dungeon);
         goal.addSubGoal(switchGoal);
         goal.addSubGoal(enemyGoal);
         dungeon.addGoal(goal);
@@ -368,7 +272,7 @@ public class GoalsTest {
         player.moveDown();
 
         // Switch should be activated
-        assertEquals(true, switch0.isActivated());
+        assertEquals(true, switch0.getIsActive());
 
         // Goal is complete
         assertEquals("", goal.toString());
@@ -397,9 +301,9 @@ public class GoalsTest {
         dungeon.addEntity(mercenary);
 
         // add TreasureGoal AND ExitGoal to dungeon
-        Goal goal = new OrGoal();
-        Goal switchGoal = new SwitchGoal();
-        Goal enemyGoal = new EnemyGoal();
+        OrGoal goal = new OrGoal(dungeon);
+        Goal switchGoal = new SwitchGoal(dungeon);
+        Goal enemyGoal = new EnemyGoal(dungeon);
         goal.addSubGoal(switchGoal);
         goal.addSubGoal(enemyGoal);
         dungeon.addGoal(goal);

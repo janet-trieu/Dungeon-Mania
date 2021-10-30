@@ -25,7 +25,7 @@ public class ExitGoal extends LeafGoal {
         Boolean playerAtExit = false;
         for (Entity exit : exitList) {
             // if player is at same position as an exit, goal is true
-            if (dungeon.getInfo("player").getPosition().equals(exit.getPosition())) {
+            if (getDungeon().getInfo("Player").getPosition().equals(exit.getPosition())) {
                 setComplete(true);
                 playerAtExit = true;
             }
