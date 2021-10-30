@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.BuildableEntity;
@@ -128,6 +129,15 @@ public class Dungeon {
 
     public Key getKey() {
         return inventory.getKey();
+    }
+
+    public Entity getPlayer() {
+        for (Entity entity : entityList) {
+            if (entity instanceof Player) {
+                return entity;
+            }
+        }
+        return null;
     }
 
     /**
