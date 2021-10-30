@@ -12,7 +12,7 @@ public class NoInvincibleState implements PlayerState {
 
     @Override
     public void applyEffect() {
-        if (!player.getGameMode().equals("hard")) {
+        if (!player.getGameMode().equals("Hard")) {
             player.changeInvincibleState(new InvincibleState(player));
         }
         Dungeon.getDungeon().getInventory().breakItem("invincibility_potion");
