@@ -100,11 +100,16 @@ public class Player extends Entity {
      * either teleports to correspondingPortal or stays put
      * @param entity
      */
-    public void interactPortal(Entity entity) {
+    public void interactPortal(Entity entity, Direction direction, Position currPosition) {
         Portal portal = (Portal) entity;
         Position otherPortalPosition = portal.correspondingPortalPosition();
         if (otherPortalPosition != null) {
             portal.teleport(this, otherPortalPosition);
+            move(direction);
+            // if theres a static entity blocking the way, go back to where u were
+            if (getPosition().equals(otherPortalPosition)) {
+                setPosition(currPosition.getX(), currPosition.getY());
+            }
         }
     }
 
@@ -141,6 +146,7 @@ public class Player extends Entity {
         Position newPosition = this.getPosition().translateBy(direction);
         Boolean alreadyMoved = false;
         List<Entity> list = dungeon.getEntitiesOnSamePosition(newPosition); 
+        Position currPosition = getPosition();
         // if the player can go through in new position or a boulder is at new position
         if (dungeon.canPlayerGoThrough(newPosition)) {
             // get a list of all entities on new position
@@ -160,7 +166,7 @@ public class Player extends Entity {
                 }
                 // if portal, attempt to teleport
                 if (entity instanceof Portal) {
-                    interactPortal(entity);
+                    interactPortal(entity, direction, currPosition);
                     if (!getPosition().equals(newPosition)) {
                         alreadyMoved = true;
                     }
