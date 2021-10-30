@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.BuildableEntity;
 import dungeonmania.entities.staticEntity.Boulder;
@@ -22,24 +21,23 @@ public class Dungeon {
     private Inventory inventory;
     private Goal goal;
     private static Dungeon thisDungeon = null;
-    private String gamemode;
+    private String gameMode;
 
     public Dungeon() {
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<BuildableEntity>();
         this.inventory = new Inventory();
-        this.gamemode = gamemode;
         thisDungeon = this;
     }
 
-    public Dungeon(String dungeonName) {
+    public Dungeon(String dungeonName, String gameMode) {
         this.dungeonName = dungeonName;
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<BuildableEntity>();
         this.inventory = new Inventory();
-        this.gamemode = gamemode;
+        this.gameMode = gameMode;
         thisDungeon = this;
     }
 
@@ -79,12 +77,8 @@ public class Dungeon {
         this.goal = goal;
     }
 
-    public String getGamemode() {
-        return gamemode;
-    }
-
-    public void setGamemode(String gamemode) {
-        this.gamemode = gamemode;
+    public String getGameMode() {
+        return gameMode;
     }
 
     /**
