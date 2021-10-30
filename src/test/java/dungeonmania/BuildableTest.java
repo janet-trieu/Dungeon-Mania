@@ -40,19 +40,19 @@ public class BuildableTest {
 
         // player moves to the right, while picking up the items
         // player will not be able to build a bow unless there are 3 arrows and a wood in the inventory
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("bow"));
         // current inventory = [arrow]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("bow"));
         // current inventory = [arrow, arrow]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("bow"));
         // current inventory = [arrow, arrow, arrow]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         // current inventory = [arrow, arrow, arrow, wood]
 
         // build the bow
@@ -94,15 +94,15 @@ public class BuildableTest {
 
         // player moves to the right, while picking up the items
         // player will not be able to build a shield unless there are 2 woods and a key or a treasure in the inventory
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood, wood]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood, wood, key]
 
@@ -144,15 +144,15 @@ public class BuildableTest {
 
         // player moves to the right, while picking up the items
         // player will not be able to build a shield unless there are 2 woods and a key or a treasure in the inventory
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood, wood]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood, wood, treasure]
 
@@ -195,18 +195,18 @@ public class BuildableTest {
 
         // player moves to the right, while picking up the items
         // player will not be able to build a shield unless there are 2 woods and a key or a treasure in the inventory
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.build("shield"));
         // current inventory = [wood, wood]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         // current inventory = [wood, wood, treasure]
 
-        controller.tick("", Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         // current inventory = [wood, wood, treasure, key]
 
         // build a shield using treasure, not key
