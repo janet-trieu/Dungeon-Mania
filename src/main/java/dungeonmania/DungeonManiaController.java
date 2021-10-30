@@ -3,7 +3,6 @@ package dungeonmania;
 import dungeonmania.goals.*;
 import dungeonmania.entities.*;
 import dungeonmania.entities.staticEntity.*;
-import dungeonmania.entities.PotionState.*;
 import dungeonmania.entities.movingEntity.*;
 import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.*;
@@ -16,17 +15,28 @@ import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class DungeonManiaController {
     private Dungeon dungeon;
+    private Path savesPath = Paths.get(System.getProperty("user.dir") + "/src/main/resources/saves");
 
     public DungeonManiaController() {
     }
@@ -60,9 +70,8 @@ public class DungeonManiaController {
      * Creates a new game
      * @param dungeonName
      * @param gameMode
-     * @return
+     * @return dungeonName's DungeonResponse
      * @throws IllegalArgumentException
-     * @throws IOException
      */
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
         List<String> maps = null;
@@ -91,7 +100,7 @@ public class DungeonManiaController {
         String dungeonId = dungeonName + Instant.now().getEpochSecond();
 
         // Initialise dungeon
-        dungeon = new Dungeon(dungeonName);
+        dungeon = new Dungeon(dungeonName, gameMode);
 
         // Load the map
         String map = "";
@@ -250,7 +259,9 @@ public class DungeonManiaController {
     
     /**
      * Loop through JSON "goal-condition" and "subgoals" (if exists) and adds data to the Dungeon class
-     * @param mapObj
+     * @param mapObj     
+     * @param dungeon
+     * @return Goal
      */
     private Goal createGoal(JSONObject goalObj, Dungeon dungeon) {
 
@@ -285,8 +296,55 @@ public class DungeonManiaController {
         }
     }
 
-    public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        return null;
+    /**
+     * Saves game
+     * @param name
+     * @return dungeonResponse
+     */
+    public DungeonResponse saveGame(String name) {
+        Dungeon currDungeon = Dungeon.getDungeon();
+
+        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
+
+        DungeonResponse response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                                    currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+
+        // If '...src/main/resources/saves' doesn't exist, create it (automatically creates in bin file as well)
+        File savesDirectory = new File(savesPath.toString());
+        if (!savesDirectory.exists()) {
+            try {
+                Files.createDirectories(savesPath);
+            }
+            catch (IOException e) {
+                System.err.println("Path error in saveGame: " + e.getMessage());
+            }
+        }
+
+        // Create .json file named 'name + .json'
+        String filePath = savesPath.toString() + "\\" + name + ".json";
+        try {
+            File save = new File(filePath);
+            save.createNewFile();
+        } catch (IOException e) {
+            System.err.println("File creation error in saveGame: " + e.getMessage());
+        }
+
+        // Add 'name', 'gameMode', 'dungeonResponse' to file
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            writer.write("{\"name\":" + "\"" + name + "\"" + ",");
+            writer.write("\"gameMode\":" + "\"" + currDungeon.getGameMode() + "\"" + ",");
+            writer.write("\"dungeonResponse\":");
+
+            Gson gson = new Gson();
+            writer.write(gson.toJson(response));
+            writer.write("}");
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Data creation error in saveGame: " + e.getMessage());
+        }
+
+        return response;
     }
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
@@ -298,6 +356,8 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
+        
+        // update goal at the end, check if null
         return null;
     }
 
