@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
+import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.BuildableEntity;
 import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.StaticEntity;
 import dungeonmania.goals.Goal;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Dungeon {
@@ -76,6 +78,10 @@ public class Dungeon {
         this.goal = goal;
     }
 
+    public void updateGoal() {
+        goal.update();
+    }
+
     /**
      * USED FOR TESTING
      * Returns an entity's response info.
@@ -96,6 +102,22 @@ public class Dungeon {
 
     public void addEntity(Entity entity) {
         entityList.add(entity);
+    }
+
+    public void removeEntity(Entity entity) {
+        entityList.remove(entity);
+    }
+
+    public Boolean addItem(CollectableEntity item) {
+        return inventory.addItem(item);
+    }
+
+    public void removeItem(CollectableEntity item) {
+        inventory.removeItem(item);
+    }
+
+    public Key getKey() {
+        return inventory.getKey();
     }
 
     /**
@@ -165,11 +187,21 @@ public class Dungeon {
         for (Entity entity : getEntitiesOnSamePosition(position)) {
             if (entity instanceof StaticEntity) {
                 StaticEntity staticEntity = (StaticEntity) entity;
-                if (!(staticEntity instanceof Boulder) && !staticEntity.isPassable()) {
+                if (!(staticEntity instanceof Door) && !(staticEntity instanceof Boulder) 
+                    && !staticEntity.isPassable()) {
                     canGoThrough = false;
                 }
             }
         }
         return canGoThrough;
+    }
+
+    public List<Entity> getEntitiesCardinallyAdjacent(Position position) {
+        List<Entity> listOfEntities = new ArrayList<Entity>();
+        listOfEntities.addAll(getEntitiesOnSamePosition(position.translateBy(Direction.UP)));
+        listOfEntities.addAll(getEntitiesOnSamePosition(position.translateBy(Direction.DOWN)));
+        listOfEntities.addAll(getEntitiesOnSamePosition(position.translateBy(Direction.LEFT)));
+        listOfEntities.addAll(getEntitiesOnSamePosition(position.translateBy(Direction.RIGHT)));
+        return listOfEntities;
     }
 }

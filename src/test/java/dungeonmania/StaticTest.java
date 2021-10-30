@@ -150,7 +150,7 @@ public class StaticTest {
         Key key = new Key(0, 1, 0);
         Door door = new Door(1, 0, 0);
         Exit exit = new Exit(2, 0);
-        Goal goal = new ExitGoal();
+        Goal goal = new ExitGoal(dungeon);
         dungeon.addEntity(player);
         dungeon.addEntity(key);
         dungeon.addEntity(door);
@@ -185,6 +185,7 @@ public class StaticTest {
 
         // CASE: PLAYER SAME CELL AS EXIT
         player.moveRight();
+        dungeon.updateGoal();
         assertEquals(true, goal.isComplete());
         assertEquals("", goal.toString());
     }
@@ -198,7 +199,7 @@ public class StaticTest {
     public void testStandardSpawner() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("simple-spawner-wall.", "Standard");
+        controller.newGame("simple-spawner-wall", "Standard");
 
         // 20 TICKS
         for (int i = 0; i <= 20; i++) {

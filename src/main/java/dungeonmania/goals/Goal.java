@@ -8,7 +8,7 @@ import dungeonmania.entities.Entity;
 
 public abstract class Goal {
     private Boolean complete;
-    Dungeon dungeon;
+    private Dungeon dungeon;
 
     /**
      * Constructor for Goal class
@@ -45,6 +45,10 @@ public abstract class Goal {
             }
         }
         return listOfTypeEntity;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
     }
 
     public abstract Boolean isLeaf();
