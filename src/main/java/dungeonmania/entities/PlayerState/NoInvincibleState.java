@@ -1,5 +1,6 @@
 package dungeonmania.entities.PlayerState;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class NoInvincibleState implements PlayerState {
@@ -14,6 +15,7 @@ public class NoInvincibleState implements PlayerState {
         if (!player.getGameMode().equals("hard")) {
             player.changeInvincibleState(new InvincibleState(player));
         }
+        Dungeon.getDungeon().getInventory().breakItem("invincibility_potion");
     }
 
     @Override
@@ -28,7 +30,7 @@ public class NoInvincibleState implements PlayerState {
         return;        
     }
     
-    public Boolean isInvincible() {
+    public Boolean isApplied() {
         return false;
     }
 }
