@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
-<<<<<<< src/main/java/dungeonmania/Dungeon.java
-=======
 import dungeonmania.entities.collectableEntity.Arrow;
->>>>>>> src/main/java/dungeonmania/Dungeon.java
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.Treasure;
