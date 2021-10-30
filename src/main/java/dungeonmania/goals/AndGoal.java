@@ -18,6 +18,7 @@ public class AndGoal extends CompositeGoal {
             return "(" + getSubGoalList().get(0).toString() + " AND " + getSubGoalList().get(1).toString() + ")";
         }
     }
+    
     @Override
     public void update() {
         super.update();
