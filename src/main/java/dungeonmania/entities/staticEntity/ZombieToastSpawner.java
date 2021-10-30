@@ -48,7 +48,7 @@ public class ZombieToastSpawner extends StaticEntity {
 
         int i = 0;
         while (existingEntities.contains(spawner)) {
-            if (dungeon.getGamemode().equals("Hard")) {
+            if (dungeon.getGameMode().equals("Hard")) {
                 if (i % hardModeTick == 0) {
                     ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY(), dungeon);
                     dungeon.addEntity(zombieToast);

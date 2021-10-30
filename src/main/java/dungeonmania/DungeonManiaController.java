@@ -206,7 +206,7 @@ public class DungeonManiaController {
                     dungeon.addEntity(key);
                     break;
                 case "mercenary":
-                    Mercenary mercenary = new Mercenary(x, y);
+                    Mercenary mercenary = new Mercenary(x, y, dungeon);
                     dungeon.addEntity(mercenary);
                     break;
                 case "player":
@@ -250,7 +250,7 @@ public class DungeonManiaController {
                     dungeon.addEntity(wood);
                     break;
                 case "zombie_toast":
-                    ZombieToast zombieToast = new ZombieToast(x, y);
+                    ZombieToast zombieToast = new ZombieToast(x, y, dungeon);
                     dungeon.addEntity(zombieToast);
                     break;
                 case "zombie_toast_spawner":

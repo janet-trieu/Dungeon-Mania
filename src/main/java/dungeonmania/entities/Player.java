@@ -96,7 +96,7 @@ public class Player extends Entity {
         if (otherEntity.getHealth() <= 0) {
             Dungeon.getDungeon().removeEntity(otherEntity);
         }
-        //allyAssistBattle(otherEntity);
+        allyAssistBattle(otherEntity);
         updateCombatDurability();
     }
 
@@ -104,7 +104,7 @@ public class Player extends Entity {
         for (Entity entity : Dungeon.getDungeon().getEntityList()) {
             if (entity instanceof Mercenary) {
                 Mercenary mercenary = (Mercenary) entity;
-                if (mercenary.isBribed()) {
+                if (mercenary.IsBribed()) {
                     otherEntity.setHealth(otherEntity.getHealth() - (mercenary.getHealth() * mercenary.getDamage()) / 5);
                 }
             }
