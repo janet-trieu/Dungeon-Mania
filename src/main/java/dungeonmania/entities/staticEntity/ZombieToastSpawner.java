@@ -50,12 +50,12 @@ public class ZombieToastSpawner extends StaticEntity {
         while (existingEntities.contains(spawner)) {
             if (dungeon.getGamemode().equals("Hard")) {
                 if (i % hardModeTick == 0) {
-                    ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY());
+                    ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY(), dungeon);
                     dungeon.addEntity(zombieToast);
                 }
             } else {
                 if (i % standardTick == 0) {
-                    ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY());
+                    ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY(), dungeon);
                     dungeon.addEntity(zombieToast);
                 }
             }
