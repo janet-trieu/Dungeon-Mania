@@ -78,6 +78,10 @@ public class Player extends Entity {
         // check inventory and change states accordingly
         equipCombat();
         // Character Health = Character Health - ((Enemy Health * Enemy Attack Damage) / 10) / protection
+        if (isInvincible()) {
+            Dungeon.getDungeon().removeEntity(otherEntity);
+            return;
+        }
         setHealth(getHealth() - ((otherEntity.getHealth() * otherEntity.getDamage()) / 10) / getProtection());
         if (getHealth() <= 0) {
             oneRingState.removeEffect();
@@ -349,6 +353,10 @@ public class Player extends Entity {
         shieldState.reduceDuration();
         bowState.reduceDuration();
         swordState.reduceDuration();
+    }
+
+    public Boolean isInvincible() {
+        return invincibleState.isApplied();
     }
 
     /**
