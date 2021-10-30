@@ -1,5 +1,8 @@
 package dungeonmania.entities.staticEntity;
 
+import java.util.List;
+
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.movingEntity.Mercenary;
@@ -40,6 +43,19 @@ public class Portal extends StaticEntity {
         if (entity instanceof Player || entity instanceof Mercenary) {
             entity.setPosition(newPos.getX(), newPos.getY());
         }
+    }
+
+    public Position correspondingPortalPosition() {
+        List<Entity> entityList = Dungeon.getDungeon().getEntityList();
+        for (Entity entity : entityList) {
+            if (entity instanceof Portal && entity != this) {
+                Portal correspondingPortal = (Portal) entity;
+                if (correspondingPortal.getColour().equals(getColour())) {
+                    return correspondingPortal.getPosition();
+                }
+            } 
+        }
+        return null;
     }
 
     /**
