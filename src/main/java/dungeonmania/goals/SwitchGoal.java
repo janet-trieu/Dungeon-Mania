@@ -34,7 +34,7 @@ public class SwitchGoal extends LeafGoal {
 
     public List<FloorSwitch> switchList() {
         List<FloorSwitch> listOfFloorSwitch = new ArrayList<FloorSwitch>();
-        List<Entity> entityList = dungeon.getEntityList();
+        List<Entity> entityList = getDungeon().getEntityList();
         for (Entity entity : entityList) {
             if (entity.getType().equals("switch")) {
                 listOfFloorSwitch.add((FloorSwitch) entity);

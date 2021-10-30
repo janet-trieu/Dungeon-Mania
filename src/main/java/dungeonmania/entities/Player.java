@@ -7,8 +7,11 @@ import dungeonmania.entities.PotionState.NoInvincibleState;
 import dungeonmania.entities.PotionState.NoInvisibleState;
 import dungeonmania.entities.PotionState.PotionState;
 import dungeonmania.entities.movingEntity.Moveable;
+import dungeonmania.entities.collectableEntity.CollectableEntity;
+import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -39,34 +42,62 @@ public class Player extends Entity implements Moveable {
 
     public void move(Direction direction) {
         Position newPosition = this.getPosition().translateBy(direction);
-        Boolean boulderBoolean = false;
+        Boolean failedMove = false;
+        Dungeon dungeon = Dungeon.getDungeon();
         // if the player can go through in new position or a boulder is at new position
-        if (Dungeon.getDungeon().canPlayerGoThrough(newPosition)) {
+        if (dungeon.canPlayerGoThrough(newPosition)) {
             // get a list of all entities on new position
-            List<Entity> list = Dungeon.getDungeon().getEntitiesOnSamePosition(newPosition); 
+            List<Entity> list = dungeon.getEntitiesOnSamePosition(newPosition); 
             for (Entity entity : list) {
-                // if there is a boulder
+                // if boulder, attempt to move
                 if (entity instanceof Boulder) {
                     Boulder boulder = (Boulder) entity;
-                    boulderBoolean = true;
+                    failedMove = true;
                     // push boulder
                     boulder.push(newPosition, direction);
                     // if boulder moves, change position to new Position
                     if (!boulder.getPosition().equals(newPosition)) {
                         setPosition(newPosition.getX(), newPosition.getY());
-                        System.out.println("boulder moved");
+                    }
+                }
+                // if collectable, pick up item
+                if (entity instanceof CollectableEntity) {
+                    CollectableEntity collectable = (CollectableEntity) entity;
+                    if (Dungeon.getDungeon().addItem(collectable)) {
+                        collectable.setPosition(-1, -1);
+                        dungeon.removeEntity(collectable);
+                    }
+                }
+                // if there is a door
+                if (entity instanceof Door) {
+                    Door door = (Door) entity;
+                    // If player had key, open door and discard key
+                    Key key = Dungeon.getDungeon().getKey();
+                    if (key != null && door.insertKey(key)) {
+                        setPosition(newPosition.getX(), newPosition.getY());
+                        Dungeon.getDungeon().removeItem(key);
+                    } else {
+                        failedMove = true;
                     }
                 }
             }
-            if (boulderBoolean == false) {
+            if (failedMove == false) {
                 setPosition(newPosition.getX(), newPosition.getY());
+                // if there is a spawner cardinally adjacent
+                /*
+                List<Entity> cardinallyAdjacentList = Dungeon.getDungeon().getEntitiesCardinallyAdjacent(newPosition);
+                for (Entity entity : cardinallyAdjacentList) {
+                    if (entity instanceof ZombieToastSpawner) {
+                        Dungeon.getDungeon().removeEntity(entity);
+                    }
+                }
+                */
             }
-        }        
+        } 
     }
 
     public void moveUp() {
         if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.UP))) {
-            System.out.println("tried to move up");
             move(Direction.UP);
             System.out.println(getPosition());
         }
@@ -74,7 +105,6 @@ public class Player extends Entity implements Moveable {
 
     public void moveDown() {
         if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.DOWN))) {
-            System.out.println("tried to move down");
             move(Direction.DOWN);
             System.out.println(getPosition());
         }
@@ -82,7 +112,6 @@ public class Player extends Entity implements Moveable {
 
     public void moveLeft() {
         if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.LEFT))) {
-            System.out.println("tried to move left");
             move(Direction.LEFT);
             System.out.println(getPosition());
         }
@@ -90,7 +119,6 @@ public class Player extends Entity implements Moveable {
     
     public void moveRight() {
         if (Dungeon.getDungeon().canPlayerGoThrough(getPosition().translateBy(Direction.RIGHT))) {
-            System.out.println("tried to move right");
             move(Direction.RIGHT);
             System.out.println(getPosition());
         }
