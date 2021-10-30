@@ -1,8 +1,8 @@
-package dungeonmania.entities.PotionState;
+package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
 
-public class NoInvincibleState implements PotionState {
+public class NoInvincibleState implements PlayerState {
     private Player player;
 
     public NoInvincibleState(Player player) {
@@ -11,7 +11,9 @@ public class NoInvincibleState implements PotionState {
 
     @Override
     public void applyEffect() {
-        player.changeInvincibleState(new InvincibleState(player));
+        if (!player.getGameMode().equals("hard")) {
+            player.changeInvincibleState(new InvincibleState(player));
+        }
     }
 
     @Override

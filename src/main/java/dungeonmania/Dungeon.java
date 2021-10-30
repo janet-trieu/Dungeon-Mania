@@ -131,6 +131,15 @@ public class Dungeon {
         return inventory.getKey();
     }
 
+    public Entity getPlayer() {
+        for (Entity entity : entityList) {
+            if (entity instanceof Player) {
+                return entity;
+            }
+        }
+        return null;
+    }
+
     /**
      * Returns a list of all Entity Responses in EntityList
      * @return

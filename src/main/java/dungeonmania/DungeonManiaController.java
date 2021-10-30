@@ -2,8 +2,8 @@ package dungeonmania;
 
 import dungeonmania.goals.*;
 import dungeonmania.entities.*;
+import dungeonmania.entities.PlayerState.*;
 import dungeonmania.entities.staticEntity.*;
-import dungeonmania.entities.PotionState.*;
 import dungeonmania.entities.movingEntity.*;
 import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.*;
