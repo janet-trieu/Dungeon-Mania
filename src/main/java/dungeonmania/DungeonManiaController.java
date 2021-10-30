@@ -2,7 +2,6 @@ package dungeonmania;
 
 import dungeonmania.goals.*;
 import dungeonmania.entities.*;
-import dungeonmania.entities.PlayerState.*;
 import dungeonmania.entities.staticEntity.*;
 import dungeonmania.entities.movingEntity.*;
 import dungeonmania.entities.collectableEntity.*;
@@ -20,7 +19,6 @@ import dungeonmania.util.Position;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,9 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -352,12 +347,38 @@ public class DungeonManiaController {
         return response;
     }
 
+    /**
+     * Loads game
+     * @param name
+     * @return DungeonResponse of selected dungeon
+     * @throws IllegalArgumentException
+     */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+        List<String> maps = null;
+        try {
+            maps = FileLoader.listFileNamesInResourceDirectory("saves");
+        } catch (IOException e) {
+            System.err.println("Save directory does not exist: " + e.getMessage());
+        }
+
+        if (!(maps.contains(name))) {
+            throw new IllegalArgumentException("Name is not a valid game id");
+        }
         return null;
     }
 
+    /**
+     * Returns a list containing all the saved games that are currently stored
+     * @return list of saved games
+     */
     public List<String> allGames() {
-        return new ArrayList<>();
+        List<String> maps = null;
+        try {
+            maps = FileLoader.listFileNamesInResourceDirectory("/saves");
+        } catch (IOException e) {
+            System.err.println("Save directory does not exist: " + e.getMessage());
+        }
+        return maps;
     }
 
     /**
@@ -381,7 +402,7 @@ public class DungeonManiaController {
 
         // EXCEPTION CHECKS
         // If itemUsed is not a usable item or not null
-        if (!getUsableItems().contains(itemUsed) && itemUsed != null) {
+        if (!(getUsableItems().contains(itemUsed)) && itemUsed != null) {
             throw new IllegalArgumentException("Item is not usable");
         }
         // If itemUsed is not in inventory
@@ -525,8 +546,8 @@ public class DungeonManiaController {
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
-        System.out.println(buildable);
-        if (!buildable.equals("bow") || !buildable.equals("shield")) {
+
+        if (!(buildable.equals("bow")) && !(buildable.equals("shield"))) {
             throw new IllegalArgumentException("Incorrect buildable entity");
         }
         // check for InvalidActionException
@@ -553,6 +574,12 @@ public class DungeonManiaController {
         return response;
     }
 
+    /**
+     * USED FOR TESTING
+     * Returns responseInfo for an entity
+     * @param entityId
+     * @return EntityResponse
+     */
     public EntityResponse getInfo(String entityId) {
         return dungeon.getInfo(entityId);
     }
