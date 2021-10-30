@@ -34,5 +34,5 @@ public class Bomb extends CollectableEntity {
             }
         }
     }
-
+    
 }
