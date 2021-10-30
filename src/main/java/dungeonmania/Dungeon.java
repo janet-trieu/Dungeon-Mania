@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.Arrow;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
+import dungeonmania.entities.collectableEntity.Treasure;
+import dungeonmania.entities.collectableEntity.Wood;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.BuildableEntity;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.StaticEntity;
@@ -21,7 +25,7 @@ public class Dungeon {
     private String dungeonName;
     private List<Entity> entityList;
     private List<CollectableEntity> spawnedCollectablesList;
-    private List<BuildableEntity> buildableList;
+    private List<String> buildableList;
     private Inventory inventory;
     private Goal goal;
     private static Dungeon thisDungeon = null;
@@ -30,7 +34,7 @@ public class Dungeon {
     public Dungeon() {
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
-        this.buildableList = new ArrayList<BuildableEntity>();
+        this.buildableList = new ArrayList<String>();
         this.inventory = new Inventory();
         this.gamemode = gamemode;
         thisDungeon = this;
@@ -40,7 +44,7 @@ public class Dungeon {
         this.dungeonName = dungeonName;
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
-        this.buildableList = new ArrayList<BuildableEntity>();
+        this.buildableList = new ArrayList<String>();
         this.inventory = new Inventory();
         this.gamemode = gamemode;
         thisDungeon = this;
@@ -68,10 +72,6 @@ public class Dungeon {
 
     public Inventory getInventory() {
         return inventory;
-    }
-
-    public List<BuildableEntity> getBuildableList() {
-        return buildableList;
     }
 
     public Goal getGoal() {
@@ -172,11 +172,7 @@ public class Dungeon {
      * @return
      */
     public List<String> getBuildableString() {
-        List<String> response = new ArrayList<String>();
-        for (BuildableEntity entity : buildableList) {
-            response.add(entity.getType());
-        }
-        return response;
+        return buildableList;
     }
 
     /**
@@ -224,4 +220,48 @@ public class Dungeon {
         listOfEntities.addAll(getEntitiesOnSamePosition(position.translateBy(Direction.RIGHT)));
         return listOfEntities;
     }
+
+    public boolean updateBuildableListBow() {
+        Boolean bool = false;
+        List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
+        int arrowCounter = 0;
+        int woodCounter = 0;
+        for (CollectableEntity entity : inventory) {
+            if (entity instanceof Arrow) {
+                arrowCounter++;
+            } else if (entity instanceof Wood) {
+                woodCounter++;
+            } 
+        }
+
+        if (arrowCounter >= 3 && woodCounter >= 1) {
+            buildableList.add("bow");
+            bool = true;
+        }
+        return bool;
+    }
+
+    public boolean updateBuildableListShield() {
+        Boolean bool = false;
+        List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
+        int woodCounter = 0;
+        int treasureCounter = 0;
+        int keyCounter = 0;
+        for (CollectableEntity entity : inventory) {
+            if (entity instanceof Wood) {
+                woodCounter++;
+            } else if (entity instanceof Treasure) {
+                treasureCounter++;
+            } else if (entity instanceof Key) {
+                keyCounter++;
+            }
+        }
+
+        if ((woodCounter >= 2 && treasureCounter >= 1) || (woodCounter >= 2 && keyCounter >= 1)) {
+            buildableList.add("shield");
+            bool = true;
+        }
+        return bool;
+    }
+
 }

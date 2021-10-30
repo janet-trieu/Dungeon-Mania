@@ -29,30 +29,28 @@ public class Bow extends BuildableEntity {
     }
 
     @Override
-    public void buildEntity() {
-        Bow bow = new Bow(-1, -1);
-        Dungeon.getDungeon().addItem(bow);
-
-        List<CollectableEntity> ingredientList = Dungeon.getDungeon().getInventory().getItems();
-
+    public void useIngredient() {
+        List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
+        List<String> buildableList = Dungeon.getDungeon().getBuildableString();
+    
         // used up 3 arrows and 1 wood, so remove them from inventory
         int arrowCounter = 0;
-        for (CollectableEntity ingredient : ingredientList) {
-            if (arrowCounter == 2) {
+        for (CollectableEntity ingredient : inventory) {
+            if (arrowCounter == 3) {
                 break;
             }
             if (ingredient instanceof Arrow) {
-                ingredientList.remove(ingredient);
+                inventory.remove(ingredient);
                 arrowCounter++;
             }
         }
-        for (CollectableEntity ingredient : ingredientList) {
+        for (CollectableEntity ingredient : inventory) {
             if (ingredient instanceof Wood) {
-                ingredientList.remove(ingredient);
+                inventory.remove(ingredient);
                 break;
             }
         }
+        buildableList.remove("bow");
     }
-
 
 }

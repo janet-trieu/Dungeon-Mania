@@ -305,8 +305,46 @@ public class DungeonManiaController {
         return null;
     }
 
+    /**
+     * Method to create a buildable entity
+     * @param buildable
+     * @return
+     * @throws IllegalArgumentException
+     * @throws InvalidActionException
+     */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Dungeon currDungeon = Dungeon.getDungeon();
+        DungeonResponse response = null;
+        List<String> currentBuildableList = currDungeon.getBuildableString();
+        Boolean canBuildBow = currDungeon.updateBuildableListBow();
+        Boolean canBuildShield = currDungeon.updateBuildableListShield();
+        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
+
+        if (!buildable.equals("bow") || !buildable.equals("shield")) {
+            throw new IllegalArgumentException("Incorrect buildable entity");
+        }  
+        // check for InvalidActionException
+        if (buildable.equals("bow") && canBuildBow == false) {
+            throw new InvalidActionException("Not enough ingredients to build this");
+        } else if (buildable.equals("shield") && canBuildShield == false) {
+            throw new InvalidActionException("Not enough ingredients to build this");
+        }
+
+        if (currentBuildableList.contains("bow") && buildable.equals("bow")) {
+            Bow bow = new Bow(-1, -1);
+            bow.useIngredient();
+            currDungeon.updateBuildableListBow();
+            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+        } else if (currentBuildableList.contains("shield") && buildable.equals("shield")) {
+            Shield shield = new Shield(-1, -1);
+            shield.useIngredient();
+            currDungeon.updateBuildableListShield();
+            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+        }   
+
+        return response;
     }
 
     public EntityResponse getInfo(String entityId) {
