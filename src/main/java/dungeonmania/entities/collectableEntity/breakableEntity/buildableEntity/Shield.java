@@ -29,11 +29,9 @@ public class Shield extends BuildableEntity {
     }
 
     @Override
-    public void buildEntity() {
-        Shield shield = new Shield(-1, -1);
-        Dungeon.getDungeon().addItem(shield);
-
+    public void useIngredient() {
         List<CollectableEntity> ingredientList = Dungeon.getDungeon().getInventory().getItems();
+        List<String> buildableList = Dungeon.getDungeon().getBuildableString();
 
         // used up 2 wood + (1 treasure OR 1 key)
         int woodCounter = 0;
@@ -56,6 +54,7 @@ public class Shield extends BuildableEntity {
                 break; 
             }
         }
+        buildableList.remove("shield");
     }
 
 }
