@@ -385,10 +385,12 @@ public class DungeonManiaController {
 
         System.out.println(dataObj);
 
+        dungeon = new Dungeon();
         String gameMode = dataObj.getString("gameMode");
         
         JSONObject responseObj = dataObj.getJSONObject("dungeonResponse");
         String dungeonId = responseObj.getString("dungeonId");
+        
         String dungeonName = responseObj.getString("dungeonName");
         // LOOP THROUGH ENTITIES ARRAY - Get entities (id,type,position[x,y],isInteractable), set necessary attributes
         // LOOP THROUGH INVENTORY - Get inventory (id, type), set necessary attributes

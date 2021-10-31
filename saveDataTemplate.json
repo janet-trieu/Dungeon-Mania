@@ -1,5 +1,5 @@
 {
-	"__comment": "THIS IS A TEMPLATE, DO NOT USE!!!",
+	"__comment": "Specific entity fields are going to be reset in load game",
 	"name": "String",
 	"gameMode": "String",
 	"dungeonResponse": {
