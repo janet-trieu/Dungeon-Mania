@@ -68,4 +68,7 @@ public class ZombieToast extends MovingEntity implements Moveable {
         return random;
     }
 
+    public Boolean getHasArmour() {
+        return hasArmour;
+    }
 }

@@ -127,4 +127,7 @@ public class Mercenary extends MovingEntity implements Moveable {
         this.isBribed = isBribed;
     }
 
+    public Boolean getHasArmour() {
+        return hasArmour;
+    }
 }

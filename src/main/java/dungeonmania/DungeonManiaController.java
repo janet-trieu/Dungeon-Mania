@@ -330,16 +330,79 @@ public class DungeonManiaController {
             System.err.println("File creation error in saveGame: " + e.getMessage());
         }
 
-        // Add 'name', 'gameMode', 'dungeonResponse' to file
-        try {
-            FileWriter writer = new FileWriter(filePath);
-            writer.write("{\"name\":" + "\"" + name + "\"" + ",");
-            writer.write("\"gameMode\":" + "\"" + currDungeon.getGameMode() + "\"" + ",");
-            writer.write("\"dungeonResponse\":");
+        // Save general game info
+        JSONObject saveObj = new JSONObject();
+        saveObj.put("filename", name);
+        saveObj.put("gameMode", currDungeon.getGameMode());
+        saveObj.put("dungeonId", dungeonId);
+        saveObj.put("dungeonName", currDungeon.getDungeonName());
+        saveObj.put("goals", currDungeon.getGoalString());
+        
+        // Save all entities in entityList and update ID counter
+        JSONArray entityArray = new JSONArray();
+        for (Entity entity : currDungeon.getEntityList()) {
+            JSONObject entityInfo = new JSONObject();
+            entityInfo.put("id", entity.getId());
+            entityInfo.put("type", entity.getType());
+            entityInfo.put("x", entity.getX());
+            entityInfo.put("y", entity.getY());
 
-            Gson gson = new Gson();
-            writer.write(gson.toJson(response));
-            writer.write("}");
+            if (entity instanceof Player) {
+                Player player = (Player) entity;
+                entityInfo.put("health", player.getHealth());
+                entityInfo.put("invincibilityDuration", player.getInvincibilityDuration());
+                entityInfo.put("invisibilityDuration", player.getInvisibilityDuration());
+                entityInfo.put("bowDurability", player.getBowDurability());
+                entityInfo.put("armourDurability", player.getArmourDurability());
+                entityInfo.put("swordDurability", player.getSwordDurability());
+                entityInfo.put("shieldDurability", player.getShieldDurability());
+            } else if (entity instanceof ZombieToast) {
+                ZombieToast zombieToast = (ZombieToast) entity;
+                entityInfo.put("hasArmour", zombieToast.getHasArmour());
+            } else if (entity instanceof Mercenary) {
+                Mercenary mercenary = (Mercenary) entity;
+                entityInfo.put("hasArmour", mercenary.getHasArmour());
+                entityInfo.put("isBribed", mercenary.IsBribed());
+            } else if (entity instanceof Portal) {
+                Portal portal = (Portal) entity;
+                entityInfo.put("colour", portal.getColour());
+            } else if (entity instanceof Door) {
+                Door door = (Door) entity;
+                entityInfo.put("key", door.getKey());
+            } else if (entity instanceof Key) {
+                Key key = (Key) entity;
+                entityInfo.put("key", key.getKeyId());
+            } else if (entity instanceof ZombieToastSpawner) {
+                entityInfo.put("tickCounter", ZombieToastSpawner.getTickCounter());
+            }
+            entityArray.put(entityInfo);
+        }
+        saveObj.put("entities", entityArray);
+
+        // Save all items in inventory
+        JSONArray inventoryArray = new JSONArray();
+        Inventory inventory = currDungeon.getInventory();
+        for (CollectableEntity item : inventory.getItems()) {
+            JSONObject itemInfo = new JSONObject();
+            itemInfo.put("id", item.getId());
+            itemInfo.put("type", item.getType());
+            inventoryArray.put(itemInfo);
+        }
+        saveObj.put("inventory", inventoryArray);
+
+        // Save all current buildable items
+        JSONArray buildableArray = new JSONArray();
+        for (String item : currDungeon.getBuildableString()) {
+            buildableArray.put(item);
+        }
+        saveObj.put("buildables", buildableArray);       
+
+        // TODO: Save all animations for animated entities - Should be a JSONArray: animations: []
+
+        // Insert object into file
+         try {
+            FileWriter writer = new FileWriter(filePath);
+            writer.write(saveObj.toString());
             writer.close();
         } catch (IOException e) {
             System.err.println("Data creation error in saveGame: " + e.getMessage());
@@ -624,5 +687,18 @@ public class DungeonManiaController {
             File gameFile = new File(savesPath + "\\" + games + ".json");
             gameFile.delete();
         }
+    }
+
+    public static void main(String[] args) {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("testBow", "Standard");
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.saveGame("bow");
     }
 }
