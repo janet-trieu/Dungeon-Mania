@@ -3,6 +3,8 @@ package dungeonmania.entities.PlayerState;
 import dungeonmania.entities.Player;
 
 public class NoSwordState implements PlayerState {
+
+    // storing required attributes
     private Player player;
 
     /**
@@ -40,12 +42,15 @@ public class NoSwordState implements PlayerState {
     public void reduceDuration() {
         // does nothing
     }
+
     @Override
     public int getDuration() {
         return 0;
     }
+
     @Override
     public Boolean isApplied() {
         return false;
     }
+    
 }

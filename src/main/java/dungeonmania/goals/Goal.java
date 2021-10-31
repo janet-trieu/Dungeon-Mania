@@ -7,6 +7,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 
 public abstract class Goal {
+
+    // storing the required attributes
     private Boolean complete;
     private Dungeon dungeon;
 
@@ -59,4 +61,5 @@ public abstract class Goal {
         }
         return listOfTypeEntity;
     }
+    
 }

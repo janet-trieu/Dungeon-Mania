@@ -14,8 +14,12 @@ import dungeonmania.util.Direction;
 
 public interface Moveable {
     
+    /**
+     * Default move method for all moving entities excluding player
+     * @param direction
+     * @param entity
+     */
     default void move(Direction direction, Entity entity) {
-        
         Dungeon dungeon = Dungeon.getDungeon();
         Position move = entity.getPosition().translateBy(direction);
         String type = entity.getType();
@@ -33,6 +37,12 @@ public interface Moveable {
         entity.setPosition(move.getX(), move.getY());
     }
 
+    /**
+     * Returns list of distance between adjacent positions of entities and player's positions
+     * @param entity
+     * @param dungeon
+     * @return
+     */
     default List<Integer> Path(Entity entity, Dungeon dungeon) {
         Entity player = dungeon.getPlayer();
         Position up = entity.getPosition().translateBy(Direction.UP);
@@ -53,9 +63,13 @@ public interface Moveable {
         }
 
         return distance;
-
     }
 
+    /**
+     * Method for the moving entities to "run away" if player is invincible
+     * @param entity
+     * @param dungeon
+     */
     default void run(Entity entity, Dungeon dungeon) {
         Player player = (Player) dungeon.getPlayer();
         List<Integer> distance = Path(entity, dungeon);
@@ -101,6 +115,4 @@ public interface Moveable {
         entity.setY(next.getY());
     }
     
-    
-
 }

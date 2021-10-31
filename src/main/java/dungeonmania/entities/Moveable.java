@@ -1,9 +1,13 @@
 package dungeonmania.entities;
 import dungeonmania.util.*;
 
-
 interface Moveable {
     
+    /**
+     * Given an entity and direction set update the entity's position
+     * @param direction
+     * @param entity
+     */
     default void move(Direction direction, Entity entity) {
         
         int x = entity.getX();
@@ -20,5 +24,4 @@ interface Moveable {
 
     }
          
-
 }

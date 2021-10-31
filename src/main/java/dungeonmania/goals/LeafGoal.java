@@ -11,4 +11,5 @@ public abstract class LeafGoal extends Goal {
     public LeafGoal(Dungeon dungeon) {
         super(dungeon);
     }
+    
 }

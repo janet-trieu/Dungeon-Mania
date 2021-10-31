@@ -40,4 +40,5 @@ public class AndGoal extends CompositeGoal {
             setComplete(true);
         }
     }
+    
 }

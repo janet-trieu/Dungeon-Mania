@@ -2,7 +2,6 @@ package dungeonmania.entities.staticEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;

@@ -11,14 +11,30 @@ import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import dungeonmania.entities.Player;
+
 public class Mercenary extends MovingEntity implements Moveable {
+
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
+
+    // mercenary is interactable with player ( for bribing )
     private boolean isInteractable = true;
+
+    // boolean to check if the spawned mercenary has armour
     Boolean hasArmour;
+
+    // mercenary is spawned as hostile
     Boolean isBribed = false;
+
+    // getting the dungeon instance
     Dungeon dungeon;
 
+    /**
+     * Constructor for the mercenary
+     * @param x position
+     * @param y position
+     * @param dungeon 
+     */
     public Mercenary(int x, int y, Dungeon dungeon) {
         super(x, y, "mercenary", 10, 1);
         setId("Mercenary" + String.valueOf(counter));
@@ -29,6 +45,9 @@ public class Mercenary extends MovingEntity implements Moveable {
         this.setLayer(3);
     }
 
+    /**
+     * Method for the mercenary to move
+     */
     public void move() {
         Player player = (Player) dungeon.getPlayer();
         if (player.isInvincible()) {
@@ -58,7 +77,8 @@ public class Mercenary extends MovingEntity implements Moveable {
         }
 
         Position next = this.getPosition().translateBy(move);
-        //if Position to move to is wall, do nothing;
+
+        // if Position to move to is wall, do nothing;
         List<Entity> list = dungeon.getEntitiesOnSamePosition(next);
         for(Entity current : list) {
             if (current instanceof Boulder) {
@@ -72,9 +92,9 @@ public class Mercenary extends MovingEntity implements Moveable {
         this.setY(next.getY());
     }
 
-    
-
-
+    /**
+     * Method for the mercenary to drop armour
+     */
     public void dropArmour() {
         if (!hasArmour) {
             return;
@@ -91,10 +111,18 @@ public class Mercenary extends MovingEntity implements Moveable {
         dungeon.getInventory().breakItem("treasure");
     }
 
+    /**
+     * Getter for the bribe boolean
+     * @return
+     */
     public Boolean IsBribed() {
         return isBribed;
     }
 
+    /**
+     * Setter for the bribe boolean
+     * @param isBribed
+     */
     public void setIsBribed(Boolean isBribed) {
         this.isBribed = isBribed;
     }

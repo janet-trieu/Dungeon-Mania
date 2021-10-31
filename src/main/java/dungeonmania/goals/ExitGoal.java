@@ -6,6 +6,7 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 
 public class ExitGoal extends LeafGoal {
+
     /**
      * constructor for ExitGoal
      * @param dungeon
@@ -49,4 +50,5 @@ public class ExitGoal extends LeafGoal {
             setComplete(false);
         }
     }
+    
 }
