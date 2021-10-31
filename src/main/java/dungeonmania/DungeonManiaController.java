@@ -18,9 +18,11 @@ import dungeonmania.util.Position;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.text.AbstractDocument.Content;
 import javax.xml.crypto.Data;
 
 import com.google.gson.Gson;
@@ -335,8 +338,8 @@ public class DungeonManiaController {
             System.err.println("File creation error in saveGame: " + e.getMessage());
         }
 
-        // Add 'name', 'gameMode', 'dungeonResponse' to file
-        try {
+         // Add 'name', 'gameMode', 'dungeonResponse' to file
+         try {
             FileWriter writer = new FileWriter(filePath);
             writer.write("{\"name\":" + "\"" + name + "\"" + ",");
             writer.write("\"gameMode\":" + "\"" + currDungeon.getGameMode() + "\"" + ",");
@@ -377,18 +380,24 @@ public class DungeonManiaController {
             System.err.println("File load error: " + e.getMessage());
         }
 
+
         JSONObject dataObj = new JSONObject(data);
+
         System.out.println(dataObj);
-        // Get dungeonId
-        // Get dungeonName
-        // Get entities (id,type,position[x,y],isInteractable), set necessary attributes
-        // Get inventory (id, type), set necessary attributes
-        // Get buildables
-        // Get goal
-        // Get animations, not implemented
-        // Get gameMode
+
+        String gameMode = dataObj.getString("gameMode");
+        
+        JSONObject responseObj = dataObj.getJSONObject("dungeonResponse");
+        String dungeonId = responseObj.getString("dungeonId");
+        String dungeonName = responseObj.getString("dungeonName");
+        // LOOP THROUGH ENTITIES ARRAY - Get entities (id,type,position[x,y],isInteractable), set necessary attributes
+        // LOOP THROUGH INVENTORY - Get inventory (id, type), set necessary attributes
+        // LOOP THROUGH BUILDABLES - string only
+        
+        String goalString = responseObj.getString("goals");
+        // TODO: Get animations, not implemented yet :)
         // Replace dungeon class with new info from file
-        // Create new dungeonresposne from dungeon class to ensure its correct and return
+        // Create new dungeonresposne from dungeon class to ENSURE its correct and return
 
         return null;
     }
@@ -623,5 +632,14 @@ public class DungeonManiaController {
             File gameFile = new File(savesPath + "\\" + games + ".json");
             gameFile.delete();
         }
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("portals", "Standard");
+        controller.saveGame("portals");
+        PrintStream out = new PrintStream(new FileOutputStream("error.txt"));
+        System.setOut(out);
+        System.setErr(out);
     }
 }
