@@ -2,6 +2,8 @@ package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
@@ -12,6 +14,9 @@ import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.S
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
+import dungeonmania.response.models.EntityResponse;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class BattleTest {
     @Test
@@ -24,7 +29,7 @@ public class BattleTest {
         dungeon.addEntity(player);
 
         // Create spider at (1, 0)
-        Spider spider = new Spider(1, 0);
+        Spider spider = new Spider(1, 0, dungeon);
         dungeon.addEntity(spider);
         // battle spider
         player.moveRight();
@@ -348,5 +353,26 @@ public class BattleTest {
         }
         // player battling mercenary0 and mercenary1 consecutively
         assertEquals(false, dungeon.getEntityList().contains(player));
+    }
+        /**
+     * Testing for ZombieToastSpawner and Wall functionality in Standard
+     * - Wall stays put
+     * - ZombieToast spawns every 20 ticks in Standard
+     */
+    
+    @Test
+    public void testBribe() throws IOException {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("bribe", "Standard");
+
+        // 20 TICKS
+
+        controller.tick(null, Direction.RIGHT);
+
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3, 0), true), controller.getInfo("Mercenary0"));
+
+        controller.interact("Mercenary0");
     }
 }

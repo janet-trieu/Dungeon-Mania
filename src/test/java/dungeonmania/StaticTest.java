@@ -1,14 +1,13 @@
 package dungeonmania;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.staticEntity.Boulder;
@@ -17,7 +16,6 @@ import dungeonmania.entities.staticEntity.Exit;
 import dungeonmania.entities.staticEntity.FloorSwitch;
 import dungeonmania.goals.ExitGoal;
 import dungeonmania.goals.Goal;
-import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -202,8 +200,14 @@ public class StaticTest {
 
         controller.newGame("simple-spawner-wall", "Standard");
 
+        List<Entity> list = controller.getDungeon().getEntityList();
+        for (Entity entity : list) {
+            System.out.println(entity.getId());
+        }
         // 20 TICKS
-        for (int i = 0; i <= 20; i++) {
+
+        controller.tick(null, Direction.RIGHT);
+        for (int i = 0; i <= 19; i++) {
             controller.tick(null, Direction.LEFT);
         }
 
@@ -218,15 +222,52 @@ public class StaticTest {
 
         controller.tick(null, Direction.DOWN);
         position = new Position(1, 1);
-        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
+        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, true), controller.getInfo("ZombieToastSpawner0"));
         
         // INTERACT WITH SPAWNER TO DESTROY IT
-        //controller.interact("ZombieToastSpawner0");
+        controller.interact("ZombieToastSpawner0");
         // getInfo should return null if it does not exist
         position = new Position(1, 1);
-        assertThrows(NullPointerException.class, () -> controller.getInfo("ZombieToastSpawner0"));
+        assertEquals(null, controller.getInfo("ZombieToastSpawner0"));
     }
+    /**
+     * Testing for ZombieToastSpawner and Wall functionality in Standard
+     * - Wall stays put
+     * - ZombieToast spawns every 20 ticks in Standard
+     */
+    
+    @Test
+    public void testBribe() throws IOException {
+        DungeonManiaController controller = new DungeonManiaController();
 
+        controller.newGame("simple-spawner-wall", "Standard");
+
+        // 20 TICKS
+
+        controller.tick(null, Direction.RIGHT);
+        for (int i = 0; i <= 19; i++) {
+            controller.tick(null, Direction.LEFT);
+        }
+
+        // ENSURE WALL AND PLAYER IN PLACE
+        Position position = new Position(0, 0, 4);
+        assertEquals(new EntityResponse("Player", "player", position, false), controller.getInfo("Player"));
+        position = new Position(-1, 0);
+        assertEquals(new EntityResponse("Wall0", "wall", position, false), controller.getInfo("Wall0"));
+
+        // ASSERT THERE IS A ZOMBIE TOAST SOMEWHERE
+        assertEquals(controller.getDungeon().getInfo("ZombieToast0"), controller.getInfo("ZombieToast0"));
+
+        controller.tick(null, Direction.DOWN);
+        position = new Position(1, 1);
+        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, true), controller.getInfo("ZombieToastSpawner0"));
+        
+        // INTERACT WITH SPAWNER TO DESTROY IT
+        controller.interact("ZombieToastSpawner0");
+        // getInfo should return null if it does not exist
+        position = new Position(1, 1);
+        assertEquals(null, controller.getInfo("ZombieToastSpawner0"));
+    }
     /*
     /**
      * Testing for ZombieToastSpawner and Wall functionality in Hard
