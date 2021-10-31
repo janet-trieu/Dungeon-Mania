@@ -42,6 +42,11 @@ public class SwordState implements PlayerState {
     }
 
     @Override
+    public int getDuration() {
+        return this.durability;
+    }
+
+    @Override
     public Boolean isApplied() {
         return true;
     }

@@ -239,10 +239,18 @@ public class Dungeon {
         for (Entity entity : getEntitiesOnSamePosition(position)) {
             if (entity instanceof StaticEntity) {
                 StaticEntity staticEntity = (StaticEntity) entity;
-                if (!(staticEntity instanceof Door) && !(staticEntity instanceof Boulder) 
-                    && !staticEntity.isPassable()) {
+                if (staticEntity.isPassable()) {
+
+                } else if (staticEntity instanceof Door) {
+
+                } else if (staticEntity instanceof Boulder) {
+
+                } else {
                     canGoThrough = false;
+
                 }
+                //else if (!(staticEntity instanceof Door) && !(staticEntity instanceof Boulder) 
+                    //&& !staticEntity.isPassable()) {
             }
         }
         return canGoThrough;
