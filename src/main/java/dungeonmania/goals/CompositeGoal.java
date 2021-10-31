@@ -9,10 +9,17 @@ import dungeonmania.Dungeon;
 public abstract class CompositeGoal extends Goal {
     private List<Goal> subGoalList = new ArrayList<Goal>();
     
+    /**
+     * Constructor for CompositeGoal
+     * @param dungeon
+     */
     public CompositeGoal(Dungeon dungeon) {
         super(dungeon);
     }
 
+    /**
+     * Getters and setters
+     */
     public List<Goal> getSubGoalList() {
         return subGoalList;
     }
@@ -24,12 +31,12 @@ public abstract class CompositeGoal extends Goal {
     public void removeSubGoal(Goal goal) {
         subGoalList.remove(goal);
     }
-    
-    @Override
-    public Boolean isLeaf() {
-        return false;
-    }
 
+    /**
+     * Update and check if subGoals are complete
+     * if subgoal is complete, remove from list
+     * but if there are more than two subgoals, exitGoal cannot be completed
+     */
     @Override
     public void update() {
         ListIterator<Goal> iter = subGoalList.listIterator();
@@ -46,6 +53,10 @@ public abstract class CompositeGoal extends Goal {
         }
     } 
 
+    /**
+     * Check if subGoals are complete
+     * @return
+     */
     public Boolean subGoalsIsComplete() {
         Boolean complete = true;
         for (int i = 0; i < subGoalList.size(); i++) {
