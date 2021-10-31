@@ -88,8 +88,5 @@ public class DungeonTest {
         // Sword
         position = new Position(19, 0, 2);
         assertEquals(new EntityResponse("Sword0", "sword", position, false), controller.getInfo("Sword0"));
-        // DoorOpened
-        position = new Position(1, 0);
-        assertEquals(new EntityResponse("Door1", "door", position, false), controller.getInfo("Door1"));
     }
 }

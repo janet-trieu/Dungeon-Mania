@@ -18,19 +18,32 @@ public abstract class Goal {
         this.dungeon = dungeon;
     }
     
-    public void setComplete(Boolean complete) {
-        this.complete = complete;
-    }
-
-    public Boolean isComplete() {
-        return complete;
-    }
-
+    /**
+     * Abstract methods
+     */
     @Override
     public String toString() {
         return "";
     }
-
+    
+    public abstract void update();
+    
+    /**
+     * Getters and Setters
+     * 
+     */
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
+    }
+    
+    public Boolean isComplete() {
+        return complete;
+    }
+    
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+    
     /**
      * Helper method to find all current entities of a type on Dungeon
      * @param type
@@ -46,13 +59,4 @@ public abstract class Goal {
         }
         return listOfTypeEntity;
     }
-
-    public Dungeon getDungeon() {
-        return dungeon;
-    }
-
-    public abstract Boolean isLeaf();
-
-    public abstract void update();
-
 }

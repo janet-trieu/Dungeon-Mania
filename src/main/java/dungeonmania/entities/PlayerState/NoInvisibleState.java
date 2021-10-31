@@ -6,10 +6,18 @@ import dungeonmania.entities.Player;
 public class NoInvisibleState implements PlayerState {
     private Player player;
 
+    /**
+     * Constructor for NoInvisibileState
+     * @param player
+     */
     public NoInvisibleState(Player player) {
         this.player = player;
     }
-
+    
+    /**
+     * Player gains invisibility
+     * consumes invisibility potion
+     */
     @Override
     public void applyEffect() {
         player.changeInvisibleState(new InvisibleState(player));

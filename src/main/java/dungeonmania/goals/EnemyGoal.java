@@ -8,10 +8,19 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingEntity.Mercenary;
 
 public class EnemyGoal extends LeafGoal {
+    /**
+     * Constructor for EnemyGoal
+     * @param dungeon
+     */
     public EnemyGoal(Dungeon dungeon) {
         super(dungeon);
     }
-
+    /**
+     * toString method
+     * return: 
+     *  - ":enemy" or
+     *  - ""
+     */
     @Override
     public String toString() {
         if (isComplete()) {
@@ -21,6 +30,10 @@ public class EnemyGoal extends LeafGoal {
         }
     }
 
+    /**
+     * iterates through entityList and see if there are any remaining enemies
+     * if there are no enemies, goal is complete
+     */
     @Override
     public void update() {
         int numberOfHostileMonster = getEntitiesOfType("spider").size();
@@ -34,6 +47,10 @@ public class EnemyGoal extends LeafGoal {
         }
     }
 
+    /**
+     * Helper method to obtain list of mercenaries
+     * @return
+     */
     public List<Mercenary> mercenaryList() {
         List<Mercenary> listOfEntity = new ArrayList<Mercenary>();
         List<Entity> entityList = getDungeon().getEntityList();
@@ -45,6 +62,10 @@ public class EnemyGoal extends LeafGoal {
         return listOfEntity;
     }
 
+    /**
+     * Helper method to obtain list of hostile mercenaries (not bribed)
+     * @return
+     */
     public List<Mercenary> hostileMercenaryList() {
         List<Mercenary> mercenaryList = mercenaryList();
         List<Mercenary> listOfHostile = new ArrayList<Mercenary>();
