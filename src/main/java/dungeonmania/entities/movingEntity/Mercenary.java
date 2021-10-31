@@ -130,4 +130,8 @@ public class Mercenary extends MovingEntity implements Moveable {
     public Boolean getHasArmour() {
         return hasArmour;
     }
+
+    public void setHasArmour(Boolean hasArmour) {
+        this.hasArmour = hasArmour;
+    }
 }

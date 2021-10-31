@@ -492,5 +492,32 @@ public class Dungeon {
 
         return entityIds;
     }
-    
+
+    public void setDungeonName(String dungeonName) {
+        this.dungeonName = dungeonName;
+    }
+
+    public void setEntityList(List<Entity> entityList) {
+        this.entityList = entityList;
+    }
+
+    public List<String> getBuildableList() {
+        return buildableList;
+    }
+
+    public void setBuildableList(List<String> buildableList) {
+        this.buildableList = buildableList;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
+    }
 }
