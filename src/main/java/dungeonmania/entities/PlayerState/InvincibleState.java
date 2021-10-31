@@ -69,7 +69,4 @@ public class InvincibleState implements PlayerState{
         return duration;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
 }
