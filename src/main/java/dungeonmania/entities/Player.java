@@ -168,6 +168,9 @@ public class Player extends Entity {
     public void interactDoor(Entity entity, Position newPosition) {
         Door door = (Door) entity;
         // If player had key, open door and discard key
+        if (door.isPassable()) {
+            setPosition(newPosition.getX(), newPosition.getY());
+        }
         Key key = Dungeon.getDungeon().getKey();
         if (key != null && door.insertKey(key)) {
             setPosition(newPosition.getX(), newPosition.getY());

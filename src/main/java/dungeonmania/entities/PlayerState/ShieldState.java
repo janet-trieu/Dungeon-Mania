@@ -55,6 +55,11 @@ public class ShieldState implements PlayerState {
         //does nothing      
     }
     
+
+    public int getDuration() {
+        return this.durability;
+    }
+
     @Override
     public Boolean isApplied() {
         return true;

@@ -58,6 +58,13 @@ public class ArmourState implements PlayerState {
         }
     }
 
+    @Override
+    public int getDuration() {
+        return this.durability;
+    }
+
+
+
     /**
      * check if player is equipped armour
      */

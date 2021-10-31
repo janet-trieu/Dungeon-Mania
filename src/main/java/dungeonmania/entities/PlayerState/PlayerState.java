@@ -8,5 +8,6 @@ public interface PlayerState {
     public void loadDuration(int duration);
     public void removeEffect();
     public void reduceDuration();
+    public int getDuration();
     public Boolean isApplied();
 }

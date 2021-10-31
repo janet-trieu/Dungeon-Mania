@@ -572,6 +572,7 @@ public class DungeonManiaController {
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
+        Inventory currInventory = currDungeon.getInventory();
 
         if (!(buildable.equals("bow")) && !(buildable.equals("shield"))) {
             throw new IllegalArgumentException("Incorrect buildable entity");
@@ -587,12 +588,14 @@ public class DungeonManiaController {
             Bow bow = new Bow(-1, -1);
             bow.useIngredient();
             currDungeon.updateBuildableListBow();
+            currInventory.addItem(bow);
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         } else if (canBuildShield && buildable.equals("shield")) {
             Shield shield = new Shield(-1, -1);
             shield.useIngredient();
             currDungeon.updateBuildableListShield();
+            currInventory.addItem(shield);
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         }

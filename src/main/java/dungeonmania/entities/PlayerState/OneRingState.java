@@ -33,7 +33,10 @@ public class OneRingState implements PlayerState {
     public void reduceDuration() {
         // does nothing
     }
-
+    @Override
+    public int getDuration() {
+        return 0;
+    }
     @Override
     public void loadDuration(int duration) {
         //does nothing      
