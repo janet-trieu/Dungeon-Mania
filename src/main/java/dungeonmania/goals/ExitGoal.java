@@ -6,10 +6,18 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 
 public class ExitGoal extends LeafGoal {
+    /**
+     * constructor for ExitGoal
+     * @param dungeon
+     */
     public ExitGoal(Dungeon dungeon) {
         super(dungeon);
     }
 
+    /**
+     * toString method
+     * return: ":exit" or ""
+     */
     @Override
     public String toString() {
         if (isComplete()) {
@@ -19,6 +27,11 @@ public class ExitGoal extends LeafGoal {
         }
     }
 
+    /**
+     * checks if player is currently at exit
+     * if at exit, goal is complete
+     * else, goal is incomplete
+     */
     @Override
     public void update() {
         List<Entity> exitList = getEntitiesOfType("exit");

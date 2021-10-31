@@ -4,10 +4,21 @@ import dungeonmania.Dungeon;
 
 public class AndGoal extends CompositeGoal {
 
+    /**
+     * Constructor for AndGoal
+     * @param dungeon
+     */
     public AndGoal(Dungeon dungeon) {
         super(dungeon);
     }
 
+    /**
+     * toString method for AndGoal
+     * return:
+     *  - "" or
+     *  - Goal.toString
+     *  - (Goal.toString AND Goal.toString)
+     */
     @Override
     public String toString() {
         if (getSubGoalList().size() == 0) {
@@ -19,6 +30,9 @@ public class AndGoal extends CompositeGoal {
         }
     }
     
+    /**
+     * updates all subGoals
+     */
     @Override
     public void update() {
         super.update();
