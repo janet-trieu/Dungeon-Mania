@@ -26,11 +26,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringTokenizer;
-
-import javax.sound.sampled.Port;
-import com.google.gson.Gson;
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.Adapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -591,13 +586,16 @@ public class DungeonManiaController {
 
         // If itemUsed is not in inventory
         String type = null;
+        Boolean hasItem = false;
         for (CollectableEntity item : currInventory.getItems()) {
-            if (!(item.getId().equals(itemUsed)) && itemUsed != null) {
-                throw new InvalidActionException("Item is not in the inventory");
-            } else {
+            if (item.getId().equals(itemUsed)) {
+                hasItem = true;
                 type = item.getType();
                 break;
             }
+        }
+        if (!hasItem && itemUsed != null) {
+            throw new InvalidActionException("Item is not in the inventory");
         }
 
         if (!movementDirection.equals(Direction.NONE)) {
