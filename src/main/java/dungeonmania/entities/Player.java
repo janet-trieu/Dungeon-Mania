@@ -101,13 +101,13 @@ public class Player extends Entity {
      *  - Player equipment reduces in one durability
      * @param otherEntity
      */
-    public void battle(MovingEntity otherEntity) {
+    public Boolean battle(MovingEntity otherEntity) {
         // check inventory and change states accordingly
         equipCombat();
         // Character Health = Character Health - ((Enemy Health * Enemy Attack Damage) / 10) / protection
         if (isInvincible()) {
             Dungeon.getDungeon().removeEntity(otherEntity);
-            return;
+            return false;
         }
         setHealth(getHealth() - ((otherEntity.getHealth() * otherEntity.getDamage()) / 10) / getProtection());
         if (getHealth() <= 0) {
@@ -115,7 +115,7 @@ public class Player extends Entity {
         }
         if (getHealth() <= 0) {
             Dungeon.getDungeon().removeEntity(this);
-            return;
+            return false;
         }
         // Enemy Health = Enemy Health - ((Character Health * Character Attack Damage) / 5)
         otherEntity.setHealth(otherEntity.getHealth() - ((getHealth() * getDamage()) / 5));
@@ -123,8 +123,11 @@ public class Player extends Entity {
         allyAssistBattle(otherEntity);
         if (otherEntity.getHealth() <= 0) {
             Dungeon.getDungeon().removeEntity(otherEntity);
+            updateCombatDurability();
+            return false;
         }
         updateCombatDurability();
+        return true;
     }
 
     /**
