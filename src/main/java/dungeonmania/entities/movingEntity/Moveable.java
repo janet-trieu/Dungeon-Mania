@@ -23,7 +23,6 @@ public interface Moveable {
     default void move(Direction direction, Entity entity) {
         Dungeon dungeon = Dungeon.getDungeon();
         Position move = entity.getPosition().translateBy(direction);
-        String type = entity.getType();
         
         List<Entity> list = dungeon.getEntitiesOnSamePosition(move);
         
