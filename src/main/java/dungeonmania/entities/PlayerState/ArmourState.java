@@ -65,5 +65,10 @@ public class ArmourState implements PlayerState {
     public Boolean isApplied() {
         return true;
     }
+
+    @Override
+    public void loadDuration(int duration) {
+        //does nothing      
+    }
     
 }

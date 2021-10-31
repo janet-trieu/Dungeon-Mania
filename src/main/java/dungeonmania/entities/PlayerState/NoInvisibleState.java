@@ -24,6 +24,15 @@ public class NoInvisibleState implements PlayerState {
         Dungeon.getDungeon().getInventory().breakItem("invisibility_potion");
     }
 
+    /**
+     * Player gains invisibility
+     * consumes invisibility potion
+     */
+    @Override
+    public void loadDuration(int duration) {
+        player.changeInvisibleState(new InvisibleState(player, duration));
+        Dungeon.getDungeon().getInventory().breakItem("invisibility_potion");
+    }
     @Override
     public void removeEffect() {
         // Does nothing

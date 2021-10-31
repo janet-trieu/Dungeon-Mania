@@ -56,7 +56,11 @@ public class InvincibleState implements PlayerState{
             removeEffect();
         }
     }
-
+    @Override
+    public void loadDuration(int duration) {
+        //does nothing      
+    }
+    
     public Boolean isApplied() {
         return true;
     }

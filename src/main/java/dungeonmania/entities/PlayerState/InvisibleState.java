@@ -52,7 +52,12 @@ public class InvisibleState implements PlayerState{
         if (duration <= 0) {
             removeEffect();
         }
+    }   
+    @Override
+    public void loadDuration(int duration) {
+        //does nothing      
     }
+    
     
     public Boolean isApplied() {
         return true;

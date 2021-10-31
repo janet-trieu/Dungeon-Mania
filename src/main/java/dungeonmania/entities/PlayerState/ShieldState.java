@@ -50,7 +50,11 @@ public class ShieldState implements PlayerState {
             removeEffect();
         }
     }
-
+    @Override
+    public void loadDuration(int duration) {
+        //does nothing      
+    }
+    
     @Override
     public Boolean isApplied() {
         return true;

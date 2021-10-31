@@ -23,6 +23,15 @@ public class NoArmourState implements PlayerState {
     }
 
     /**
+     * player equips armour and gains benefits of increased protection
+     */
+    @Override
+    public void loadDuration(int durability) {
+        player.changeArmourState(new ArmourState(player, durability));
+        player.setProtection(player.getProtection() * 2);
+    }
+
+    /**
      * player unequips nothing
      * nothing happens
      */

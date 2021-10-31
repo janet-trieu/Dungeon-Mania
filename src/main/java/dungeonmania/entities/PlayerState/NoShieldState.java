@@ -22,6 +22,15 @@ public class NoShieldState implements PlayerState {
         player.setProtection(player.getProtection() * 2);
     }
 
+    /**
+     * player equips shield and gains benefit of increased protection
+     */
+    @Override
+    public void loadDuration(int duration) {
+        player.changeShieldState(new ShieldState(player, duration));
+        player.setProtection(player.getProtection() * 2);
+    }
+
     @Override
     public void removeEffect() {
         // does nothing

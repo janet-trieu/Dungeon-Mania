@@ -7,6 +7,7 @@ import dungeonmania.Inventory;
 import dungeonmania.entities.PlayerState.*;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
+import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
@@ -383,22 +384,22 @@ public class Player extends Entity {
 
     public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur) {
         if (invinDur > 0) {
-            changeInvincibleState(new InvincibleState(this, invinDur));
+            invincibleState.loadDuration(invinDur);
         }
         if (invisDur > 0) {
-            changeInvisibleState(new InvisibleState(this, invisDur));
+            invisibleState.loadDuration(invisDur);
         }
         if (bowDur > 0) {
-            changeBowState(new BowState(this, bowDur));
+            bowState.loadDuration(bowDur);
         }
         if (armourDur > 0) {
-            changeArmourState(new ArmourState(this, armourDur));
+            armourState.loadDuration(armourDur);
         }
         if (swordDur > 0) {
-            changeSwordState(new SwordState(this, swordDur));
+            swordState.loadDuration(swordDur);
         }
         if (shieldDur > 0) {
-            changeShieldState(new ShieldState(this, shieldDur));
+            shieldState.loadDuration(shieldDur);
         }
     }
 

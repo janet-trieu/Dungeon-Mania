@@ -35,6 +35,11 @@ public class OneRingState implements PlayerState {
     }
 
     @Override
+    public void loadDuration(int duration) {
+        //does nothing      
+    }
+    
+    @Override
     public Boolean isApplied() {
         return true;
     }
