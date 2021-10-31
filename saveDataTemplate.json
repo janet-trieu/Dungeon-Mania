@@ -1,94 +1,87 @@
 {
-	"__comment": "THIS IS A TEMPLATE, DO NOT USE!!!",
-	"name": "String",
+	"__comment": "Specific entity fields are going to be reset in load game",
+	"filename": "String",
 	"gameMode": "String",
-	"dungeonResponse": {
-		"dungeonId": "String",
-		"dungeonName": "String",
-		"entities": [
-			{
-				"id": "int",
-				"type": "type",
-				"position": {
-					"x": "int",
-					"y": "int",
-					"layer": "int"
-				},
-				"isInteractable": "boolean"
-			},
-			{
-				"id": "Player",
-				"type": "player",
-				"position": {
-					"x": "int",
-					"y": "int",
-					"layer": "int"
-				},
-				"isInteractable": "boolean",
-				"health": "int",
-				"invincibility_duration": "int",
-				"invisibility_duration": "int",
-				"bowDurability": "int",
-				"armourDurability": "int",
-				"swordDurability": "int",
-				"shieldDurability": "int"
-			},
-			{
-				"id": "ZombieToast0",
-				"type": "zombie_toast",
-				"position": {
-					"x": "int",
-					"y": "int",
-					"layer": "int"
-				},
-				"isInteractable": "boolean",
-				"hasArmour": "boolean"
-			},
-			{
-				"id": "Spider0",
-				"type": "spider",
-				"position": {
-					"x": "int",
-					"y": "int",
-					"layer": "int"
-				},
-				"isInteractable": "boolean",
-				"movementCounter": "int"
-			},
-			{
-				"id": "Mercenary",
-				"type": "mercenary",
-				"position": {
-					"x": "int",
-					"y": "int",
-					"layer": "int"
-				},
-				"isInteractable": "boolean",
-				"hasArmour": "boolean",
-				"isBribed": "boolean"
-			},
-			{
-				"id": "ZombieToastSpawner0",
-				"type": "zombie_toast_spawner",
-				"position": {
-					"x": "int",
-					"y": "int",
-					"layer": "int"
-				},
-				"isInteractable": "boolean",
-				"counter": "int"
-			}
-		],
-		"inventory": [
-			{
-				"id": "String",
-				"type": "String"
-			}
-		],
-		"buildables": [
-			"String"
-		],
-		"goals": "String",
-		"animations": []
-	}
+	"dungeonId": "String",
+	"dungeonName": "String",
+	"entities": [
+		{
+			"id": "int",
+			"type": "type",
+			"x": "int",
+			"y": "int"
+		},
+		{
+			"type": "player",
+			"health": "int",
+			"invincibilityDuration": "int",
+			"invisibilityDuration": "int",
+			"bowDurability": "int",
+			"armourDurability": "int",
+			"swordDurability": "int",
+			"shieldDurability": "int"
+		},
+		{
+			"type": "zombie_toast",
+			"hasArmour": "boolean"
+		},
+		{
+			"type": "spider",
+			"movementCounter": "int"
+		},
+		{
+			"type": "mercenary",
+			"hasArmour": "boolean",
+			"isBribed": "boolean"
+		},
+		{
+			"type": "portal",
+			"colour": "String"
+		},
+		{
+			"type": "door",
+			"key": "int"
+		},
+		{
+			"type": "key",
+			"key": "int"
+		},
+		{
+			"type": "ZombieToastSpawner",
+			"tickCounter": "int"
+		}
+	],
+	"inventory": [
+		{
+			"id": "String",
+			"type": "String"
+		}
+	],
+	"buildables": [
+		"String"
+	],
+	"goals": "String",
+	"animations": [],
+	"FloorSwitchCounter": "int",
+	"WallCounter": "int",
+	"ExitCounter": "int",
+	"DoorCounter": "int",
+	"BoulderCounter": "int",
+	"PortalCounter": "int",
+	"ZombieToastSpawnerCounter": "int",
+	"SpiderCounter": "int",
+	"ZombieToastCounter": "int",
+	"MercenaryCounter": "int",
+	"TreasureCounter": "int",
+	"KeyCounter": "int",
+	"ArrowCounter": "int",
+	"WoodCounter": "int",
+	"BombCounter": "int",
+	"InvincibilityPotionCounter": "int",
+	"InvisibilityPotionCounter": "int",
+	"HealthPotionCounter": "int",
+	"TheOneRingCounter": "int",
+	"ArmourCounter": "int",
+	"SwordCounter": "int",
+	"ShieldCounter": "int"
 }
