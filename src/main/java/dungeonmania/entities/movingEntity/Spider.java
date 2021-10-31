@@ -18,6 +18,12 @@ public class Spider extends MovingEntity implements Moveable {
     // storing the list of possible position of path
     private List<Position> path;
 
+    // storing the number of spider that is present in the dungeon
+    private static int spiderNum = 0;
+
+    // storing the number of occurences this method is called, to know when to spawn the zombie toast
+    private static int tickCounter = 0;
+
     /**
      * Constructor for a spider
      * @param x position
@@ -36,8 +42,15 @@ public class Spider extends MovingEntity implements Moveable {
     /**
      * Method to spawn the spider
      */
-    public void addSpider() {
-        dungeon.addEntity(this);
+    public void spawnSpider() {
+        if (tickCounter == 15) {
+            if (spiderNum < 4) {
+                dungeon.addEntity(this);
+            }
+            setTickCounter(0);
+            spiderNum++;
+        } 
+        tickCounter++;
     }
 
     /**
@@ -87,6 +100,22 @@ public class Spider extends MovingEntity implements Moveable {
         
         //Set the spiders position
         this.setPosition(next.getX(), next.getY());
+    }
+
+    public static int getSpiderNum() {
+        return spiderNum;
+    }
+
+    public static void setSpiderNum(int spiderNum) {
+        Spider.spiderNum = spiderNum;
+    }
+
+    public static int getTickCounter() {
+        return tickCounter;
+    }
+
+    public static void setTickCounter(int tickCounter) {
+        Spider.tickCounter = tickCounter;
     }
         
 }

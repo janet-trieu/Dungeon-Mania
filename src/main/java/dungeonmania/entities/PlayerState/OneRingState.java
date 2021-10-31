@@ -38,7 +38,7 @@ public class OneRingState implements PlayerState {
 
     @Override
     public int getDuration() {
-        return 0;
+        return 1;
     }
 
     @Override
