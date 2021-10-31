@@ -480,7 +480,7 @@ public class DungeonManiaController {
 
         // Attempt to spawn any ZombieToastSpawners
         for (ZombieToastSpawner spawner : spawnerList) {
-            spawner.spawnZombieToast(spawner, currDungeon);
+            spawner.spawnZombieToast(currDungeon);
         }
 
         for (Bomb bomb : bombList) {
