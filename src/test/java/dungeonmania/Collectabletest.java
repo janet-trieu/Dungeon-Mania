@@ -29,7 +29,7 @@ import dungeonmania.util.Position;
  * Therefore, this file will only test for the application/use of the collectable entities
  * P.S this is currently initial stages of testing!!
  */
-public class CollectableTest {
+public class Collectabletest {
     /**
      * Test for use of health potion
      * @throws IOException
@@ -181,7 +181,6 @@ public class CollectableTest {
      * @throws IllegalArgumentException
      * @throws IOException
      */
-    /*
     @Test
     public void testBomb() throws IllegalArgumentException, IOException {
         // create a player at position (0,0)
@@ -239,7 +238,6 @@ public class CollectableTest {
         assertEquals(new EntityResponse("Portal0", "portal", portalPosition, false), controller.getInfo("Portal0"));
         assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", zombieSpawnerPosition, false), controller.getInfo("ZombieToastSpawner0"));
     }
-*/
 
     /**
      * Test for sword
@@ -247,7 +245,6 @@ public class CollectableTest {
      * check for the durability decrease when used
      * @throws IOException
      */
-    /*
     @Test
     public void testSword() {
         // create a dungeon instance
@@ -289,13 +286,12 @@ public class CollectableTest {
         // given that the sword's durability is set to 6, the durability of this sword will be 2.
         assertEquals(dungeon.getInfo(sword.getId()), 2);
     }
-    */
+
     /**
      * Testing for player bribing the mercenary
      * Player HAS treasure
      * @throws IOException
      */
-    /*
     @Test
     public void testBribeHasTreasure() {
         // create a dungeon instance
@@ -331,13 +327,12 @@ public class CollectableTest {
         inventory.removeItem(treasure);
         assertEquals(false, inventory.getItems().contains(treasure));
     }
-    */
+
     /**
      * Testing for player bribing the mercenary
      * Player DOES NOT have treasure
      * @throws InvalidActionException
      */
-    /*
     @Test
     public void testBribeNoTreasure() {
         // create a dungeon instance
@@ -348,7 +343,7 @@ public class CollectableTest {
         dungeon.addEntity(player);
 
         // create a mercenary at position (3,0)
-        Mercenary mercenary = new Mercenary(3, 0);
+        Mercenary mercenary = new Mercenary(3, 0, dungeon);
         dungeon.addEntity(mercenary);
 
         // player moves one cell to the right (1,0)
@@ -359,12 +354,11 @@ public class CollectableTest {
         // player attempts to bribe the mercenary without treasure
         assertThrows(InvalidActionException.class, () -> player.interact(mercenary.getId()));
     }
-    */
+
     /**
      * Test for armour's application
      * check if player isShielded is true
      */
-    /*
     @Test
     public void testArmour() {
         // create a dungeon instance
@@ -386,11 +380,10 @@ public class CollectableTest {
 
         assertEquals(player.getIsShielded(), true);
     }
-    */
+    
      /**
      * Test for one ring's application
      */
-    /*
     @Test
     public void testOneRing() {
         // create a dungeon instance
@@ -412,5 +405,4 @@ public class CollectableTest {
 
         assertEquals(player.getRespawnable(), true);
     }
-    */
 }
