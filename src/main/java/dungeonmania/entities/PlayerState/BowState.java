@@ -18,6 +18,16 @@ public class BowState implements PlayerState {
     }
 
     /**
+     * Constructor for BowState
+     * @param player
+     * @param durability
+     */
+    public BowState(Player player, int durability) {
+        this.player = player;
+        this.durability = durability;
+    }
+
+    /**
      * Cannot apply another bow if player has already equipped bow
      * Player can only wear one bow at a time and multiple bows does
      * not stack

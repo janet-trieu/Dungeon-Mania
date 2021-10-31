@@ -17,6 +17,16 @@ public class InvincibleState implements PlayerState{
     }
 
     /**
+     * Constructor for InvincibileState
+     * @param player
+     * @param duration
+     */
+    public InvincibleState(Player player, int duration) {
+        this.player = player;
+        this.duration = duration;
+    }
+
+    /**
      * if gameMode is hard mode, player gains no benefits
      * if normal or peaceful, player gains additional duration and potion is consumed
      */

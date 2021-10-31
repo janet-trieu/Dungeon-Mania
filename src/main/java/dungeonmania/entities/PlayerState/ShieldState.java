@@ -17,6 +17,16 @@ public class ShieldState implements PlayerState {
         durability = maxDurability;
     }
 
+    /**
+     * Constructor for ShieldState
+     * @param player
+     * @param durability
+     */
+    public ShieldState(Player player, int durability) {
+        this.player = player;
+        this.durability = durability;
+    }
+
     @Override
     public void applyEffect() {
         // does nothing

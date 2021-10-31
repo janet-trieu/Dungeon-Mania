@@ -381,6 +381,27 @@ public class Player extends Entity {
         swordState.reduceDuration();
     }
 
+    public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur) {
+        if (invinDur > 0) {
+            changeInvincibleState(new InvincibleState(this, invinDur));
+        }
+        if (invisDur > 0) {
+            changeInvisibleState(new InvisibleState(this, invisDur));
+        }
+        if (bowDur > 0) {
+            changeBowState(new BowState(this, bowDur));
+        }
+        if (armourDur > 0) {
+            changeArmourState(new ArmourState(this, armourDur));
+        }
+        if (swordDur > 0) {
+            changeSwordState(new SwordState(this, swordDur));
+        }
+        if (shieldDur > 0) {
+            changeShieldState(new ShieldState(this, shieldDur));
+        }
+    }
+
     public Boolean isInvincible() {
         return invincibleState.isApplied();
     }

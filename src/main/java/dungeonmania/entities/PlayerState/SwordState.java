@@ -17,6 +17,15 @@ public class SwordState implements PlayerState {
         durability = maxDurability;
     }
 
+    /**
+     * Constructor for SwordState
+     * @param player
+     */
+    public SwordState(Player player, int durability) {
+        this.player = player;
+        this.durability = durability;
+    }
+
     @Override
     public void applyEffect() {
         // does nothing

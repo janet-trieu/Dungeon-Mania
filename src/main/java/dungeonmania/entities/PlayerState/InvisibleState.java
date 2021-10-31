@@ -17,6 +17,16 @@ public class InvisibleState implements PlayerState{
     }
 
     /**
+     * Constructor for InvisibleState
+     * @param player
+     * @param duration
+     */
+    public InvisibleState(Player player, int duration) {
+        this.player = player;
+        this.duration = duration;
+    }
+
+    /**
      * Adds additional duration to player and consumes potion
      */
     @Override
