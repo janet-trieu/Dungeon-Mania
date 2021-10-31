@@ -522,12 +522,13 @@ public class DungeonManiaController {
         Position playerPos = currDungeon.getPlayer().getPosition();
         List<Entity> entityCardinallyAdjacent = currDungeon.getEntitiesCardinallyAdjacent(playerPos);
         List<Entity> entities = currDungeon.getEntityList();
+        List<String> entityIds = currDungeon.entityIdList();
         Inventory inventory = currDungeon.getInventory();
 
         // check whether the entityId is valid
-        if (!entityId.equals("mercenary") || !entityId.equals("zombie_toast_spawner")) {
+        if (!entityIds.contains(entityId)) {
             throw new IllegalArgumentException("Incorrect interactable entity");
-        } else if (entityId.equals("mercenary")) {
+        } else if (entityId.contains("Mercenary")) {
             for (Entity entity : entities) {
                 if (entity instanceof Mercenary) {
                     if (!currDungeon.checkBribeRange(entity)) {
@@ -542,7 +543,7 @@ public class DungeonManiaController {
                     }
                 }
             }
-        } else if (entityId.equals("zombie_toast_spawner")) {
+        } else if (entityId.contains("ZombieToastSpawner")) {
             for (Entity entity : entityCardinallyAdjacent) {
                 if (entity instanceof ZombieToastSpawner) {
                     // check if player has weapon
