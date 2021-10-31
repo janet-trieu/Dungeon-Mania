@@ -7,11 +7,19 @@ public class InvincibleState implements PlayerState{
     private Player player;
     private int duration;
     
+    /**
+     * Constructor for InvincibileState
+     * @param player
+     */
     public InvincibleState(Player player) {
         this.player = player;
         this.duration = 10;
     }
 
+    /**
+     * if gameMode is hard mode, player gains no benefits
+     * if normal or peaceful, player gains additional duration and potion is consumed
+     */
     @Override
     public void applyEffect() {
         if (!player.getGameMode().equals("Hard")) {
@@ -20,11 +28,17 @@ public class InvincibleState implements PlayerState{
         Dungeon.getDungeon().getInventory().breakItem("invincibility_potion");
     }
 
+    /**
+     * player is no longer invincible
+     */
     @Override
     public void removeEffect() {
         player.changeInvincibleState(new NoInvincibleState(player));
     }
 
+    /**
+     * durability of invincibility decreases
+     */
     @Override
     public void reduceDuration() {
         duration--;

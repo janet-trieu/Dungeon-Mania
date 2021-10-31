@@ -5,13 +5,20 @@ import dungeonmania.entities.Player;
 public class NoSwordState implements PlayerState {
     private Player player;
 
+    /**
+     * Constructor for NoSwordState
+     * @param player
+     */
     public NoSwordState(Player player) {
         this.player = player;
     }
 
+    /**
+     * player equips sword and gains benefit of increased damage
+     */
     @Override
     public void applyEffect() {
-        player.changeArmourState(new SwordState(player));
+        player.changeSwordState(new SwordState(player));
         player.setDamage(player.getDamage() * 2);
     }
 

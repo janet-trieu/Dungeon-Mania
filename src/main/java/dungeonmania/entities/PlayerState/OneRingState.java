@@ -6,6 +6,10 @@ import dungeonmania.entities.Player;
 public class OneRingState implements PlayerState {
     private Player player;
 
+    /**
+     * Constructor for OneRingState
+     * @param player
+     */
     public OneRingState(Player player) {
         this.player = player;
     }
@@ -15,6 +19,9 @@ public class OneRingState implements PlayerState {
         // does nothing
     }
 
+    /**
+     * Player is healed to full health and OneRing is destroyed and unequipped
+     */
     @Override
     public void removeEffect() {
         player.healToFullHealth();

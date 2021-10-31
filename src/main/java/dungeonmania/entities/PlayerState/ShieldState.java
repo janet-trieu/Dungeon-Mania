@@ -8,6 +8,10 @@ public class ShieldState implements PlayerState {
     private int maxDurability = 5;
     private int durability;
 
+    /**
+     * Constructor for ShieldState
+     * @param player
+     */
     public ShieldState(Player player) {
         this.player = player;
         durability = maxDurability;
@@ -18,6 +22,10 @@ public class ShieldState implements PlayerState {
         // does nothing
     }
 
+    /**
+     * player unequips shield and shield is destroyed
+     * player no longer gains benefit from shield
+     */
     @Override
     public void removeEffect() {
         player.setProtection(player.getProtection() / 2);
