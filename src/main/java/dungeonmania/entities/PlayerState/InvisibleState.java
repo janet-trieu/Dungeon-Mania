@@ -73,12 +73,4 @@ public class InvisibleState implements PlayerState {
     public int getDuration() {
         return duration;
     }
-
-    /** Setter for the invisibility duration
-     * 
-     */
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-    
 }

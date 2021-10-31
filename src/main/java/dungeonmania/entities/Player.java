@@ -56,6 +56,7 @@ public class Player extends Entity {
         setProtection(1);
         setHealth(standardMaxHealth);
         setMaxHealth(standardMaxHealth);
+        setGameMode("standard");
     }
 
     /**
@@ -339,6 +340,13 @@ public class Player extends Entity {
     public void consumeInvincibilityPotion() {
         invincibleState.applyEffect();
     }
+
+    public void consumeHealthPotion() {
+        Inventory inventory = Dungeon.getDungeon().getInventory();
+        inventory.breakItem("health_potion");
+        healToFullHealth();
+    }
+
     public void equipBow() {
         bowState.applyEffect();
     }
@@ -415,12 +423,53 @@ public class Player extends Entity {
     }
 
     public Boolean isInvisible() {
-        return invincibleState.isApplied();
+        return invisibleState.isApplied();
     }
 
+    public Boolean isBow() {
+        return bowState.isApplied();
+    }
+
+    public Boolean isSword() {
+        return swordState.isApplied();
+    }
+
+    public Boolean isShield() {
+        return shieldState.isApplied();
+    }
+
+    public Boolean isArmour() {
+        return armourState.isApplied();
+    }
+
+    public Boolean isRing() {
+        return oneRingState.isApplied();
+    }
     /**
      * Getters and Setters
      */
+    public int getInvisibilityDuration() {
+        return invisibleState.getDuration();
+    }
+    public int getInvincibilityDuration() {
+        return invincibleState.getDuration();
+    }
+    public int getBowDurability() {
+        return bowState.getDuration();
+    }
+    public int getSwordDurability() {
+        return swordState.getDuration();
+    }
+    public int getArmourDurability() {
+        return armourState.getDuration();
+    }
+    public int getShieldDurability() {
+        return shieldState.getDuration();
+    }
+    public int getOneRingDurability() {
+        return oneRingState.getDuration();
+    }
+
     public double getHealth() {
         return health;
     }

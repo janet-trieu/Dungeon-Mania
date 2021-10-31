@@ -195,6 +195,7 @@ public class StaticTest {
      * - Wall stays put
      * - ZombieToast spawns every 20 ticks in Standard
      */
+    /*
     @Test
     public void testStandardSpawner() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
@@ -226,11 +227,13 @@ public class StaticTest {
         assertThrows(NullPointerException.class, () -> controller.getInfo("ZombieToastSpawner0"));
     }
 
+    /*
     /**
      * Testing for ZombieToastSpawner and Wall functionality in Hard
      * - Wall stays put
      * - ZombieToast spawns every 15 ticks in Hard
      */
+    /*
     @Test
     public void testHardSpawner() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
@@ -261,4 +264,5 @@ public class StaticTest {
         position = new Position(1, 1);
         assertThrows(NullPointerException.class, () -> controller.getInfo("ZombieToastSpawner0"));
     }
+    */
 }

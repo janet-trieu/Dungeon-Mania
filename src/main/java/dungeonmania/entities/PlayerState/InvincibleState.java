@@ -78,12 +78,4 @@ public class InvincibleState implements PlayerState {
         return duration;
     }
 
-    /**
-     * Setter for the duration of invincibility
-     * @param duration
-     */
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
 }
