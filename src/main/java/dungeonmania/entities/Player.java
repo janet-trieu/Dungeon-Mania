@@ -34,6 +34,11 @@ public class Player extends Entity {
     private PlayerState bowState;
     private PlayerState oneRingState;
 
+    /**
+     * Constructor for Player with only position
+     * @param x
+     * @param y
+     */
     public Player(int x, int y) {
         super(x, y, "player");
         invincibleState = new NoInvincibleState(this);
@@ -51,6 +56,13 @@ public class Player extends Entity {
         setMaxHealth(standardMaxHealth);
     }
 
+    /**
+     * Constructor for Player with Position and dungeon gameMode
+     * sets maxHealth and health accordingly to gameMode specification
+     * @param x
+     * @param y
+     * @param gameMode
+     */
     public Player(int x, int y, String gameMode) {
         super(x, y, "player");
         invincibleState = new NoInvincibleState(this);
@@ -74,6 +86,20 @@ public class Player extends Entity {
         this.gameMode = gameMode;
     }
 
+    /**
+     * Method for player engaging with battle with a moving entity
+     * Order of attacks:
+     *  - Player equips all unique equipments (bow, sword, shield, armour)
+     *  - if Player was invincible, enemy is killed in one tick and battle ends
+     *  - Player takes damage from enemy
+     *      - if player health reaches 0, use one ring if available
+     *      - if player dies, battle ends and game is lost
+     *  - Player attacks enemy
+     *  - Ally attacks enemy
+     *      - if enemy health reaches 0, enemy is removed from entityList and dungeon
+     *  - Player equipment reduces in one durability
+     * @param otherEntity
+     */
     public void battle(MovingEntity otherEntity) {
         // check inventory and change states accordingly
         equipCombat();
@@ -93,13 +119,17 @@ public class Player extends Entity {
         // Enemy Health = Enemy Health - ((Character Health * Character Attack Damage) / 5)
         otherEntity.setHealth(otherEntity.getHealth() - ((getHealth() * getDamage()) / 5));
 
+        allyAssistBattle(otherEntity);
         if (otherEntity.getHealth() <= 0) {
             Dungeon.getDungeon().removeEntity(otherEntity);
         }
-        allyAssistBattle(otherEntity);
         updateCombatDurability();
     }
 
+    /**
+     * Helper method for ally mercenaries attacking enemy
+     * @param otherEntity
+     */
     public void allyAssistBattle(MovingEntity otherEntity) {
         for (Entity entity : Dungeon.getDungeon().getEntityList()) {
             if (entity instanceof Mercenary) {
@@ -109,10 +139,6 @@ public class Player extends Entity {
                 }
             }
         }
-    }
-
-    public void interact(String entityId) {
-        // TODO
     }
 
     /**
@@ -263,7 +289,7 @@ public class Player extends Entity {
     }
 
     /**
-     * States
+     * States Methods
      */
     /**
      * Change States
@@ -356,6 +382,10 @@ public class Player extends Entity {
     }
 
     public Boolean isInvincible() {
+        return invincibleState.isApplied();
+    }
+
+    public Boolean isInvisible() {
         return invincibleState.isApplied();
     }
 
