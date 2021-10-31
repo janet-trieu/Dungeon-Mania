@@ -23,6 +23,15 @@ public class NoBowState implements PlayerState {
     }
 
     /**
+     * player equips bow and 
+     */
+    @Override
+    public void loadDuration(int durability) {
+        player.changeBowState(new BowState(player, durability));
+        player.setDamage(player.getDamage() * 2);
+    }
+
+    /**
      * player unequips nothing
      * nothing happens
      */

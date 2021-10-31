@@ -16,6 +16,16 @@ public class ArmourState implements PlayerState {
         this.player = player;
         durability = maxDurability;
     }
+    /**
+     * 
+     * @param player
+     * @param durability
+     */
+    public ArmourState(Player player, int durability) {
+        this.player = player;
+        this.durability = durability;
+    }
+
 
     /**
      * Cannot apply another armour if player has already equipped armour
@@ -61,6 +71,11 @@ public class ArmourState implements PlayerState {
     @Override
     public Boolean isApplied() {
         return true;
+    }
+
+    @Override
+    public void loadDuration(int duration) {
+        //does nothing      
     }
     
 }

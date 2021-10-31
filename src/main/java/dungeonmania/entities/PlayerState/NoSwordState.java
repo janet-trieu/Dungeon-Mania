@@ -22,6 +22,15 @@ public class NoSwordState implements PlayerState {
         player.setDamage(player.getDamage() * 2);
     }
 
+    /**
+     * player equips sword and gains benefit of increased damage
+     */
+    @Override
+    public void loadDuration(int duration) {
+        player.changeSwordState(new SwordState(player, duration));
+        player.setDamage(player.getDamage() * 2);
+    }
+
     @Override
     public void removeEffect() {
         // does nothing

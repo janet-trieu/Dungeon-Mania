@@ -41,4 +41,9 @@ public class NoOneRingState implements PlayerState {
     public Boolean isApplied() {
         return false;
     }
+
+    @Override
+    public void loadDuration(int duration) {
+        // does nothing
+    }
 }

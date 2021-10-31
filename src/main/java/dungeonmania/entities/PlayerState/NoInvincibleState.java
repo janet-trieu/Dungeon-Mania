@@ -26,6 +26,18 @@ public class NoInvincibleState implements PlayerState {
         Dungeon.getDungeon().getInventory().breakItem("invincibility_potion");
     }
 
+    /**
+     * if the gameMode is hard, player does not gain invincibility
+     * consume invincibility potion
+     */
+    @Override
+    public void loadDuration(int duration) {
+        if (!player.getGameMode().equals("Hard")) {
+            player.changeInvincibleState(new InvincibleState(player, duration));
+        }
+        Dungeon.getDungeon().getInventory().breakItem("invincibility_potion");
+    }
+
     @Override
     public void removeEffect() {
         // Does nothing
