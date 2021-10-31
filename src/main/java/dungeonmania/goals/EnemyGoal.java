@@ -49,9 +49,10 @@ public class EnemyGoal extends LeafGoal {
         List<Mercenary> mercenaryList = mercenaryList();
         List<Mercenary> listOfHostile = new ArrayList<Mercenary>();
         for (Mercenary mercenary : mercenaryList) {
-            if (mercenary.isBribed()) {
+            if (mercenary.IsBribed()) {
                 listOfHostile.add(mercenary);
             }
         }
+        return listOfHostile;
     }
 }

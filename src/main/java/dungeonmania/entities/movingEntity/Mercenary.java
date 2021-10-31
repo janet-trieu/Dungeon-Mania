@@ -39,5 +39,20 @@ public class Mercenary extends MovingEntity {
         dungeon.addItem(armour);
     }
 
+    /**
+     * Method to bribe the mercenary to become an ally 
+     */
+    public void bribe() {
+        setIsBribed(true);
+        dungeon.getInventory().breakItem("treasure");
+    }
+
+    public Boolean IsBribed() {
+        return isBribed;
+    }
+
+    public void setIsBribed(Boolean isBribed) {
+        this.isBribed = isBribed;
+    }
 
 }
