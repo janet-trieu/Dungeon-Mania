@@ -26,10 +26,6 @@
 			"hasArmour": "boolean"
 		},
 		{
-			"type": "spider",
-			"movementCounter": "int"
-		},
-		{
 			"type": "mercenary",
 			"hasArmour": "boolean",
 			"isBribed": "boolean"
@@ -62,6 +58,7 @@
 	],
 	"goals": "String",
 	"animations": [],
+	"TO MAYBE DO BELOW FOR NOW SACK CAUSE ITS AN EDGE CASE": "int",
 	"FloorSwitchCounter": "int",
 	"WallCounter": "int",
 	"ExitCounter": "int",
