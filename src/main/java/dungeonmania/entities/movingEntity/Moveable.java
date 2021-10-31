@@ -7,6 +7,7 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.util.Position;
 import dungeonmania.util.Direction;
@@ -30,6 +31,18 @@ public interface Moveable {
             if (current.getType() == "boulder" || current.getType() == "wall") {
                 if(type == "mercenary" || type == "zombie_toast") {
                     return;
+                }
+
+            }
+            if (current instanceof Portal) {
+                Portal portal = (Portal) current;
+                move = portal.correspondingPortalPosition().translateBy(direction);
+
+                List<Entity> lis = dungeon.getEntitiesOnSamePosition(move);
+                for(Entity curr : lis) {
+                    if (curr instanceof Boulder || curr instanceof Wall) {
+                        return;
+                    }
                 }
             }
         }

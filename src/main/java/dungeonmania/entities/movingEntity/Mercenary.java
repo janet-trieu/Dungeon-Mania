@@ -1,5 +1,6 @@
 package dungeonmania.entities.movingEntity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -60,32 +62,52 @@ public class Mercenary extends MovingEntity implements Moveable {
         Direction move = Direction.NONE;
 
         int index = distance.indexOf(Collections.min(distance));
-        if(index == 0) {
-            return;
-        }
-        if(index == 1) {
-            move = Direction.UP;
-        }
-        if(index == 2) {
-            move = Direction.DOWN;
-        }
-        if(index == 3) {
-            move = Direction.LEFT;
-        }
-        if(index == 4) {
-            move = Direction.RIGHT;
-        }
+        int mindist = distance.get(index);
+        List<Direction> min = new ArrayList<>();
 
-        Position next = this.getPosition().translateBy(move);
+        for(int i = 0; i < 5; i++) {
+            if(distance.get(i) == mindist) {
+                if (i == 0) {return;}
+                if (i == 1) {min.add(Direction.UP);}
+                if (i == 2) {min.add(Direction.DOWN);}
+                if (i == 3) {min.add(Direction.LEFT);}
+                if (i == 4) {min.add(Direction.RIGHT);}
+            }
+        }
+       
+        
+        int a = 0;
+        Position next = this.getPosition().translateBy(min.get(a));
 
         // if Position to move to is wall, do nothing;
         List<Entity> list = dungeon.getEntitiesOnSamePosition(next);
         for(Entity current : list) {
             if (current instanceof Boulder) {
-                player.interactBoulder(current, next, move);
+                player.interactBoulder(current, next, min.get(a));
+                break;
             }
-            else if (current instanceof Wall) {
-                return;
+            if (current instanceof Wall) {
+                if(min.size() == 1) {
+                    return;
+                }
+                a++;
+                next = this.getPosition().translateBy(min.get(a));
+            }
+
+            if (current instanceof Portal) {
+                Portal portal = (Portal) current;
+                next = portal.correspondingPortalPosition().translateBy(min.get(a));
+
+                List<Entity> lis = dungeon.getEntitiesOnSamePosition(next);
+                for (Entity spot : lis) {
+                    if(spot instanceof Wall) {
+                        return;
+                    }
+                    if (spot instanceof Boulder) {
+                        player.interactBoulder(spot, next, min.get(a));
+                        break;
+                    }
+                }
             }
         }
         this.setX(next.getX());
