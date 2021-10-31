@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -203,10 +201,24 @@ public class DungeonManiaController {
                 case "mercenary":
                     Mercenary mercenary = new Mercenary(x, y, dungeon);
                     dungeon.addEntity(mercenary);
+                    if (obj.has("hasArmour")) {
+                        mercenary.setHasArmour(obj.getBoolean("hasArmour"));
+                        mercenary.setIsBribed(obj.getBoolean("isBribed"));
+                    }
                     break;
                 case "player":
                     Player player = new Player(x, y);
                     dungeon.addEntity(player);
+                    if (obj.has("health")) {
+                        player.setHealth(obj.getInt("health"));
+                        int invinDur = obj.getInt("invincibilityDuration");
+                        int invisDur = obj.getInt("invisibilityDuration");
+                        int bowDur = obj.getInt("bowDurability");
+                        int armourDur = obj.getInt("armourDurability");
+                        int swordDur = obj.getInt("swordDurability");
+                        int shieldDur = obj.getInt("shieldDurability");
+                        player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur);
+                    }
                     break;
                 case "portal":
                     Portal portal = new Portal(x, y, colour);
@@ -247,10 +259,16 @@ public class DungeonManiaController {
                 case "zombie_toast":
                     ZombieToast zombieToast = new ZombieToast(x, y, dungeon);
                     dungeon.addEntity(zombieToast);
+                    if (obj.has("hasArmour")) {
+                        zombieToast.setHasArmour(obj.getBoolean("hasArmour"));
+                    }
                     break;
                 case "zombie_toast_spawner":
                     ZombieToastSpawner zombieToastSpawner = new ZombieToastSpawner(x, y);
                     dungeon.addEntity(zombieToastSpawner);
+                    if (obj.has("tickCounter")) {
+                        ZombieToastSpawner.setTickCounter(obj.getInt("tickCounter"));
+                    }
                     break;
                 default:
                     break;
@@ -427,7 +445,6 @@ public class DungeonManiaController {
         }
 
         // Read gameMode and dungeonResponse data
-        dungeon = new Dungeon();
         String data = "";
         try {
             data = FileLoader.loadResourceFile("saves/" + name + ".json");
@@ -435,8 +452,11 @@ public class DungeonManiaController {
             System.err.println("File load error: " + e.getMessage());
         }
 
+        // Get general game info
         JSONObject dataObj = new JSONObject(data);
-        System.out.println(dataObj);
+        
+        // TODO: make new dungeon?
+
         // Get dungeonId
         // Get dungeonName
         // Get entities (id,type,position[x,y],isInteractable), set necessary attributes
@@ -700,5 +720,6 @@ public class DungeonManiaController {
         controller.tick(null, Direction.RIGHT);
         controller.tick(null, Direction.RIGHT);
         controller.saveGame("bow");
+        controller.loadGame("bow");
     }
 }
