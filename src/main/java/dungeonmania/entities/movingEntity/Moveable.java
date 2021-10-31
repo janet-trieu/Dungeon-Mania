@@ -28,26 +28,11 @@ public interface Moveable {
         List<Entity> list = dungeon.getEntitiesOnSamePosition(move);
         
         for(Entity current : list) {
-            if (current.getType() == "boulder" || current.getType() == "wall") {
-                if(type == "mercenary" || type == "zombie_toast") {
+            if (current instanceof Boulder || current instanceof Wall || current instanceof Portal) {
                     return;
                 }
-
             }
-            if (current instanceof Portal) {
-                Portal portal = (Portal) current;
-                move = portal.correspondingPortalPosition().translateBy(direction);
-
-                List<Entity> lis = dungeon.getEntitiesOnSamePosition(move);
-                for(Entity curr : lis) {
-                    if (curr instanceof Boulder || curr instanceof Wall) {
-                        return;
-                    }
-                }
-            }
-        }
-        
-        entity.setPosition(move.getX(), move.getY());
+            entity.setPosition(move.getX(), move.getY());
     }
 
     /**
