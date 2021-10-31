@@ -33,6 +33,7 @@ public class Dungeon {
     private Goal goal;
     private static Dungeon thisDungeon = null;
     private String gameMode;
+    private String dungeonId;
 
     /**
      * USED FOR TESTING
@@ -519,5 +520,9 @@ public class Dungeon {
 
     public void setGameMode(String gameMode) {
         this.gameMode = gameMode;
+    }
+
+    public void setDungeonId(String dungeonId) {
+        this.dungeonId = dungeonId;
     }
 }
