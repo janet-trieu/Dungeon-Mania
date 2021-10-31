@@ -1,6 +1,7 @@
 package dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
@@ -30,27 +31,30 @@ public class Shield extends BuildableEntity {
 
     @Override
     public void useIngredient() {
-        List<CollectableEntity> ingredientList = Dungeon.getDungeon().getInventory().getItems();
+        List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
+        ListIterator<CollectableEntity> iter = inventory.listIterator();
         List<String> buildableList = Dungeon.getDungeon().getBuildableString();
 
         // used up 2 wood + (1 treasure OR 1 key)
         int woodCounter = 0;
-        for (CollectableEntity ingredient : ingredientList) {
+        while (iter.hasNext()) {
+            CollectableEntity current = (CollectableEntity)iter.next();
             if (woodCounter == 1) {
                 break;
             }
-            if (ingredient instanceof Wood) {
-                ingredientList.remove(ingredient);
+            if (current instanceof Wood) {
+                iter.remove();
                 woodCounter++;
             }
         }
+
         // use of treasure is prioritised over use of key for creation of shield (assumption)
-        for (CollectableEntity ingredient : ingredientList) {
+        for (CollectableEntity ingredient : inventory) {
             if (ingredient instanceof Treasure) {
-                ingredientList.remove(ingredient);
+                inventory.remove(ingredient);
                 break;
             } else if (ingredient instanceof Key) {
-                ingredientList.remove(ingredient);
+                inventory.remove(ingredient);
                 break; 
             }
         }
