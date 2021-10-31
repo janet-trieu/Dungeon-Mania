@@ -7,6 +7,7 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.util.Position;
 import dungeonmania.util.Direction;
@@ -22,19 +23,15 @@ public interface Moveable {
     default void move(Direction direction, Entity entity) {
         Dungeon dungeon = Dungeon.getDungeon();
         Position move = entity.getPosition().translateBy(direction);
-        String type = entity.getType();
         
         List<Entity> list = dungeon.getEntitiesOnSamePosition(move);
         
         for(Entity current : list) {
-            if (current.getType() == "boulder" || current.getType() == "wall") {
-                if(type == "mercenary" || type == "zombie_toast") {
+            if (current instanceof Boulder || current instanceof Wall || current instanceof Portal) {
                     return;
                 }
             }
-        }
-        
-        entity.setPosition(move.getX(), move.getY());
+            entity.setPosition(move.getX(), move.getY());
     }
 
     /**
