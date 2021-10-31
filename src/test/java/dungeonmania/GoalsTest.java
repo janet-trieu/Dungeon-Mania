@@ -69,7 +69,7 @@ public class GoalsTest {
         dungeon.addEntity(player);
 
         // Create mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
     
         // add EnemyGoal to dungeon
@@ -85,7 +85,7 @@ public class GoalsTest {
             player.battle(mercenary);
         }
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
-
+        dungeon.updateGoal();
         // Goal is complete
         assertEquals("", goal.toString());
     }
@@ -247,15 +247,15 @@ public class GoalsTest {
         dungeon.addEntity(player);
 
         // Create boulder at (1, 0)
-        Boulder boulder = new Boulder(1, 0);
+        Boulder boulder = new Boulder(0, 1);
         dungeon.addEntity(boulder);
     
         // Create switch at (2, 0)
-        FloorSwitch switch0 = new FloorSwitch(2, 0);
+        FloorSwitch switch0 = new FloorSwitch(0, 2);
         dungeon.addEntity(switch0);
 
         // Create mercenary at (0, 1)
-        Mercenary mercenary = new Mercenary(0, 1);
+        Mercenary mercenary = new Mercenary(0, 1, dungeon);
         dungeon.addEntity(mercenary);
 
         // add TreasureGoal AND ExitGoal to dungeon
@@ -265,15 +265,15 @@ public class GoalsTest {
         goal.addSubGoal(switchGoal);
         goal.addSubGoal(enemyGoal);
         dungeon.addGoal(goal);
-        assertEquals(":switch OR :enemy", goal.toString());
+        assertEquals("(:switch OR :enemy)", goal.toString());
 
         // Player moves boulder
         // Player should have moved boulder on switch
         player.moveDown();
-
         // Switch should be activated
         assertEquals(true, switch0.getIsActive());
 
+        dungeon.updateGoal();
         // Goal is complete
         assertEquals("", goal.toString());
     }
@@ -289,15 +289,15 @@ public class GoalsTest {
         Player player = new Player(0, 0);
         dungeon.addEntity(player);
 
-        // Create boulder at (1, 0) and switch at (2, 0)
-        Boulder boulder = new Boulder(1, 0);
+        // Create boulder at (0, 1) and switch at (0, 2)
+        Boulder boulder = new Boulder(0, 1);
         dungeon.addEntity(boulder);
 
-        FloorSwitch switch0 = new FloorSwitch(2, 0);
+        FloorSwitch switch0 = new FloorSwitch(0, 2);
         dungeon.addEntity(switch0);
 
-        // Create exit at (0, 4)
-        Mercenary mercenary = new Mercenary(0, 1);
+        // Create exit at (1, 0)
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
 
         // add TreasureGoal AND ExitGoal to dungeon
@@ -307,10 +307,10 @@ public class GoalsTest {
         goal.addSubGoal(switchGoal);
         goal.addSubGoal(enemyGoal);
         dungeon.addGoal(goal);
-        assertEquals(":switch OR :enemy", goal.toString());
+        assertEquals("(:switch OR :enemy)", goal.toString());
 
         // Player should be on same cell as mercenary
-        player.moveDown();
+        player.moveRight();
         assertEquals(player.getPosition(), mercenary.getPosition());
         // Player battles with mercenary and wins
         for (int i = 0; i < 8; i++){
@@ -319,6 +319,7 @@ public class GoalsTest {
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
 
         // Goal is complete
+        dungeon.updateGoal();
         assertEquals("", goal.toString());
     }
 }

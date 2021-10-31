@@ -144,34 +144,4 @@ public class InventoryTest {
         assertEquals(false, dungeon.getEntityList().contains(key0));
     }   
 
-    /**
-     * System test for attempting to obtain a second armor
-     */
-    @Test
-    public void testOnlyOneArmour(){
-        Dungeon dungeon = new Dungeon();
-        Inventory inventory = dungeon.getInventory();
-
-        // Create player at (0, 0)
-        Player player = new Player(0, 0);
-        dungeon.addEntity(player);
-
-        // create armour at (1, 0)
-        Armour armour0 = new Armour(1, 0);
-        dungeon.addEntity(armour0);
-
-        // create armour at (2, 0)
-        Armour armour1 = new Armour(2, 0);
-        dungeon.addEntity(armour1);
-        
-        // player moves right and collects armour
-        player.moveRight();
-        inventory.addItem(armour0);
-        assertEquals(false, dungeon.getEntityList().contains(armour0));
-        assertEquals(true, inventory.getItems().contains(armour0));
-
-        player.moveRight();
-        assertEquals(true, dungeon.getEntityList().contains(armour1));
-        assertEquals(false, inventory.getItems().contains(armour1));
-    }
 }

@@ -338,6 +338,13 @@ public class Player extends Entity {
     public void consumeInvincibilityPotion() {
         invincibleState.applyEffect();
     }
+
+    public void consumeHealthPotion() {
+        Inventory inventory = Dungeon.getDungeon().getInventory();
+        inventory.breakItem("health_potion");
+        healToFullHealth();
+    }
+
     public void equipBow() {
         bowState.applyEffect();
     }

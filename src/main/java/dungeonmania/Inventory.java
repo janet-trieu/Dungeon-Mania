@@ -97,4 +97,13 @@ public class Inventory {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        String string = "";
+        for (CollectableEntity item : items) {
+            string = string + item.getId();
+        }
+        return string;
+    }
 }

@@ -577,7 +577,7 @@ public class DungeonManiaController {
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
         Inventory currInventory = currDungeon.getInventory();
 
-        if (!(buildable.equals("bow")) && !(buildable.equals("shield"))) {
+        if (!(buildable.equals("bow") || buildable.equals("shield"))) {
             throw new IllegalArgumentException("Incorrect buildable entity");
         }
         // check for InvalidActionException
