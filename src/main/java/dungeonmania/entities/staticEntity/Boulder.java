@@ -9,7 +9,7 @@ import dungeonmania.util.Position;
 
 public class Boulder extends StaticEntity {
     // boulder will always be in layer 1
-    private int layer = 1;
+    private int boulderLayer = 1;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -23,7 +23,7 @@ public class Boulder extends StaticEntity {
         super(x, y, "boulder");
         setId("Boulder" + String.valueOf(counter));
         counter++;
-        setLayer(layer);
+        setLayer(boulderLayer);
     }
 
     /**

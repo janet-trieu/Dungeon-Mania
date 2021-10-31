@@ -23,7 +23,7 @@ public class Player extends Entity {
     private double damage;
     private double protection;
     private String gameMode;
-    private int layer = 4;
+    private int playerLayer = 4;
 
     // Player States
     private PlayerState invincibleState;
@@ -44,7 +44,7 @@ public class Player extends Entity {
         swordState = new NoSwordState(this);
         bowState = new NoBowState(this);
         setId("Player");
-        setLayer(layer);
+        setLayer(playerLayer);
         setDamage(1);
         setProtection(1);
         setHealth(standardMaxHealth);
@@ -61,7 +61,7 @@ public class Player extends Entity {
         swordState = new NoSwordState(this);
         bowState = new NoBowState(this);
         setId("Player");
-        setLayer(layer);
+        setLayer(playerLayer);
         setDamage(1);
         setProtection(1);
         if (gameMode.equals("Hard")) {
