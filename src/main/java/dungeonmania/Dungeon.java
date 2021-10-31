@@ -94,7 +94,9 @@ public class Dungeon {
      * Updates goal
      */
     public void updateGoal() {
-        goal.update();
+        if (getGoal() != null) {
+            goal.update();
+        }
     }
 
     /**
