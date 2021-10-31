@@ -1,7 +1,8 @@
 package dungeonmania.entities.staticEntity;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.ListIterator;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
@@ -20,6 +21,9 @@ public class ZombieToastSpawner extends StaticEntity {
     private int hardModeTick = 15;
     private int standardTick = 20;
 
+    // storing the number of occurences this method is called, to know when to spawn the zombie toast
+    private static int tickCounter = 1;
+
     /**
      * Constructor for a zombie toast spawner
      * @param x position
@@ -37,30 +41,33 @@ public class ZombieToastSpawner extends StaticEntity {
      * @param spawner
      * @param dungeon
      */
-    public void spawnZombieToast(ZombieToastSpawner spawner, Dungeon dungeon) {
-        List<Entity> existingEntities = Dungeon.getDungeon().getEntityList();
-        List<Position> spawnableCellList = spawner.getPosition().getAdjacentPositions();
+    public void spawnZombieToast(Dungeon dungeon) {
+        List<Entity> existingEntities = dungeon.getEntityList();
+        List<Position> spawnableCellList = new ArrayList<Position>();
+
+        for (Entity entity : existingEntities) {
+            if (entity instanceof ZombieToastSpawner)  {
+                spawnableCellList = dungeon.getCardinalAdjacentCell(entity);
+            }
+        }
 
         // to make sure the zombie spawn is randomised, use a random number generator
         // to get the random adjacent position of zombie spawn
-        int random = (int)(Math.random() * 8);
+        int random = (int)(Math.random() * 4);
         Position randomSpawnCell = spawnableCellList.get(random);
 
-        int i = 0;
-        while (existingEntities.contains(spawner)) {
-            if (dungeon.getGameMode().equals("Hard")) {
-                if (i % hardModeTick == 0) {
-                    ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY(), dungeon);
-                    dungeon.addEntity(zombieToast);
-                }
-            } else {
-                if (i % standardTick == 0) {
-                    ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY(), dungeon);
-                    dungeon.addEntity(zombieToast);
-                }
+        if (dungeon.getGameMode().equals("Hard")) {
+            if (tickCounter % hardModeTick == 0) {
+                ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY(), dungeon);
+                dungeon.addEntity(zombieToast);
             }
-            i++;
+        } else {
+            if (tickCounter % standardTick == 0) {
+                ZombieToast zombieToast = new ZombieToast(randomSpawnCell.getX(), randomSpawnCell.getY(), dungeon);
+                dungeon.addEntity(zombieToast);
+            }
         }
+        tickCounter++;
     }
     
 }
