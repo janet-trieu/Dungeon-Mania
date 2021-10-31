@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.Treasure;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.util.Position;
 

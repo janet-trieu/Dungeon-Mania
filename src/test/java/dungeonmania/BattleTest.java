@@ -2,8 +2,6 @@ package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
@@ -14,15 +12,12 @@ import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.S
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
-import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 
 public class BattleTest {
     @Test
     public void testBattleSpider(){
         Dungeon dungeon = new Dungeon();
-        Inventory inventory = dungeon.getInventory();
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
@@ -43,7 +38,6 @@ public class BattleTest {
     @Test
     public void testBattleZombieToast(){
         Dungeon dungeon = new Dungeon();
-        Inventory inventory = dungeon.getInventory();
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
@@ -68,7 +62,6 @@ public class BattleTest {
     @Test
     public void testMercenary(){
         Dungeon dungeon = new Dungeon();
-        Inventory inventory = dungeon.getInventory();
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
@@ -315,7 +308,6 @@ public class BattleTest {
     @Test
     public void testPlayerDies(){
         Dungeon dungeon = new Dungeon();
-        Inventory inventory = dungeon.getInventory();
 
         // Create player at (0, 0)
         Player player = new Player(0, 0);
@@ -361,18 +353,17 @@ public class BattleTest {
      */
     
     @Test
-    public void testBribe() throws IOException {
+    public void testBribe() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
         controller.newGame("bribe", "Standard");
 
         // 20 TICKS
-
         controller.tick(null, Direction.RIGHT);
 
-        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3, 0), true), controller.getInfo("Mercenary0"));
-
+        assertEquals(controller.getDungeon().getInfo("Mercenary0"), controller.getInfo("Mercenary0"));
+        
         controller.interact("Mercenary0");
     }
 }
