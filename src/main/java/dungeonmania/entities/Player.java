@@ -9,6 +9,7 @@ import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.MovingEntity;
+import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.Portal;
@@ -124,6 +125,9 @@ public class Player extends Entity {
 
         allyAssistBattle(otherEntity);
         if (otherEntity.getHealth() <= 0) {
+            if (otherEntity instanceof Spider) {
+                Spider.setSpiderNum(Spider.getSpiderNum() - 1);
+            }
             Dungeon.getDungeon().removeEntity(otherEntity);
             updateCombatDurability();
             return false;

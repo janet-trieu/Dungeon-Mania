@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.Adapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,8 +52,22 @@ public class DungeonManiaController {
         return Arrays.asList("Standard", "Peaceful", "Hard");
     }
 
+    /**
+     * Return a list of entity ids that are usable items 
+     * e.g. bomb, and all the potions
+     * @return
+     */
     public List<String> getUsableItems() {
-        return Arrays.asList("bomb", "health_potion", "invincibility_potion", "invisibility_potion");
+        List<CollectableEntity> inventory = dungeon.getInventory().getItems();
+        List<String> canUseEntityIds = new ArrayList<String>();
+        for (CollectableEntity entity : inventory) {
+            if (entity instanceof Bomb || entity instanceof HealthPotion || 
+                entity instanceof InvisibilityPotion || entity instanceof InvincibilityPotion) {
+
+                canUseEntityIds.add(entity.getId());
+            }
+        }
+        return canUseEntityIds;
     }
 
     /**
@@ -489,21 +504,28 @@ public class DungeonManiaController {
         if (!(getUsableItems().contains(itemUsed)) && itemUsed != null) {
             throw new IllegalArgumentException("Item is not usable");
         }
+
         // If itemUsed is not in inventory
-        if (currInventory.numberOfItem(itemUsed) == 0 && itemUsed != null) {
-            throw new InvalidActionException("Item is not in the inventory");
+        String type = null;
+        for (CollectableEntity item : currInventory.getItems()) {
+            if (!(item.getId().equals(itemUsed)) && itemUsed != null) {
+                throw new InvalidActionException("Item is not in the inventory");
+            } else {
+                type = item.getType();
+                break;
+            }
         }
 
         if (!movementDirection.equals(Direction.NONE)) {
             player.move(movementDirection);
+            
+            // tick implementation for battle + enemy movement
             for (MovingEntity enemy : enemyList) {
-                enemy.move();
                 if (player.getPosition().equals(enemy.getPosition())) {
                     if (enemy instanceof Mercenary) {
                         Mercenary mercenary = (Mercenary) enemy;
                         if (!mercenary.IsBribed()) {
                             while (player.battle(enemy)) {
-                                // otherenemies.move();
                             }
                         }
                     } else {
@@ -512,10 +534,10 @@ public class DungeonManiaController {
                 }
             }
         } else {
-            switch (itemUsed) {
+            switch (type) {
                 case "bomb":
-                    currInventory.breakItem("bomb");
                     Bomb bomb = new Bomb(player.getX(), player.getY());
+                    currInventory.breakItem("bomb");
                     entityList.add(bomb);
                     break;
                 case "health_potion":
@@ -536,20 +558,43 @@ public class DungeonManiaController {
             }
         }
 
+        // enemy moves into player -> battle
+        for (MovingEntity enemy : enemyList) {
+            enemy.move();
+            if (player.getPosition().equals(enemy.getPosition())) {
+                if (enemy instanceof Mercenary) {
+                    Mercenary mercenary = (Mercenary) enemy;
+                    if (!mercenary.IsBribed()) {
+                        while (player.battle(enemy)) {
+                        }
+                    }
+                } else {
+                    player.battle(enemy);
+                }
+            }
+        }
+
         // Attempt to spawn any ZombieToastSpawners
         for (ZombieToastSpawner spawner : spawnerList) {
             spawner.spawnZombieToast(currDungeon);
         }
 
+        // Attempt to spawn any Spiders
+        Position spawnPos = currDungeon.spawnDistance(player);
+        Spider spider = new Spider(spawnPos.getX(), spawnPos.getY(), dungeon);
+        spider.spawnSpider();
+
+        // check the floor switch's isActive and position, as well as bomb position
+        // Case 1: bomb is placed and a boulder activates switch
         for (Bomb bomb : bombList) {
-            Position bombPosition = bomb.getPosition();
-            List<Entity> cardinallyAdjacentList = currDungeon.getEntitiesCardinallyAdjacent(bombPosition);
-            for (Entity entity : cardinallyAdjacentList) {
+
+            List<Entity> adjacentEntities = currDungeon.adjacentEntityList((Entity)bomb);
+
+            for (Entity entity : adjacentEntities) {
                 if (entity instanceof FloorSwitch) {
                     FloorSwitch floorSwitch = (FloorSwitch) entity;
                     if (floorSwitch.getIsActive()) {
-                        bomb.explode(bomb);
-                        break;
+                        bomb.explode();
                     }
                 }
             }
