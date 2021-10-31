@@ -1,5 +1,6 @@
 package dungeonmania.entities.PlayerState;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class InvisibleState implements PlayerState{
@@ -8,12 +9,13 @@ public class InvisibleState implements PlayerState{
 
     public InvisibleState(Player player) {
         this.player = player;
-        this.duration = 5;
+        this.duration = 10;
     }
 
     @Override
     public void applyEffect() {
-        duration += 5;
+        duration += 10;
+        Dungeon.getDungeon().getInventory().breakItem("invisibility_potion");
     }
 
     @Override
