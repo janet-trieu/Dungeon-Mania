@@ -45,7 +45,7 @@ public class BattleTest {
         dungeon.addEntity(player);
 
         // Create zombieToast at (1, 0)
-        ZombieToast zombieToast = new ZombieToast(1, 0);
+        ZombieToast zombieToast = new ZombieToast(1, 0, dungeon);
         dungeon.addEntity(zombieToast);
         // battle ZombieToast
         player.moveRight();
@@ -70,7 +70,7 @@ public class BattleTest {
         dungeon.addEntity(player);
 
         // Create Mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
@@ -100,7 +100,7 @@ public class BattleTest {
         inventory.addItem(bow);
 
         // Create Mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
@@ -129,7 +129,7 @@ public class BattleTest {
         inventory.addItem(sword);
 
         // Create Mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
@@ -140,6 +140,7 @@ public class BattleTest {
         assertEquals(true, player.getMaxHealth() > player.getHealth());
         for (int i = 0; i < 2; i++) {
             player.battle(mercenary);
+            System.out.println(mercenary.getHealth());
         }
         // mercenary is not alive after 3 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
@@ -158,7 +159,7 @@ public class BattleTest {
         inventory.addItem(shield);
 
         // Create Mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
@@ -187,7 +188,7 @@ public class BattleTest {
         inventory.addItem(armour);
 
         // Create Mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
@@ -220,7 +221,7 @@ public class BattleTest {
         inventory.addItem(sword);
 
         // Create Mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
@@ -251,7 +252,7 @@ public class BattleTest {
         inventory.addItem(shield);
 
         // Create Mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
@@ -292,7 +293,7 @@ public class BattleTest {
         inventory.addItem(shield);
 
         // Create Mercenary at (1, 0)
-        Mercenary mercenary = new Mercenary(1, 0);
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary);
         // battle Mercenary
         player.moveRight();
@@ -316,11 +317,11 @@ public class BattleTest {
         dungeon.addEntity(player);
 
         // Create mercenary0 at (1, 0)
-        Mercenary mercenary0 = new Mercenary(1, 0);
+        Mercenary mercenary0 = new Mercenary(1, 0, dungeon);
         dungeon.addEntity(mercenary0);
  
         // Create mercenary1 at (2, 0)
-        Mercenary mercenary1 = new Mercenary(2, 0);
+        Mercenary mercenary1 = new Mercenary(2, 0, dungeon);
         dungeon.addEntity(mercenary1);       
 
         // battle mercenary0

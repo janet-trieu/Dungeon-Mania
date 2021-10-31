@@ -47,7 +47,7 @@ public class CollectableTest {
         dungeon.addEntity(player);
 
         // create a mercenary at position (2,0)
-        Mercenary mercenary = new Mercenary(2, 0);
+        Mercenary mercenary = new Mercenary(2, 0, dungeon);
         dungeon.addEntity(mercenary);
 
         // create a health potion at position (3,0)
@@ -106,10 +106,10 @@ public class CollectableTest {
         inventory.addItem(invinciblePotion);
 
         // player uses the invincible potion
-        invinciblePotion.applyEntity();
+        player.consumeInvincibilityPotion();;
 
         // assert that the player's potion state is invincible
-        assertEquals(player.getPotionState().isInvincible(), true);
+        assertEquals(player.isInvincible(), true);
 
         // assert that the invincible potion is used up
         inventory.removeItem(invinciblePotion);
@@ -129,7 +129,7 @@ public class CollectableTest {
         dungeon.addEntity(player);
 
         // create a mercenary at position (4,0)
-        Mercenary mercenary = new Mercenary(4, 0);
+        Mercenary mercenary = new Mercenary(4, 0, dungeon);
         dungeon.addEntity(mercenary);
 
         // create an invincibility potion at position (1,0)
@@ -142,10 +142,10 @@ public class CollectableTest {
 
         // player moves 1 cell to the right again to enter a battle with mercenary
         player.moveRight();
+        // player uses the invincibility potion 
+        player.consumeInvincibilityPotion();
         player.battle(mercenary);
 
-        // player uses the invincibility potion 
-        invinciblePotion.applyEntity();
 
         // assert that mercenary has been killed instantly
         assertEquals(mercenary.getHealth(), 0);
@@ -176,10 +176,10 @@ public class CollectableTest {
         inventory.addItem(invisiblePotion);
 
         // player uses the invisible potion
-        invisiblePotion.applyEntity();
+        player.consumeInvisibilityPotion();;
 
         // assert that the player's potion state is invisible
-        assertEquals(player.getPotionState().isInvisible(), true);
+        assertEquals(player.isInvisible(), true);
 
         // assert that the invisible potion is used up
         inventory.removeItem(invisiblePotion);
@@ -266,7 +266,7 @@ public class CollectableTest {
         dungeon.addEntity(player);
 
         // create a mercenary at position (4,0)
-        Mercenary mercenary = new Mercenary(4, 0);
+        Mercenary mercenary = new Mercenary(4, 0, dungeon);
         dungeon.addEntity(mercenary);
 
         // create a sword at position (1,0)
@@ -316,7 +316,7 @@ public class CollectableTest {
         dungeon.addEntity(player);
 
         // create a mercenary at position (4,0)
-        Mercenary mercenary = new Mercenary(4, 0);
+        Mercenary mercenary = new Mercenary(4, 0, dungeon);
         dungeon.addEntity(mercenary);
 
         // create a treasure at point (1,0)

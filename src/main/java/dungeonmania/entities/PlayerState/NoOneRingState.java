@@ -5,10 +5,17 @@ import dungeonmania.entities.Player;
 public class NoOneRingState implements PlayerState {
     private Player player;
 
+    /**
+     * Constructor for NoRingState
+     * @param player
+     */
     public NoOneRingState(Player player) {
         this.player = player;
     }
 
+    /**
+     * Player equips OneRing
+     */
     @Override
     public void applyEffect() {
         player.changeOneRingState(new OneRingState(player));
@@ -26,7 +33,17 @@ public class NoOneRingState implements PlayerState {
     }
 
     @Override
+    public int getDuration() {
+        return 0;
+    }
+
+    @Override
     public Boolean isApplied() {
         return false;
+    }
+
+    @Override
+    public void loadDuration(int duration) {
+        // does nothing
     }
 }

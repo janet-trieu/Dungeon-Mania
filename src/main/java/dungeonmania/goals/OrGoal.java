@@ -5,10 +5,21 @@ import dungeonmania.Dungeon;
 
 public class OrGoal extends CompositeGoal {
 
+    /**
+     * Constructor for OrGoal
+     * @param dungeon
+     */
     public OrGoal(Dungeon dungeon) {
         super(dungeon);
     }
 
+    /**
+     * toString method for OrGoal
+     * return:
+     *  - "" or
+     *  - Goal.toString
+     *  - (Goal.toString OR Goal.toString)
+     */
     @Override
     public String toString() {
         if (getSubGoalList().size() == 0) {
@@ -19,7 +30,10 @@ public class OrGoal extends CompositeGoal {
             return "(" + getSubGoalList().get(0).toString() + " OR " + getSubGoalList().get(1).toString() + ")";
         }
     }
-
+    
+    /**
+     * updates all subGoals
+     */
     @Override
     public void update() {
         super.update();

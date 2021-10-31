@@ -2,26 +2,93 @@
 	"__comment": "THIS IS A TEMPLATE, DO NOT USE!!!",
 	"name": "String",
 	"gameMode": "String",
-	"dungeonResponse":
-	{
+	"dungeonResponse": {
 		"dungeonId": "String",
 		"dungeonName": "String",
-		"entities":
-		[
+		"entities": [
 			{
 				"id": "int",
 				"type": "type",
-				"position": "Position",
+				"position": {
+					"x": "int",
+					"y": "int",
+					"layer": "int"
+				},
 				"isInteractable": "boolean"
+			},
+			{
+				"id": "Player",
+				"type": "player",
+				"position": {
+					"x": "int",
+					"y": "int",
+					"layer": "int"
+				},
+				"isInteractable": "boolean",
+				"health": "int",
+				"invincibility_duration": "int",
+				"invisibility_duration": "int",
+				"bowDurability": "int",
+				"armourDurability": "int",
+				"swordDurability": "int",
+				"shieldDurability": "int"
+			},
+			{
+				"id": "ZombieToast0",
+				"type": "zombie_toast",
+				"position": {
+					"x": "int",
+					"y": "int",
+					"layer": "int"
+				},
+				"isInteractable": "boolean",
+				"hasArmour": "boolean"
+			},
+			{
+				"id": "Spider0",
+				"type": "spider",
+				"position": {
+					"x": "int",
+					"y": "int",
+					"layer": "int"
+				},
+				"isInteractable": "boolean",
+				"movementCounter": "int"
+			},
+			{
+				"id": "Mercenary",
+				"type": "mercenary",
+				"position": {
+					"x": "int",
+					"y": "int",
+					"layer": "int"
+				},
+				"isInteractable": "boolean",
+				"hasArmour": "boolean",
+				"isBribed": "boolean"
+			},
+			{
+				"id": "ZombieToastSpawner0",
+				"type": "zombie_toast_spawner",
+				"position": {
+					"x": "int",
+					"y": "int",
+					"layer": "int"
+				},
+				"isInteractable": "boolean",
+				"counter": "int"
 			}
 		],
-		"inventory":
-		[
+		"inventory": [
 			{
 				"id": "String",
 				"type": "String"
 			}
 		],
-		"goals": "String"
+		"buildables": [
+			"String"
+		],
+		"goals": "String",
+		"animations": []
 	}
 }

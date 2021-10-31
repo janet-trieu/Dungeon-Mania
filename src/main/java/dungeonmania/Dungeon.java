@@ -94,7 +94,9 @@ public class Dungeon {
      * Updates goal
      */
     public void updateGoal() {
-        goal.update();
+        if (getGoal() != null) {
+            goal.update();
+        }
     }
 
     /**
@@ -237,10 +239,18 @@ public class Dungeon {
         for (Entity entity : getEntitiesOnSamePosition(position)) {
             if (entity instanceof StaticEntity) {
                 StaticEntity staticEntity = (StaticEntity) entity;
-                if (!(staticEntity instanceof Door) && !(staticEntity instanceof Boulder) 
-                    && !staticEntity.isPassable()) {
+                if (staticEntity.isPassable()) {
+
+                } else if (staticEntity instanceof Door) {
+
+                } else if (staticEntity instanceof Boulder) {
+
+                } else {
                     canGoThrough = false;
+
                 }
+                //else if (!(staticEntity instanceof Door) && !(staticEntity instanceof Boulder) 
+                    //&& !staticEntity.isPassable()) {
             }
         }
         return canGoThrough;
@@ -362,6 +372,12 @@ public class Dungeon {
         return bombList;
     }
     
+    /**
+     * Method to get a list of positions that are cardinally adjacent to the entity's position
+     * P.S. distance = 2 cells
+     * @param entity
+     * @return
+     */
     public List<Position> getCardinalAdjacent2Cells(Entity entity) {
         List<Position> positions = new ArrayList<Position>();
         int x = entity.getX();
@@ -374,6 +390,12 @@ public class Dungeon {
         return positions;
     }
 
+    /**
+     * Method to get a list of positions that are cardinally adjacent to the entity's position
+     * P.S. distance = 1 cells
+     * @param entity
+     * @return
+     */
     public List<Position> getCardinalAdjacentCell(Entity entity) {
         List<Position> positions = new ArrayList<Position>();
         int x = entity.getX();
@@ -386,6 +408,10 @@ public class Dungeon {
         return positions;
     }
 
+    /**
+     * Method to check whether the player and mercenary are within 2 cells of each other
+     * @param otherEntity
+     */
     public boolean checkBribeRange(Entity otherEntity) {
         Boolean twoCells = false;
         Boolean oneCell = false;
@@ -397,6 +423,7 @@ public class Dungeon {
         for (Position position : twoCellList) {
             if (position.equals(otherPos)) {
                 twoCells = true;
+                break;
             }
         }
 
@@ -404,20 +431,32 @@ public class Dungeon {
         for (Position position : oneCellList) {
             if (position.equals(otherPos)) {
                 oneCell = true;
+                break;
             }
         }
 
         // if distance between cells are greater than 2, return false
         if (oneCell == false && twoCells == false) {
             return false;
-        // if distance between cells are 2 cells, return true
-        } else if (oneCell == true && twoCells == true) {
-            return true;
-        // if distance between cells are 1 cell, return true
-        } else if (oneCell == true && twoCells == false) {
+        // if distance between cells are within 2 cells, return true
+        } else if (oneCell == true || twoCells == true) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Method to return a list of all current entity's ids
+     * @return list of ids
+     */
+    public List<String> entityIdList() {
+        List<String> entityIds = new ArrayList<String>();
+
+        for (Entity entity : entityList) {
+            entityIds.add(entity.getId());
+        }
+
+        return entityIds;
     }
 }

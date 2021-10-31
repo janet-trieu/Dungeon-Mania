@@ -14,6 +14,7 @@ import dungeonmania.entities.PlayerState.*;
 >>>>>>> a20144942dd184b1ea148f5023ad0d77ef2e6557
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
+import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
@@ -41,6 +42,11 @@ public class Player extends Entity {
     private PlayerState bowState;
     private PlayerState oneRingState;
 
+    /**
+     * Constructor for Player with only position
+     * @param x
+     * @param y
+     */
     public Player(int x, int y) {
         super(x, y, "player");
         invincibleState = new NoInvincibleState(this);
@@ -58,6 +64,13 @@ public class Player extends Entity {
         setMaxHealth(standardMaxHealth);
     }
 
+    /**
+     * Constructor for Player with Position and dungeon gameMode
+     * sets maxHealth and health accordingly to gameMode specification
+     * @param x
+     * @param y
+     * @param gameMode
+     */
     public Player(int x, int y, String gameMode) {
         super(x, y, "player");
         invincibleState = new NoInvincibleState(this);
@@ -81,13 +94,27 @@ public class Player extends Entity {
         this.gameMode = gameMode;
     }
 
-    public void battle(MovingEntity otherEntity) {
+    /**
+     * Method for player engaging with battle with a moving entity
+     * Order of attacks:
+     *  - Player equips all unique equipments (bow, sword, shield, armour)
+     *  - if Player was invincible, enemy is killed in one tick and battle ends
+     *  - Player takes damage from enemy
+     *      - if player health reaches 0, use one ring if available
+     *      - if player dies, battle ends and game is lost
+     *  - Player attacks enemy
+     *  - Ally attacks enemy
+     *      - if enemy health reaches 0, enemy is removed from entityList and dungeon
+     *  - Player equipment reduces in one durability
+     * @param otherEntity
+     */
+    public Boolean battle(MovingEntity otherEntity) {
         // check inventory and change states accordingly
         equipCombat();
         // Character Health = Character Health - ((Enemy Health * Enemy Attack Damage) / 10) / protection
         if (isInvincible()) {
             Dungeon.getDungeon().removeEntity(otherEntity);
-            return;
+            return false;
         }
         setHealth(getHealth() - ((otherEntity.getHealth() * otherEntity.getDamage()) / 10) / getProtection());
         if (getHealth() <= 0) {
@@ -95,18 +122,25 @@ public class Player extends Entity {
         }
         if (getHealth() <= 0) {
             Dungeon.getDungeon().removeEntity(this);
-            return;
+            return false;
         }
         // Enemy Health = Enemy Health - ((Character Health * Character Attack Damage) / 5)
         otherEntity.setHealth(otherEntity.getHealth() - ((getHealth() * getDamage()) / 5));
 
+        allyAssistBattle(otherEntity);
         if (otherEntity.getHealth() <= 0) {
             Dungeon.getDungeon().removeEntity(otherEntity);
+            updateCombatDurability();
+            return false;
         }
-        allyAssistBattle(otherEntity);
         updateCombatDurability();
+        return true;
     }
 
+    /**
+     * Helper method for ally mercenaries attacking enemy
+     * @param otherEntity
+     */
     public void allyAssistBattle(MovingEntity otherEntity) {
         for (Entity entity : Dungeon.getDungeon().getEntityList()) {
             if (entity instanceof Mercenary) {
@@ -116,10 +150,6 @@ public class Player extends Entity {
                 }
             }
         }
-    }
-
-    public void interact(String entityId) {
-        // TODO
     }
 
     /**
@@ -148,6 +178,9 @@ public class Player extends Entity {
     public void interactDoor(Entity entity, Position newPosition) {
         Door door = (Door) entity;
         // If player had key, open door and discard key
+        if (door.isPassable()) {
+            setPosition(newPosition.getX(), newPosition.getY());
+        }
         Key key = Dungeon.getDungeon().getKey();
         if (key != null && door.insertKey(key)) {
             setPosition(newPosition.getX(), newPosition.getY());
@@ -277,7 +310,7 @@ public class Player extends Entity {
     }
 
     /**
-     * States
+     * States Methods
      */
     /**
      * Change States
@@ -369,7 +402,32 @@ public class Player extends Entity {
         swordState.reduceDuration();
     }
 
+    public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur) {
+        if (invinDur > 0) {
+            invincibleState.loadDuration(invinDur);
+        }
+        if (invisDur > 0) {
+            invisibleState.loadDuration(invisDur);
+        }
+        if (bowDur > 0) {
+            bowState.loadDuration(bowDur);
+        }
+        if (armourDur > 0) {
+            armourState.loadDuration(armourDur);
+        }
+        if (swordDur > 0) {
+            swordState.loadDuration(swordDur);
+        }
+        if (shieldDur > 0) {
+            shieldState.loadDuration(shieldDur);
+        }
+    }
+
     public Boolean isInvincible() {
+        return invincibleState.isApplied();
+    }
+
+    public Boolean isInvisible() {
         return invincibleState.isApplied();
     }
 

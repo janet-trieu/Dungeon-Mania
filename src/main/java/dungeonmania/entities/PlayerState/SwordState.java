@@ -8,9 +8,22 @@ public class SwordState implements PlayerState {
     private int maxDurability = 5;
     private int durability;
 
+    /**
+     * Constructor for SwordState
+     * @param player
+     */
     public SwordState(Player player) {
         this.player = player;
         durability = maxDurability;
+    }
+
+    /**
+     * Constructor for SwordState
+     * @param player
+     */
+    public SwordState(Player player, int durability) {
+        this.player = player;
+        this.durability = durability;
     }
 
     @Override
@@ -18,6 +31,10 @@ public class SwordState implements PlayerState {
         // does nothing
     }
 
+    /**
+     * player unequips sword and sword is destroyed
+     * player no longer gains benefits from sword
+     */
     @Override
     public void removeEffect() {
         player.setDamage(player.getDamage() / 2);
@@ -31,6 +48,15 @@ public class SwordState implements PlayerState {
         if (durability <= 0) {
             removeEffect();
         }
+    }
+    @Override
+    public void loadDuration(int duration) {
+        //does nothing      
+    }
+    
+    @Override
+    public int getDuration() {
+        return this.durability;
     }
 
     @Override
