@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
+import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
@@ -26,6 +28,13 @@ public class PlayerStateTest {
         assertEquals(false, player.isShield());
         assertEquals(false, player.isBow());
         assertEquals(false, player.isSword());
+        assertEquals(0, player.getInvincibilityDuration());
+        assertEquals(0, player.getInvisibilityDuration());
+        assertEquals(0, player.getArmourDurability());
+        assertEquals(0, player.getShieldDurability());
+        assertEquals(0, player.getBowDurability());
+        assertEquals(0, player.getSwordDurability());
+
 
         player.setPlayerStates(1, 1, 1, 1, 1, 1);
         assertEquals(true, player.isInvincible());
@@ -34,6 +43,13 @@ public class PlayerStateTest {
         assertEquals(true, player.isShield());
         assertEquals(true, player.isBow());
         assertEquals(true, player.isSword());
+
+        assertEquals(1, player.getInvincibilityDuration());
+        assertEquals(1, player.getInvisibilityDuration());
+        assertEquals(1, player.getArmourDurability());
+        assertEquals(1, player.getShieldDurability());
+        assertEquals(1, player.getBowDurability());
+        assertEquals(1, player.getSwordDurability());
 
         player.setPlayerStates(1, 1, 1, 1, 1, 1);
         assertEquals(true, player.isInvincible());
@@ -222,11 +238,13 @@ public class PlayerStateTest {
         // pick up ring 
         player.moveRight();
         assertEquals(false, player.isRing());
+        assertEquals(0, player.getOneRingDurability());
 
         // battle mercenary0
         player.moveRight();
         player.battle(mercenary0);
         assertEquals(true, player.isRing());
+        assertEquals(1, player.getOneRingDurability());
         // mercenary is alive after 1 tick
         assertEquals(true, dungeon.getEntityList().contains(mercenary0));
         // Player received damage
@@ -250,5 +268,85 @@ public class PlayerStateTest {
         assertEquals(true, dungeon.getEntityList().contains(player));
         assertEquals(false, player.isRing());
         assertEquals(0, player.getOneRingDurability());
+        assertEquals(false, inventory.contains(ring));
+    }
+    @Test
+    public void testArmour(){
+        Dungeon dungeon = new Dungeon();
+        Inventory inventory = dungeon.getInventory();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.addEntity(player);
+
+        // Create and add Armour to inventory
+        Armour armour = new Armour(-1, -1);
+        inventory.addItem(armour);
+
+        // Create Mercenary at (1, 0)
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
+        dungeon.addEntity(mercenary);
+
+        Mercenary mercenary1 = new Mercenary(2, 0, dungeon);
+        dungeon.addEntity(mercenary1);
+
+        // battle Mercenary
+        player.moveRight();
+        player.battle(mercenary);
+        // mercenary is alive after 1 tick
+        assertEquals(true, dungeon.getEntityList().contains(mercenary));
+        // Player received damage
+        assertEquals(true, player.getMaxHealth() > player.getHealth());
+        for (int i = 0; i < 5; i++) {
+            player.battle(mercenary);
+        }
+        assertEquals(true, player.isArmour());
+        assertEquals(2, player.getArmourDurability());
+        // mercenary is not alive after 6 ticks instead of 7
+        assertEquals(false, dungeon.getEntityList().contains(mercenary));
+        player.moveRight();
+        while(player.battle(mercenary1)) {
+        }
+        assertEquals(false, player.isArmour());
+        assertEquals(0, player.getArmourDurability());
+    }
+    @Test
+    public void testSword(){
+        Dungeon dungeon = new Dungeon();
+        Inventory inventory = dungeon.getInventory();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.addEntity(player);
+
+        // Create and add Armour to inventory
+        Sword sword = new Sword(-1, -1);
+        inventory.addItem(sword);
+
+        // Create Mercenary at (1, 0)
+        Mercenary mercenary = new Mercenary(1, 0, dungeon);
+        dungeon.addEntity(mercenary);
+
+        Mercenary mercenary1 = new Mercenary(2, 0, dungeon);
+        dungeon.addEntity(mercenary1);
+
+        // battle Mercenary
+        player.moveRight();
+        player.battle(mercenary);
+        // mercenary is alive after 1 tick
+        assertEquals(true, dungeon.getEntityList().contains(mercenary));
+        // Player received damage
+        assertEquals(true, player.getMaxHealth() > player.getHealth());
+        while (player.battle(mercenary)) {
+        }
+        assertEquals(true, player.isSword());
+        assertEquals(2, player.getSwordDurability());
+        // mercenary is not alive after 6 ticks instead of 7
+        assertEquals(false, dungeon.getEntityList().contains(mercenary));
+        player.moveRight();
+        while(player.battle(mercenary1)) {
+        }
+        assertEquals(false, player.isSword());
+        assertEquals(0, player.getSwordDurability());
     }
 }

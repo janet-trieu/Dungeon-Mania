@@ -34,9 +34,7 @@ public class InvincibleState implements PlayerState {
      */
     @Override
     public void applyEffect() {
-        if (!player.getGameMode().equals("Hard")) {
-            duration += 10;
-        }
+        duration += 10;
         Dungeon.getDungeon().getInventory().breakItem("invincibility_potion");
     }
 

@@ -195,7 +195,7 @@ public class StaticTest {
      * - Wall stays put
      * - ZombieToast spawns every 20 ticks in Standard
      */
-    /*
+    
     @Test
     public void testStandardSpawner() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
@@ -221,7 +221,7 @@ public class StaticTest {
         assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", position, false), controller.getInfo("ZombieToastSpawner0"));
         
         // INTERACT WITH SPAWNER TO DESTROY IT
-        controller.interact("ZombieToastSpawner0");
+        //controller.interact("ZombieToastSpawner0");
         // getInfo should return null if it does not exist
         position = new Position(1, 1);
         assertThrows(NullPointerException.class, () -> controller.getInfo("ZombieToastSpawner0"));
