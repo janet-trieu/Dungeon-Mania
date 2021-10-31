@@ -444,7 +444,9 @@ public class DungeonManiaController {
                     if (enemy instanceof Mercenary) {
                         Mercenary mercenary = (Mercenary) enemy;
                         if (!mercenary.IsBribed()) {
-                            player.battle(enemy);
+                            while (player.battle(enemy)) {
+                                // otherenemies.move();
+                            }
                         }
                     } else {
                         player.battle(enemy);
