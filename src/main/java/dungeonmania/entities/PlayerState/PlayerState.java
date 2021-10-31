@@ -7,5 +7,6 @@ public interface PlayerState {
     public void applyEffect();
     public void removeEffect();
     public void reduceDuration();
+    public int getDuration();
     public Boolean isApplied();
 }

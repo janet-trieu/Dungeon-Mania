@@ -33,6 +33,11 @@ public class NoOneRingState implements PlayerState {
     }
 
     @Override
+    public int getDuration() {
+        return 0;
+    }
+
+    @Override
     public Boolean isApplied() {
         return false;
     }

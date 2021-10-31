@@ -36,6 +36,11 @@ public class NoInvisibleState implements PlayerState {
         return;        
     }
     
+    @Override
+    public int getDuration() {
+        return 0;
+    }
+
     public Boolean isApplied() {
         return false;
     }

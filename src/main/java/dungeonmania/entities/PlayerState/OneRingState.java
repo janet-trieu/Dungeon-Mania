@@ -33,7 +33,10 @@ public class OneRingState implements PlayerState {
     public void reduceDuration() {
         // does nothing
     }
-
+    @Override
+    public int getDuration() {
+        return 0;
+    }
     @Override
     public Boolean isApplied() {
         return true;
