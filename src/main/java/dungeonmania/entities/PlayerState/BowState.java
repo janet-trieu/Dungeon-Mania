@@ -4,6 +4,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class BowState implements PlayerState {
+
+    // storing required attributes
     private Player player;
     private int maxDurability = 3;
     private int durability;

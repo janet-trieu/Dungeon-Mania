@@ -3,7 +3,9 @@ package dungeonmania.entities.PlayerState;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
-public class InvincibleState implements PlayerState{
+public class InvincibleState implements PlayerState {
+
+    // storing required attributes
     private Player player;
     private int duration;
     
@@ -56,15 +58,22 @@ public class InvincibleState implements PlayerState{
             removeEffect();
         }
     }
+
     @Override
     public void loadDuration(int duration) {
         //does nothing      
     }
     
+    /**
+     * Getter for the isApplied
+     */
     public Boolean isApplied() {
         return true;
     }
 
+    /**
+     * Getter for the duration of invincibility 
+     */
     public int getDuration() {
         return duration;
     }

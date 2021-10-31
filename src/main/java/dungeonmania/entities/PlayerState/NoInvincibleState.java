@@ -4,6 +4,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class NoInvincibleState implements PlayerState {
+
+    // storing required attributes
     private Player player;
 
     /**
@@ -58,4 +60,5 @@ public class NoInvincibleState implements PlayerState {
     public Boolean isApplied() {
         return false;
     }
+    
 }

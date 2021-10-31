@@ -7,7 +7,6 @@ import dungeonmania.Inventory;
 import dungeonmania.entities.PlayerState.*;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
-import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
@@ -17,6 +16,8 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Player extends Entity {
+
+    // storing required attributes
     private double health;
     private double standardMaxHealth = 10;
     private double hardMaxHealth = standardMaxHealth * 8/10;

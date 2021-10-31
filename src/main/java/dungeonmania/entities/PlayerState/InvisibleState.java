@@ -3,7 +3,9 @@ package dungeonmania.entities.PlayerState;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
-public class InvisibleState implements PlayerState{
+public class InvisibleState implements PlayerState {
+
+    // storing required attributes
     private Player player;
     private int duration;
 
@@ -58,11 +60,16 @@ public class InvisibleState implements PlayerState{
         //does nothing      
     }
     
-    
+    /**
+     * Getter for the isApplied
+     */
     public Boolean isApplied() {
         return true;
     }
 
+    /**
+     * Getter for the invisibility duration
+     */
     public int getDuration() {
         return duration;
     }

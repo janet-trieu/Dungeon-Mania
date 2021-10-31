@@ -4,6 +4,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class SwordState implements PlayerState {
+
+    // storing required attributes
     private Player player;
     private int maxDurability = 5;
     private int durability;
@@ -49,6 +51,7 @@ public class SwordState implements PlayerState {
             removeEffect();
         }
     }
+
     @Override
     public void loadDuration(int duration) {
         //does nothing      
@@ -63,4 +66,5 @@ public class SwordState implements PlayerState {
     public Boolean isApplied() {
         return true;
     }
+    
 }

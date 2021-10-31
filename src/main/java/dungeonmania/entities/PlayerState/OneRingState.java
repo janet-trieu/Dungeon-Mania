@@ -4,6 +4,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class OneRingState implements PlayerState {
+
+    // storing required attributes
     private Player player;
 
     /**
@@ -33,10 +35,12 @@ public class OneRingState implements PlayerState {
     public void reduceDuration() {
         // does nothing
     }
+
     @Override
     public int getDuration() {
         return 0;
     }
+
     @Override
     public void loadDuration(int duration) {
         //does nothing      
@@ -46,4 +50,5 @@ public class OneRingState implements PlayerState {
     public Boolean isApplied() {
         return true;
     }
+    
 }

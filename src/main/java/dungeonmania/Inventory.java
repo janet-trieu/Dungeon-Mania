@@ -8,6 +8,8 @@ import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 
 public class Inventory {
+
+    // storing a list of items
     private List<CollectableEntity> items;
     
     /**
