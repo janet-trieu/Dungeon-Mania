@@ -12,6 +12,7 @@ import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.*
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
+import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
@@ -338,16 +339,60 @@ public class DungeonManiaController {
             System.err.println("File creation error in saveGame: " + e.getMessage());
         }
 
-         // Add 'name', 'gameMode', 'dungeonResponse' to file
+        // Save general game info
+        JSONObject saveObj = new JSONObject();
+        saveObj.put("filename", name);
+        saveObj.put("gameMode", currDungeon.getGameMode());
+        saveObj.put("dungeonId", dungeonId);
+        saveObj.put("dungeonName", currDungeon.getDungeonName());
+        saveObj.put("goals", currDungeon.getGoalString());
+        
+        // Save all entities in entityList and update ID counter
+        JSONArray entityArray = new JSONArray();
+        for (Entity entity : currDungeon.getEntityList()) {
+            JSONObject entityInfo = new JSONObject();
+            entityInfo.put("id", entity.getId());
+            entityInfo.put("type", entity.getType());
+            entityInfo.put("x", entity.getX());
+            entityInfo.put("y", entity.getY());
+            if (entity instanceof Player) {
+                Player player = (Player) entity;
+                entityInfo.put("health", player.getHealth());
+                entityInfo.put("invincibilityDuration", value);
+                entityInfo.put("invisibilityDuration", value);
+                entityInfo.put("bowDurability", value);
+                entityInfo.put("armourDurability", value);
+                entityInfo.put("swordDurability", value);
+                entityInfo.put("shieldDurability", value);
+            } else if (entity instanceof ZombieToast) {
+                
+            }
+        }
+
+        // Save all items in inventory
+        JSONArray inventoryArray = new JSONArray();
+        Inventory inventory = currDungeon.getInventory();
+        for (CollectableEntity item : inventory.getItems()) {
+            JSONObject itemInfo = new JSONObject();
+            itemInfo.put("id", item.getId());
+            itemInfo.put("type", item.getType());
+            inventoryArray.put(itemInfo);
+        }
+        saveObj.put("inventory", inventoryArray);
+
+        // Save all current buildable items
+        JSONArray buildableArray = new JSONArray();
+        for (String item : currDungeon.getBuildableString()) {
+            buildableArray.put(item);
+        }
+        saveObj.put("buildables", buildableArray);       
+
+        // TODO: Save all animations for animated entities - Should be a JSONArray: animations: []
+
+        // Insert object into file
          try {
             FileWriter writer = new FileWriter(filePath);
-            writer.write("{\"name\":" + "\"" + name + "\"" + ",");
-            writer.write("\"gameMode\":" + "\"" + currDungeon.getGameMode() + "\"" + ",");
-            writer.write("\"dungeonResponse\":");
-
-            Gson gson = new Gson();
-            writer.write(gson.toJson(response));
-            writer.write("}");
+            writer.write(saveObj.toString());
             writer.close();
         } catch (IOException e) {
             System.err.println("Data creation error in saveGame: " + e.getMessage());
@@ -638,10 +683,13 @@ public class DungeonManiaController {
 
     public static void main(String[] args) throws FileNotFoundException {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("portals", "Standard");
-        controller.saveGame("portals");
-        PrintStream out = new PrintStream(new FileOutputStream("error.txt"));
-        System.setOut(out);
-        System.setErr(out);
+        controller.newGame("testBow", "Standard");
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.saveGame("bow");
     }
 }
