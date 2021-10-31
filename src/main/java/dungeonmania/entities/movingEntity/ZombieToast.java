@@ -1,6 +1,7 @@
 package dungeonmania.entities.movingEntity;
 
 import dungeonmania.Dungeon;
+import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.util.Direction;
 
@@ -17,9 +18,15 @@ public class ZombieToast extends MovingEntity implements Moveable {
         counter++;
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
+        this.setLayer(3);
     }
 
     public void move() {
+        Player player = (Player) dungeon.getPlayer();
+        if (player.isInvincible()) {
+            run(this, dungeon);
+        }
+
         int way = randomise();
         if(way == 1) {move(Direction.UP, this);}
         if(way == 2) {move(Direction.DOWN, this);}
