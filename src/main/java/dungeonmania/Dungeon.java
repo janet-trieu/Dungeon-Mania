@@ -2,6 +2,7 @@ package dungeonmania;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
@@ -492,5 +493,46 @@ public class Dungeon {
 
         return entityIds;
     }
-    
+
+    /**
+     * Method to return a list of entities that are adjacent to a given entity
+     * @param entity
+     * @return
+     */
+    public List<Entity> adjacentEntityList(Entity entity) {
+        List<Position> adjacentCells = entity.getPosition().getAdjacentPositions();
+        List<Entity> existingEntities = getEntityList();
+        List<Entity> adjacentEntities = new ArrayList<Entity>();
+
+        for (Entity otherEntity : existingEntities) {
+            if (adjacentCells.contains(otherEntity.getPosition())) {
+                adjacentEntities.add(otherEntity);
+            }
+        }
+
+        return adjacentEntities;
+    }
+
+    /**
+     * Helper method to get a random position of 10 cells distance from player
+     * @param entity
+     * @return
+     */
+    public Position spawnDistance(Entity entity) {
+        int x = entity.getPosition().getX();
+        int y = entity.getPosition().getY();
+
+        int lowX = x - 10;
+        int highX = x + 10;
+        int lowY = y - 10;
+        int highY = y + 10;
+
+        Random random = new Random();
+
+        int distX = random.nextInt(highX - lowX) + lowX;
+        int distY = random.nextInt(highY - lowY) + lowY;
+
+        return new Position(distX, distY);
+    }
+
 }

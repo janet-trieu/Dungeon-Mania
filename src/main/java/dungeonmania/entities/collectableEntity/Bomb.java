@@ -4,9 +4,16 @@ import java.util.List;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
-import dungeonmania.util.Position;
+import dungeonmania.entities.Player;
+import dungeonmania.entities.staticEntity.Door;
+import dungeonmania.entities.staticEntity.Exit;
+import dungeonmania.entities.staticEntity.Portal;
+import dungeonmania.entities.staticEntity.ZombieToastSpawner;
 
 public class Bomb extends CollectableEntity {
+
+    //
+    Dungeon currDungeon = Dungeon.getDungeon();
     
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -24,20 +31,22 @@ public class Bomb extends CollectableEntity {
 
     /**
      * Method to achieve the bomb explosion
-     * Assumption: this method will only be called when a switch is activated next to this bomb
-     * @param bomb
+     * @precondition this method will only be called when a switch is activated adjacent to this bomb
      */
-    public void explode(Bomb bomb) {
-        List<Position> bombAdjacentPositions = bomb.getPosition().getAdjacentPositions();
-        List<Entity> existingEntities = Dungeon.getDungeon().getEntityList();
+    public void explode() {
+        List<Entity> adjacentEntities = currDungeon.adjacentEntityList(this);
+        List<Entity> existingEntities = currDungeon.getEntityList();
 
-        // loop through the bomb's adjacent positions 
-        for (Entity thisEntity : existingEntities) {
-            if (bombAdjacentPositions.contains(thisEntity.getPosition())) {
-                // it should get deleted
-                Dungeon.getDungeon().getEntityList().remove(thisEntity);
+        for (Entity entity : adjacentEntities) {
+            if (!(entity instanceof Player || entity instanceof Portal || entity instanceof ZombieToastSpawner 
+                || entity instanceof Door || entity instanceof Exit)) {
+
+                // delete entities    
+                existingEntities.remove(entity);
             }
         }
+        // remove bomb after explostion
+        existingEntities.remove(this);
     }
 
 }
