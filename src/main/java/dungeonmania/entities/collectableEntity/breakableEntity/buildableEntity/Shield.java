@@ -58,6 +58,8 @@ public class Shield extends BuildableEntity {
                 break; 
             }
         }
+
+        // update the buildable list
         buildableList.remove("shield");
     }
 

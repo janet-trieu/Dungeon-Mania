@@ -8,6 +8,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingEntity.Mercenary;
 
 public class EnemyGoal extends LeafGoal {
+
     /**
      * Constructor for EnemyGoal
      * @param dungeon
@@ -15,6 +16,7 @@ public class EnemyGoal extends LeafGoal {
     public EnemyGoal(Dungeon dungeon) {
         super(dungeon);
     }
+
     /**
      * toString method
      * return: 
@@ -76,4 +78,5 @@ public class EnemyGoal extends LeafGoal {
         }
         return listOfHostile;
     }
+    
 }

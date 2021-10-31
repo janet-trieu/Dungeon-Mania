@@ -4,6 +4,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class NoInvisibleState implements PlayerState {
+
+    // storing required attributes
     private Player player;
 
     /**
@@ -33,6 +35,7 @@ public class NoInvisibleState implements PlayerState {
         player.changeInvisibleState(new InvisibleState(player, duration));
         Dungeon.getDungeon().getInventory().breakItem("invisibility_potion");
     }
+
     @Override
     public void removeEffect() {
         // Does nothing
@@ -53,4 +56,5 @@ public class NoInvisibleState implements PlayerState {
     public Boolean isApplied() {
         return false;
     }
+    
 }

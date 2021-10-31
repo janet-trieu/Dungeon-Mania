@@ -3,6 +3,8 @@ package dungeonmania.entities;
 import dungeonmania.util.Position;
 
 public abstract class Entity {
+
+    // storing required attributes
     private int x;
     private int y;
     private int layer;

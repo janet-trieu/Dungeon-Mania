@@ -23,6 +23,8 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Dungeon {
+
+    // storing the required attributes
     private String dungeonName;
     private List<Entity> entityList;
     private List<CollectableEntity> spawnedCollectablesList;
@@ -32,6 +34,9 @@ public class Dungeon {
     private static Dungeon thisDungeon = null;
     private String gameMode;
 
+    /**
+     * USED FOR TESTING
+     */
     public Dungeon() {
         this.entityList = new ArrayList<Entity>();
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
@@ -40,6 +45,11 @@ public class Dungeon {
         thisDungeon = this;
     }
 
+    /**
+     * Constructor for the dungeon
+     * @param dungeonName
+     * @param gameMode
+     */
     public Dungeon(String dungeonName, String gameMode) {
         this.dungeonName = dungeonName;
         this.entityList = new ArrayList<Entity>();
@@ -58,26 +68,50 @@ public class Dungeon {
         return thisDungeon;
     }
 
+    /**
+     * Getter for the dungeon name
+     * @return
+     */
     public String getDungeonName() {
         return dungeonName;
     }
 
+    /**
+     * Getter for the list of entities that exists
+     * @return
+     */
     public List<Entity> getEntityList() {
         return entityList;
     }
 
+    /**
+     * Getter for the list of collectable entities that exists
+     * @return
+     */
     public List<CollectableEntity> getSpawnedCollectables() {
         return spawnedCollectablesList;
     }
 
+    /**
+     * Getter for the inventory
+     * @return
+     */
     public Inventory getInventory() {
         return inventory;
     }
 
+    /**
+     * Getter for the goal/s
+     * @return
+     */
     public Goal getGoal() {
         return goal;
     }
 
+    /**
+     * Getter for the gamemode
+     * @return
+     */
     public String getGameMode() {
         return gameMode;
     }
@@ -329,7 +363,6 @@ public class Dungeon {
         return bool;
     }
 
-
     /**
      * Gets all current MovingEntity in Dungeon
      * @return list of MovingEntity in Dungeon
@@ -459,4 +492,5 @@ public class Dungeon {
 
         return entityIds;
     }
+    
 }

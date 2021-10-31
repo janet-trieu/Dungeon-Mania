@@ -7,6 +7,8 @@ import java.util.ListIterator;
 import dungeonmania.Dungeon;
 
 public abstract class CompositeGoal extends Goal {
+
+    // storing the list of subGoals
     private List<Goal> subGoalList = new ArrayList<Goal>();
     
     /**

@@ -3,6 +3,8 @@ package dungeonmania.entities.PlayerState;
 import dungeonmania.entities.Player;
 
 public class NoOneRingState implements PlayerState {
+
+    // storing required attributes
     private Player player;
 
     /**
@@ -46,4 +48,5 @@ public class NoOneRingState implements PlayerState {
     public void loadDuration(int duration) {
         // does nothing
     }
+    
 }

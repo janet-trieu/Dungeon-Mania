@@ -8,6 +8,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.staticEntity.FloorSwitch;
 
 public class SwitchGoal extends LeafGoal {
+
     /**
      * Constructor for SwitchGoal
      * @param dungeon
@@ -15,6 +16,7 @@ public class SwitchGoal extends LeafGoal {
     public SwitchGoal(Dungeon dungeon) {
         super(dungeon);
     }
+
     /**
      * toString method
      * return: 
@@ -59,4 +61,5 @@ public class SwitchGoal extends LeafGoal {
         }
         return listOfFloorSwitch;
     }
+    
 }

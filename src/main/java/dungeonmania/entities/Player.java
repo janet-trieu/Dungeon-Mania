@@ -3,18 +3,10 @@ package dungeonmania.entities;
 import java.util.List;
 
 import dungeonmania.Dungeon;
-<<<<<<< HEAD
-import dungeonmania.entities.PotionState.NoInvincibleState;
-import dungeonmania.entities.PotionState.NoInvisibleState;
-import dungeonmania.entities.PotionState.PotionState;
-import dungeonmania.entities.movingEntity.Moveable;
-=======
 import dungeonmania.Inventory;
 import dungeonmania.entities.PlayerState.*;
->>>>>>> a20144942dd184b1ea148f5023ad0d77ef2e6557
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
-import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.staticEntity.Boulder;
@@ -24,6 +16,8 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Player extends Entity {
+
+    // storing required attributes
     private double health;
     private double standardMaxHealth = 10;
     private double hardMaxHealth = standardMaxHealth * 8/10;
@@ -288,23 +282,16 @@ public class Player extends Entity {
         move(Direction.DOWN);
     }
 
-<<<<<<< HEAD
-=======
     /**
      * player moves left
      */
->>>>>>> a20144942dd184b1ea148f5023ad0d77ef2e6557
     public void moveLeft() {
         move(Direction.LEFT);
     }
-<<<<<<< HEAD
-    
-=======
 
     /**
      * player moves right
      */
->>>>>>> a20144942dd184b1ea148f5023ad0d77ef2e6557
     public void moveRight() {
         move(Direction.RIGHT);
     }

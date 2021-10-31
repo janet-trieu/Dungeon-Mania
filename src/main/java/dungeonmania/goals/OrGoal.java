@@ -41,4 +41,5 @@ public class OrGoal extends CompositeGoal {
             setComplete(true);
         }
     }
+    
 }

@@ -3,6 +3,8 @@ package dungeonmania.entities.PlayerState;
 import dungeonmania.entities.Player;
 
 public class NoArmourState implements PlayerState {
+
+    // storing required attributes
     private Player player;
 
     /**
@@ -38,6 +40,7 @@ public class NoArmourState implements PlayerState {
     @Override
     public void removeEffect() {
     }
+
     /**
      * non existent armour duration decreases
      * nothing happens
@@ -55,4 +58,5 @@ public class NoArmourState implements PlayerState {
     public Boolean isApplied() {
         return false;
     }
+    
 }

@@ -4,6 +4,7 @@ package dungeonmania.goals;
 import dungeonmania.Dungeon;
 
 public class TreasureGoal extends LeafGoal {
+
     /**
      * Constructor for TreasureGoal
      * @param dungeon
@@ -36,4 +37,5 @@ public class TreasureGoal extends LeafGoal {
             setComplete(true);
         }      
     }
+    
 }

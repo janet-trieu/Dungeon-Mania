@@ -4,6 +4,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class ShieldState implements PlayerState {
+
+    // storing required attributes
     private Player player;
     private int maxDurability = 5;
     private int durability;
@@ -50,12 +52,13 @@ public class ShieldState implements PlayerState {
             removeEffect();
         }
     }
+
     @Override
     public void loadDuration(int duration) {
         //does nothing      
     }
     
-
+    @Override
     public int getDuration() {
         return this.durability;
     }
@@ -64,4 +67,5 @@ public class ShieldState implements PlayerState {
     public Boolean isApplied() {
         return true;
     }
+
 }

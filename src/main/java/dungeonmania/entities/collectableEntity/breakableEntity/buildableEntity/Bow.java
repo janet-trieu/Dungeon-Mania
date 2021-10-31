@@ -7,7 +7,6 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.collectableEntity.Arrow;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Wood;
-import dungeonmania.util.Position;
 
 public class Bow extends BuildableEntity {
 
@@ -54,6 +53,8 @@ public class Bow extends BuildableEntity {
                 break;
             }
         }
+        
+        // update the buildable list 
         buildableList.remove("bow");
     }
 

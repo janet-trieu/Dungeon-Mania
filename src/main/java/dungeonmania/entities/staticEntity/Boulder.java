@@ -8,6 +8,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Boulder extends StaticEntity {
+    
     // boulder will always be in layer 1
     private int layer = 1;
 

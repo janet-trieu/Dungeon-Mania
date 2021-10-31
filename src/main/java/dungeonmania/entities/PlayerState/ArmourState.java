@@ -4,6 +4,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class ArmourState implements PlayerState {
+
+    // storing required attributes
     private Player player;
     private int maxDurability = 8;
     private int durability;
@@ -62,8 +64,6 @@ public class ArmourState implements PlayerState {
     public int getDuration() {
         return this.durability;
     }
-
-
 
     /**
      * check if player is equipped armour
