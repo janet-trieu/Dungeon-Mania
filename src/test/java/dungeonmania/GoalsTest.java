@@ -255,7 +255,7 @@ public class GoalsTest {
         dungeon.addEntity(switch0);
 
         // Create mercenary at (0, 1)
-        Mercenary mercenary = Mercenary(0, 1);
+        Mercenary mercenary = new Mercenary(0, 1);
         dungeon.addEntity(mercenary);
 
         // add TreasureGoal AND ExitGoal to dungeon
@@ -297,7 +297,7 @@ public class GoalsTest {
         dungeon.addEntity(switch0);
 
         // Create exit at (0, 4)
-        Mercenary mercenary = Mercenary(0, 1);
+        Mercenary mercenary = new Mercenary(0, 1);
         dungeon.addEntity(mercenary);
 
         // add TreasureGoal AND ExitGoal to dungeon
