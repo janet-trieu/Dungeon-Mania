@@ -34,6 +34,7 @@ public class Dungeon {
     private Goal goal;
     private static Dungeon thisDungeon = null;
     private String gameMode;
+    private String dungeonId;
 
     /**
      * USED FOR TESTING
@@ -494,6 +495,38 @@ public class Dungeon {
         return entityIds;
     }
 
+    public void setDungeonName(String dungeonName) {
+        this.dungeonName = dungeonName;
+    }
+
+    public void setEntityList(List<Entity> entityList) {
+        this.entityList = entityList;
+    }
+
+    public List<String> getBuildableList() {
+        return buildableList;
+    }
+
+    public void setBuildableList(List<String> buildableList) {
+        this.buildableList = buildableList;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
+    }
+
+    public void setDungeonId(String dungeonId) {
+        this.dungeonId = dungeonId;
+    }
+
     /**
      * Method to return a list of entities that are adjacent to a given entity
      * @param entity
@@ -534,5 +567,4 @@ public class Dungeon {
 
         return new Position(distX, distY);
     }
-
 }

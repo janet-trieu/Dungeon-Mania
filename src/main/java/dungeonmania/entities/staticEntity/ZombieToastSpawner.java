@@ -72,4 +72,8 @@ public class ZombieToastSpawner extends StaticEntity {
     public static int getTickCounter() {
         return tickCounter;
     }
+
+    public static void setTickCounter(int tickCounter) {
+        ZombieToastSpawner.tickCounter = tickCounter;
+    }
 }
