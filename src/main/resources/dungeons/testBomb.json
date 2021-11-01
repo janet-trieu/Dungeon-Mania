@@ -41,13 +41,13 @@
         },
         {
             "x": 2,
-            "y": 2,
-            "type": "switch"
+            "y": 1,
+            "type": "boulder"
         },
         {
             "x": 2,
-            "y": 1,
-            "type": "boulder"
+            "y": 2,
+            "type": "switch"
         }
     ]
 }
