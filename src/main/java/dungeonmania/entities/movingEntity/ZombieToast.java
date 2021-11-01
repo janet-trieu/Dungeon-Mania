@@ -29,6 +29,9 @@ public class ZombieToast extends MovingEntity implements Moveable {
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
         this.setLayer(3);
+        if (dungeon.getGameMode().equals("Peaceful")) {
+            setDamage(0);
+        }
     }
 
     /**

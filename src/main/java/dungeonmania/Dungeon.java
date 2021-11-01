@@ -471,14 +471,12 @@ public class Dungeon {
         }
 
         // if distance between cells are greater than 2, return false
-        if (oneCell == false && twoCells == false) {
-            return false;
-        // if distance between cells are within 2 cells, return true
-        } else if (oneCell == true || twoCells == true) {
+        if (oneCell == true || twoCells == true) {
             return true;
+        // if distance between cells are within 2 cells, return true
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     /**
