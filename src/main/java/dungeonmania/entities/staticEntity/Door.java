@@ -63,5 +63,11 @@ public class Door extends StaticEntity {
     public void setKey(int key) {
         this.key = key;
     }
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void setCounter(int counter) {
+        Door.counter = counter;
+    }
 }

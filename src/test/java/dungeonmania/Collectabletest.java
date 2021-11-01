@@ -1,26 +1,21 @@
 package dungeonmania;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.Treasure;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
 import dungeonmania.entities.collectableEntity.potionEntity.HealthPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
-import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
 import dungeonmania.entities.movingEntity.Mercenary;
-import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
-import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
 /**
@@ -286,123 +281,55 @@ public class Collectabletest {
         // given that the sword's durability is set to 6, the durability of this sword will be 2.
         assertEquals(dungeon.getInfo(sword.getId()), 2);
     }
-
-    /**
-     * Testing for player bribing the mercenary
-     * Player HAS treasure
-     * @throws IOException
-     */
-    @Test
-    public void testBribeHasTreasure() {
-        // create a dungeon instance
-        Dungeon dungeon = new Dungeon();
-
-        // get the inventory
-        Inventory inventory = dungeon.getInventory();
-
-        // create a player at position (0,0)
-        Player player = new Player(0, 0);
-        dungeon.addEntity(player);
-
-        // create a mercenary at position (4,0)
-        Mercenary mercenary = new Mercenary(4, 0, dungeon);
-        dungeon.addEntity(mercenary);
-
-        // create a treasure at point (1,0)
-        Treasure treasure = new Treasure(1, 0);
-        dungeon.addEntity(treasure);
-
-        // player moves one cell to the right to pick up the treasure (1,0)
-        // mercenary has moved to (3,0)
-        player.moveRight();
-        inventory.addItem(treasure);
-        mercenary.move();
-
-        // player attempts to bribe the mercenary with treasure
-        assertDoesNotThrow(() -> {
-            player.interact(mercenary.getId());
-        });
-
-        // treasure is now used up so it should be removed from inventory
-        inventory.removeItem(treasure);
-        assertEquals(false, inventory.getItems().contains(treasure));
-    }
-
-    /**
-     * Testing for player bribing the mercenary
-     * Player DOES NOT have treasure
-     * @throws InvalidActionException
-     */
-    @Test
-    public void testBribeNoTreasure() {
-        // create a dungeon instance
-        Dungeon dungeon = new Dungeon();
-
-        // create a player at position (0,0)
-        Player player = new Player(0, 0);
-        dungeon.addEntity(player);
-
-        // create a mercenary at position (3,0)
-        Mercenary mercenary = new Mercenary(3, 0, dungeon);
-        dungeon.addEntity(mercenary);
-
-        // player moves one cell to the right (1,0)
-        player.moveRight();
-        // mercenary moves one cell to the left (2,0)
-        mercenary.move();
-
-        // player attempts to bribe the mercenary without treasure
-        assertThrows(InvalidActionException.class, () -> player.interact(mercenary.getId()));
-    }
-
-    /**
-     * Test for armour's application
-     * check if player isShielded is true
-     */
-    @Test
-    public void testArmour() {
-        // create a dungeon instance
-        Dungeon dungeon = new Dungeon();
-
-        // create a player at position (0,0)
-        Player player = new Player(0, 0);
-        dungeon.addEntity(player);
-
-        // create an armour at position (1,0)
-        // this is because we are testing this as unit testing, only wanting to see the application of armour
-        // thus, armour is spawned on the floor
-        Armour armour = new Armour(1, 0);
-        dungeon.addEntity(armour);
-
-        // player moves one cell to the right to pick up armour
-        player.moveRight();
-        dungeon.getInventory().addItem(armour);
-
-        assertEquals(player.getIsShielded(), true);
-    }
     
-     /**
-     * Test for one ring's application
+    /**
+     * Test for player using Health Potion but already full health
      */
     @Test
-    public void testOneRing() {
-        // create a dungeon instance
-        Dungeon dungeon = new Dungeon();
+    public void healthPotionAtFullHealth() {
+        DungeonManiaController controller = new DungeonManiaController();
 
-        // create a player at position (0,0)
-        Player player = new Player(0, 0);
-        dungeon.addEntity(player);
+        controller.newGame("health-potion", "Standard");
 
-        // create the one ring at position (1,0)
-        // this is because we are testing this as unit testing, only wanting to see the application of the one ring
-        // thus, the one ring is spawned on the floor
-        TheOneRing one_ring = new TheOneRing(1, 0);
-        dungeon.addEntity(one_ring);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick("HealthPotion0", Direction.RIGHT);
+    }
 
-        // player moves one cell to the right to pick up armour
-        player.moveRight();
-        dungeon.getInventory().addItem(one_ring);
+    /**
+     * Test for player using Health Potion but already full health
+     */
+    @Test
+    public void healBeforeAndAfterBattle() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("health-potion", "Standard");
 
-        assertEquals(player.getRespawnable(), true);
+        assertEquals(new EntityResponse("HealthPotion0", "health_potion", new Position (1, 0, 2), false), controller.getInfo("HealthPotion0"));
+        // pick up potion
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(4,0,3), true), controller.getInfo("Mercenary0"));
+        // should battle
+        controller.tick("HealthPotion0", Direction.NONE);
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(null, controller.getInfo("Mercenary0"));
+        controller.tick("HealthPotion1", Direction.NONE);
+    }
+
+        /**
+     * Test for player using Health Potion but already full health
+     */
+    @Test
+    public void healAfterBattle() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("health-potion", "Standard");
+
+        assertEquals(new EntityResponse("HealthPotion0", "health_potion", new Position (1, 0, 2), false), controller.getInfo("HealthPotion0"));
+        // pick up potion
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(4,0,3), true), controller.getInfo("Mercenary0"));
+        // should battle
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(null, controller.getInfo("Mercenary0"));
+        controller.tick("HealthPotion1", Direction.NONE);
     }
 }

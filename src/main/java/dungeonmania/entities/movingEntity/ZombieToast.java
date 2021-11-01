@@ -75,4 +75,11 @@ public class ZombieToast extends MovingEntity implements Moveable {
     public void setHasArmour(Boolean hasArmour) {
         this.hasArmour = hasArmour;
     }
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        ZombieToast.counter = counter;
+    }
 }

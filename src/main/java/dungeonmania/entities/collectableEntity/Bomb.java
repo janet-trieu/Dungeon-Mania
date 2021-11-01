@@ -48,5 +48,11 @@ public class Bomb extends CollectableEntity {
         // remove bomb after explostion
         existingEntities.remove(this);
     }
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void setCounter(int counter) {
+        Bomb.counter = counter;
+    }
 }

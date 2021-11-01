@@ -73,5 +73,11 @@ public class Portal extends StaticEntity {
     public void setColour(String colour) {
         this.colour = colour;
     }
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void setCounter(int counter) {
+        Portal.counter = counter;
+    }
 }

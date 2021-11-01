@@ -15,5 +15,11 @@ public class HealthPotion extends PotionEntity {
         setId("HealthPotion" + String.valueOf(counter));
         counter++;
     }
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void setCounter(int counter) {
+        HealthPotion.counter = counter;
+    }
 }
