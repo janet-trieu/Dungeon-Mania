@@ -54,7 +54,8 @@ public class InvisibleState implements PlayerState {
         if (duration <= 0) {
             removeEffect();
         }
-    }   
+    }
+
     @Override
     public void loadDuration(int duration) {
         //does nothing      
@@ -73,4 +74,5 @@ public class InvisibleState implements PlayerState {
     public int getDuration() {
         return duration;
     }
+    
 }

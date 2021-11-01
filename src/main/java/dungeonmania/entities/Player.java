@@ -354,15 +354,19 @@ public class Player extends Entity {
     public void equipBow() {
         bowState.applyEffect();
     }
+
     public void equipSword() {
         swordState.applyEffect();
     }
+
     public void equipShield() {
         shieldState.applyEffect();
     }
+
     public void equipArmour() {
         armourState.applyEffect();
     }
+    
     public void equipOneRing() {
         oneRingState.applyEffect();
     }
@@ -455,21 +459,27 @@ public class Player extends Entity {
     public int getInvisibilityDuration() {
         return invisibleState.getDuration();
     }
+
     public int getInvincibilityDuration() {
         return invincibleState.getDuration();
     }
+
     public int getBowDurability() {
         return bowState.getDuration();
     }
+
     public int getSwordDurability() {
         return swordState.getDuration();
     }
+
     public int getArmourDurability() {
         return armourState.getDuration();
     }
+
     public int getShieldDurability() {
         return shieldState.getDuration();
     }
+
     public int getOneRingDurability() {
         return oneRingState.getDuration();
     }

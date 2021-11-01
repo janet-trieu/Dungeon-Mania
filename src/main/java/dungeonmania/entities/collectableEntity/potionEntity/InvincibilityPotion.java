@@ -19,6 +19,7 @@ public class InvincibilityPotion extends PotionEntity {
         counter++;
         setDuration(duration);
     }
+
     public static int getCounter() {
         return counter;
     }
@@ -26,4 +27,5 @@ public class InvincibilityPotion extends PotionEntity {
     public static void setCounter(int counter) {
         InvincibilityPotion.counter = counter;
     }
+    
 }

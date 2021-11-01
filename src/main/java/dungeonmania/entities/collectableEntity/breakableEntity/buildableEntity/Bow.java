@@ -57,6 +57,7 @@ public class Bow extends BuildableEntity {
         // update the buildable list 
         buildableList.remove("bow");
     }
+    
     public static int getCounter() {
         return counter;
     }
@@ -64,4 +65,5 @@ public class Bow extends BuildableEntity {
     public static void setCounter(int counter) {
         Bow.counter = counter;
     }
+
 }

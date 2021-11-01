@@ -12,7 +12,6 @@ import dungeonmania.entities.staticEntity.ZombieToastSpawner;
 
 public class Bomb extends CollectableEntity {
 
-    //
     Dungeon currDungeon = Dungeon.getDungeon();
     
     // storing the number of entities created to help with fluid entityId generation
@@ -48,6 +47,7 @@ public class Bomb extends CollectableEntity {
         // remove bomb after explostion
         existingEntities.remove(this);
     }
+
     public static int getCounter() {
         return counter;
     }
@@ -55,4 +55,5 @@ public class Bomb extends CollectableEntity {
     public static void setCounter(int counter) {
         Bomb.counter = counter;
     }
+
 }

@@ -37,9 +37,6 @@ public class Spider extends MovingEntity implements Moveable {
         this.setLayer(3);
         setId("Spider" + String.valueOf(counter));
         counter++;
-        if (dungeon.getGameMode().equals("Peaceful")) {
-            setDamage(0);
-        }
     }
 
     /**
@@ -120,6 +117,7 @@ public class Spider extends MovingEntity implements Moveable {
     public static void setTickCounter(int tickCounter) {
         Spider.tickCounter = tickCounter;
     }
+    
     public static int getCounter() {
         return counter;
     }
