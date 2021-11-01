@@ -19,6 +19,7 @@ public class Sword extends BreakableEntity {
         counter++;
         setDurability(durability);
     }
+    
     public static int getCounter() {
         return counter;
     }
@@ -26,4 +27,5 @@ public class Sword extends BreakableEntity {
     public static void setCounter(int counter) {
         Sword.counter = counter;
     }
+
 }

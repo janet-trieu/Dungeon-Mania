@@ -38,6 +38,7 @@ public class BowState implements PlayerState {
     public void applyEffect() {
         // does nothing
     }
+
     /**
      * bow breaks and is removed from inventory and no longer gains benefits from bow
      */
@@ -47,6 +48,7 @@ public class BowState implements PlayerState {
         player.changeBowState(new NoBowState(player));
         Dungeon.getDungeon().getInventory().breakItem("bow");
     }
+
     /**
      * bow reduces in durability
      */
@@ -68,6 +70,7 @@ public class BowState implements PlayerState {
     public Boolean isApplied() {
         return true;
     }
+    
     @Override
     public void loadDuration(int duration) {
         //does nothing      

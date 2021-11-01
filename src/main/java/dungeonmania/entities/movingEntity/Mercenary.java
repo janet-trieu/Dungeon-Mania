@@ -45,9 +45,6 @@ public class Mercenary extends MovingEntity implements Moveable {
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
         this.setLayer(3);
-        if (dungeon.getGameMode().equals("Peaceful")) {
-            setDamage(0);
-        }
     }
 
     /**
@@ -159,6 +156,7 @@ public class Mercenary extends MovingEntity implements Moveable {
     public void setHasArmour(Boolean hasArmour) {
         this.hasArmour = hasArmour;
     }
+    
     public static int getCounter() {
         return counter;
     }
@@ -166,4 +164,5 @@ public class Mercenary extends MovingEntity implements Moveable {
     public static void setCounter(int counter) {
         Mercenary.counter = counter;
     }
+
 }

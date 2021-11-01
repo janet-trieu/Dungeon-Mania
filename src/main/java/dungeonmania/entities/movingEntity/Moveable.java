@@ -12,7 +12,6 @@ import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.util.Position;
 import dungeonmania.util.Direction;
 
-
 public interface Moveable {
     
     /**
@@ -111,4 +110,5 @@ public interface Moveable {
         entity.setX(next.getX());
         entity.setY(next.getY());
     }
+    
 }

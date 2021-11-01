@@ -141,7 +141,7 @@ public class Dungeon {
      */
     public EntityResponse getInfo(String entityId) {
         EntityResponse response;
-        System.out.println(getEntityList().size());
+
         for (int i = 0; i < getEntityList().size(); i++) {
             Entity entity = getEntityList().get(i);
             if (entityId.equals(entity.getId())) {
@@ -285,8 +285,6 @@ public class Dungeon {
                     canGoThrough = false;
 
                 }
-                //else if (!(staticEntity instanceof Door) && !(staticEntity instanceof Boulder) 
-                    //&& !staticEntity.isPassable()) {
             }
         }
         return canGoThrough;
@@ -565,6 +563,10 @@ public class Dungeon {
 
         return new Position(distX, distY);
     }
+
+    /**
+     * Resets static id counter when loading a game
+     */
     public void resetCounters() {
         FloorSwitch.setCounter(0);
         Door.setCounter(0);
@@ -592,4 +594,5 @@ public class Dungeon {
         Shield.setCounter(0);
         Bow.setCounter(0);
     }
+    
 }

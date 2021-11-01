@@ -142,7 +142,6 @@ public class BattleTest {
         assertEquals(true, player.getMaxHealth() > player.getHealth());
         for (int i = 0; i < 2; i++) {
             player.battle(mercenary);
-            System.out.println(mercenary.getHealth());
         }
         // mercenary is not alive after 3 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));

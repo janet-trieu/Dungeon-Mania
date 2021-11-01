@@ -62,6 +62,7 @@ public class Shield extends BuildableEntity {
         // update the buildable list
         buildableList.remove("shield");
     }
+    
     public static int getCounter() {
         return counter;
     }
@@ -69,4 +70,5 @@ public class Shield extends BuildableEntity {
     public static void setCounter(int counter) {
         Shield.counter = counter;
     }
+
 }

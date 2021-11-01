@@ -203,9 +203,7 @@ public class StaticTest {
         controller.newGame("simple-spawner-wall", "Standard");
 
         List<Entity> list = controller.getDungeon().getEntityList();
-        for (Entity entity : list) {
-            System.out.println(entity.getId());
-        }
+
         // 20 TICKS
 
         controller.tick(null, Direction.RIGHT);

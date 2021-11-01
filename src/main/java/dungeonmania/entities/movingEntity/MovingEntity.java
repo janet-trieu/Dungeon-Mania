@@ -1,5 +1,6 @@
 package dungeonmania.entities.movingEntity;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 
 public abstract class MovingEntity extends Entity {
@@ -56,5 +57,15 @@ public abstract class MovingEntity extends Entity {
      * @param damage
      */
     public void setDamage(double damage) {this.damage = damage;}
+
+    /**
+     * Sets damage to 0 if gamemode is peaceful
+     * @param dungeon
+     */
+    public void setDamagePeaceful(Dungeon dungeon) {
+        if (dungeon.getGameMode().equals("Peaceful")) {
+            setDamage(0);
+        }
+    }
 
 }
