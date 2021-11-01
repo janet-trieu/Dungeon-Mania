@@ -15,5 +15,11 @@ public class Wood extends CollectableEntity {
         setId("Wood" + String.valueOf(counter));
         counter++;
     }
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void setCounter(int counter) {
+        Wood.counter = counter;
+    }
 }

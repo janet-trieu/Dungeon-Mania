@@ -53,5 +53,11 @@ public class Boulder extends StaticEntity {
         }
         setPosition(newPos.getX(), newPos.getY());
     }
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void setCounter(int counter) {
+        Boulder.counter = counter;
+    }
 }

@@ -36,5 +36,11 @@ public class Key extends CollectableEntity {
     public void setKeyId(int keyId) {
         this.keyId = keyId;
     }
-    
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Key.counter = counter;
+    }
 }

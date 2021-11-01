@@ -117,5 +117,11 @@ public class Spider extends MovingEntity implements Moveable {
     public static void setTickCounter(int tickCounter) {
         Spider.tickCounter = tickCounter;
     }
-        
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Spider.counter = counter;
+    }
 }

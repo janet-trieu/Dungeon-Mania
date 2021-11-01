@@ -6,17 +6,13 @@ import java.util.Random;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.Arrow;
-import dungeonmania.entities.collectableEntity.Bomb;
-import dungeonmania.entities.collectableEntity.CollectableEntity;
-import dungeonmania.entities.collectableEntity.Key;
-import dungeonmania.entities.collectableEntity.Treasure;
-import dungeonmania.entities.collectableEntity.Wood;
-import dungeonmania.entities.movingEntity.MovingEntity;
-import dungeonmania.entities.staticEntity.Boulder;
-import dungeonmania.entities.staticEntity.Door;
-import dungeonmania.entities.staticEntity.StaticEntity;
-import dungeonmania.entities.staticEntity.ZombieToastSpawner;
+import dungeonmania.entities.collectableEntity.*;
+import dungeonmania.entities.collectableEntity.breakableEntity.*;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.*;
+import dungeonmania.entities.collectableEntity.potionEntity.*;
+import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
+import dungeonmania.entities.movingEntity.*;
+import dungeonmania.entities.staticEntity.*;
 import dungeonmania.goals.Goal;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
@@ -45,6 +41,7 @@ public class Dungeon {
         this.buildableList = new ArrayList<String>();
         this.inventory = new Inventory();
         thisDungeon = this;
+        resetCounters();
     }
 
     /**
@@ -60,6 +57,7 @@ public class Dungeon {
         this.inventory = new Inventory();
         this.gameMode = gameMode;
         thisDungeon = this;
+        resetCounters();
     }
 
     /**
@@ -143,7 +141,9 @@ public class Dungeon {
      */
     public EntityResponse getInfo(String entityId) {
         EntityResponse response;
-        for (Entity entity : entityList) {
+        System.out.println(getEntityList().size());
+        for (int i = 0; i < getEntityList().size(); i++) {
+            Entity entity = getEntityList().get(i);
             if (entityId.equals(entity.getId())) {
                 Position position = new Position(entity.getX(), entity.getY(), entity.getLayer());
                 response = new EntityResponse(entity.getId(), entity.getType(), position, entity.getIsInteractable());
@@ -566,5 +566,32 @@ public class Dungeon {
         int distY = random.nextInt(highY - lowY) + lowY;
 
         return new Position(distX, distY);
+    }
+    public void resetCounters() {
+        FloorSwitch.setCounter(0);
+        Door.setCounter(0);
+        Boulder.setCounter(0);
+        Wall.setCounter(0);
+        Exit.setCounter(0);
+        Portal.setCounter(0);
+        ZombieToastSpawner.setCounter(0);
+
+        Spider.setCounter(0);
+        ZombieToast.setCounter(0);
+        Mercenary.setCounter(0);
+
+        Treasure.setCounter(0);
+        Key.setCounter(0);
+        Arrow.setCounter(0);
+        Wood.setCounter(0);
+        Bomb.setCounter(0);
+        InvincibilityPotion.setCounter(0);
+        HealthPotion.setCounter(0);
+        InvisibilityPotion.setCounter(0);
+        TheOneRing.setCounter(0);
+        Armour.setCounter(0);
+        Sword.setCounter(0);
+        Shield.setCounter(0);
+        Bow.setCounter(0);
     }
 }

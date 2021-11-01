@@ -111,5 +111,4 @@ public interface Moveable {
         entity.setX(next.getX());
         entity.setY(next.getY());
     }
-    
 }
