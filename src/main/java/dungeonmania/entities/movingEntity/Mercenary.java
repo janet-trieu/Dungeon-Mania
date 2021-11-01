@@ -53,13 +53,11 @@ public class Mercenary extends MovingEntity implements Moveable {
     public void move() {
         Player player = (Player) dungeon.getPlayer();
         if (player.isInvincible()) {
-            if(!isBribed) {
+           
             run(this, dungeon);
-            }
         }
-
+        
         List<Integer> distance = Path(this, dungeon);
-        Direction move = Direction.NONE;
 
         int index = distance.indexOf(Collections.min(distance));
         int mindist = distance.get(index);
@@ -131,6 +129,10 @@ public class Mercenary extends MovingEntity implements Moveable {
     public void bribe() {
         setIsBribed(true);
         dungeon.getInventory().breakItem("treasure");
+        Player player = (Player) dungeon.getPlayer();
+        Position next = Position.calculatePositionBetween(player.getPosition(), this.getPosition());
+        this.setX(next.getX());
+        this.setY(next.getY());
     }
 
     /**

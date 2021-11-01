@@ -57,11 +57,14 @@ public class Spider extends MovingEntity implements Moveable {
      * Method of movement for spider entity
      */
     public void move() {
+
         Player player = (Player) dungeon.getPlayer();
 
         if (player.isInvincible()) {
-            run(this, dungeon);
-            this.path = new Position(this.getX(), this.getY() + 1).getAdjacentPositions();
+            if(dungeon.getGameMode() != "Hard") {
+                run(this, dungeon);
+                this.path = new Position(this.getX(), this.getY() + 1).getAdjacentPositions();
+            }
         }
 
         Position next;
