@@ -1,19 +1,18 @@
 package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
 import dungeonmania.entities.collectableEntity.potionEntity.HealthPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -215,13 +214,13 @@ public class Collectabletest {
 
         // there is a boulder at position (2,1), which the player will push into the switch with position (2,2)
         controller.tick(null, Direction.DOWN);
+
         Position newBoulderPosition = new Position(2, 2, 1);
-        assertEquals(new EntityResponse("Boulder0", "boulder", newBoulderPosition, false), controller.getInfo("Boulder0"));
+        assertEquals(null, controller.getInfo("Boulder0"));
 
         // as there is a bomb that is adjacent to the switch that a boulder has been pushed into, the bomb has now exploded
         // thus, ALL entities that are adjacent to the bomb except the player, exit, portal and the zombie toast spawner has now been destroyed.
         assertEquals(controller.getInfo("Wall0"), null);
-        assertEquals(controller.getInfo("Door0"), null);
         assertEquals(controller.getInfo("Switch0"), null);
         assertEquals(controller.getInfo("Boulder0"), null);
         assertEquals(controller.getInfo("Bomb0"), null);
@@ -231,55 +230,8 @@ public class Collectabletest {
         assertEquals(new EntityResponse("Player", "player", newPlayerPosition, false), controller.getInfo("Player"));
         assertEquals(new EntityResponse("Exit0", "exit", exitPosition, false), controller.getInfo("Exit0"));
         assertEquals(new EntityResponse("Portal0", "portal", portalPosition, false), controller.getInfo("Portal0"));
-        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", zombieSpawnerPosition, false), controller.getInfo("ZombieToastSpawner0"));
-    }
-
-    /**
-     * Test for sword
-     * check for the player's damage increase
-     * check for the durability decrease when used
-     * @throws IOException
-     */
-    @Test
-    public void testSword() {
-        // create a dungeon instance
-        Dungeon dungeon = new Dungeon();
-
-        // create a player at position (0,0)
-        Player player = new Player(0, 0);
-        dungeon.addEntity(player);
-
-        // create a mercenary at position (4,0)
-        Mercenary mercenary = new Mercenary(4, 0, dungeon);
-        dungeon.addEntity(mercenary);
-
-        // create a sword at position (1,0)
-        Sword sword = new Sword(1,0);
-        dungeon.addEntity(sword);
-
-        // player moves one cell to the right to pick up the sword (1,0)
-        // by picking up the sword, the player's damage has doubled
-        // player's normal damage is set to 10 -- after picking up sword --> 20
-        // mercenary has moved to (3,0)
-        player.moveRight();
-        assertEquals(player.getDamage(), 1);
-
-        assertEquals(player.getDamage(), 2);
-        mercenary.move();
-
-        // player moves one cell to the right again, (2,0) where it will enter a battle with mercenary
-        player.moveRight();
-        mercenary.move();
-
-        // player will battle for 4 times
-        player.battle(mercenary);
-        player.battle(mercenary);
-        player.battle(mercenary);
-        player.battle(mercenary);
-
-        // sword will have lost 4 durability since the player has battled 4 times.
-        // given that the sword's durability is set to 6, the durability of this sword will be 2.
-        assertEquals(dungeon.getInfo(sword.getId()), 2);
+        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", zombieSpawnerPosition, true), controller.getInfo("ZombieToastSpawner0"));
+        assertEquals(new EntityResponse("Door0", "door", new Position(0,3,0), false) ,controller.getInfo("Door0"));
     }
     
     /**
@@ -315,7 +267,7 @@ public class Collectabletest {
     }
 
         /**
-     * Test for player using Health Potion but already full health
+     * Test for player using Health Potion after battle
      */
     @Test
     public void healAfterBattle() {
@@ -331,5 +283,30 @@ public class Collectabletest {
         controller.tick(null, Direction.RIGHT);
         assertEquals(null, controller.getInfo("Mercenary0"));
         controller.tick("HealthPotion1", Direction.NONE);
+    }
+
+        /**
+     * Test for player using Health Potion after battle
+    //  */
+    // @Test
+    // public void useItemOnFloor() {
+    //     DungeonManiaController controller = new DungeonManiaController();
+    //     controller.newGame("health-potion", "Standard");
+    //     assertEquals(new EntityResponse("HealthPotion0", "health_potion", new Position (1, 0, 2), false), controller.getInfo("HealthPotion0"));
+    //     assertThrows(InvalidActionException.class, () -> controller.tick("HealthPotion0", Direction.NONE));
+
+    // }
+
+    /**
+     * Test for player attempting to use unusable items
+     */
+    @Test
+    public void unusableItem() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("bribe", "Standard");
+
+        controller.tick(null, Direction.RIGHT);
+        
+        assertThrows(IllegalArgumentException.class, () -> controller.tick("Treasure0", Direction.RIGHT));
     }
 }

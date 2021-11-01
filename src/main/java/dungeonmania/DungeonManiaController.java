@@ -596,7 +596,7 @@ public class DungeonManiaController {
                 break;
             }
         }
-        if (!hasItem && itemUsed != null) {
+        if (hasItem == false && itemUsed != null) {
             throw new InvalidActionException("Item is not in the inventory");
         }
 
@@ -719,7 +719,7 @@ public class DungeonManiaController {
             for (Entity entity : entities) {
                 if (entity instanceof Mercenary) {
                     if (!currDungeon.checkBribeRange(entity)) {
-                        throw new IllegalArgumentException("Not close enough to bribe");
+                        throw new InvalidActionException("Not close enough to bribe");
                     } else if (currDungeon.checkBribeRange(entity)) {
                         // check if player has treasure
                         if (inventory.numberOfItem("treasure") < 1) {
