@@ -129,20 +129,15 @@ public class PersistenceTest {
 
         // RESTART, LOAD DIFFERENT MAP AND SAVE
         DungeonManiaController controller1 = new DungeonManiaController();
-        controller1.newGame("maze", "Standard");
+        controller1.newGame("testBow", "Standard");
+        controller1.tick(null, Direction.RIGHT);
+        controller1.tick(null, Direction.RIGHT);
+        controller1.tick(null, Direction.RIGHT);
+        controller1.tick(null, Direction.RIGHT);
         controller1.saveGame("SaveData1");
 
         // THERE SHOULD BE 2 SAVES
         assertEquals(2, controller1.allGames().size());
         controller1.clearData();
-    }
-
-    /**
-     * Test for invalid inputs
-     */
-    @Test
-    public void testSaveInvalidInput() {
-        DungeonManiaController controller = new DungeonManiaController();
-
     }
 }
