@@ -1,19 +1,18 @@
 package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
 import dungeonmania.entities.collectableEntity.potionEntity.HealthPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -268,7 +267,7 @@ public class Collectabletest {
     }
 
         /**
-     * Test for player using Health Potion but already full health
+     * Test for player using Health Potion after battle
      */
     @Test
     public void healAfterBattle() {
@@ -284,5 +283,30 @@ public class Collectabletest {
         controller.tick(null, Direction.RIGHT);
         assertEquals(null, controller.getInfo("Mercenary0"));
         controller.tick("HealthPotion1", Direction.NONE);
+    }
+
+        /**
+     * Test for player using Health Potion after battle
+    //  */
+    // @Test
+    // public void useItemOnFloor() {
+    //     DungeonManiaController controller = new DungeonManiaController();
+    //     controller.newGame("health-potion", "Standard");
+    //     assertEquals(new EntityResponse("HealthPotion0", "health_potion", new Position (1, 0, 2), false), controller.getInfo("HealthPotion0"));
+    //     assertThrows(InvalidActionException.class, () -> controller.tick("HealthPotion0", Direction.NONE));
+
+    // }
+
+    /**
+     * Test for player attempting to use unusable items
+     */
+    @Test
+    public void unusableItem() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("bribe", "Standard");
+
+        controller.tick(null, Direction.RIGHT);
+        
+        assertThrows(IllegalArgumentException.class, () -> controller.tick("Treasure0", Direction.RIGHT));
     }
 }

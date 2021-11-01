@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,7 @@ import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.S
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -368,5 +370,34 @@ public class BattleTest {
         controller.interact("Mercenary0");
         controller.tick(null, Direction.RIGHT);
         assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(2,0,3), true), controller.getInfo("Mercenary0"));
+    }
+
+    @Test
+    public void testBribeTooFar() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("bribe-far", "Standard");
+
+        controller.tick(null, Direction.RIGHT);
+
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(4,0,3), true), controller.getInfo("Mercenary0"));
+        assertThrows(InvalidActionException.class, () -> controller.interact("Mercenary0"));
+        controller.tick(null, Direction.RIGHT);
+        controller.interact("Mercenary0");
+    }
+    @Test
+    public void testBribeNoTreasure() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("bribe-far", "Standard");
+        
+        controller.tick(null, Direction.DOWN);
+
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(5,1,3), true), controller.getInfo("Mercenary0"));
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.interact("Mercenary0"));
     }
 }
