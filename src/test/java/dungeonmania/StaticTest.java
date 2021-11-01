@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +15,7 @@ import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.Exit;
 import dungeonmania.entities.staticEntity.FloorSwitch;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.goals.ExitGoal;
 import dungeonmania.goals.Goal;
 import dungeonmania.response.models.EntityResponse;
@@ -279,4 +281,37 @@ public class StaticTest {
         // ASSERT THERE IS A ZOMBIE TOAST SOMEWHERE
         assertEquals(controller.getDungeon().getInfo("ZombieToast0"), controller.getInfo("ZombieToast0"));
     }
+
+    @Test
+    public void testDestroyNoWeapon() {
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("simple-spawner-wall", "Standard");
+
+        controller.tick(null, Direction.DOWN);
+        
+        // INTERACT WITH SPAWNER TO DESTROY IT
+        // FAILS NO WEAPON
+        assertThrows(InvalidActionException.class, () -> controller.interact("ZombieToastSpawner0"));
+        // getInfo should return null if it does not exist
+        
+        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", new Position (1, 1, 0), true), controller.getInfo("ZombieToastSpawner0"));
+    }
+
+    @Test
+    public void testInteractIllegalArgument() {
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("simple-spawner-wall", "Standard");
+
+        controller.tick(null, Direction.DOWN);
+        
+        // INTERACT WITH SPAWNER TO DESTROY IT
+        // FAILS NO WEAPON
+        assertThrows(IllegalArgumentException.class, () -> controller.interact("bleh"));
+        // getInfo should return null if it does not exist
+        
+        assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", new Position (1, 1, 0), true), controller.getInfo("ZombieToastSpawner0"));
+    }
+    
 }
