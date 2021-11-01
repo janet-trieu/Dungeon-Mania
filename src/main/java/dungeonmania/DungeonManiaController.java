@@ -815,5 +815,4 @@ public class DungeonManiaController {
             gameFile.delete();
         }
     }
-
 }

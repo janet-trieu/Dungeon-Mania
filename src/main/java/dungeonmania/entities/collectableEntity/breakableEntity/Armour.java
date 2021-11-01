@@ -19,5 +19,11 @@ public class Armour extends BreakableEntity {
         counter++;
         setDurability(durability);
     }
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void setCounter(int counter) {
+        Armour.counter = counter;
+    }
 }

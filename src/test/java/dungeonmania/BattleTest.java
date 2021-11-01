@@ -12,7 +12,9 @@ import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.S
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
+import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class BattleTest {
     @Test
@@ -362,8 +364,9 @@ public class BattleTest {
         // 20 TICKS
         controller.tick(null, Direction.RIGHT);
 
-        assertEquals(controller.getDungeon().getInfo("Mercenary0"), controller.getInfo("Mercenary0"));
-        
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3,0,3), true), controller.getInfo("Mercenary0"));
         controller.interact("Mercenary0");
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(2,0,3), true), controller.getInfo("Mercenary0"));
     }
 }

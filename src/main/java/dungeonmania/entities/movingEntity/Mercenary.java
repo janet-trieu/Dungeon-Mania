@@ -156,4 +156,11 @@ public class Mercenary extends MovingEntity implements Moveable {
     public void setHasArmour(Boolean hasArmour) {
         this.hasArmour = hasArmour;
     }
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Mercenary.counter = counter;
+    }
 }

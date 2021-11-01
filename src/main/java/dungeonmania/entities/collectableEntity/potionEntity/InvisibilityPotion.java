@@ -19,5 +19,11 @@ public class InvisibilityPotion extends PotionEntity {
         counter++;
         setDuration(duration);
     }
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void setCounter(int counter) {
+        InvisibilityPotion.counter = counter;
+    }
 }

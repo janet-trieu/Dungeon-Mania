@@ -102,6 +102,26 @@
             "x": 19,
             "y": 0,
             "type": "sword"
+        },
+        {
+            "x": 20,
+            "y": 0,
+            "type": "armour"
+        },
+        {
+            "x": 21,
+            "y": 0,
+            "type": "bow"
+        },
+        {
+            "x": 22,
+            "y": 0,
+            "type": "shield"
+        },
+        {
+            "x": 23,
+            "y": 0,
+            "type": "the_one_ring"
         }
     ]
 }
