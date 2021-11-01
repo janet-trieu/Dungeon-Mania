@@ -111,7 +111,7 @@ public class PersistenceTest {
     }
 
     /**
-     * Test if saveGame and loadGame works for multiple saves in different maps
+     * Test if Inventory is saved and loaded
      * @throws IOException
      * @throws IllegalArgumentException
      * @throws InterruptedException
