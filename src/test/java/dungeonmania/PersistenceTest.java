@@ -19,23 +19,22 @@ public class PersistenceTest {
 
     /**
      * Test if saveGame and loadGame works if nothing has changed in the map
-     * @throws IOException
      */
     @Test
-    public void testPersistenceDefault() throws IOException {
+    public void testPersistenceDefault() {
         DungeonManiaController controller0 = new DungeonManiaController();
 
         // CLEAR SAVE DATA
         controller0.clearData();
 
         // LOAD MAP (response0)
-        DungeonResponse response0 = controller0.newGame("portals", "Standard");
+        DungeonResponse response0 = controller0.newGame("spawnable-entity", "Standard");
 
         // SAVE GAME
         String save0 = "SaveData0";
         controller0.saveGame(save0);
 
-        // RESTART (response1)
+        //RESTART (response1)
         DungeonManiaController controller1 = new DungeonManiaController();
         DungeonResponse response1 = controller1.loadGame(save0);
 
@@ -51,9 +50,10 @@ public class PersistenceTest {
     /**
      * Test if saveGame and loadGame works if something has changed in the map
      * @throws IOException
+     * @throws InterruptedException
      */
     @Test
-    public void testPersistenceModified() throws IOException {
+    public void testPersistenceModified() throws IOException, InterruptedException {
         DungeonManiaController controller0 = new DungeonManiaController();
         
         // CLEAR SAVE DATA
@@ -104,13 +104,9 @@ public class PersistenceTest {
         controller0.tick(null, Direction.RIGHT);
         controller0.saveGame("SaveData1");
 
-        DungeonManiaController controller1 = new DungeonManiaController();
-
-        // Wait for saving
-        TimeUnit.SECONDS.sleep(1);
         // THERE SHOULD BE 2 SAVES NOW
-        assertEquals(2, controller1.allGames().size());
-        controller1.clearData();
+        assertEquals(2, controller0.allGames().size());
+        controller0.clearData();
         // Due to the UNIX timestamp stuff, I can't test names?
     }
 
@@ -136,11 +132,17 @@ public class PersistenceTest {
         controller1.newGame("maze", "Standard");
         controller1.saveGame("SaveData1");
 
-        DungeonManiaController controller2 = new DungeonManiaController();
-        // Wait for saving
-        TimeUnit.SECONDS.sleep(1);
         // THERE SHOULD BE 2 SAVES
-        assertEquals(2, controller2.allGames().size());
-        controller2.clearData();
+        assertEquals(2, controller1.allGames().size());
+        controller1.clearData();
+    }
+
+    /**
+     * Test for invalid inputs
+     */
+    @Test
+    public void testSaveInvalidInput() {
+        DungeonManiaController controller = new DungeonManiaController();
+
     }
 }

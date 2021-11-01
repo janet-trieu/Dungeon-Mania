@@ -32,7 +32,6 @@ import org.json.JSONObject;
 
 public class DungeonManiaController {
     private Dungeon dungeon;
-    private Path savesPath = Paths.get(System.getProperty("user.dir") + "/src/main/resources/saves");
 
     public DungeonManiaController() {
     }
@@ -108,18 +107,6 @@ public class DungeonManiaController {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-
-        // If '...src/main/resources/saves' doesn't exist, create it (automatically creates in bin file as well)
-        File savesDirectory = new File(savesPath.toString());
-        if (!savesDirectory.exists()) {
-            try {
-                Files.createDirectories(savesPath);
-            }
-            catch (IOException e) {
-                System.err.println("Path error in saveGame: " + e.getMessage());
-            }
-        }
-
 
         // Generate dungeonId
         String dungeonId = dungeonName + Instant.now().getEpochSecond();
@@ -342,21 +329,17 @@ public class DungeonManiaController {
      * @return dungeonResponse
      */
     public DungeonResponse saveGame(String name) {
+        try {
+            Files.createDirectories(Paths.get("savedGames"));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
         Dungeon currDungeon = Dungeon.getDungeon();
 
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
         DungeonResponse response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                                     currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
-
-        // Create .json file named 'name + .json'
-        String filePath = savesPath.toString() + "\\" + name + ".json";
-        try {
-            File save = new File(filePath);
-            save.createNewFile();
-        } catch (IOException e) {
-            System.err.println("File creation error in saveGame: " + e.getMessage());
-        }
 
         // Save general game info
         JSONObject saveObj = new JSONObject();
@@ -429,7 +412,7 @@ public class DungeonManiaController {
 
         // Insert object into file
          try {
-            FileWriter writer = new FileWriter(filePath);
+            FileWriter writer = new FileWriter("savedGames/" + name + ".json");
             writer.write(saveObj.toString());
             writer.close();
         } catch (IOException e) {
@@ -447,7 +430,15 @@ public class DungeonManiaController {
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
         dungeon = new Dungeon();
-        File gameFile = new File(savesPath + "\\" + name + ".json");
+
+        // If '...savedGames' doesn't exist, create it (automatically creates in bin file as well)
+        try {
+            Files.createDirectories(Paths.get("savedGames"));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        File gameFile = new File("savedGames" + "\\" + name + ".json");
 
         // EXCEPTION CHECKING
         // If filename does not exist/valid
@@ -456,11 +447,18 @@ public class DungeonManiaController {
         }
 
         // Read gameMode and dungeonResponse data
+        try {
+            FileLoader.listFileNamesInDirectoryOutsideOfResources("savedGames" + "\\" + name + ".json");
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        Path savesPath = Paths.get("savedGames/" + name + ".json");
         String data = "";
         try {
-            data = FileLoader.loadResourceFile("saves/" + name + ".json");
+            data = Files.readString(savesPath);
         } catch (IOException e) {
-            System.err.println("File load error: " + e.getMessage());
+            e.printStackTrace();
         }
 
         // Set general dungeon info
@@ -550,11 +548,15 @@ public class DungeonManiaController {
      * @return list of saved games
      */
     public List<String> allGames() {
-        List<String> maps = null;
+        List<String> maps = new ArrayList<String>();
+        if (!Files.exists(Paths.get("savedGames"))) {
+            return maps;
+        }
+
         try {
-            maps = FileLoader.listFileNamesInResourceDirectory("/saves");
+            maps = FileLoader.listFileNamesInDirectoryOutsideOfResources("savedGames");
         } catch (IOException e) {
-            System.err.println("Save directory does not exist: " + e.getMessage());
+            System.err.println("Error in loading file names: " + e.getMessage());
         }
         return maps;
     }
@@ -811,7 +813,7 @@ public class DungeonManiaController {
      */
     public void clearData() {
         for (String games : allGames()) {
-            File gameFile = new File(savesPath + "\\" + games + ".json");
+            File gameFile = new File("savedGames" + "\\" + games + ".json");
             gameFile.delete();
         }
     }
