@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -385,6 +386,7 @@ public class BattleTest {
         controller.tick(null, Direction.RIGHT);
         controller.interact("Mercenary0");
     }
+
     @Test
     public void testBribeNoTreasure() {
         DungeonManiaController controller = new DungeonManiaController();
@@ -399,4 +401,90 @@ public class BattleTest {
         controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.interact("Mercenary0"));
     }
+
+    /**
+     * Test for bribe mercenary with sun stone
+     * - sun stone does not get used up
+     */
+    @Test
+    public void testBribeSunStone() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("testBribeSunStone", "Standard");
+        
+        // player moves 1 cell to the right to pick up sun stone
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+
+        // mercenary started at (4, 0), now is at (3, 0)
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3,0,3), true), controller.getInfo("Mercenary0"));
+
+        // attempt to bribe mercenary with sun stone
+        assertDoesNotThrow(() -> {
+            controller.interact("Mercenary0");
+        });
+
+        // sun stone does not get used up
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+
+    }
+    
+    @Test
+    public void testBribeSunStoneFar() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("testBribeFarSunStone", "Standard");
+        
+        // player moves 1 cell to the right to pick up sun stone
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+
+        // mercenary started at (5, 0), now is at (4, 0)
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(4,0,3), true), controller.getInfo("Mercenary0"));
+
+        // attempt to bribe mercenary with sun stone
+        // player is currently at position (1, 0) while mercenary is at (4, 0)
+        // player is too far to attempt to bribe mercenary
+        assertThrows(InvalidActionException.class, () -> controller.interact("Mercenary0"));
+
+    }
+
+    /**
+     * As per our assumption:
+     * - When a player interacts with mercenary/assassin to bribe, 
+     * - if the player currently holds both treasure and a sun stone, 
+     * - the use of sun stone will be prioritised as it will not get used up during the bribing process
+     */
+    @Test
+    public void testBribePriority() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("testBribePriority", "Standard");
+        
+        // player moves 1 cell to the right to pick up sun stone
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+
+        // player moves 1 cell to the right to pick up treasure
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true); //TODO: FIX THIS UP
+
+        // mercenary started at (5, 0), now is at (3, 0)
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3,0,3), true), controller.getInfo("Mercenary0"));
+
+        // attempt to bribe mercenary with sun stone
+        assertDoesNotThrow(() -> {
+            controller.interact("Mercenary0");
+        });
+
+        // sun stone does not get used up
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+
+        // treasure also does not get used up
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true); //TODO: FIX THIS UP
+    }
+    
 }
