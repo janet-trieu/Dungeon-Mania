@@ -321,4 +321,122 @@ public class BuildableTest {
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1);
     }
 
+    /**
+     * Test for building a sceptre
+     * Can be crafted with: 
+     * - one wood or two arrows (two arrows will be prioritised to be used first)
+     * - one key or one treasure (use of treasure is prioritised)
+     * - one sun stone
+     * @throws IllegalArgumentException
+     */
+    @Test
+    public void testBuildSceptre() throws IllegalArgumentException {
+        /**
+         * Entities are spawned in:
+         * player       (0,0)
+         * wood         (1,0) 
+         * arrow        (2,0)
+         * arrow        (3,0)
+         * key          (4,0)
+         * treasure     (5,0)
+         * sun stone    (6,0)
+         */
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBuildSceptre", "Standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [wood]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [wood, arrow]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [wood, arrow, arrow]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [wood, arrow, arrow, key]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [wood, arrow, arrow, key, treasure]
+
+        controller.tick(null, Direction.RIGHT);
+        // current inventory = [wood, arrow, arrow, key, treasure, sun_stone]
+
+        // build the sceptre
+        assertDoesNotThrow(() -> {
+            controller.build("sceptre");
+        });
+
+        // assert that sceptre has been added to inventory, 
+        // assert that the used collectable entities are removed
+        // assert that wood, sun stone and key still remains 
+        assertEquals(controller.getInfo("Arrow0"), null);
+        assertEquals(controller.getInfo("Arrow1"), null);
+        assertEquals(controller.getInfo("Treasure0"), null);
+
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("wood") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("key") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sceptre") == 1);
+    }
+
+    /**
+     * Test for building a sceptre
+     * with 2 sun stones
+     * Can be crafted with: 
+     * - Assumption: if the player has 2 sun stones, player does not need a key or treasure
+     * @throws IllegalArgumentException
+     */
+    @Test
+    public void testBuildSceptreTwoSunStones() throws IllegalArgumentException {
+        /**
+         * Entities are spawned in:
+         * player       (0,0)
+         * arrow        (1,0) 
+         * arrow        (2,0)
+         * sun stone    (3,0)
+         * sun stone    (4,0)
+         */
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBuildSceptreTwoSunStones", "Standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [arrow]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [arrow, arrow]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [arrow, arrow, sun stone]
+
+        controller.tick(null, Direction.RIGHT);
+        // current inventory = [arrow, arrow, sun stone, sun stone]
+
+        // build the sceptre
+        assertDoesNotThrow(() -> {
+            controller.build("sceptre");
+        });
+
+        // assert that sceptre has been added to inventory, 
+        // assert that the used collectable entities are removed
+        // assert that both sun stones still remains 
+        assertEquals(controller.getInfo("Arrow0"), null);
+        assertEquals(controller.getInfo("Arrow1"), null);
+
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 2);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sceptre") == 1);
+    }
+
 }
