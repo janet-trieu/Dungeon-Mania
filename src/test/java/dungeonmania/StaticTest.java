@@ -2,6 +2,7 @@ package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -310,6 +311,40 @@ public class StaticTest {
         // getInfo should return null if it does not exist
         
         assertEquals(new EntityResponse("ZombieToastSpawner0", "zombie_toast_spawner", new Position (1, 1, 0), true), controller.getInfo("ZombieToastSpawner0"));
+    }
+
+    /**
+     * Test for Sun Stone functionality of opening door
+     * - doors can be opened with sun stone
+     * - sun stone is not used up after door is opened
+     */
+    @Test
+    public void testSunStoneDoor() {
+
+        // create all necessary instances
+        Dungeon dungeon = new Dungeon();
+        Player player = new Player(0, 0);
+        SunStone sunStone = new SunStone(1, 0);
+        Door door = new Door(2, 0, 0);
+
+        dungeon.addEntity(player);
+        dungeon.addEntity(sunStone);
+        dungeon.addEntity(door);
+
+        // player moves one cell to the right to pick up the sun stone
+        player.moveRight();
+        Position sunStonePos = new Position(1, 0, 4);
+        assertEquals(sunStonePos, player.getPosition());
+        dungeon.getInventory().addItem(sunStone);
+        assertTrue(dungeon.getInventory().getItems().contains(sunStone));
+
+        // player moves one cell to the right to open the door
+        player.moveRight();
+        Position doorPos = new Position(2, 0, 4);
+        assertEquals(doorPos, player.getPosition());
+        assertTrue(door.isPassable());
+        assertTrue(dungeon.getInventory().getItems().contains(sunStone));
+
     }
     
 }
