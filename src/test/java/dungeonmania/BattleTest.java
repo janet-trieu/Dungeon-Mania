@@ -358,12 +358,6 @@ public class BattleTest {
         // player battling mercenary0 and mercenary1 consecutively
         assertEquals(false, dungeon.getEntityList().contains(player));
     }
-
-    /**
-     * Testing for ZombieToastSpawner and Wall functionality in Standard
-     * - Wall stays put
-     * - ZombieToast spawns every 20 ticks in Standard
-     */
     
     @Test
     public void testBribe() {
