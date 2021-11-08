@@ -56,6 +56,7 @@ public class Spider extends MovingEntity {
     /**
      * Method of movement for spider entity
      */
+    @Override
     public void move() {
         Player player = (Player) dungeon.getPlayer();
 

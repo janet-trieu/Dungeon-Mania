@@ -39,7 +39,16 @@ public abstract class MovingEntity extends Entity {
         setLayer(layer);
     }
 
-   
+    /**
+     * Abstract method to simulate the movement of moving entities
+     */
+    public abstract void move();
+
+    /**
+     * Getter for health of moving entity
+     * @return
+     */
+
     public double getHealth() {return health;}
 
     /**

@@ -34,6 +34,7 @@ public class ZombieToast extends MovingEntity {
     /**
      * Method for movement of zombie toast
      */
+    @Override
     public void move() {
         Player player = (Player) dungeon.getPlayer();
 

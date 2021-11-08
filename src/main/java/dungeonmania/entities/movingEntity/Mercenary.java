@@ -50,6 +50,7 @@ public class Mercenary extends MovingEntity {
     /**
      * Method for the mercenary to move
      */
+    @Override
     public void move() {
         Player player = (Player) dungeon.getPlayer();
         if (player.isInvincible()) {
