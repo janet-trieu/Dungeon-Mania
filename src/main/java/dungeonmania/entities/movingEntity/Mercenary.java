@@ -14,7 +14,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import dungeonmania.entities.Player;
 
-public class Mercenary extends MovingEntity implements Moveable {
+public class Mercenary extends MovingEntity {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;

@@ -7,7 +7,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.util.*;
 
-public class Spider extends MovingEntity implements Moveable {
+public class Spider extends MovingEntity {
     
     // getting the dungeon instance
     Dungeon dungeon;
