@@ -66,7 +66,7 @@ public class BuildableTest {
         assertEquals(controller.getInfo("Arrow1"), null);
         assertEquals(controller.getInfo("Arrow2"), null);
         assertEquals(controller.getInfo("Wood0"), null);
-        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("bow") == 1); //TODO: FIX THIS UP
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("bow") == 1);
     }
 
     /**
@@ -115,7 +115,7 @@ public class BuildableTest {
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(controller.getInfo("Wood1"), null);
         assertEquals(controller.getInfo("Key0"), null);
-        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1); //TODO: FIX THIS UP
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1);
     }
 
     /**
@@ -164,7 +164,7 @@ public class BuildableTest {
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(controller.getInfo("Wood1"), null);
         assertEquals(controller.getInfo("Treasure0"), null);
-        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1); //TODO: FIX THIS UP
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1);
     }
 
     /**
@@ -214,11 +214,111 @@ public class BuildableTest {
 
         // assert that shield is added to inventory
         // assert that treasure and woods are used and key still remains
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("shield") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("shield") == 1, true);
         assertEquals(controller.getInfo("Treasure0"), null);
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(controller.getInfo("Wood1"), null);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("key") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("key") == 1, true);
+    }
+
+    /**
+     * Test for building a shield
+     * - with sun stone
+     * @throws IOException
+     * @throws IllegalArgumentException
+     */
+    @Test
+    public void testBuildShieldWithSunStone() throws IllegalArgumentException, IOException {
+        /**
+         * Entities are spawned in:
+         * player       (0,0)
+         * wood         (1,0) 
+         * wood         (2,0)
+         * sun stone    (3,0)
+         */
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBuildShieldSunStone", "Standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("shield"));
+        // current inventory = [wood]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("shield"));
+        // current inventory = [wood, wood]
+
+        controller.tick(null, Direction.RIGHT);
+        // current inventory = [wood, wood, sun stone]
+
+        // build the shield
+        assertDoesNotThrow(() -> {
+            controller.build("shield");
+        });
+
+        // assert that shield has been added to inventory, 
+        // assert that the used collectable entities are removed
+        // assert that sun stone still remains
+        assertEquals(controller.getInfo("Wood0"), null);
+        assertEquals(controller.getInfo("Wood1"), null);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1);
+    }
+
+    /**
+     * Test for building a shield
+     * - checking to make sure the use of sun stone is prioritised over use of key or treasure when building a shield
+     * @throws IOException
+     * @throws IllegalArgumentException
+     */
+    @Test
+    public void testBuildShieldPriorityM3() throws IllegalArgumentException, IOException {
+        /**
+         * Entities are spawned in:
+         * player       (0,0)
+         * wood         (1,0) 
+         * wood         (2,0)
+         * sun stone    (3,0)
+         * treasure     (4,0)
+         * key          (5,0)
+         */
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBuildShieldPriority", "Standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("shield"));
+        // current inventory = [wood]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("shield"));
+        // current inventory = [wood, wood]
+
+        controller.tick(null, Direction.RIGHT);
+        // current inventory = [wood, wood, sun stone]
+
+        controller.tick(null, Direction.RIGHT);
+        // current inventory = [wood, wood, sun stone, treasure]
+
+        controller.tick(null, Direction.RIGHT);
+        // current inventory = [wood, wood, sun stone, treasure, key]
+
+        // build the shield
+        assertDoesNotThrow(() -> {
+            controller.build("shield");
+        });
+
+        // assert that shield has been added to inventory, 
+        // assert that the used collectable entities are removed
+        // assert that sun stone, key and treasure still remains 
+        assertEquals(controller.getInfo("Wood0"), null);
+        assertEquals(controller.getInfo("Wood1"), null);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("treasure") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("key") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1);
     }
 
 }

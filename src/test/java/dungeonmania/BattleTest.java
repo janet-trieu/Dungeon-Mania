@@ -415,7 +415,7 @@ public class BattleTest {
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
 
         // mercenary started at (4, 0), now is at (3, 0)
         assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3,0,3), true), controller.getInfo("Mercenary0"));
@@ -426,7 +426,7 @@ public class BattleTest {
         });
 
         // sun stone does not get used up
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
 
     }
     
@@ -439,7 +439,7 @@ public class BattleTest {
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
 
         // mercenary started at (5, 0), now is at (4, 0)
         assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(4,0,3), true), controller.getInfo("Mercenary0"));
@@ -466,11 +466,11 @@ public class BattleTest {
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
 
         // player moves 1 cell to the right to pick up treasure
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
 
         // mercenary started at (5, 0), now is at (3, 0)
         assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3,0,3), true), controller.getInfo("Mercenary0"));
@@ -481,10 +481,10 @@ public class BattleTest {
         });
 
         // sun stone does not get used up
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
 
         // treasure also does not get used up
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true); //TODO: FIX THIS UP
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
     }
     
 }
