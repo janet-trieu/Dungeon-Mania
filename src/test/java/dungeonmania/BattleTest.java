@@ -64,6 +64,7 @@ public class BattleTest {
         // zombieToast is not alive
         assertEquals(false, dungeon.getEntityList().contains(zombieToast));
     }
+
     @Test
     public void testMercenary(){
         Dungeon dungeon = new Dungeon();
@@ -118,6 +119,7 @@ public class BattleTest {
         // mercenary is not alive after 3 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
     }
+
     @Test
     public void testSword(){
         Dungeon dungeon = new Dungeon();
@@ -147,6 +149,7 @@ public class BattleTest {
         // mercenary is not alive after 3 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
     }
+
     @Test
     public void testShield(){
         Dungeon dungeon = new Dungeon();
@@ -176,6 +179,7 @@ public class BattleTest {
         // mercenary is not alive after 6 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
     }
+
     @Test
     public void testArmour(){
         Dungeon dungeon = new Dungeon();
@@ -205,6 +209,7 @@ public class BattleTest {
         // mercenary is not alive after 6 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
     }
+
     @Test
     public void testBowAndSword(){
         Dungeon dungeon = new Dungeon();
@@ -236,6 +241,7 @@ public class BattleTest {
         // mercenary is not alive after 2 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
     }
+
     @Test
     public void testArmourAndShield(){
         Dungeon dungeon = new Dungeon();
@@ -269,6 +275,7 @@ public class BattleTest {
         // mercenary is not alive after 6 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
     }
+
     @Test
     public void testBowAndSwordAndArmourAndShield(){
         Dungeon dungeon = new Dungeon();
@@ -309,6 +316,7 @@ public class BattleTest {
         // mercenary is not alive after 1 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
     }
+
     @Test
     public void testPlayerDies(){
         Dungeon dungeon = new Dungeon();
@@ -350,7 +358,8 @@ public class BattleTest {
         // player battling mercenary0 and mercenary1 consecutively
         assertEquals(false, dungeon.getEntityList().contains(player));
     }
-        /**
+
+    /**
      * Testing for ZombieToastSpawner and Wall functionality in Standard
      * - Wall stays put
      * - ZombieToast spawns every 20 ticks in Standard
@@ -487,4 +496,167 @@ public class BattleTest {
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
     }
     
+    /**
+     * Test for bribing assassins with:
+     * - 1 the one ring
+     * - 1 treasure
+     */
+    @Test
+    public void testBribeAssassin() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("testBribeAssassin", "Standard");
+        
+        // player moves 1 cell to the right to pick up treasure
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+
+        // player moves 1 cell to the right to pick up one ring
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+
+        // assassin started at (5, 0), now is at (3, 0)
+        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(3,0,3), true), controller.getInfo("Assassin0"));
+
+        // attempt to bribe assassin with treasure + one ring
+        assertDoesNotThrow(() -> {
+            controller.interact("Assassin0");
+        });
+
+        // assert both one ring and treasure is used 
+        assertEquals(controller.getInfo("TheOneRing0"), null);
+        assertEquals(controller.getInfo("Treasure0"), null);
+    }
+
+    /**
+     * Test for bribing assassins with:
+     * - 1 the one ring
+     * - 1 sun stone
+     */
+    @Test
+    public void testBribeAssassinSunStone() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("testBribeAssassinSunStone", "Standard");
+        
+        // player moves 1 cell to the right to pick up sun stone
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
+
+        // player moves 1 cell to the right to pick up one ring
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+
+        // assassin started at (5, 0), now is at (3, 0)
+        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(3,0,3), true), controller.getInfo("Assassin0"));
+
+        // attempt to bribe assassin with sun stone + one ring
+        assertDoesNotThrow(() -> {
+            controller.interact("Assassin0");
+        });
+
+        // assert one ring is used 
+        assertEquals(controller.getInfo("TheOneRing0"), null);
+
+        // sun stone does not get used up
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
+
+    }
+
+    /**
+     * Test for bribing assassins with:
+     * - 1 the one ring
+     * - 1 sun stone
+     * - 1 treasure
+     * As per our assumption:
+     * When a player interacts with mercenary/assassin to bribe, 
+     * if the player currently holds both treasure and a sun stone, 
+     * the use of sun stone will be prioritised as it will not get used up during the bribing process
+     */
+    @Test
+    public void testBribeAssassinPriority() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("testBribeAssassinPriority", "Standard");
+        
+        // player moves 1 cell to the right to pick up sun stone
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
+
+        // player moves 1 cell to the right to pick up one ring
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+
+        // player moves 1 cell to the right to pick up treasure
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+
+        // assassin started at (7, 0), now is at (4, 0)
+        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(4,0,3), true), controller.getInfo("Assassin0"));
+
+        // attempt to bribe assassin
+        assertDoesNotThrow(() -> {
+            controller.interact("Assassin0");
+        });
+
+        // assert one ring is used 
+        assertEquals(controller.getInfo("TheOneRing0"), null);
+
+        // sun stone does not get used up
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1, true);
+
+        // treasure also does not get used up
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+        
+    }
+
+    /**
+     * Test for bribing assassins with:
+     * - 1 the one ring
+     * - 1 sun stone
+     * - 1 treasure
+     * As per our assumption:
+     * When a player interacts with mercenary/assassin to bribe, 
+     * if the player currently holds both treasure and a sun stone, 
+     * the use of sun stone will be prioritised as it will not get used up during the bribing process
+     */
+    @Test
+    public void testBribeAssassinFar() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.clearData();
+
+        controller.newGame("testBribeAssassinFar", "Standard");
+
+        // player moves 1 cell to the right to pick up one ring
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+
+        // player moves 1 cell to the right to pick up treasure
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+
+        // assassin started at (10, 0), now is at (7, 0)
+        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(4,0,3), true), controller.getInfo("Assassin0"));
+
+        // attempt to bribe assassin
+        // player is currently at (3, 0), while assassin is at (7, 0)
+        assertThrows(InvalidActionException.class, () -> controller.interact("Assassin0"));
+
+        // player moves 1 more tick to the right to get into bribe range of assassin
+        controller.tick(null, Direction.RIGHT);
+
+        // player can now bribe assassin
+        assertDoesNotThrow(() -> {
+            controller.interact("Assassin0");
+        });
+
+        // assert both one ring and treasure is used 
+        assertEquals(controller.getInfo("TheOneRing0"), null);
+        assertEquals(controller.getInfo("Treasure0"), null);
+        
+    }
+
 }
