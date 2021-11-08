@@ -3,8 +3,9 @@
         "font": "alagard.ttf",
         "title": "Dungeon Mania",
         "subtitle_1": "Frontend created by:\n Braedon Wooding, George Litsas, Nick Patrikeos, Noa Challis",
-        "subtitle_2": "Backend created by: <Dabin Haam, Francis Nguyen, James Nguyen, Janet Trieu>",
+        "subtitle_2": "Backend created by:\n Dabin Haam, Francis Nguyen, James Nguyen, Janet Trieu",
         "buttons": {
+            "generate_game": "Generate Game",
             "new_game": "Start New Game",
             "load_game": "Load Game",
             "quit_game": "Quit Game",
