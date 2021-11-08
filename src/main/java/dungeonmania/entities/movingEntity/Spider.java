@@ -7,7 +7,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.util.*;
 
-public class Spider extends MovingEntity implements Moveable {
+public class Spider extends MovingEntity {
     
     // getting the dungeon instance
     Dungeon dungeon;
@@ -56,6 +56,7 @@ public class Spider extends MovingEntity implements Moveable {
     /**
      * Method of movement for spider entity
      */
+    @Override
     public void move() {
         Player player = (Player) dungeon.getPlayer();
 

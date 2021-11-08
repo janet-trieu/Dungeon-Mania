@@ -5,7 +5,7 @@ import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.util.Direction;
 
-public class ZombieToast extends MovingEntity implements Moveable {
+public class ZombieToast extends MovingEntity {
     
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -34,6 +34,7 @@ public class ZombieToast extends MovingEntity implements Moveable {
     /**
      * Method for movement of zombie toast
      */
+    @Override
     public void move() {
         Player player = (Player) dungeon.getPlayer();
 
