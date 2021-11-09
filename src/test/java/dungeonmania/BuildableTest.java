@@ -439,4 +439,79 @@ public class BuildableTest {
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sceptre") == 1);
     }
 
+    /**
+     * Test build for midnight armour
+     * - with no zombie toasts in the dungeon
+     */
+    @Test
+    public void testBuildMidnightArmour() {
+        /**
+         * Entities are spawned in:
+         * player       (0,0)
+         * armour       (1,0)
+         * sun stone    (2,0)
+         */
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBuildMidArmour", "Standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("midnight_armour"));
+
+        controller.tick(null, Direction.RIGHT);
+
+        // build midnight armour
+        assertDoesNotThrow(() -> {
+            controller.build("midnight_armour");
+        });
+
+        // assert that the used entities are removed
+        // assert that the midnight armour is in inventory
+        assertEquals(controller.getInfo("Armour0"), null);
+        assertEquals(controller.getInfo("SunStone0"), null);
+
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("midnight_armour") == 1);
+
+    }
+
+    /**
+     * Test build for midnight armour
+     * - with a zombie toasts in the dungeon
+     */
+    @Test
+    public void testBuildMidnightArmourWithZom() {
+        /**
+         * Entities are spawned in:
+         * player       (0,0)
+         * armour       (1,0)
+         * sun stone    (2,0)
+         * zombie toast (7,0)
+         */
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBuildMidArmour2", "Standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("midnight_armour"));
+
+        controller.tick(null, Direction.RIGHT);
+
+        // player has armour and sun stone in inventory
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("armour") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
+
+        // build midnight armour
+        // but cannot since there is a zombie toast in the dungeon
+        assertThrows(InvalidActionException.class, () -> controller.build("midnight_armour"));
+
+        // assert that the used entities are not removed, and 
+        // midnight armour is not in inventory
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("armour") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("midnight_armour") == 0);
+
+    }
+
 }
