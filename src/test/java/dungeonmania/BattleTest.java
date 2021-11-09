@@ -653,4 +653,69 @@ public class BattleTest {
         
     }
 
+    /**
+     * Test for bribing a mercenary with a sceptre
+     */
+    @Test
+    public void testBribeSceptreMerc() {
+        /**
+         * Entities are spawned in:
+         * player       (0,0)
+         * sceptre      (1,0) 
+         * treasure     (2,0)
+         * mercenary    (6,0)
+         */
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBribeSceptreMerc", "Standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+
+        // attempt to bribe mercenary
+        assertDoesNotThrow(() -> {
+            controller.interact("Mercenary0");
+        });
+
+        // assert that the sceptre has been used to mind-control the mercenary
+        // hence, treasure still remains in the inventory
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+
+    }
+
+    /**
+     * Test for bribing a mercenary with a sceptre
+     */
+    @Test
+    public void testBribeSceptreAssa() {
+        /**
+         * Entities are spawned in:
+         * player       (0,0)
+         * sceptre      (1,0) 
+         * treasure     (2,0)
+         * one ring     (3,0)
+         * assassin     (8,0)
+         */
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBribeSceptreAssa", "Standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+
+        // attempt to bribe assassin
+        assertDoesNotThrow(() -> {
+            controller.interact("Assassin0");
+        });
+
+        // assert that the sceptre has been used to mind-control the assassin
+        // hence, treasure and one ring still remains in the inventory
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+        
+    }
+
 }
