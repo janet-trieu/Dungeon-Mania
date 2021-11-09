@@ -28,7 +28,7 @@ public class SwampTileTest {
 
     Position swampPosition = new Position(1, 0);
 
-    public void set_up() {
+    public void setUp() {
         controller.newGame("swamp-tile", "Standard");
     }
 
@@ -37,7 +37,7 @@ public class SwampTileTest {
      */
     @Test
     public void testPlayerSwamp() {
-        set_up();
+        setUp();
 
         // Move player through tile
         controller.tick(null, Direction.RIGHT);
@@ -52,7 +52,7 @@ public class SwampTileTest {
      */
     @Test
     public void testSpiderSwamp() {
-        set_up();
+        setUp();
 
         // Add spider in map
         dungeon.addEntity(spider);
@@ -74,7 +74,7 @@ public class SwampTileTest {
      */
     @Test
     public void testZombieToastSwamp() {
-        set_up();
+        setUp();
 
         // Add zombie toast in map (same tile as swamp because zombie movement is random)
         // ASSUMPTION: If entity is spawned on top of Swamp tile, that already counts as 1 tick
@@ -96,7 +96,7 @@ public class SwampTileTest {
      */
     @Test
     public void testMercenarySwamp() {
-        set_up();
+        setUp();
 
         // Add mercenary in dungeon
         dungeon.addEntity(mercenary);
@@ -118,7 +118,7 @@ public class SwampTileTest {
      */
     @Test
     public void testAssassinSwamp() {
-        set_up();
+        setUp();
 
         // Add assassin in dungeon
         dungeon.addEntity(assassin);
@@ -140,7 +140,7 @@ public class SwampTileTest {
      */
     @Test
     public void testHydraSwamp() {
-        set_up();
+        setUp();
 
         // Add hydra in map (same tile as swamp because hydra movement is random)
         // ASSUMPTION: If entity is spawned on top of Swamp tile, that already counts as 1 tick
