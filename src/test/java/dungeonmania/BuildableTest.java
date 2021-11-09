@@ -376,14 +376,14 @@ public class BuildableTest {
 
         // assert that sceptre has been added to inventory, 
         // assert that the used collectable entities are removed
-        // assert that wood, sun stone and key still remains 
+        // assert that wood and key still remains 
         assertEquals(controller.getInfo("Arrow0"), null);
         assertEquals(controller.getInfo("Arrow1"), null);
         assertEquals(controller.getInfo("Treasure0"), null);
+        assertEquals(controller.getInfo("SunStone0"), null);
 
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("wood") == 1);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("key") == 1);
-        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sceptre") == 1);
     }
 
@@ -431,11 +431,11 @@ public class BuildableTest {
 
         // assert that sceptre has been added to inventory, 
         // assert that the used collectable entities are removed
-        // assert that both sun stones still remains 
+        // assert that only one sun stones still remains 
         assertEquals(controller.getInfo("Arrow0"), null);
         assertEquals(controller.getInfo("Arrow1"), null);
 
-        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 2);
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sceptre") == 1);
     }
 
