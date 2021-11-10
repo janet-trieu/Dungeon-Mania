@@ -2,6 +2,7 @@ package dungeonmania.entities.movingEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import dungeonmania.Dungeon;
@@ -171,5 +172,62 @@ public abstract class MovingEntity extends Entity {
         entity.setY(next.getY());
     }
     
+    public void dijkstra(HashMap<Position, Integer> graph, ) {
+        HashMap<Position, Double> dist = new HashMap<>();
+        HashMap<Position, Position> prev = new HashMap<>();
+        int a = infinit
+        for(int i = 0; i < 50; i++) {
+            for(int j = 0; j < 50; j++) {
+                Position pos = new Position(j,i);
+                dist.put(pos, Double.POSITIVE_INFINITY);
+                
+            }
+        }
+
+    }
+    public HashMap<Position, Integer> Graph(Dungeon dungeon) {
+        HashMap<Position, Integer> grid = new HashMap<>();
+        int maxX;
+        int maxY;
+        Player player = (Player) dungeon.getPlayer();
+        if (this.getX() > player.getX()) {
+            maxX = this.getX() + 1;
+
+        }
+        else {
+            maxX = player.getX() + 1;
+        }
+        
+        if (this.getY() > player.getY()) {
+            maxY = this.getY() + 1;
+        }
+        else {
+            maxY = player.getY() + 1;
+        }
+
+        for(int i = 0; i < maxY; i++) {
+            for(int j = 0; j < maxX; j++) {
+                Position pos = new Position(j,i);
+                int cost = 1;
+                List<Entity> list = dungeon.getEntitiesOnSamePosition(pos);
+
+                for(Entity current : list) {
+                    if (current instanceof Wall) {
+                        cost = 3;
+                    }
+                    if (current instanceof Boulder) {
+                        cost = 2;
+                    }
+                    if (current instanceof SwampTile) {
+                        SwampTile tile = (SwampTile) current;
+                        cost = SwampTile.getFactor();
+                    }
+                }
+                grid.put(pos, cost);
+
+            }
+        }
+        return grid;
+    }
 
 }
