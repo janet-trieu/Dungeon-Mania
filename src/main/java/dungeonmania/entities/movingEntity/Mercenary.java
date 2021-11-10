@@ -47,6 +47,14 @@ public class Mercenary extends MovingEntity {
         this.setLayer(3);
     }
 
+    public Mercenary(int x, int y, Dungeon dungeon, String type) {
+        super(x,y, type, 30, 5);
+        setIsInteractable(isInteractable);
+        this.hasArmour = Math.random() <= 0.2;
+        this.dungeon = dungeon;
+        this.setLayer(3);
+    }
+    
     /**
      * Method for the mercenary to move
      */
