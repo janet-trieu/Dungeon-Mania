@@ -23,6 +23,7 @@
         "boulder": "images/tileset/entities/boulder_00.png",
         "bow": "images/tileset/items/minecraft_bow.png",
         "door": "images/tileset/walls/wooden/minecraft_door.png",
+        "enemy": "images/tileset/entities/enemy.png",
         "exit": "images/tileset/entities/stairs_down.png",
         "health_potion": "images/tileset/items/minecraft_health_potion.png",
         "hydra": "images/tileset/entities/hydra.png",
