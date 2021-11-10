@@ -1,0 +1,29 @@
+{
+    "entities": [
+        {
+            "x": 0,
+            "y": 0,
+            "type": "player"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "type": "sceptre"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "type": "treasure"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "type": "one_ring"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "type": "assassin"
+        }
+    ]
+}

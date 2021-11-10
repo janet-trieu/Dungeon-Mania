@@ -406,9 +406,7 @@ public class DungeonManiaController {
         for (String item : currDungeon.getBuildableString()) {
             buildableArray.put(item);
         }
-        saveObj.put("buildables", buildableArray);       
-
-        // TODO: Save all animations for animated entities - Should be a JSONArray: animations: []
+        saveObj.put("buildables", buildableArray);
 
         // Insert object into file
          try {
@@ -495,13 +493,11 @@ public class DungeonManiaController {
 
         // Get goal
         Goal goal = createGoalFromString(dataObj.getString("goals"), dungeon);
-        
-        dungeon.setGoal(goal);
+        dungeon.addGoal(goal);
 
         // Create new dungeonResponse from dungeon class to ensure its correct and return
         DungeonResponse response = new DungeonResponse(dungeonId, dungeon.getDungeonName(), dungeon.getEntityResponse(),
                                                     dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
-        // TODO: Animation loading
 
         return response;
     }
@@ -516,15 +512,21 @@ public class DungeonManiaController {
     private Goal createGoalFromString(String goal, Dungeon dungeon) {
         if (goal.contains("(")) {
             CompositeGoal compositeGoal;
-            if (goal.equals("AND")) {
+            if (goal.contains("AND")) {
                 compositeGoal = new AndGoal(dungeon);
             } else {
                 compositeGoal = new OrGoal(dungeon);
             }
+
             //TOKENISE
-            String[] split = goal.split(" ");
-            for (int i = 0; i < split.length; i++) {
-                Goal leafGoal = createGoalFromString(split[i], dungeon);
+            goal = goal.replaceAll("([(,:,),AND,OR])", "");
+            String[] goals = goal.split(" ");
+
+            for (int i = 0; i < goals.length; i++) {
+                if (goals[i].equals("")) {
+                    continue;
+                }
+                Goal leafGoal = createGoalFromString(goals[i], dungeon);
                 compositeGoal.addSubGoal(leafGoal);
             }
             return compositeGoal;
@@ -532,9 +534,9 @@ public class DungeonManiaController {
 
         if (goal.contains("exit")) {
             return new ExitGoal(dungeon);
-        } else if (goal.contains("enemies")) {
+        } else if (goal.contains("enemy")) {
             return new EnemyGoal(dungeon);
-        } else if (goal.contains("boulders")) {
+        } else if (goal.contains("switch")) {
             return new SwitchGoal(dungeon);
         } else if (goal.contains("treasure")) {
             return new TreasureGoal(dungeon);
