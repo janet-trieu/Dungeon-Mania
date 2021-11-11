@@ -259,10 +259,9 @@ public class BuildableTest {
 
         // assert that shield has been added to inventory, 
         // assert that the used collectable entities are removed
-        // assert that sun stone still remains
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(controller.getInfo("Wood1"), null);
-        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
+        assertEquals(controller.getInfo("SunStone0"), null);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1);
     }
 
@@ -312,12 +311,12 @@ public class BuildableTest {
 
         // assert that shield has been added to inventory, 
         // assert that the used collectable entities are removed
-        // assert that sun stone, key and treasure still remains 
+        // assert that key and treasure still remains 
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(controller.getInfo("Wood1"), null);
+        assertEquals(controller.getInfo("SunStone0"), null);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("treasure") == 1);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("key") == 1);
-        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1);
     }
 

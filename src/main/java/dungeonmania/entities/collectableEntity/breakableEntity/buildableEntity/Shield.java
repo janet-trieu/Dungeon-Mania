@@ -53,6 +53,7 @@ public class Shield extends BuildableEntity {
         // use of treasure is prioritised over use of key for creation of shield (assumption)
         for (CollectableEntity ingredient : inventory) {
             if (ingredient instanceof SunStone) {
+                inventory.remove(ingredient);
                 break;
             } else if (ingredient instanceof Treasure) {
                 inventory.remove(ingredient);
