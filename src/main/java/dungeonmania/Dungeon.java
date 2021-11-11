@@ -115,14 +115,6 @@ public class Dungeon {
     public String getGameMode() {
         return gameMode;
     }
-
-    /**
-     * Add goal to goal
-     * @param goal
-     */
-    public void addGoal(Goal goal) {
-        this.goal = goal;
-    }
     
     /**
      * Updates goal
@@ -524,6 +516,10 @@ public class Dungeon {
         this.gameMode = gameMode;
     }
 
+    public String getDungeonId() {
+        return dungeonId;
+    }
+
     public void setDungeonId(String dungeonId) {
         this.dungeonId = dungeonId;
     }
@@ -570,9 +566,10 @@ public class Dungeon {
     }
 
     /**
-     * Resets static id counter when loading a game
+     * Resets static counters when loading a game
      */
     public void resetCounters() {
+        // Static IDs
         FloorSwitch.setCounter(0);
         Door.setCounter(0);
         Boulder.setCounter(0);
@@ -581,10 +578,12 @@ public class Dungeon {
         Portal.setCounter(0);
         ZombieToastSpawner.setCounter(0);
 
+        // Moving IDs
         Spider.setCounter(0);
         ZombieToast.setCounter(0);
         Mercenary.setCounter(0);
 
+        // Collectable IDs
         Treasure.setCounter(0);
         Key.setCounter(0);
         Arrow.setCounter(0);
@@ -598,6 +597,13 @@ public class Dungeon {
         Sword.setCounter(0);
         Shield.setCounter(0);
         Bow.setCounter(0);
+
+        // Tick counters
+        Spider.setSpiderNum(0);
+        Spider.setTickCounter(0);
+        ZombieToastSpawner.setTickCounter(1);
+
+        // TODO: ADD ANY OTHER MILESTONE 3 ID COUNTER RESETS!!!
     }
     
 }
