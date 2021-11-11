@@ -2,7 +2,11 @@ package dungeonmania.entities.movingEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
@@ -75,7 +79,8 @@ public class Mercenary extends MovingEntity {
                 if (i == 4) {min.add(Direction.RIGHT);}
             }
         }
-       
+    
+      
         
         int a = 0;
         Position next = this.getPosition().translateBy(min.get(a));
@@ -114,6 +119,8 @@ public class Mercenary extends MovingEntity {
         this.setX(next.getX());
         this.setY(next.getY());
     }
+
+    
 
     /**
      * Method for the mercenary to drop armour
@@ -166,4 +173,134 @@ public class Mercenary extends MovingEntity {
         Mercenary.counter = counter;
     }
 
+    public void move2() {
+        Player player = (Player) dungeon.getPlayer();
+        HashMap<Position, Integer> Graph = Graph(dungeon);
+        HashMap<Position, Position> prev = dikjstra(Graph, player);
+        Position curr = new Position(this.getX(), this.getY());
+        Position next = prev.get(curr);
+
+        this.setX(next.getX());
+        this.setY(next.getY());
+
+    }
+
+    public HashMap<Position, Integer> Graph(Dungeon dungeon) {
+        HashMap<Position, Integer> grid = new HashMap<>();
+        int maxX;
+        int maxY;
+        Player player = (Player) dungeon.getPlayer();
+        if (this.getX() > player.getX()) {
+            maxX = this.getX();
+
+        }
+        else {
+            maxX = player.getX();
+        }
+        
+        if (this.getY() > player.getY()) {
+            maxY = this.getY();
+        }
+        else {
+            maxY = player.getY();
+        }
+
+        for(int i = 0; i < maxY; i++) {
+            for(int j = 0; j < maxX; j++) {
+                Position pos = new Position(j,i);
+                int cost = 1;
+                List<Entity> list = dungeon.getEntitiesOnSamePosition(pos);
+
+                for(Entity current : list) {
+                    if (current instanceof Wall) {
+                        cost = 3;
+                    }
+                    if (current instanceof Boulder) {
+                        cost = 2;
+                    }
+                    //if (current instanceof SwampTile) {
+                        //SwampTile tile = (SwampTile) current;
+                        //cost = SwampTile.getFactor();
+                    //}
+                }
+                grid.put(pos, cost);
+
+            }
+        }
+        return grid;
+    }
+    
+    public List<Position> CardAdj(Position pos) {
+        List<Position> CardAdj = new ArrayList<>();
+        CardAdj.add(new Position(pos.getX(), pos.getY() - 1));
+        CardAdj.add(new Position(pos.getX(), pos.getY() + 1));
+        CardAdj.add(new Position(pos.getX() - 1, pos.getY()));
+        CardAdj.add(new Position(pos.getX() + 1, pos.getY()));
+        
+        return CardAdj;
+    }
+
+    public HashMap<Position,Position> dijkstra(HashMap<Position, Integer> graph, Player player) {
+        HashMap<Position, Integer> dist = new HashMap<>();
+        HashMap<Position, Position> prev = new HashMap<>();
+        Queue<Position> queue = new LinkedList<>();
+        Position playerPos = new Position(player.getX(), player.getY());
+        queue.add(playerPos);
+
+        for(Position pos : graph.keySet()) {
+            if (pos != playerPos) {
+                dist.put(pos, Integer.MAX_VALUE);
+                prev.put(pos, null);
+                
+            }
+        } 
+        dist.put(playerPos, 0);
+        
+        while(!queue.isEmpty()) {
+            Position u = queue.peek();
+            queue.remove(u);
+            for(Position v : CardAdj(u)) {
+                if(graph.containsKey(v)){
+                    queue.add(v);
+                    if (dist.get(u) + graph.get(v) <= dist.get(v)) {
+                        dist.put(v, dist.get(u)+ graph.get(v)); 
+                        prev.put(v, u); 
+                    }
+                }
+            }
+        }
+        return prev;
+    }
+
+    public HashMap<Position,Position> dikjstra(HashMap<Position, Integer> graph, Player player) {
+        HashMap<Position, Integer> dist = new HashMap<>();
+        HashMap<Position, Position> prev = new HashMap<>();
+        PriorityQueue<Position> queue = new PriorityQueue<>(2500, (a,b) -> dist.get(a) - dist.get(b));
+        Position playerPos = new Position(player.getX(), player.getY());  
+        dist.put(playerPos, 0);  
+        queue.add(playerPos);
+        
+        
+        for(Position pos : graph.keySet()) {
+            if (pos != playerPos) {
+                dist.put(pos, Integer.MAX_VALUE);
+                prev.put(pos, null);
+                queue.add(pos);
+            }
+        } 
+        while(!queue.isEmpty()) {
+            Position u = queue.peek();
+            queue.remove(u);
+            for(Position v : CardAdj(u)) {
+                if(graph.containsKey(v)){
+                    if (dist.get(u) + graph.get(v) <= dist.get(v)) {
+                        dist.put(v, dist.get(u)+ graph.get(v)); 
+                        prev.put(v, u); 
+                    }
+                }
+            }
+        }
+        
+        return prev;
+    }
 }

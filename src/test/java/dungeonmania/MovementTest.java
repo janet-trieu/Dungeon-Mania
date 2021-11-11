@@ -38,7 +38,7 @@ public class MovementTest {
         Mercenary mercenary = new Mercenary(3,5, dungeon);
         dungeon.addEntity(mercenary);
         player.move(Direction.DOWN);
-        mercenary.move();
+        mercenary.move2();
         
         Position posP = new Position(1,2,4);
         Position posM = new Position(3,4,3);
