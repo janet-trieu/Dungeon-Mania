@@ -11,6 +11,8 @@ import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.SunStone;
 import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.Wood;
+import dungeonmania.entities.movingEntity.Mercenary;
+import dungeonmania.entities.movingEntity.MovingEntity;
 
 public class Sceptre extends BuildableEntity {
 
@@ -96,6 +98,26 @@ public class Sceptre extends BuildableEntity {
             // update the buildable list, as sceptre has now been built
             buildableList.remove("sceptre");
         }
+    }
+
+    public void mindControl(MovingEntity entity) {
+        if (getDurability() <= 0) {
+            return;
+        }
+
+        if (entity instanceof Mercenary) {
+            Mercenary mercenary = (Mercenary)entity;
+            mercenary.setIsBribed(true);
+            setDurability(getDurability() - 1);
+        }
+    }
+
+    public int getDurability() {
+        return durability;
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
     }
 
     public static int getCounter() {
