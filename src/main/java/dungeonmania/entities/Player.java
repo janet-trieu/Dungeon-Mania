@@ -7,6 +7,7 @@ import dungeonmania.Inventory;
 import dungeonmania.entities.PlayerState.*;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
+import dungeonmania.entities.collectableEntity.SunStone;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.movingEntity.Spider;
@@ -175,15 +176,30 @@ public class Player extends Entity {
      * @param newPosition
      */
     public void interactDoor(Entity entity, Position newPosition) {
+        Dungeon currDungeon = Dungeon.getDungeon();
         Door door = (Door) entity;
-        // If player had key, open door and discard key
+
+        // If door is already unlocked
         if (door.isPassable()) {
             setPosition(newPosition.getX(), newPosition.getY());
+            return;
         }
+             
+        // If player has sun stone, door is opened and sun stone remains in inventory
+        List<CollectableEntity> inventory = currDungeon.getInventory().getItems();
+        for (CollectableEntity item : inventory) {
+            if (item instanceof SunStone) {
+                door.setPassable(true);
+                setPosition(newPosition.getX(), newPosition.getY());
+                return;
+            }
+        }
+
+        // If player does not have sun stone, check if player has correct key
         Key key = Dungeon.getDungeon().getKey();
         if (key != null && door.insertKey(key)) {
             setPosition(newPosition.getX(), newPosition.getY());
-            Dungeon.getDungeon().removeItem(key);
+            currDungeon.removeItem(key);
         } 
     }
 

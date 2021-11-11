@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Key;
+import dungeonmania.entities.collectableEntity.SunStone;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.Exit;
@@ -344,6 +345,51 @@ public class StaticTest {
         assertEquals(doorPos, player.getPosition());
         assertTrue(door.isPassable());
         assertTrue(dungeon.getInventory().getItems().contains(sunStone));
+
+    }
+    
+    /**
+     * Test for door opening with sunstone and key
+     * - use of sun stone is favoured over usage of key
+     */
+    @Test
+    public void testSunStoneKeyDoor() {
+
+        // create all necessary instances
+        Dungeon dungeon = new Dungeon();
+        Player player = new Player(0, 0);
+        SunStone sunStone = new SunStone(1, 0);
+        Key key = new Key(2, 0, 0);
+        Door door = new Door(3, 0, 0);
+
+        dungeon.addEntity(player);
+        dungeon.addEntity(sunStone);
+        dungeon.addEntity(key);
+        dungeon.addEntity(door);
+
+        // player moves one cell to the right to pick up the sun stone
+        player.moveRight();
+        Position sunStonePos = new Position(1, 0, 4);
+        assertEquals(sunStonePos, player.getPosition());
+        dungeon.getInventory().addItem(sunStone);
+        assertTrue(dungeon.getInventory().getItems().contains(sunStone));
+
+        // player moves one cell to the right to pick up the key
+        player.moveRight();
+        Position keyPos = new Position(2, 0, 4);
+        assertEquals(keyPos, player.getPosition());
+        dungeon.getInventory().addItem(key);
+        assertTrue(dungeon.getInventory().getItems().contains(key));
+
+        // player moves one cell to the right to open the door
+        player.moveRight();
+        Position doorPos = new Position(3, 0, 4);
+        assertEquals(doorPos, player.getPosition());
+        assertTrue(door.isPassable());
+        assertTrue(dungeon.getInventory().getItems().contains(sunStone));
+
+        // key is still in inventory
+        assertTrue(dungeon.getInventory().getItems().contains(key));
 
     }
     
