@@ -31,6 +31,12 @@ public class ZombieToast extends MovingEntity {
         this.setLayer(3);
     }
 
+    public ZombieToast(int x, int y, Dungeon dungeon, String type) {
+        super(x, y, type, 30, 5);
+        this.hasArmour = Math.random() <= 0.2;
+        this.dungeon = dungeon;
+        this.setLayer(3);
+    }
     /**
      * Method for movement of zombie toast
      */
