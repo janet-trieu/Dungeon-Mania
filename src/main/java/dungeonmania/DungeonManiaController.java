@@ -278,6 +278,9 @@ public class DungeonManiaController {
             case "zombie_toast_spawner":
                 ZombieToastSpawner zombieToastSpawner = new ZombieToastSpawner(x, y);
                 return zombieToastSpawner;
+            case "sun_stone":
+                SunStone sunStone = new SunStone(x, y);
+                return sunStone;
             default:
                 break;
         }
@@ -723,10 +726,6 @@ public class DungeonManiaController {
                     if (!currDungeon.checkBribeRange(entity)) {
                         throw new InvalidActionException("Not close enough to bribe");
                     } else if (currDungeon.checkBribeRange(entity)) {
-                        // check if player has treasure
-                        if (inventory.numberOfItem("treasure") < 1) {
-                            throw new InvalidActionException("Cannot bribe without treasure");
-                        } 
                         Mercenary mercenary = (Mercenary)entity;
                         mercenary.bribe();
                     }
