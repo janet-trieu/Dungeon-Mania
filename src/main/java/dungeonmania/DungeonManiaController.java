@@ -281,6 +281,9 @@ public class DungeonManiaController {
             case "sun_stone":
                 SunStone sunStone = new SunStone(x, y);
                 return sunStone;
+            case "sceptre":
+                Sceptre sceptre = new Sceptre(x, y);
+                return sceptre;
             default:
                 break;
         }
@@ -762,17 +765,21 @@ public class DungeonManiaController {
         DungeonResponse response = null;
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
+        Boolean canBuildSceptre = currDungeon.updateBuildableListSceptre();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
         Inventory currInventory = currDungeon.getInventory();
 
-        if (!(buildable.equals("bow") || buildable.equals("shield"))) {
+        if (!buildable.equals("bow") && !buildable.equals("shield") && !buildable.equals("sceptre")) {
+        // if (!(buildable.equals("bow")) || !(buildable.equals("shield")) || !(buildable.equals("sceptre"))) {
             throw new IllegalArgumentException("Incorrect buildable entity");
         }
         // check for InvalidActionException
         if (buildable.equals("bow") && !canBuildBow) {
-            throw new InvalidActionException("Not enough ingredients to build this");
+            throw new InvalidActionException("Not enough ingredients to build bow");
         } else if (buildable.equals("shield") && !canBuildShield) {
-            throw new InvalidActionException("Not enough ingredients to build this");
+            throw new InvalidActionException("Not enough ingredients to build shield");
+        } else if (buildable.equals("sceptre") && !canBuildSceptre) {
+            throw new InvalidActionException("Not enough ingredients to build sceptre");
         }
 
         if (canBuildBow && buildable.equals("bow")) {
@@ -787,6 +794,13 @@ public class DungeonManiaController {
             shield.useIngredient();
             currDungeon.updateBuildableListShield();
             currInventory.addItem(shield);
+            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+        } else if (canBuildSceptre && buildable.equals("sceptre")) {
+            Sceptre sceptre = new Sceptre(-1, -1);
+            sceptre.useIngredient();
+            currDungeon.updateBuildableListShield();
+            currInventory.addItem(sceptre);
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         }
