@@ -12,7 +12,7 @@ public class SunStone extends CollectableEntity {
      */
     public SunStone(int x, int y) {
         super(x, y, "sun_stone");
-        setId("Bomb" + String.valueOf(counter));
+        setId("SunStone" + String.valueOf(counter));
         counter++;
     }
     

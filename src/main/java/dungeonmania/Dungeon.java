@@ -346,6 +346,7 @@ public class Dungeon {
         int woodCounter = 0;
         int treasureCounter = 0;
         int keyCounter = 0;
+        int sunStoneCounter = 0;
         for (CollectableEntity entity : inventory) {
             if (entity instanceof Wood) {
                 woodCounter++;
@@ -353,10 +354,14 @@ public class Dungeon {
                 treasureCounter++;
             } else if (entity instanceof Key) {
                 keyCounter++;
+            } else if (entity instanceof SunStone) {
+                sunStoneCounter++;
             }
         }
 
-        if ((woodCounter >= 2 && treasureCounter >= 1) || (woodCounter >= 2 && keyCounter >= 1)) {
+        if ((woodCounter >= 2 && treasureCounter >= 1) || (woodCounter >= 2 && keyCounter >= 1) 
+            || (woodCounter >= 2 && sunStoneCounter >= 1)) {
+                
             buildableList.add("shield");
             bool = true;
         }

@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
+import dungeonmania.entities.collectableEntity.SunStone;
 import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.Wood;
 
@@ -35,11 +36,11 @@ public class Shield extends BuildableEntity {
         ListIterator<CollectableEntity> iter = inventory.listIterator();
         List<String> buildableList = Dungeon.getDungeon().getBuildableString();
 
-        // used up 2 wood + (1 treasure OR 1 key)
+        // used up 2 wood + (1 sun stone OR 1 treasure OR 1 key)
         int woodCounter = 0;
         while (iter.hasNext()) {
             CollectableEntity current = (CollectableEntity)iter.next();
-            if (woodCounter == 1) {
+            if (woodCounter == 2) {
                 break;
             }
             if (current instanceof Wood) {
@@ -48,9 +49,13 @@ public class Shield extends BuildableEntity {
             }
         }
 
+        // use of sun_stone is prioritised over the use of treasure, if no sun_stone, then
         // use of treasure is prioritised over use of key for creation of shield (assumption)
         for (CollectableEntity ingredient : inventory) {
-            if (ingredient instanceof Treasure) {
+            if (ingredient instanceof SunStone) {
+                inventory.remove(ingredient);
+                break;
+            } else if (ingredient instanceof Treasure) {
                 inventory.remove(ingredient);
                 break;
             } else if (ingredient instanceof Key) {

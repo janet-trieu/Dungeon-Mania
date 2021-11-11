@@ -5,11 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 import dungeonmania.Dungeon;
+import dungeonmania.Inventory;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.Wall;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import dungeonmania.entities.Player;
@@ -135,11 +137,23 @@ public class Mercenary extends MovingEntity {
     }
 
     /**
-     * Method to bribe the mercenary to become an ally 
+     * Method to bribe the mercenary with treasure to become an ally 
      */
     public void bribe() {
-        setIsBribed(true);
-        dungeon.getInventory().breakItem("treasure");
+        Inventory inventory = dungeon.getInventory();
+        // if player has sun stone, use to bribe mercenary
+        if (inventory.numberOfItem("sun_stone") > 0) {
+            setIsBribed(true);
+            return;
+        // else, player uses treasure to bribe mercenary    
+        } else if (inventory.numberOfItem("treasure") > 0) {
+            setIsBribed(true);
+            inventory.breakItem("treasure");
+            return;
+        // player cannot bribe mercenary    
+        } else {
+            throw new InvalidActionException("Cannot bribe without treasure or sun stone");
+        }
     }
 
     /**
