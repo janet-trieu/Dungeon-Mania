@@ -5,11 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.SunStone;
@@ -204,10 +202,7 @@ public class StaticTest {
 
         controller.newGame("simple-spawner-wall", "standard");
 
-        List<Entity> list = controller.getDungeon().getEntityList();
-
         // 20 TICKS
-
         controller.tick(null, Direction.RIGHT);
         for (int i = 0; i <= 19; i++) {
             controller.tick(null, Direction.LEFT);
