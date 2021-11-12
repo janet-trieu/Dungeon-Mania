@@ -1,22 +1,21 @@
 package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.EntityResponse;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-/**
- * Simple test to check if all possible spawnable entities have loaded
- */
 public class DungeonTest {
 
     /**
      * Test to check if all possible entities on the map are spawned
-     * EXCLUDES DROPS AND BUILDABLES: 'Armour', 'TheOneRing', 'Bow', 'Shield'
      * @throws IOException
      * @throws IllegalArgumentException
      */
@@ -24,10 +23,9 @@ public class DungeonTest {
     public void testEntityLoad() throws IllegalArgumentException, IOException  {
         DungeonManiaController controller = new DungeonManiaController();
        
-        controller.newGame("spawnable-entity", "peaceful");
+        controller.newGame("all-entities", "peaceful");
 
         // TEST POSITION OF EACH ENTITY
-        // Very ugly and repetitive - might have a change if staff says their eyes are burning also getInfo may be in the wrong class
         // Player
         Position position = new Position(0, 0, 4);
         assertEquals(new EntityResponse("Player", "player", position, false), controller.getInfo("Player"));
@@ -88,5 +86,107 @@ public class DungeonTest {
         // Sword
         position = new Position(19, 0, 2);
         assertEquals(new EntityResponse("Sword0", "sword", position, false), controller.getInfo("Sword0"));
+        // Armour
+        position = new Position(20, 0, 2);
+        assertEquals(new EntityResponse("Armour0", "armour", position, false), controller.getInfo("Armour0"));
+        // Bow
+        position = new Position(21, 0, 2);
+        assertEquals(new EntityResponse("Bow0", "bow", position, false), controller.getInfo("Bow0"));
+        // Shield
+        position = new Position(22, 0, 2);
+        assertEquals(new EntityResponse("Shield0", "shield", position, false), controller.getInfo("Shield0"));
+        // TheOneRing
+        position = new Position(23, 0, 2);
+        assertEquals(new EntityResponse("TheOneRing0", "the_one_ring", position, false), controller.getInfo("TheOneRing0"));
+        // Assassin
+        position = new Position(0, 1, 3);
+        assertEquals(new EntityResponse("Assassin0", "assassin", position, true), controller.getInfo("Assassin0"));
+        // Hydra
+        position = new Position(1, 1, 3);
+        assertEquals(new EntityResponse("Hydra0", "hydra", position, false), controller.getInfo("Hydra0"));
+        // SwampTile
+        position = new Position(2, 1, 0);
+        assertEquals(new EntityResponse("SwampTile0", "swamp_tile", position, false), controller.getInfo("SwampTile0"));
+        // SunStone
+        position = new Position(3, 1, 2);
+        assertEquals(new EntityResponse("SunStone0", "sun_stone", position, false), controller.getInfo("SunStone0"));
+        // Anduril
+        position = new Position(4, 1, 2);
+        assertEquals(new EntityResponse("Anduril0", "anduril", position, false), controller.getInfo("Anduril0"));
+        // Sceptre
+        position = new Position(5, 1, 2);
+        assertEquals(new EntityResponse("Sceptre0", "sceptre", position, false), controller.getInfo("Sceptre0"));
+        // MidnightArmour
+        position = new Position(6, 1, 2);
+        assertEquals(new EntityResponse("MidnightArmour0", "midnight_armour", position, false), controller.getInfo("MidnightArmour0"));
+    }
+
+    /**
+     * Test for invalid gamemode input
+     */
+    @Test
+    public void testNewGameInvalidGamemode() {
+        DungeonManiaController controller = new DungeonManiaController();
+        assertThrows(IllegalArgumentException.class, () -> controller.newGame("all-entities", "giveusmarkspls"));
+    }
+
+    /**
+     * Test for invalid dungeonName input
+     */
+    @Test
+    public void testNewGameInvalidName() {
+        DungeonManiaController controller = new DungeonManiaController();
+        assertThrows(IllegalArgumentException.class, () -> controller.newGame("chickennuggets", "standard"));
+    }
+
+    /**
+     * Test for invalid name for loadGame
+     */
+    @Test
+    public void testLoadGameInvalidName() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("all-entities", "standard");
+        controller.saveGame("pizzashape");
+        assertThrows(IllegalArgumentException.class, () -> controller.loadGame("notpizzashape"));
+    }
+
+    /**
+     * Test for invalid input for itemUsed in tick
+     */
+    @Test
+    public void testTickInvalidItemUsed() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("all-entities", "standard");
+        assertThrows(IllegalArgumentException.class, () -> controller.tick("pizzashape", Direction.NONE));
+    }
+
+    /**
+     * Test for item is not in player's inventory
+     */
+    @Test
+    public void testTickItemNotInInventory() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("testBomb", "standard");
+        assertThrows(InvalidActionException.class, () -> controller.tick("Bomb0", Direction.NONE));
+    }
+
+    /**
+     * Test for invalid name for build
+     */
+    @Test
+    public void testBuildInvalidBuildable() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("testBomb", "standard");
+        assertThrows(IllegalArgumentException.class, () -> controller.build("the_one_ring"));
+    }
+
+    /**
+     * Test for invalid entityId
+     */
+    @Test
+    public void testBuildInvalidInteract() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("testBomb", "standard");
+        assertThrows(IllegalArgumentException.class, () -> controller.interact("Chicken0"));
     }
 }
