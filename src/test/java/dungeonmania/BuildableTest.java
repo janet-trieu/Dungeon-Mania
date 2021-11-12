@@ -337,7 +337,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBuildShieldPriority2", "Standard");
+        controller.newGame("testBuildShieldPriority2", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
