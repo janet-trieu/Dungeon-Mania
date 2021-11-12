@@ -132,12 +132,12 @@ public class DungeonManiaController {
         if (mapObj.has("goal-condition")) {
             JSONObject goalObj = mapObj.getJSONObject("goal-condition");
             Goal goal = createGoal(goalObj, dungeon);
-            dungeon.addGoal(goal);
+            dungeon.setGoal(goal);
             return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
         }
 
         Goal goal = new ExitGoal(dungeon);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
 
         // For maps that do not have goals
         return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
@@ -178,7 +178,13 @@ public class DungeonManiaController {
                 if (obj.has("tickCounter")) {
                     ZombieToastSpawner.setTickCounter(obj.getInt("tickCounter"));
                 }
+            } else if (entity instanceof Spider) {
+                if (obj.has("tickCounter")) {
+                    Spider.setTickCounter(obj.getInt("tickCounter"));
+                    Spider.setSpiderNum(obj.getInt("spiderNum"));
+                }
             }
+            // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES
             dungeon.addEntity(entity);
         }
     }
@@ -286,6 +292,7 @@ public class DungeonManiaController {
                 return sceptre;
             default:
                 break;
+            // TODO: ADD MILESTONE 3 ENTITIES
         }
         return null;
     }
@@ -392,6 +399,7 @@ public class DungeonManiaController {
             } else if (entity instanceof ZombieToastSpawner) {
                 entityInfo.put("tickCounter", ZombieToastSpawner.getTickCounter());
             }
+            // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES, also put this somewhere else ITS SO FKN UGLY BRO GET THIS SHIT OUTTA HEREEE
             entityArray.put(entityInfo);
         }
         saveObj.put("entities", entityArray);
@@ -499,7 +507,7 @@ public class DungeonManiaController {
 
         // Get goal
         Goal goal = createGoalFromString(dataObj.getString("goals"), dungeon);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
 
         // Create new dungeonResponse from dungeon class to ensure its correct and return
         DungeonResponse response = new DungeonResponse(dungeonId, dungeon.getDungeonName(), dungeon.getEntityResponse(),
