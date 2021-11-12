@@ -286,6 +286,9 @@ public class DungeonManiaController {
             case "sceptre":
                 Sceptre sceptre = new Sceptre(x, y);
                 return sceptre;
+            case "midnight_armour":
+                MidnightArmour midnightArmour = new MidnightArmour(x, y);
+                return midnightArmour;
             default:
                 break;
             // TODO: ADD MILESTONE 3 ENTITIES
@@ -770,10 +773,12 @@ public class DungeonManiaController {
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
         Boolean canBuildSceptre = currDungeon.updateBuildableListSceptre();
+        Boolean canBuildMidnightArmour = currDungeon.updateBuildableListMidnightArmour();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
         Inventory currInventory = currDungeon.getInventory();
 
-        if (!buildable.equals("bow") && !buildable.equals("shield") && !buildable.equals("sceptre")) {
+        if (!buildable.equals("bow") && !buildable.equals("shield") && 
+            !buildable.equals("sceptre") && !buildable.equals("midnight_armour")) {
         // if (!(buildable.equals("bow")) || !(buildable.equals("shield")) || !(buildable.equals("sceptre"))) {
             throw new IllegalArgumentException("Incorrect buildable entity");
         }
@@ -784,6 +789,8 @@ public class DungeonManiaController {
             throw new InvalidActionException("Not enough ingredients to build shield");
         } else if (buildable.equals("sceptre") && !canBuildSceptre) {
             throw new InvalidActionException("Not enough ingredients to build sceptre");
+        } else if (buildable.equals("midnight_armour") && !canBuildMidnightArmour) {
+            throw new InvalidActionException("Not enough ingredients to build midnight armour");
         }
 
         if (canBuildBow && buildable.equals("bow")) {
@@ -805,6 +812,13 @@ public class DungeonManiaController {
             sceptre.useIngredient();
             currDungeon.updateBuildableListShield();
             currInventory.addItem(sceptre);
+            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+        } else if (canBuildMidnightArmour && buildable.equals("midnight_armour")) {
+            MidnightArmour midnightArmour = new MidnightArmour(-1, -1);
+            midnightArmour.useIngredient();
+            currDungeon.updateBuildableListMidnightArmour();
+            currInventory.addItem(midnightArmour);
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         }
