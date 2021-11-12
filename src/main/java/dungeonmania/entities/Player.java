@@ -81,7 +81,7 @@ public class Player extends Entity {
         setLayer(layer);
         setDamage(1);
         setProtection(1);
-        if (gameMode.equals("Hard")) {
+        if (gameMode.equals("hard")) {
             setHealth(hardMaxHealth);
             this.maxHealth = hardMaxHealth;
         } else {

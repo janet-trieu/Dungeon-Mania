@@ -63,10 +63,10 @@ public class PlayerStateTest {
      * Load states on hard gamemode
      */
     @Test
-    public void loadStatesHardTest() {
+    public void loadStateshardTest() {
         Dungeon dungeon = new Dungeon();
 
-        Player player = new Player(0, 0, "Hard");
+        Player player = new Player(0, 0, "hard");
         dungeon.addEntity(player);
         assertEquals(false, player.isInvincible());
         assertEquals(false, player.isInvisible());
@@ -147,10 +147,10 @@ public class PlayerStateTest {
      * Test for the reapplication of invincibility Potion
      */
     @Test
-    public void invincibileHardTest() {
+    public void invincibilehardTest() {
         Dungeon dungeon = new Dungeon();
 
-        Player player = new Player(0, 0, "Hard");
+        Player player = new Player(0, 0, "hard");
         dungeon.addEntity(player);
 
         InvincibilityPotion potion0 = new InvincibilityPotion(1, 0);

@@ -73,8 +73,8 @@ public abstract class MovingEntity extends Entity {
      * Sets damage to 0 if gamemode is peaceful
      * @param dungeon
      */
-    public void setDamagePeaceful(Dungeon dungeon) {
-        if (dungeon.getGameMode().equals("Peaceful")) {
+    public void setDamagepeaceful(Dungeon dungeon) {
+        if (dungeon.getGameMode().equals("peaceful")) {
             setDamage(0);
         }
     }

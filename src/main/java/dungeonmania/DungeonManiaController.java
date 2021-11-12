@@ -45,7 +45,7 @@ public class DungeonManiaController {
     }
 
     public List<String> getGameModes() {
-        return Arrays.asList("Standard", "Peaceful", "Hard");
+        return Arrays.asList("standard", "peaceful", "hard");
     }
 
     /**
@@ -94,18 +94,14 @@ public class DungeonManiaController {
             System.err.println("Invalid directory: " + e.getMessage());
         }
 
-        try {
-            // EXCEPTION CHECKS //
-            // If dungeonName does not exist
-            if (!maps.contains(dungeonName)) {
-                throw new IllegalArgumentException("Invalid dungeonName");
-            }
-            // If gameMode is invalid
-            if (!getGameModes().contains(gameMode)) {
-                throw new IllegalArgumentException("Invalid gameMode");
-            }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
+        // EXCEPTION CHECKS //
+        // If dungeonName does not exist
+        if (!maps.contains(dungeonName)) {
+            throw new IllegalArgumentException("Invalid dungeonName");
+        }
+        // If gameMode is invalid
+        if (!getGameModes().contains(gameMode)) {
+            throw new IllegalArgumentException("Invalid gameMode");
         }
 
         // Generate dungeonId

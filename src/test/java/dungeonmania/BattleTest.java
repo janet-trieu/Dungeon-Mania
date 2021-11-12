@@ -364,7 +364,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("bribe", "Standard");
+        controller.newGame("bribe", "standard");
 
         // 20 TICKS
         controller.tick(null, Direction.RIGHT);
@@ -380,7 +380,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("bribe-far", "Standard");
+        controller.newGame("bribe-far", "standard");
 
         controller.tick(null, Direction.RIGHT);
 
@@ -395,7 +395,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("bribe-far", "Standard");
+        controller.newGame("bribe-far", "standard");
         
         controller.tick(null, Direction.DOWN);
 
@@ -414,7 +414,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeSunStone", "Standard");
+        controller.newGame("testBribeSunStone", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -438,7 +438,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeFarSunStone", "Standard");
+        controller.newGame("testBribeFarSunStone", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -465,7 +465,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribePriority", "Standard");
+        controller.newGame("testBribePriority", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -500,7 +500,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeAssassin", "Standard");
+        controller.newGame("testBribeAssassin", "standard");
         
         // player moves 1 cell to the right to pick up treasure
         controller.tick(null, Direction.RIGHT);
@@ -533,7 +533,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeAssassinSunStone", "Standard");
+        controller.newGame("testBribeAssassinSunStone", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -574,7 +574,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeAssassinPriority", "Standard");
+        controller.newGame("testBribeAssassinPriority", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -622,7 +622,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeAssassinFar", "Standard");
+        controller.newGame("testBribeAssassinFar", "standard");
 
         // player moves 1 cell to the right to pick up one ring
         controller.tick(null, Direction.RIGHT);
@@ -667,7 +667,7 @@ public class BattleTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBribeSceptreMerc", "Standard");
+        controller.newGame("testBribeSceptreMerc", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
@@ -701,7 +701,7 @@ public class BattleTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBribeSceptreAssa", "Standard");
+        controller.newGame("testBribeSceptreAssa", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);

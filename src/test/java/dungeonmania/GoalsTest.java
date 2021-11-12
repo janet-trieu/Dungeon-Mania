@@ -46,7 +46,7 @@ public class GoalsTest {
     
         // add ExitGoal to dungeon
         Goal goal = new ExitGoal(dungeon);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
         assertEquals(":exit", goal.toString());
 
         player.moveRight();
@@ -74,7 +74,7 @@ public class GoalsTest {
     
         // add EnemyGoal to dungeon
         Goal goal = new EnemyGoal(dungeon);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
         assertEquals(":enemy", goal.toString());
 
         // Player should be on same cell as mercenary
@@ -112,7 +112,7 @@ public class GoalsTest {
 
         // add SwitchGoal to dungeon
         Goal goal = new SwitchGoal(dungeon);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
         assertEquals(":switch", goal.toString());
 
         // Player should have moved boulder on switch
@@ -151,7 +151,7 @@ public class GoalsTest {
 
         // add TreasureGoal to dungeon
         Goal goal = new TreasureGoal(dungeon);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
         assertEquals(":treasure", goal.toString());
 
         // Player collects treasure
@@ -205,7 +205,7 @@ public class GoalsTest {
         Goal exitGoal = new ExitGoal(dungeon);
         goal.addSubGoal(treasureGoal);
         goal.addSubGoal(exitGoal);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
         assertEquals("(:treasure AND :exit)", goal.toString());
 
         // Player collects treasure
@@ -264,7 +264,7 @@ public class GoalsTest {
         Goal enemyGoal = new EnemyGoal(dungeon);
         goal.addSubGoal(switchGoal);
         goal.addSubGoal(enemyGoal);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
         assertEquals("(:switch OR :enemy)", goal.toString());
 
         // Player moves boulder
@@ -306,7 +306,7 @@ public class GoalsTest {
         Goal enemyGoal = new EnemyGoal(dungeon);
         goal.addSubGoal(switchGoal);
         goal.addSubGoal(enemyGoal);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
         assertEquals("(:switch OR :enemy)", goal.toString());
 
         // Player should be on same cell as mercenary

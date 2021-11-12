@@ -24,7 +24,7 @@ public class DungeonTest {
     public void testEntityLoad() throws IllegalArgumentException, IOException  {
         DungeonManiaController controller = new DungeonManiaController();
        
-        controller.newGame("spawnable-entity", "Peaceful");
+        controller.newGame("spawnable-entity", "peaceful");
 
         // TEST POSITION OF EACH ENTITY
         // Very ugly and repetitive - might have a change if staff says their eyes are burning also getInfo may be in the wrong class
