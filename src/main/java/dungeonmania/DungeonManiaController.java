@@ -275,7 +275,8 @@ public class DungeonManiaController {
                 Hydra hydra = new Hydra(x, y, dungeon);
                 return hydra;
             case "swamp_tile":
-                int movementFactor = obj.getInt("movementFactor");
+                int movementFactor = -1;
+                if (obj.has("movementFactor")) { movementFactor = obj.getInt("movementFactor"); }
                 SwampTile swampTile = new SwampTile(x, y, movementFactor);
                 return swampTile;
             case "anduril":
@@ -666,6 +667,7 @@ public class DungeonManiaController {
             throw new InvalidActionException("Item is not in the inventory");
         }
 
+        // Moving
         if (!movementDirection.equals(Direction.NONE)) {
             player.move(movementDirection);
             
@@ -683,7 +685,10 @@ public class DungeonManiaController {
                     }
                 }
             }
-        } else {
+        }
+        
+        // Item use
+        if (itemUsed != null) {
             switch (type) {
                 case "bomb":
                     Bomb bomb = new Bomb(player.getX(), player.getY());
