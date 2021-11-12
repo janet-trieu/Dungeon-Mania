@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import dungeonmania.Dungeon;
+import dungeonmania.Inventory;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.SunStone;
@@ -17,6 +18,9 @@ public class Shield extends BuildableEntity {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
+
+    // dungeon instance
+    Dungeon currDungeon = Dungeon.getDungeon();
 
     /**
      * Constructor for a shield
@@ -32,9 +36,10 @@ public class Shield extends BuildableEntity {
 
     @Override
     public void useIngredient() {
-        List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
-        ListIterator<CollectableEntity> iter = inventory.listIterator();
-        List<String> buildableList = Dungeon.getDungeon().getBuildableString();
+        Inventory currInventory = currDungeon.getInventory();
+        List<CollectableEntity> items = currInventory.getItems();
+        ListIterator<CollectableEntity> iter = items.listIterator();
+        List<String> buildableList = currDungeon.getBuildableString();
 
         // used up 2 wood + (1 sun stone OR 1 treasure OR 1 key)
         int woodCounter = 0;
@@ -49,19 +54,14 @@ public class Shield extends BuildableEntity {
             }
         }
 
-        // use of sun_stone is prioritised over the use of treasure, if no sun_stone, then
         // use of treasure is prioritised over use of key for creation of shield (assumption)
-        for (CollectableEntity ingredient : inventory) {
-            if (ingredient instanceof SunStone) {
-                inventory.remove(ingredient);
-                break;
-            } else if (ingredient instanceof Treasure) {
-                inventory.remove(ingredient);
-                break;
-            } else if (ingredient instanceof Key) {
-                inventory.remove(ingredient);
-                break; 
-            }
+        // use of sun stone would be the last choice
+        if (currInventory.invGetInstance("treasure") != null) {
+            items.remove(currInventory.invGetInstance("treasure"));
+        } else if (currInventory.invGetInstance("key") != null) {
+            items.remove(currInventory.invGetInstance("key"));
+        } else if (currInventory.invGetInstance("sun_stone") != null) {
+            items.remove(currInventory.invGetInstance("sun_stone"));
         }
 
         // update the buildable list

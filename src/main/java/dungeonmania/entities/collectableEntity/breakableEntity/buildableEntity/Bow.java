@@ -16,6 +16,9 @@ public class Bow extends BuildableEntity {
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
 
+    // dungeon instance
+    Dungeon currDungeon = Dungeon.getDungeon();
+
     /**
      * Constructor for a bow
      * @param x position
@@ -30,9 +33,9 @@ public class Bow extends BuildableEntity {
 
     @Override
     public void useIngredient() {
-        List<CollectableEntity> inventory = Dungeon.getDungeon().getInventory().getItems();
+        List<CollectableEntity> inventory =  currDungeon.getInventory().getItems();
         ListIterator<CollectableEntity> iter = inventory.listIterator();
-        List<String> buildableList = Dungeon.getDungeon().getBuildableString();
+        List<String> buildableList = currDungeon.getBuildableString();
     
         // used up 3 arrows and 1 wood, so remove them from inventory
         int arrowCounter = 0;

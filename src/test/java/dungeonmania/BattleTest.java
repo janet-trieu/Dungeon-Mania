@@ -682,6 +682,8 @@ public class BattleTest {
         // hence, treasure still remains in the inventory
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
 
+    
+
     }
 
     /**

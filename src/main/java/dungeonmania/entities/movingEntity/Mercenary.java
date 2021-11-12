@@ -7,7 +7,9 @@ import java.util.List;
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Sceptre;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.Wall;
@@ -141,6 +143,12 @@ public class Mercenary extends MovingEntity {
      */
     public void bribe() {
         Inventory inventory = dungeon.getInventory();
+        if (inventory.numberOfItem("sceptre") > 0) {
+            CollectableEntity item = inventory.invGetInstance("sceptre");
+            Sceptre sceptre = (Sceptre)item;
+            sceptre.mindControl(this);
+            return;
+        }
         // if player has sun stone, use to bribe mercenary
         if (inventory.numberOfItem("sun_stone") > 0) {
             setIsBribed(true);

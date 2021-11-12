@@ -99,5 +99,20 @@ public class Inventory {
             }
         }
     }
+
+    /**
+     * Given the entity type, returns the first instance of the item
+     * - if item is not in inventory, returns null
+     * @param type
+     */
+    public CollectableEntity invGetInstance(String type) {
+        for (CollectableEntity item : items) {
+            if (item.getType().equals(type)) {
+                return item;
+            }
+        }
+
+        return null;
+    }
     
 }

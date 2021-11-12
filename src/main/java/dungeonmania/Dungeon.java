@@ -600,4 +600,47 @@ public class Dungeon {
         Bow.setCounter(0);
     }
     
+    /**
+     * Checks if 'sceptre' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if sceptre is buildable
+     */
+    public Boolean updateBuildableListSceptre() {
+        if (buildableList.contains("sceptre")) {
+            return true;
+        }
+        Boolean bool = false;
+        List<CollectableEntity> inventory = getInventory().getItems();
+        int woodCounter = 0;
+        int arrowCounter = 0;
+        int treasureCounter = 0;
+        int keyCounter = 0;
+        int sunStoneCounter = 0;
+        for (CollectableEntity entity : inventory) {
+            if (entity instanceof Wood) {
+                woodCounter++;
+            } else if (entity instanceof Arrow) {
+                arrowCounter++;
+            } else if (entity instanceof Treasure) {
+                treasureCounter++;
+            } else if (entity instanceof Key) {
+                keyCounter++;
+            } else if (entity instanceof SunStone) {
+                sunStoneCounter++;
+            }
+        }
+        // Can be crafted with one wood or two arrows, one key or treasure, and one sun stone.
+        if ((woodCounter >= 1 && keyCounter >= 1 && sunStoneCounter >= 1) ||        // 1 wood, 1 key, 1 sun stone
+            (woodCounter >= 1 && treasureCounter >= 1 && sunStoneCounter >= 1) ||   // 1 wood, 1 treasure, 1 sun stone
+            (woodCounter >= 1 && sunStoneCounter >= 2) ||                           // 1 wood, 2 sun stones
+            (arrowCounter >= 2 && keyCounter >= 1 && sunStoneCounter >= 1) ||       // 2 arrows, 1 key, 1 sun stone
+            (arrowCounter >= 2 && treasureCounter >= 1 && sunStoneCounter >= 1) ||  // 2 arrows, 1 treasure, 1 sun stone
+            (arrowCounter >= 2 && sunStoneCounter >= 2)) {                          // 2 arrows, 2 sun stones
+                
+            buildableList.add("sceptre");
+            bool = true;
+        }
+        return bool;
+    }
+
 }
