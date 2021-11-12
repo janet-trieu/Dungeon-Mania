@@ -649,4 +649,44 @@ public class Dungeon {
         return bool;
     }
 
+    /**
+     * Checks if 'midnight_armour' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if sceptre is buildable
+     */
+    public Boolean updateBuildableListMidnightArmour() {
+        Boolean bool = false;
+        List<MovingEntity> enemies = getMovingEntities();
+
+        // check if there are any zombie toasts in dungeon
+        for (MovingEntity enemy : enemies) {
+            if (enemy instanceof ZombieToast) {
+                return false;
+            }
+        }
+
+        if (buildableList.contains("midnight_armour")) {
+            return true;
+        }
+
+        List<CollectableEntity> inventory = getInventory().getItems();
+        int armourCounter = 0;
+        int sunStoneCounter = 0;
+        for (CollectableEntity entity : inventory) {
+            if (entity instanceof Armour) {
+                armourCounter++;
+            } else if (entity instanceof SunStone) {
+                sunStoneCounter++;
+            }
+        }
+        
+        // Can be crafted with one armour and one sun stone
+        if (armourCounter >= 1 && sunStoneCounter >= 1) {
+            buildableList.add("midnight_armour");
+            bool = true;
+        }
+                
+        return bool;
+    }
+
 }
