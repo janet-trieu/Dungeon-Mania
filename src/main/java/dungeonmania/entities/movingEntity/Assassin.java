@@ -23,6 +23,7 @@ public class Assassin extends BossEntity implements Bribeable {
         super(x, y, "assassin", 30, 5); 
         setId("Assassin" + String.valueOf(counter));
         setIsInteractable(isInteractable);
+        this.dungeon = dungeon;
         counter++;
     }
 
@@ -31,6 +32,7 @@ public class Assassin extends BossEntity implements Bribeable {
      */
     @Override
     public void bribe() {
+        System.out.println("HI");
         Inventory inventory = dungeon.getInventory();
         if (inventory.numberOfItem("sceptre") > 0) {
             CollectableEntity item = inventory.invGetInstance("sceptre");
@@ -40,13 +42,13 @@ public class Assassin extends BossEntity implements Bribeable {
         }
         // if player has sun stone and the one ring, use to bribe assassin
         // one ring is used up, sun stone remains
-        if (inventory.numberOfItem("sun_stone") > 0 && inventory.numberOfItem("one_ring") > 0) {
+        if (inventory.numberOfItem("sun_stone") > 0 && inventory.numberOfItem("the_one_ring") > 0) {
             setIsBribed(true);
             inventory.breakItem("one_ring");
             return;
-            
+
         // else, player uses treasure and the one ring to bribe assassin    
-        } else if (inventory.numberOfItem("treasure") > 0 && inventory.numberOfItem("one_ring") > 0) {
+        } else if (inventory.numberOfItem("treasure") > 0 && inventory.numberOfItem("the_one_ring") > 0) {
             setIsBribed(true);
             inventory.breakItem("treasure");
             inventory.breakItem("one_ring");

@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.Dungeon;
+import dungeonmania.DungeonManiaController;
+import dungeonmania.Inventory;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
@@ -508,10 +511,7 @@ public class BattleTest {
 
         // player moves 1 cell to the right to pick up one ring
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
-
-        // assassin started at (5, 0), now is at (3, 0)
-        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(3,0,3), true), controller.getInfo("Assassin0"));
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // attempt to bribe assassin with treasure + one ring
         assertDoesNotThrow(() -> {
@@ -541,10 +541,7 @@ public class BattleTest {
 
         // player moves 1 cell to the right to pick up one ring
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
-
-        // assassin started at (5, 0), now is at (3, 0)
-        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(3,0,3), true), controller.getInfo("Assassin0"));
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // attempt to bribe assassin with sun stone + one ring
         assertDoesNotThrow(() -> {
@@ -582,14 +579,11 @@ public class BattleTest {
 
         // player moves 1 cell to the right to pick up one ring
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // player moves 1 cell to the right to pick up treasure
         controller.tick(null, Direction.RIGHT);
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
-
-        // assassin started at (7, 0), now is at (4, 0)
-        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(4,0,3), true), controller.getInfo("Assassin0"));
 
         // attempt to bribe assassin
         assertDoesNotThrow(() -> {
@@ -624,16 +618,13 @@ public class BattleTest {
 
         controller.newGame("testBribeAssassinFar", "standard");
 
-        // player moves 1 cell to the right to pick up one ring
-        controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
-
         // player moves 1 cell to the right to pick up treasure
         controller.tick(null, Direction.RIGHT);
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
 
-        // assassin started at (10, 0), now is at (7, 0)
-        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(4,0,3), true), controller.getInfo("Assassin0"));
+        // player moves 1 cell to the right to pick up one ring
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // attempt to bribe assassin
         // player is currently at (3, 0), while assassin is at (7, 0)
@@ -682,8 +673,6 @@ public class BattleTest {
         // hence, treasure still remains in the inventory
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
 
-    
-
     }
 
     /**
@@ -716,7 +705,7 @@ public class BattleTest {
         // assert that the sceptre has been used to mind-control the assassin
         // hence, treasure and one ring still remains in the inventory
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
         
     }
 

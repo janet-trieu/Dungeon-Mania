@@ -13,15 +13,10 @@
         {
             "x": 2,
             "y": 0,
-            "type": "one_ring"
+            "type": "the_one_ring"
         },
         {
-            "x": 3,
-            "y": 0,
-            "type": "treasure"
-        },
-        {
-            "x": 7,
+            "x": 5,
             "y": 0,
             "type": "assassin"
         }
