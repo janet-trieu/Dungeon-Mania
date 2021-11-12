@@ -6,9 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import dungeonmania.Dungeon;
-import dungeonmania.DungeonManiaController;
-import dungeonmania.Inventory;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
