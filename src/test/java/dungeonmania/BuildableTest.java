@@ -33,7 +33,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBow", "Standard");
+        controller.newGame("testBow", "standard");
 
         // testing if a wrong input is given for a buildable entity
         assertThrows(IllegalArgumentException.class, () -> controller.build("not buildable"));
@@ -87,7 +87,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testShield", "Standard");
+        controller.newGame("testShield", "standard");
 
         // testing if a wrong input is given for a buildable entity
         assertThrows(IllegalArgumentException.class, () -> controller.build("not buildable"));
@@ -136,7 +136,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testShield2", "Standard");
+        controller.newGame("testShield2", "standard");
 
         // testing if a wrong input is given for a buildable entity
         assertThrows(IllegalArgumentException.class, () -> controller.build("not buildable"));
@@ -186,7 +186,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testShield2", "Standard");
+        controller.newGame("testShield2", "standard");
 
         // testing if a wrong input is given for a buildable entity
         assertThrows(IllegalArgumentException.class, () -> controller.build("not buildable"));
@@ -238,7 +238,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBuildShieldSunStone", "Standard");
+        controller.newGame("testBuildShieldSunStone", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
@@ -284,7 +284,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBuildShieldPriority", "Standard");
+        controller.newGame("testBuildShieldPriority", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
@@ -342,7 +342,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBuildSceptre", "Standard");
+        controller.newGame("testBuildSceptre", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
@@ -405,7 +405,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBuildSceptreTwoSunStones", "Standard");
+        controller.newGame("testBuildSceptreTwoSunStones", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
@@ -452,7 +452,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBuildMidArmour", "Standard");
+        controller.newGame("testBuildMidArmour", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
@@ -489,7 +489,7 @@ public class BuildableTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBuildMidArmour2", "Standard");
+        controller.newGame("testBuildMidArmour2", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);

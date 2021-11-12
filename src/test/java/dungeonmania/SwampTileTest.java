@@ -29,7 +29,7 @@ public class SwampTileTest {
     Position swampPosition = new Position(1, 0);
 
     public void setUp() {
-        controller.newGame("swamp-tile", "Standard");
+        controller.newGame("swamp-tile", "standard");
     }
 
     /**
