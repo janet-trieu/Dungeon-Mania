@@ -6,6 +6,6 @@ public interface Bribeable {
 
     public boolean isBribed();
 
-	public void setIsBribed(boolean b);
+	public void setIsBribed(boolean isBribed);
 
 }
