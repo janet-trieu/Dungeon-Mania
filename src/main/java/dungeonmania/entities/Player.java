@@ -145,7 +145,7 @@ public class Player extends Entity {
         for (Entity entity : Dungeon.getDungeon().getEntityList()) {
             if (entity instanceof Mercenary) {
                 Mercenary mercenary = (Mercenary) entity;
-                if (mercenary.IsBribed()) {
+                if (mercenary.isBribed()) {
                     otherEntity.setHealth(otherEntity.getHealth() - (mercenary.getHealth() * mercenary.getDamage()) / 5);
                 }
             }

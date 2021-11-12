@@ -15,6 +15,7 @@ import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
+import dungeonmania.entities.movingEntity.Bribeable;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -289,6 +290,9 @@ public class DungeonManiaController {
             case "midnight_armour":
                 MidnightArmour midnightArmour = new MidnightArmour(x, y);
                 return midnightArmour;
+            case "assassin":
+                Assassin assassin = new Assassin(x ,y, dungeon);
+                return assassin;
             default:
                 break;
             // TODO: ADD MILESTONE 3 ENTITIES
@@ -385,7 +389,7 @@ public class DungeonManiaController {
             } else if (entity instanceof Mercenary) {
                 Mercenary mercenary = (Mercenary) entity;
                 entityInfo.put("hasArmour", mercenary.getHasArmour());
-                entityInfo.put("isBribed", mercenary.IsBribed());
+                entityInfo.put("isBribed", mercenary.isBribed());
             } else if (entity instanceof Portal) {
                 Portal portal = (Portal) entity;
                 entityInfo.put("colour", portal.getColour());
@@ -623,7 +627,7 @@ public class DungeonManiaController {
                 if (player.getPosition().equals(enemy.getPosition())) {
                     if (enemy instanceof Mercenary) {
                         Mercenary mercenary = (Mercenary) enemy;
-                        if (!mercenary.IsBribed()) {
+                        if (!mercenary.isBribed()) {
                             while (player.battle(enemy)) {
                             }
                         }
@@ -663,7 +667,7 @@ public class DungeonManiaController {
             if (player.getPosition().equals(enemy.getPosition())) {
                 if (enemy instanceof Mercenary) {
                     Mercenary mercenary = (Mercenary) enemy;
-                    if (!mercenary.IsBribed()) {
+                    if (!mercenary.isBribed()) {
                         while (player.battle(enemy)) {
                         }
                     }
@@ -730,17 +734,39 @@ public class DungeonManiaController {
         // check whether the entityId is valid
         if (!entityIds.contains(entityId)) {
             throw new IllegalArgumentException("Incorrect interactable entity");
-        } else if (entityId.contains("Mercenary")) {
+        } else if (entityId.contains("Mercenary") || entityId.contains("Assassin")) {
             for (Entity entity : entities) {
-                if (entity instanceof Mercenary) {
+                if (entity instanceof Bribeable) {
                     if (!currDungeon.checkBribeRange(entity)) {
                         throw new InvalidActionException("Not close enough to bribe");
                     } else if (currDungeon.checkBribeRange(entity)) {
-                        Mercenary mercenary = (Mercenary)entity;
-                        mercenary.bribe();
+                        Bribeable bribeableEntity = (Bribeable)entity;
+                        bribeableEntity.bribe();
                     }
                 }
             }
+        // } else if (entityId.contains("Mercenary")) {
+        //     for (Entity entity : entities) {
+        //         if (entity instanceof Mercenary) {
+        //             if (!currDungeon.checkBribeRange(entity)) {
+        //                 throw new InvalidActionException("Not close enough to bribe");
+        //             } else if (currDungeon.checkBribeRange(entity)) {
+        //                 Mercenary mercenary = (Mercenary)entity;
+        //                 mercenary.bribe();
+        //             }
+        //         }
+        //     }
+        // } else if (entityId.contains("Assassin")) {
+        //     for (Entity entity : entities) {
+        //         if (entity instanceof Assassin) {
+        //             if (!currDungeon.checkBribeRange(entity)) {
+        //                 throw new InvalidActionException("Not close enough to bribe");
+        //             } else if (currDungeon.checkBribeRange(entity)) {
+        //                 Assassin assassin = (Assassin)entity;
+        //                 assassin.bribe();
+        //             }
+        //         }
+        //     }
         } else if (entityId.contains("ZombieToastSpawner")) {
             for (Entity entity : entityCardinallyAdjacent) {
                 if (entity instanceof ZombieToastSpawner) {
