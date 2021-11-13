@@ -11,15 +11,17 @@ import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.SunStone;
 import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.Wood;
+import dungeonmania.entities.movingEntity.Assassin;
 import dungeonmania.entities.movingEntity.Bribeable;
+import dungeonmania.entities.movingEntity.Mercenary;
 
 public class Sceptre extends BuildableEntity {
 
-    // durability attribute of sceptre is set to 10 (ticks)
-    private int durability = 10;
-
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
+
+    // storing the number of tick duration for mind control
+    private int mindControlDuration = 10;
 
     // dungeon instance
     Dungeon currDungeon = Dungeon.getDungeon();
@@ -33,7 +35,6 @@ public class Sceptre extends BuildableEntity {
         super(x, y, "sceptre");
         setId("Sceptre" + String.valueOf(counter));
         counter++;
-        setDurability(durability);
     }
 
     @Override
@@ -97,22 +98,6 @@ public class Sceptre extends BuildableEntity {
             // update the buildable list, as sceptre has now been built
             buildableList.remove("sceptre");
         }
-    }
-
-    public void mindControl(Bribeable entity) {
-        if (getDurability() <= 0) {
-            return;
-        }
-        entity.setIsBribed(true);
-        setDurability(getDurability() - 1);
-    }
-
-    public int getDurability() {
-        return durability;
-    }
-
-    public void setDurability(int durability) {
-        this.durability = durability;
     }
 
     public static int getCounter() {

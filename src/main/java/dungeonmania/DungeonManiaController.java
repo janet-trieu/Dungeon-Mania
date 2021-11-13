@@ -756,6 +756,13 @@ public class DungeonManiaController {
             }
         }
 
+        // update any mercenaries or assassins that are under mind control 
+        List<Bribeable> mindControlledEntities = currDungeon.mindControlledEntities();
+        for (Bribeable entity : mindControlledEntities) {
+            entity.setMindControlDuration(entity.getMindControlDuration() - 1);
+            entity.updateMindControl();
+        }
+
         // Update
         player.updatePotionDuration();
         currDungeon.updateBuildableListBow();
@@ -788,40 +795,16 @@ public class DungeonManiaController {
         if (!entityIds.contains(entityId)) {
             throw new IllegalArgumentException("Incorrect interactable entity");
         } else if (entityId.contains("Mercenary") || entityId.contains("Assassin")) {
-            System.out.println("entityId");
             for (Entity entity : entities) {
                 if (entity instanceof Bribeable) {
                     if (!currDungeon.checkBribeRange(entity)) {
                         throw new InvalidActionException("Not close enough to bribe");
                     } else if (currDungeon.checkBribeRange(entity)) {
                         Bribeable bribeableEntity = (Bribeable)entity;
-                        System.out.println("hi");
                         bribeableEntity.bribe();
                     }
                 }
             }
-        // } else if (entityId.contains("Mercenary")) {
-        //     for (Entity entity : entities) {
-        //         if (entity instanceof Mercenary) {
-        //             if (!currDungeon.checkBribeRange(entity)) {
-        //                 throw new InvalidActionException("Not close enough to bribe");
-        //             } else if (currDungeon.checkBribeRange(entity)) {
-        //                 Mercenary mercenary = (Mercenary)entity;
-        //                 mercenary.bribe();
-        //             }
-        //         }
-        //     }
-        // } else if (entityId.contains("Assassin")) {
-        //     for (Entity entity : entities) {
-        //         if (entity instanceof Assassin) {
-        //             if (!currDungeon.checkBribeRange(entity)) {
-        //                 throw new InvalidActionException("Not close enough to bribe");
-        //             } else if (currDungeon.checkBribeRange(entity)) {
-        //                 Assassin assassin = (Assassin)entity;
-        //                 assassin.bribe();
-        //             }
-        //         }
-        //     }
         } else if (entityId.contains("ZombieToastSpawner")) {
             for (Entity entity : entityCardinallyAdjacent) {
                 if (entity instanceof ZombieToastSpawner) {
