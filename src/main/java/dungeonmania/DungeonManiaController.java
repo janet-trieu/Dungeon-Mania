@@ -157,7 +157,8 @@ public class DungeonManiaController {
                     int armourDur = obj.getInt("armourDurability");
                     int swordDur = obj.getInt("swordDurability");
                     int shieldDur = obj.getInt("shieldDurability");
-                    player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur);
+                    int andurilDur = obj.getInt("andurilDurability");
+                    player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur, andurilDur);
                 }
             } else if (entity instanceof ZombieToast) {
                 if (obj.has("hasArmour")) {

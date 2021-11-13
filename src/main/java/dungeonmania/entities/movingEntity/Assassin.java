@@ -1,6 +1,7 @@
 package dungeonmania.entities.movingEntity;
 
 import dungeonmania.Dungeon;
+import dungeonmania.entities.Player;
 
 public class Assassin extends Mercenary {
     
@@ -11,5 +12,13 @@ public class Assassin extends Mercenary {
         setId("Assassin" + String.valueOf(counter));
         counter++;
     }
-    
+
+    @Override
+    public void takeDamagePlayer(Player player) {
+        if (player.isAnduril()) {
+            super.takeDamage(player.getHealth(), player.getDamage() * 3);
+        } else {
+            super.takeDamage(player.getHealth(), player.getDamage());
+        }
+    }
 }

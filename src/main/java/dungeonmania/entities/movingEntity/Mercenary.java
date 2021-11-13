@@ -138,6 +138,20 @@ public class Mercenary extends MovingEntity {
         dungeon.addItem(armour);
     }
 
+    @Override
+    public void takeDamage(double otherHealth, double otherDamage) {
+        if (getHasArmour()) {
+            setHealth(getHealth() - ((otherHealth * otherDamage)/5)/2);
+        } else {
+            super.takeDamage(otherHealth, otherDamage);
+        }
+    }
+
+    @Override
+    public void takeDamagePlayer(Player player) {
+        takeDamage(player.getHealth(), player.getDamage());
+    }
+    
     /**
      * Method to bribe the mercenary with treasure to become an ally 
      */

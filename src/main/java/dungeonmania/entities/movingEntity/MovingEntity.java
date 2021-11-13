@@ -92,6 +92,14 @@ public abstract class MovingEntity extends Entity {
             }
             entity.setPosition(move.getX(), move.getY());
     }
+    public void takeDamage(double otherHealth, double otherDamage) {
+        setHealth(getHealth() - (otherHealth * otherDamage)/5);
+    }
+
+    public void takeDamagePlayer(Player player) {
+        takeDamage(player.getHealth(), player.getDamage());
+    }
+
 
     /**
      * Returns list of distance between adjacent positions of entities and player's positions

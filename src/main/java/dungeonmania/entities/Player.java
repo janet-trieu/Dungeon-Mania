@@ -37,6 +37,7 @@ public class Player extends Entity {
     private PlayerState swordState;
     private PlayerState bowState;
     private PlayerState oneRingState;
+    private PlayerState andurilState;
 
     /**
      * Constructor for Player with only position
@@ -48,6 +49,7 @@ public class Player extends Entity {
         invincibleState = new NoInvincibleState(this);
         invisibleState = new NoInvisibleState(this);
         oneRingState = new NoOneRingState(this);
+        andurilState = new NoAndurilState(this);
         shieldState = new NoShieldState(this);
         armourState = new NoArmourState(this);
         swordState = new NoSwordState(this);
@@ -69,18 +71,7 @@ public class Player extends Entity {
      * @param gameMode
      */
     public Player(int x, int y, String gameMode) {
-        super(x, y, "player");
-        invincibleState = new NoInvincibleState(this);
-        invisibleState = new NoInvisibleState(this);
-        oneRingState = new NoOneRingState(this);
-        shieldState = new NoShieldState(this);
-        armourState = new NoArmourState(this);
-        swordState = new NoSwordState(this);
-        bowState = new NoBowState(this);
-        setId("Player");
-        setLayer(layer);
-        setDamage(1);
-        setProtection(1);
+        this(x, y);
         if (gameMode.equals("hard")) {
             setHealth(hardMaxHealth);
             this.maxHealth = hardMaxHealth;
@@ -122,18 +113,16 @@ public class Player extends Entity {
             return false;
         }
         // Enemy Health = Enemy Health - ((Character Health * Character Attack Damage) / 5)
-        otherEntity.setHealth(otherEntity.getHealth() - ((getHealth() * getDamage()) / 5));
-
+        otherEntity.takeDamagePlayer(this);
+        updateCombatDurability();
         allyAssistBattle(otherEntity);
         if (otherEntity.getHealth() <= 0) {
             if (otherEntity instanceof Spider) {
                 Spider.setSpiderNum(Spider.getSpiderNum() - 1);
             }
             Dungeon.getDungeon().removeEntity(otherEntity);
-            updateCombatDurability();
             return false;
         }
-        updateCombatDurability();
         return true;
     }
 
@@ -146,7 +135,7 @@ public class Player extends Entity {
             if (entity instanceof Mercenary) {
                 Mercenary mercenary = (Mercenary) entity;
                 if (mercenary.IsBribed()) {
-                    otherEntity.setHealth(otherEntity.getHealth() - (mercenary.getHealth() * mercenary.getDamage()) / 5);
+                    otherEntity.takeDamage(mercenary.getHealth(), mercenary.getDamage());
                 }
             }
         }
@@ -351,6 +340,10 @@ public class Player extends Entity {
         this.oneRingState = state;
     }
 
+    public void changeAndurilState(PlayerState state) {
+        this.andurilState = state;
+    }
+
     /**
      * Apply state
      */
@@ -386,6 +379,9 @@ public class Player extends Entity {
     public void equipOneRing() {
         oneRingState.applyEffect();
     }
+    public void equipAnduril() {
+        andurilState.applyEffect();
+    }
 
     public void equipCombat() {
         Inventory inventory = Dungeon.getDungeon().getInventory();
@@ -395,7 +391,9 @@ public class Player extends Entity {
         if (inventory.numberOfItem("shield") >= 1) {
             equipShield();
         }
-        if (inventory.numberOfItem("sword") >= 1) {
+        if (inventory.numberOfItem("anduril") >= 1) {
+            equipAnduril();
+        } else if (inventory.numberOfItem("sword") >= 1) {
             equipSword();
         }
         if (inventory.numberOfItem("bow") >= 1) {
@@ -418,10 +416,14 @@ public class Player extends Entity {
         armourState.reduceDuration();
         shieldState.reduceDuration();
         bowState.reduceDuration();
-        swordState.reduceDuration();
+        if (andurilState.isApplied()) {
+            andurilState.reduceDuration();
+        } else {
+            swordState.reduceDuration();
+        }
     }
 
-    public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur) {
+    public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur, int andurilDur) {
         if (invinDur > 0) {
             invincibleState.loadDuration(invinDur);
         }
@@ -439,6 +441,9 @@ public class Player extends Entity {
         }
         if (shieldDur > 0) {
             shieldState.loadDuration(shieldDur);
+        }
+        if (andurilDur > 0) {
+            andurilState.loadDuration(andurilDur);
         }
     }
 
@@ -469,6 +474,10 @@ public class Player extends Entity {
     public Boolean isRing() {
         return oneRingState.isApplied();
     }
+
+    public Boolean isAnduril() {
+        return andurilState.isApplied();
+    }
     /**
      * Getters and Setters
      */
@@ -498,6 +507,10 @@ public class Player extends Entity {
 
     public int getOneRingDurability() {
         return oneRingState.getDuration();
+    }
+
+    public int getAndurilDurability() {
+        return andurilState.getDuration();
     }
 
     public double getHealth() {

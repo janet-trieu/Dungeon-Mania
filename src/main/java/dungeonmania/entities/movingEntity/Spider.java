@@ -126,5 +126,4 @@ public class Spider extends MovingEntity {
     public static void setCounter(int counter) {
         Spider.counter = counter;
     }
-    
 }
