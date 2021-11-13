@@ -7,7 +7,6 @@ import dungeonmania.entities.movingEntity.*;
 import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.*;
 import dungeonmania.entities.collectableEntity.potionEntity.*;
-import dungeonmania.entities.collectableEntity.breakableEntity.*;
 import dungeonmania.entities.collectableEntity.buildableEntity.*;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;

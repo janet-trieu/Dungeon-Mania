@@ -1,6 +1,5 @@
 package dungeonmania.entities.PlayerState;
 
-import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 
 public class AndurilState implements PlayerState {
