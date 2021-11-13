@@ -1,4 +1,4 @@
-package dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity;
+package dungeonmania.entities.collectableEntity.buildableEntity;
 
 import java.util.List;
 
@@ -8,8 +8,6 @@ import dungeonmania.entities.collectableEntity.CollectableEntity;
 
 public class MidnightArmour extends BuildableEntity {
 
-    // durability attribute of midnight armour is set to 16 (ticks)
-    public final static int durability = 16;
     // TODO: change damage and protection later
     public final static int protection = 10;
     public final static int damage = 10;

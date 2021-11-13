@@ -8,7 +8,7 @@ import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.*;
 import dungeonmania.entities.collectableEntity.potionEntity.*;
 import dungeonmania.entities.collectableEntity.breakableEntity.*;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.*;
+import dungeonmania.entities.collectableEntity.buildableEntity.*;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -216,8 +216,9 @@ public class DungeonManiaController {
                     int armourDur = obj.getInt("armourDurability");
                     int swordDur = obj.getInt("swordDurability");
                     int shieldDur = obj.getInt("shieldDurability");
-                    int midnightArmourDur = obj.getInt("midnightArmourDurability");
-                    player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur, midnightArmourDur);
+                    // int midnightArmourDur = obj.getInt("midnightArmourDurability");
+                    // player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur, midnightArmourDur);
+                    player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur);
                 }
                 return player;
             case "portal":
@@ -264,7 +265,6 @@ public class DungeonManiaController {
                 return sunStone;
             case "sceptre":
                 Sceptre sceptre = new Sceptre(x, y);
-                if (obj.has("durability")) { sceptre.setDurability(obj.getInt("durability")); }
                 return sceptre;
             case "midnight_armour":
                 MidnightArmour midnightArmour = new MidnightArmour(x, y);
@@ -401,7 +401,7 @@ public class DungeonManiaController {
                 entityInfo.put("armourDurability", player.getArmourDurability());
                 entityInfo.put("swordDurability", player.getSwordDurability());
                 entityInfo.put("shieldDurability", player.getShieldDurability());
-                entityInfo.put("midnightArmourDurability", player.getMidnightArmourDurability());
+                // entityInfo.put("midnightArmourDurability", player.getMidnightArmourDurability());
             } else if (entity instanceof ZombieToast) {
                 ZombieToast zombieToast = (ZombieToast) entity;
                 entityInfo.put("hasArmour", zombieToast.getHasArmour());
@@ -420,9 +420,6 @@ public class DungeonManiaController {
                 entityInfo.put("key", key.getKeyId());
             } else if (entity instanceof ZombieToastSpawner) {
                 entityInfo.put("tickCounter", ZombieToastSpawner.getTickCounter());
-            } else if (entity instanceof Sceptre) {
-                Sceptre sceptre = (Sceptre) entity;
-                entityInfo.put("durability", sceptre.getDurability());
             } else if (entity instanceof SwampTile) {
                 SwampTile swampTile = (SwampTile) entity;
                 entityInfo.put("movementFactor", swampTile.getMovementFactor());
@@ -446,10 +443,6 @@ public class DungeonManiaController {
             JSONObject itemInfo = new JSONObject();
             itemInfo.put("id", item.getId());
             itemInfo.put("type", item.getType());
-            if (item instanceof Sceptre) {
-                Sceptre sceptre = (Sceptre) item;
-                itemInfo.put("durability", sceptre.getDurability());
-            }
             // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES IN INVENTORY!!!
             inventoryArray.put(itemInfo);
         }
@@ -757,6 +750,13 @@ public class DungeonManiaController {
             }
         }
 
+        // update any mercenaries or assassins that are under mind control 
+        List<Bribeable> mindControlledEntities = currDungeon.mindControlledEntities();
+        for (Bribeable entity : mindControlledEntities) {
+            entity.setMindControlDuration(entity.getMindControlDuration() - 1);
+            entity.updateMindControl();
+        }
+
         // Update
         player.updatePotionDuration();
         currDungeon.updateBuildableListBow();
@@ -799,28 +799,6 @@ public class DungeonManiaController {
                     }
                 }
             }
-        // } else if (entityId.contains("Mercenary")) {
-        //     for (Entity entity : entities) {
-        //         if (entity instanceof Mercenary) {
-        //             if (!currDungeon.checkBribeRange(entity)) {
-        //                 throw new InvalidActionException("Not close enough to bribe");
-        //             } else if (currDungeon.checkBribeRange(entity)) {
-        //                 Mercenary mercenary = (Mercenary)entity;
-        //                 mercenary.bribe();
-        //             }
-        //         }
-        //     }
-        // } else if (entityId.contains("Assassin")) {
-        //     for (Entity entity : entities) {
-        //         if (entity instanceof Assassin) {
-        //             if (!currDungeon.checkBribeRange(entity)) {
-        //                 throw new InvalidActionException("Not close enough to bribe");
-        //             } else if (currDungeon.checkBribeRange(entity)) {
-        //                 Assassin assassin = (Assassin)entity;
-        //                 assassin.bribe();
-        //             }
-        //         }
-        //     }
         } else if (entityId.contains("ZombieToastSpawner")) {
             for (Entity entity : entityCardinallyAdjacent) {
                 if (entity instanceof ZombieToastSpawner) {

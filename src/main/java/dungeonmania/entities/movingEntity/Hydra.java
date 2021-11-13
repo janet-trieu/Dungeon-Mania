@@ -2,7 +2,6 @@ package dungeonmania.entities.movingEntity;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
-import java.util.Random;
 
 public class Hydra extends ZombieToast{
     

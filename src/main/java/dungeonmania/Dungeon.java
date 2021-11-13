@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.graalvm.compiler.asm.sparc.SPARCAssembler.Br;
+
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.breakableEntity.*;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.*;
+import dungeonmania.entities.collectableEntity.buildableEntity.*;
 import dungeonmania.entities.collectableEntity.potionEntity.*;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.Anduril;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
@@ -695,6 +697,22 @@ public class Dungeon {
         }
                 
         return bool;
+    }
+
+    public List<Bribeable> mindControlledEntities() {
+        List<MovingEntity> movingEntities = getMovingEntities();
+        List<Bribeable> mindControlledEntities = new ArrayList<Bribeable>();
+
+        for (MovingEntity movingEntity : movingEntities) {
+            if (movingEntity instanceof Bribeable) {
+                Bribeable entity = (Bribeable)movingEntity;
+                if (entity.isMindControlled()) {
+                    mindControlledEntities.add(entity);
+                }
+            }
+        }
+
+        return mindControlledEntities;
     }
 
 }

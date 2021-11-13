@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
-import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
+import dungeonmania.entities.collectableEntity.Armour;
+import dungeonmania.entities.collectableEntity.Sword;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
@@ -34,9 +34,10 @@ public class PlayerStateTest {
         assertEquals(0, player.getShieldDurability());
         assertEquals(0, player.getBowDurability());
         assertEquals(0, player.getSwordDurability());
-        assertEquals(0, player.getMidnightArmourDurability());
+        // assertEquals(0, player.getMidnightArmourDurability());
 
-        player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
+        // player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
+        player.setPlayerStates(1, 1, 1, 1, 1, 1);
         assertEquals(true, player.isInvincible());
         assertEquals(true, player.isInvisible());
         assertEquals(true, player.isArmour());
@@ -51,9 +52,10 @@ public class PlayerStateTest {
         assertEquals(1, player.getShieldDurability());
         assertEquals(1, player.getBowDurability());
         assertEquals(1, player.getSwordDurability());
-        assertEquals(1, player.getMidnightArmourDurability());
+        // assertEquals(1, player.getMidnightArmourDurability());
 
-        player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
+        // player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
+        player.setPlayerStates(1, 1, 1, 1, 1, 1);
         assertEquals(true, player.isInvincible());
         assertEquals(true, player.isInvisible());
         assertEquals(true, player.isArmour());
@@ -79,7 +81,8 @@ public class PlayerStateTest {
         assertEquals(false, player.isSword());
         assertEquals(false, player.isMidnight());
 
-        player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
+        // player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
+        player.setPlayerStates(1, 1, 1, 1, 1, 1);
         assertEquals(false, player.isInvincible());
         assertEquals(true, player.isInvisible());
         assertEquals(true, player.isArmour());
@@ -88,7 +91,8 @@ public class PlayerStateTest {
         assertEquals(true, player.isSword());
         assertEquals(true, player.isMidnight());
 
-        player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
+        // player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
+        player.setPlayerStates(1, 1, 1, 1, 1, 1);
         assertEquals(false, player.isInvincible());
         assertEquals(true, player.isInvisible());
         assertEquals(true, player.isArmour());

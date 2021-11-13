@@ -1,7 +1,7 @@
 package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
+import dungeonmania.entities.collectableEntity.buildableEntity.Bow;
 
 public class NoBowState implements PlayerState {
 

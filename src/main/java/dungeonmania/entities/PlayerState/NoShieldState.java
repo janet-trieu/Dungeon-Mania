@@ -1,7 +1,7 @@
 package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
+import dungeonmania.entities.collectableEntity.buildableEntity.Shield;
 
 public class NoShieldState implements PlayerState {
 

@@ -8,8 +8,6 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.Inventory;
-import dungeonmania.entities.collectableEntity.CollectableEntity;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Sceptre;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.SwampTile;
@@ -25,8 +23,11 @@ public class Assassin extends BossEntity implements Bribeable {
     // assassin is interactable with player ( for bribing )
     private boolean isInteractable = true;
 
+    //
+    private int mindControlDuration = 10;
+
     // assassin is spawned as hostile
-    Boolean isBribed = false;
+    private boolean isBribed = false;
 
     // dungeon instance
     Dungeon dungeon;
@@ -62,17 +63,24 @@ public class Assassin extends BossEntity implements Bribeable {
     @Override
     public void bribe() {
         Inventory inventory = dungeon.getInventory();
-        if (inventory.numberOfItem("sceptre") > 0) {
-            CollectableEntity item = inventory.invGetInstance("sceptre");
-            Sceptre sceptre = (Sceptre)item;
-            sceptre.mindControl(this);
+        if (isBribed()) {
             return;
         }
+
+        // if player has sceptre, used as priority to mind control assassin
+        if (inventory.numberOfItem("sceptre") > 0) {
+            setMindControlDuration(10);
+            setIsBribed(true);
+            setIsInteractable(false);
+            return;
+        }
+        
         // if player has sun stone and the one ring, use to bribe assassin
         // one ring is used up, sun stone remains
         if (inventory.numberOfItem("sun_stone") > 0 && inventory.numberOfItem("the_one_ring") > 0) {
             setIsBribed(true);
             inventory.breakItem("one_ring");
+            setIsInteractable(false);
             return;
 
         // else, player uses treasure and the one ring to bribe assassin    
@@ -80,11 +88,29 @@ public class Assassin extends BossEntity implements Bribeable {
             setIsBribed(true);
             inventory.breakItem("treasure");
             inventory.breakItem("one_ring");
+            setIsInteractable(false);
             return;
 
         // player cannot bribe assassin    
         } else {
             throw new InvalidActionException("Cannot bribe without treasure or sun stone and one ring");
+        }
+    }
+
+    @Override
+    public void updateMindControl() {
+        if (getMindControlDuration() == 0) {
+            setIsInteractable(true);
+            setIsBribed(false);
+        }
+    }
+
+    @Override
+    public boolean isMindControlled() {
+        if (getMindControlDuration() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
     
@@ -180,4 +206,14 @@ public class Assassin extends BossEntity implements Bribeable {
         this.isBribed = isBribed;
     }
     
+    @Override
+    public int getMindControlDuration() {
+        return mindControlDuration;
+    }
+
+    @Override
+    public void setMindControlDuration(int mindControlDuration) {
+        this.mindControlDuration = mindControlDuration;
+    }
+
 }

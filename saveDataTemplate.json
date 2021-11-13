@@ -19,8 +19,7 @@
 			"bowDurability": "int",
 			"armourDurability": "int",
 			"swordDurability": "int",
-			"shieldDurability": "int",
-			"midnightArmourDurability": "int"
+			"shieldDurability": "int"
 		},
 		{
 			"type": "zombie_toast",
@@ -53,10 +52,6 @@
 			"tickCounter": "int"
 		},
 		{
-			"type": "sceptre",
-			"durability": "int"
-		},
-		{
 			"type": "swamp_tile",
 			"movementFactor": "int"
 		}
@@ -65,10 +60,6 @@
 		{
 			"id": "String",
 			"type": "String"
-		},
-		{
-			"type": "sceptre",
-			"durability": "int"
 		}
 	],
 	"buildables": [

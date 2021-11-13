@@ -1,7 +1,7 @@
 package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
+import dungeonmania.entities.collectableEntity.Sword;
 
 public class NoSwordState implements PlayerState {
 

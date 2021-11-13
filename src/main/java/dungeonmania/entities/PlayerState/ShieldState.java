@@ -2,7 +2,7 @@ package dungeonmania.entities.PlayerState;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
+import dungeonmania.entities.collectableEntity.buildableEntity.Shield;
 
 public class ShieldState implements PlayerState {
 
@@ -16,7 +16,7 @@ public class ShieldState implements PlayerState {
      */
     public ShieldState(Player player) {
         this.player = player;
-        durability = Shield.durability;
+        durability = Shield.maxDurability;
     }
 
     /**
