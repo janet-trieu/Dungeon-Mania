@@ -12,6 +12,7 @@ import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
 import dungeonmania.entities.movingEntity.Mercenary;
+import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
 import dungeonmania.exceptions.InvalidActionException;
@@ -670,6 +671,26 @@ public class BattleTest {
         // hence, treasure still remains in the inventory
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
 
+        // mercenary is mind controlled for 10 ticks
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+       
+        // attempt to mind-contro; mercenary again, since the mind-control should have run out
+        assertDoesNotThrow(() -> {
+            controller.interact("Mercenary0");
+        });
+
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+
     }
 
     /**
@@ -701,6 +722,27 @@ public class BattleTest {
 
         // assert that the sceptre has been used to mind-control the assassin
         // hence, treasure and one ring still remains in the inventory
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
+
+        // assassin is mind controlled for 10 ticks
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+
+        // attempt to mind-control assassin again, since the mind-control should have run out
+        assertDoesNotThrow(() -> {
+            controller.interact("Mercenary0");
+        });
+
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
         assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
         

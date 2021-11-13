@@ -103,10 +103,8 @@ public class Sceptre extends BuildableEntity {
         if (getDurability() <= 0) {
             return;
         }
-        System.out.println(getDurability());
         entity.setIsBribed(true);
         setDurability(getDurability() - 1);
-        System.out.println(getDurability());
     }
 
     public int getDurability() {

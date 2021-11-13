@@ -181,12 +181,14 @@ public class Mercenary extends MovingEntity implements Bribeable {
         // if player has sun stone, use to bribe mercenary
         if (inventory.numberOfItem("sun_stone") > 0) {
             setIsBribed(true);
+            setIsInteractable(false);
             return;
 
         // else, player uses treasure to bribe mercenary    
         } else if (inventory.numberOfItem("treasure") > 0) {
             setIsBribed(true);
             inventory.breakItem("treasure");
+            setIsInteractable(false);
             return;
 
         // player cannot bribe mercenary    
