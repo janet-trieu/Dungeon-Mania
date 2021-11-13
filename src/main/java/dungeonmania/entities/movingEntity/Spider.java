@@ -5,6 +5,7 @@ import java.util.List;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
+import dungeonmania.entities.staticEntity.SwampTile;
 import dungeonmania.util.*;
 
 public class Spider extends MovingEntity {
@@ -37,6 +38,9 @@ public class Spider extends MovingEntity {
         this.setLayer(3);
         setId("Spider" + String.valueOf(counter));
         counter++;
+        if (checkSpawn(dungeon) != null) {
+            setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
+        }
     }
 
     /**
@@ -58,6 +62,10 @@ public class Spider extends MovingEntity {
      */
     @Override
     public void move() {
+        if (this.getDebuff() != 0) {
+            setDebuff(this.getDebuff() - 1);
+            return;
+        }
         Player player = (Player) dungeon.getPlayer();
 
         if (player.isInvincible()) {
@@ -72,6 +80,13 @@ public class Spider extends MovingEntity {
             next = path.get(1);
             this.setPosition(next.getX(), next.getY());
             counter++;
+            List<Entity> swamp = dungeon.getEntitiesOnSamePosition(next);
+            for(Entity current : swamp) {
+                if (current.getType() == "swamp_tile") {
+                    SwampTile tile = (SwampTile) current;
+                    setDebuff(tile.getMovementFactor() - 1);
+                }
+            }
             return;
         }
 
@@ -96,6 +111,10 @@ public class Spider extends MovingEntity {
                 Collections.reverse(this.path);
                 move();
                 return;
+            }
+            if (current.getType() == "swamp_tile") {
+                SwampTile tile = (SwampTile) current;
+                setDebuff(tile.getMovementFactor() - 1);
             }
         }
         

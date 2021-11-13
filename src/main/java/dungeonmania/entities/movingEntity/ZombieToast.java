@@ -29,6 +29,9 @@ public class ZombieToast extends MovingEntity {
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
         this.setLayer(3);
+        if (checkSpawn(dungeon) != null) {
+            setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
+        }
     }
 
     public ZombieToast(int x, int y, Dungeon dungeon, String type) {
@@ -36,12 +39,19 @@ public class ZombieToast extends MovingEntity {
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
         this.setLayer(3);
+        if (checkSpawn(dungeon) != null) {
+            setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
+        }
     }
     /**
      * Method for movement of zombie toast
      */
     @Override
     public void move() {
+        if(this.getDebuff() != 0) {
+            setDebuff(this.getDebuff() - 1);
+            return;
+        }
         Player player = (Player) dungeon.getPlayer();
 
         if (player.isInvincible()) {

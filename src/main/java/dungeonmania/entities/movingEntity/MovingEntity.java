@@ -9,6 +9,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Portal;
+import dungeonmania.entities.staticEntity.SwampTile;
 import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -23,6 +24,9 @@ public abstract class MovingEntity extends Entity {
 
     // storing the attribute of moving entity's damage
     private double damage;
+
+    // storing debuff movement integer for Swamp Tile
+    private int debuff = 0;
    
     /**
      * Constructor for a moving entity
@@ -78,6 +82,12 @@ public abstract class MovingEntity extends Entity {
             setDamage(0);
         }
     }
+    public int getDebuff() {return debuff;}
+    /**
+     * Sets the entity's debuff factor
+     * @param movementFactor 
+     */
+    public void setDebuff(int movementFactor) {this.debuff = movementFactor;}
 
     public void move(Direction direction, Entity entity) {
         Dungeon dungeon = Dungeon.getDungeon();
@@ -89,8 +99,12 @@ public abstract class MovingEntity extends Entity {
             if (current instanceof Boulder || current instanceof Wall || current instanceof Portal) {
                     return;
                 }
+            else if (current instanceof SwampTile) {
+                SwampTile tile = (SwampTile) current;
+                setDebuff(tile.getMovementFactor() - 1);
             }
-            entity.setPosition(move.getX(), move.getY());
+        }
+        entity.setPosition(move.getX(), move.getY());
     }
 
     /**
@@ -171,5 +185,19 @@ public abstract class MovingEntity extends Entity {
         entity.setY(next.getY());
     }
     
+    public SwampTile checkSpawn(Dungeon dungeon) {
+        SwampTile tile;
+        Position curr = new Position(this.getX(), this.getY());
+        List<Entity> list = dungeon.getEntitiesOnSamePosition(curr);
 
+        for(Entity swamp : list) {
+            if (swamp instanceof SwampTile) {
+                tile = (SwampTile) swamp;
+                return tile;
+            }
+        }
+
+        return null;
+
+    }
 }

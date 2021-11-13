@@ -191,6 +191,7 @@ public class DungeonManiaController {
         int x = -1;
         int y = -1;
         int keyId = -1;
+        int movementFactor = -1;
         String colour = "";
         if (obj.has("x")) {
             x = obj.getInt("x");
@@ -203,6 +204,9 @@ public class DungeonManiaController {
         }
         if (obj.has("colour")) {
             colour = obj.getString("colour");
+        }
+        if (obj.has("movement_factor")) {
+            movementFactor = obj.getInt("movement_factor");
         }
 
         switch (type) {
@@ -218,6 +222,9 @@ public class DungeonManiaController {
             case "boulder":
                 Boulder boulder = new Boulder(x, y);
                 return boulder;
+            case "swamp_tile":
+                SwampTile tile = new SwampTile(x,y, movementFactor);
+                return tile;
             case "bow":
                 Bow bow = new Bow(x, y);
                 return bow;

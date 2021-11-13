@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingEntity.Assassin;
+import dungeonmania.entities.movingEntity.Hydra;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
@@ -16,20 +18,13 @@ import dungeonmania.util.Position;
  * Tests out the functionality of Swamp Tiles and it's effect on entities
  */
 public class SwampTileTest {
-    DungeonManiaController controller = new DungeonManiaController();
-    Dungeon dungeon = controller.getDungeon();
-
-    Entity player = controller.getDungeon().getPlayer();
-    Spider spider = new Spider(1, 1, dungeon);
-    Mercenary mercenary = new Mercenary(2, 0, dungeon);
-    ZombieToast zombie = new ZombieToast(1, 0, dungeon);
-    Assassin assassin = new Assassin(2, 0, dungeon);
-    Hydra hydra = new Hydra(1, 0, dungeon);
-
+    
     Position swampPosition = new Position(1, 0);
 
-    public void setUp() {
+    public DungeonManiaController setUp() {
+        DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("swamp-tile", "Standard");
+        return controller; 
     }
 
     /**
@@ -37,8 +32,9 @@ public class SwampTileTest {
      */
     @Test
     public void testPlayerSwamp() {
-        setUp();
+        DungeonManiaController controller = setUp();
 
+        Entity player = controller.getDungeon().getPlayer();
         // Move player through tile
         controller.tick(null, Direction.RIGHT);
         controller.tick(null, Direction.RIGHT);
@@ -52,9 +48,10 @@ public class SwampTileTest {
      */
     @Test
     public void testSpiderSwamp() {
-        setUp();
-
+        DungeonManiaController controller = setUp();
+        Dungeon dungeon = controller.getDungeon();
         // Add spider in map
+        Spider spider = new Spider(1, 1, dungeon);
         dungeon.addEntity(spider);
 
         controller.tick(null, Direction.LEFT);
@@ -74,10 +71,11 @@ public class SwampTileTest {
      */
     @Test
     public void testZombieToastSwamp() {
-        setUp();
-
+        DungeonManiaController controller = setUp();
+        Dungeon dungeon = controller.getDungeon();
         // Add zombie toast in map (same tile as swamp because zombie movement is random)
         // ASSUMPTION: If entity is spawned on top of Swamp tile, that already counts as 1 tick
+        ZombieToast zombie = new ZombieToast(1, 0, dungeon);
         dungeon.addEntity(zombie);
 
         controller.tick(null, Direction.LEFT);
@@ -96,9 +94,10 @@ public class SwampTileTest {
      */
     @Test
     public void testMercenarySwamp() {
-        setUp();
-
+        DungeonManiaController controller = setUp();
+        Dungeon dungeon = controller.getDungeon();
         // Add mercenary in dungeon
+        Mercenary mercenary = new Mercenary(2, 0, dungeon);
         dungeon.addEntity(mercenary);
 
         controller.tick(null, Direction.LEFT);
@@ -118,9 +117,10 @@ public class SwampTileTest {
      */
     @Test
     public void testAssassinSwamp() {
-        setUp();
-
+        DungeonManiaController controller = setUp();
+        Dungeon dungeon = controller.getDungeon();
         // Add assassin in dungeon
+        Assassin assassin = new Assassin(2, 0, dungeon);
         dungeon.addEntity(assassin);
 
         controller.tick(null, Direction.LEFT);
@@ -140,10 +140,11 @@ public class SwampTileTest {
      */
     @Test
     public void testHydraSwamp() {
-        setUp();
-
+        DungeonManiaController controller = setUp();
+        Dungeon dungeon = controller.getDungeon();
         // Add hydra in map (same tile as swamp because hydra movement is random)
         // ASSUMPTION: If entity is spawned on top of Swamp tile, that already counts as 1 tick
+        Hydra hydra = new Hydra(1, 0, dungeon);
         dungeon.addEntity(hydra);
 
         controller.tick(null, Direction.LEFT);

@@ -10,6 +10,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Portal;
+import dungeonmania.entities.staticEntity.SwampTile;
 import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
@@ -47,6 +48,9 @@ public class Mercenary extends MovingEntity {
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
         this.setLayer(3);
+        if (checkSpawn(dungeon) != null) {
+            setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
+        }
     }
 
     public Mercenary(int x, int y, Dungeon dungeon, String type) {
@@ -55,6 +59,9 @@ public class Mercenary extends MovingEntity {
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
         this.setLayer(3);
+        if (checkSpawn(dungeon) != null) {
+            setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
+        }
     }
     
     /**
@@ -62,6 +69,10 @@ public class Mercenary extends MovingEntity {
      */
     @Override
     public void move() {
+        if(this.getDebuff() > 0) {
+            setDebuff(this.getDebuff() - 1);
+            return;
+        }
         Player player = (Player) dungeon.getPlayer();
         if (player.isInvincible()) {
             if(!isBribed) {
@@ -119,6 +130,10 @@ public class Mercenary extends MovingEntity {
                         break;
                     }
                 }
+            }
+            if (current instanceof SwampTile) {
+                SwampTile tile = (SwampTile) current;
+                setDebuff(tile.getMovementFactor() - 1);
             }
         }
         this.setX(next.getX());
