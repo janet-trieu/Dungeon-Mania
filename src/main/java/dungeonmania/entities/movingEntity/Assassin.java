@@ -135,6 +135,16 @@ public class Assassin extends BossEntity implements Bribeable {
                 a++;
                 next = this.getPosition().translateBy(min.get(a));
             }
+            if (current instanceof Player) {
+                if (min.size() == 1) {
+                    return;
+                }
+                if (!isBribed()) {
+                    break;
+                }
+                a++;
+                next = this.getPosition().translateBy(min.get(a));
+            }
 
             if (current instanceof Portal) {
                 Portal portal = (Portal) current;
