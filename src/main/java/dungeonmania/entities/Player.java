@@ -495,6 +495,11 @@ public class Player extends Entity {
     public Boolean isAnduril() {
         return andurilState.isApplied();
     }
+
+    public Boolean isMidnight() {
+        return midnightArmourState.isApplied();
+    }
+
     /**
      * Getters and Setters
      */
@@ -520,6 +525,10 @@ public class Player extends Entity {
 
     public int getShieldDurability() {
         return shieldState.getDuration();
+    }
+
+    public int getMidnightArmourDurability() {
+        return midnightArmourState.getDuration();
     }
 
     public int getOneRingDurability() {

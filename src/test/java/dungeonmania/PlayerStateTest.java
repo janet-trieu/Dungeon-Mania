@@ -34,15 +34,16 @@ public class PlayerStateTest {
         assertEquals(0, player.getShieldDurability());
         assertEquals(0, player.getBowDurability());
         assertEquals(0, player.getSwordDurability());
+        assertEquals(0, player.getMidnightArmourDurability());
 
-
-        player.setPlayerStates(1, 1, 1, 1, 1, 1);
+        player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
         assertEquals(true, player.isInvincible());
         assertEquals(true, player.isInvisible());
         assertEquals(true, player.isArmour());
         assertEquals(true, player.isShield());
         assertEquals(true, player.isBow());
         assertEquals(true, player.isSword());
+        assertEquals(true, player.isMidnight());
 
         assertEquals(1, player.getInvincibilityDuration());
         assertEquals(1, player.getInvisibilityDuration());
@@ -50,14 +51,16 @@ public class PlayerStateTest {
         assertEquals(1, player.getShieldDurability());
         assertEquals(1, player.getBowDurability());
         assertEquals(1, player.getSwordDurability());
+        assertEquals(1, player.getMidnightArmourDurability());
 
-        player.setPlayerStates(1, 1, 1, 1, 1, 1);
+        player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
         assertEquals(true, player.isInvincible());
         assertEquals(true, player.isInvisible());
         assertEquals(true, player.isArmour());
         assertEquals(true, player.isShield());
         assertEquals(true, player.isBow());
         assertEquals(true, player.isSword());
+        assertEquals(true, player.isMidnight());
     }
     /**
      * Load states on hard gamemode
@@ -74,22 +77,25 @@ public class PlayerStateTest {
         assertEquals(false, player.isShield());
         assertEquals(false, player.isBow());
         assertEquals(false, player.isSword());
+        assertEquals(false, player.isMidnight());
 
-        player.setPlayerStates(1, 1, 1, 1, 1, 1);
+        player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
         assertEquals(false, player.isInvincible());
         assertEquals(true, player.isInvisible());
         assertEquals(true, player.isArmour());
         assertEquals(true, player.isShield());
         assertEquals(true, player.isBow());
         assertEquals(true, player.isSword());
+        assertEquals(true, player.isMidnight());
 
-        player.setPlayerStates(1, 1, 1, 1, 1, 1);
+        player.setPlayerStates(1, 1, 1, 1, 1, 1, 1);
         assertEquals(false, player.isInvincible());
         assertEquals(true, player.isInvisible());
         assertEquals(true, player.isArmour());
         assertEquals(true, player.isShield());
         assertEquals(true, player.isBow());
         assertEquals(true, player.isSword());
+        assertEquals(true, player.isMidnight());
     }
 
     /**
