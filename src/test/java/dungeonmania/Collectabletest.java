@@ -256,6 +256,10 @@ public class Collectabletest {
         assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(4,0,3), true), controller.getInfo("Mercenary0"));
         // should battle
         controller.tick("HealthPotion0", Direction.NONE);
+        // TODO: fix below pls francis <3
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
         controller.tick(null, Direction.RIGHT);
         assertEquals(null, controller.getInfo("Mercenary0"));
         controller.tick("HealthPotion1", Direction.NONE);

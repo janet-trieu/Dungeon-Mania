@@ -7,9 +7,7 @@ import java.util.List;
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.collectableEntity.CollectableEntity;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Sceptre;
+import dungeonmania.entities.collectableEntity.Armour;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.SwampTile;
@@ -27,11 +25,14 @@ public class Mercenary extends MovingEntity implements Bribeable {
     // mercenary is interactable with player ( for bribing )
     private boolean isInteractable = true;
 
+    //
+    private int mindControlDuration = 0;
+
     // boolean to check if the spawned mercenary has armour
-    Boolean hasArmour;
+    private boolean hasArmour;
 
     // mercenary is spawned as hostile
-    Boolean isBribed = false;
+    private boolean isBribed = false;
 
     // getting the dungeon instance
     Dungeon dungeon;
@@ -168,26 +169,55 @@ public class Mercenary extends MovingEntity implements Bribeable {
     @Override
     public void bribe() {
         Inventory inventory = dungeon.getInventory();
-        if (inventory.numberOfItem("sceptre") > 0) {
-            CollectableEntity item = inventory.invGetInstance("sceptre");
-            Sceptre sceptre = (Sceptre)item;
-            sceptre.mindControl(this);
+        if (isBribed()) {
             return;
         }
+
+        // if player has sceptre, used as priority to mind control mercenary
+        if (inventory.numberOfItem("sceptre") > 0) {
+            setMindControlDuration(10);
+            setIsBribed(true);
+            setIsInteractable(false);
+            return;
+        }
+        
         // if player has sun stone, use to bribe mercenary
         if (inventory.numberOfItem("sun_stone") > 0) {
             setIsBribed(true);
+            setIsInteractable(false);
             return;
 
         // else, player uses treasure to bribe mercenary    
         } else if (inventory.numberOfItem("treasure") > 0) {
             setIsBribed(true);
             inventory.breakItem("treasure");
+            setIsInteractable(false);
             return;
 
         // player cannot bribe mercenary    
         } else {
             throw new InvalidActionException("Cannot bribe without treasure or sun stone");
+        }
+    }
+
+    @Override
+    public void updateMindControl() {
+        System.out.println(getMindControlDuration());
+        System.out.println("is bribed? "+isBribed);
+        if (getMindControlDuration() == 0) {
+            setIsInteractable(true);
+            setIsBribed(false);
+            System.out.println("inside duration = 0 "+getMindControlDuration());
+            System.out.println("is bribed? inside duration == 0 "+isBribed);
+        }
+    }
+
+    @Override
+    public boolean isMindControlled() {
+        if (getMindControlDuration() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -198,14 +228,6 @@ public class Mercenary extends MovingEntity implements Bribeable {
 
     @Override
     public void setIsBribed(boolean isBribed) {
-        this.isBribed = isBribed;
-    }
-
-    /**
-     * Setter for the bribe boolean
-     * @param isBribed
-     */
-    public void setIsBribed(Boolean isBribed) {
         this.isBribed = isBribed;
     }
 
@@ -223,6 +245,16 @@ public class Mercenary extends MovingEntity implements Bribeable {
 
     public static void setCounter(int counter) {
         Mercenary.counter = counter;
+    }
+
+    @Override
+    public int getMindControlDuration() {
+        return mindControlDuration;
+    }
+
+    @Override
+    public void setMindControlDuration(int mindControlDuration) {
+        this.mindControlDuration = mindControlDuration;
     }
 
 }

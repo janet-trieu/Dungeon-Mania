@@ -1,18 +1,20 @@
-package dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity;
+package dungeonmania.entities.collectableEntity.buildableEntity;
 
 import java.util.List;
 import java.util.ListIterator;
 
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
+import dungeonmania.entities.collectableEntity.Breakable;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Wood;
 
-public class Shield extends BuildableEntity {
+public class Shield extends BuildableEntity implements Breakable {
 
     // durability attribute of shield is set to 5 (ticks)
-    public final static int durability = 5;
+    public final static int maxDurability = 5;
     public final static int protection = 2;
+    private static int durability = maxDurability;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -71,6 +73,16 @@ public class Shield extends BuildableEntity {
 
     public static void setCounter(int counter) {
         Shield.counter = counter;
+    }
+
+    @Override
+    public int getDurability() {
+        return durability;
+    }
+
+    @Override
+    public void setDurability(int durability) {
+        Shield.durability = durability;
     }
 
 }

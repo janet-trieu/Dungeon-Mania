@@ -1,18 +1,20 @@
-package dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity;
+package dungeonmania.entities.collectableEntity.buildableEntity;
 
 import java.util.List;
 import java.util.ListIterator;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.collectableEntity.Arrow;
+import dungeonmania.entities.collectableEntity.Breakable;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Wood;
 
-public class Bow extends BuildableEntity {
+public class Bow extends BuildableEntity implements Breakable {
 
     // durability attribute of bow is set to 3 (ticks)
-    public final static int durability = 3;
+    public final static int maxDurability = 3;
     public final static int damage = 2;
+    private static int durability = maxDurability;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -67,6 +69,16 @@ public class Bow extends BuildableEntity {
 
     public static void setCounter(int counter) {
         Bow.counter = counter;
+    }
+
+    @Override
+    public int getDurability() {
+        return durability;
+    }
+
+    @Override
+    public void setDurability(int durability) {
+        Bow.durability = durability;
     }
 
 }

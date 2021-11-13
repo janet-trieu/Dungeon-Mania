@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
-import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
+import dungeonmania.entities.collectableEntity.Armour;
+import dungeonmania.entities.collectableEntity.Sword;
+import dungeonmania.entities.collectableEntity.buildableEntity.Bow;
+import dungeonmania.entities.collectableEntity.buildableEntity.Shield;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
@@ -372,7 +372,8 @@ public class BattleTest {
         assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3,0,3), true), controller.getInfo("Mercenary0"));
         controller.interact("Mercenary0");
         controller.tick(null, Direction.RIGHT);
-        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(2,0,3), true), controller.getInfo("Mercenary0"));
+        // mercenary is now "false" for isInteractable as the mercenary is now bribed
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(2,0,3), false), controller.getInfo("Mercenary0"));
     }
 
     @Test
@@ -624,10 +625,11 @@ public class BattleTest {
         assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // attempt to bribe assassin
-        // player is currently at (3, 0), while assassin is at (7, 0)
+        // player is currently at (2, 0), while assassin is at (7, 0)
         assertThrows(InvalidActionException.class, () -> controller.interact("Assassin0"));
 
-        // player moves 1 more tick to the right to get into bribe range of assassin
+        // player moves 2 more tick to the right to get into bribe range of assassin
+        controller.tick(null, Direction.RIGHT);
         controller.tick(null, Direction.RIGHT);
 
         // player can now bribe assassin
@@ -670,10 +672,30 @@ public class BattleTest {
         // hence, treasure still remains in the inventory
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
 
+        // mercenary is mind controlled for 10 ticks
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+
+        // attempt to mind-control mercenary again, since the mind-control should have run out
+        assertDoesNotThrow(() -> {
+            controller.interact("Mercenary0");
+        });
+
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+
     }
 
     /**
-     * Test for bribing a mercenary with a sceptre
+     * Test for bribing an assassin with a sceptre
      */
     @Test
     public void testBribeSceptreAssa() {
@@ -701,6 +723,27 @@ public class BattleTest {
 
         // assert that the sceptre has been used to mind-control the assassin
         // hence, treasure and one ring still remains in the inventory
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
+
+        // assassin is mind controlled for 10 ticks
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.LEFT);
+
+        // attempt to mind-control assassin again, since the mind-control should have run out
+        assertDoesNotThrow(() -> {
+            controller.interact("Assassin0");
+        });
+
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
         assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
         

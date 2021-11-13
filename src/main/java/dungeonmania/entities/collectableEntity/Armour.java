@@ -1,10 +1,11 @@
-package dungeonmania.entities.collectableEntity.breakableEntity;
+package dungeonmania.entities.collectableEntity;
 
-public class Armour extends BreakableEntity {
+public class Armour extends CollectableEntity implements Breakable {
 
     // durability attribute of armour is set to 8 (ticks)
-    public final static int durability = 8;
+    public final static int maxDurability = 8;
     public final static int protection = 2;
+    private static int durability = maxDurability;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -27,4 +28,15 @@ public class Armour extends BreakableEntity {
     public static void setCounter(int counter) {
         Armour.counter = counter;
     }
+
+    @Override
+    public int getDurability() {
+        return durability;
+    }
+
+    @Override
+    public void setDurability(int durability) {
+        Armour.durability = durability;
+    }
+
 }
