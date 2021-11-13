@@ -1,5 +1,7 @@
 package dungeonmania.entities.movingEntity;
 
+import java.util.Random;
+
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
@@ -9,7 +11,8 @@ public class ZombieToast extends MovingEntity {
     
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
-
+    private Random random;
+    
     // boolean to check if the spawned zombie toast has armour
     Boolean hasArmour;
 
@@ -26,6 +29,7 @@ public class ZombieToast extends MovingEntity {
         super(x, y, "zombie_toast", 5, 5);
         setId("ZombieToast" + String.valueOf(counter));
         counter++;
+        random = new Random(System.currentTimeMillis());
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
         this.setLayer(3);
@@ -71,9 +75,10 @@ public class ZombieToast extends MovingEntity {
 
         if (player.isInvincible()) {
             run(this, dungeon);
+            return;
         }
 
-        int way = randomise();
+        int way = random.nextInt(100) % 4;
         if(way == 1) {move(Direction.UP, this);}
         if(way == 2) {move(Direction.DOWN, this);}
         if(way == 3) {move(Direction.LEFT, this);}
@@ -91,14 +96,6 @@ public class ZombieToast extends MovingEntity {
         dungeon.addItem(armour);
     }
 
-    /**
-     * Method to grab the random number for zombie toast movement direction
-     * @return
-     */
-    public int randomise() {
-        int random = (int)(Math.random()*4) + 1;
-        return random;
-    }
 
     public Boolean getHasArmour() {
         return hasArmour;
@@ -116,4 +113,11 @@ public class ZombieToast extends MovingEntity {
         ZombieToast.counter = counter;
     }
     
+    public void setSeed(int seed) {
+        random = new Random(seed);
+    }
+
+    public Random getRandom() {
+        return random;
+    }
 }
