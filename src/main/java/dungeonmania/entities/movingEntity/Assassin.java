@@ -27,6 +27,14 @@ public class Assassin extends BossEntity implements Bribeable {
         counter++;
     }
 
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Assassin.counter = counter;
+    }
+
     /**
      * Method to bribe the assassin with the one ring and treasure to become an ally 
      */
@@ -62,8 +70,6 @@ public class Assassin extends BossEntity implements Bribeable {
 
     @Override
     public void move() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override

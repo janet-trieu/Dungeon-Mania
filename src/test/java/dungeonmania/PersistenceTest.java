@@ -3,7 +3,6 @@ package dungeonmania;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ public class PersistenceTest {
         controller0.clearData();
 
         // LOAD MAP (response0)
-        DungeonResponse response0 = controller0.newGame("spawnable-entity", "standard");
+        DungeonResponse response0 = controller0.newGame("all-entities", "standard");
 
         // SAVE GAME
         String save0 = "SaveData0";

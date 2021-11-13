@@ -48,14 +48,26 @@
 			"key": "int"
 		},
 		{
-			"type": "ZombieToastSpawner",
+			"type": "zombie_toast",
 			"tickCounter": "int"
+		},
+		{
+			"type": "sceptre",
+			"durability": "int"
+		},
+		{
+			"type": "swamp_tile",
+			"movementFactor": "int"
 		}
 	],
 	"inventory": [
 		{
 			"id": "String",
 			"type": "String"
+		},
+		{
+			"type": "sceptre",
+			"durability": "int"
 		}
 	],
 	"buildables": [

@@ -72,7 +72,6 @@ public class Mercenary extends MovingEntity implements Bribeable {
         }
 
         List<Integer> distance = Path(this, dungeon);
-        Direction move = Direction.NONE;
 
         int index = distance.indexOf(Collections.min(distance));
         int mindist = distance.get(index);
