@@ -2,12 +2,12 @@ package dungeonmania.entities.PlayerState;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
 
 public class BowState implements PlayerState {
 
     // storing required attributes
     private Player player;
-    private int maxDurability = 3;
     private int durability;
 
     /**
@@ -16,7 +16,7 @@ public class BowState implements PlayerState {
      */
     public BowState(Player player) {
         this.player = player;
-        durability = maxDurability;
+        durability = Bow.durability;
     }
 
     /**
@@ -44,7 +44,7 @@ public class BowState implements PlayerState {
      */
     @Override
     public void removeEffect() {
-        player.setDamage(player.getDamage() / 2);
+        player.setDamage(player.getDamage() / Bow.damage);
         player.changeBowState(new NoBowState(player));
         Dungeon.getDungeon().getInventory().breakItem("bow");
     }

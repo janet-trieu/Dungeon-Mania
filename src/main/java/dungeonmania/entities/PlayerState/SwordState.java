@@ -2,12 +2,12 @@ package dungeonmania.entities.PlayerState;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
 
 public class SwordState implements PlayerState {
 
     // storing required attributes
     private Player player;
-    private int maxDurability = 5;
     private int durability;
 
     /**
@@ -16,7 +16,7 @@ public class SwordState implements PlayerState {
      */
     public SwordState(Player player) {
         this.player = player;
-        durability = maxDurability;
+        durability = Sword.durability;
     }
 
     /**
@@ -39,7 +39,7 @@ public class SwordState implements PlayerState {
      */
     @Override
     public void removeEffect() {
-        player.setDamage(player.getDamage() / 2);
+        player.setDamage(player.getDamage() / Sword.damage);
         player.changeSwordState(new NoSwordState(player));
         Dungeon.getDungeon().getInventory().breakItem("sword");
     }

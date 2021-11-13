@@ -1,6 +1,7 @@
 package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
 
 public class NoSwordState implements PlayerState {
 
@@ -21,7 +22,7 @@ public class NoSwordState implements PlayerState {
     @Override
     public void applyEffect() {
         player.changeSwordState(new SwordState(player));
-        player.setDamage(player.getDamage() * 2);
+        player.setDamage(player.getDamage() * Sword.damage);
     }
 
     /**
@@ -30,7 +31,7 @@ public class NoSwordState implements PlayerState {
     @Override
     public void loadDuration(int duration) {
         player.changeSwordState(new SwordState(player, duration));
-        player.setDamage(player.getDamage() * 2);
+        player.setDamage(player.getDamage() * Sword.damage);
     }
 
     @Override

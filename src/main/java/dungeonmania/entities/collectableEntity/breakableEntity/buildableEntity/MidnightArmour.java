@@ -9,7 +9,10 @@ import dungeonmania.entities.collectableEntity.CollectableEntity;
 public class MidnightArmour extends BuildableEntity {
 
     // durability attribute of midnight armour is set to 16 (ticks)
-    private int durability = 16;
+    public final static int durability = 16;
+    // TODO: change damage and protection later
+    public final static int protection = 10;
+    public final static int damage = 10;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -26,7 +29,6 @@ public class MidnightArmour extends BuildableEntity {
         super(x, y, "midnight_armour");
         setId("MidnightArmour" + String.valueOf(counter));
         counter++;
-        setDurability(durability);
     }
 
     @Override
@@ -43,14 +45,6 @@ public class MidnightArmour extends BuildableEntity {
             // update the buildable list, as midnight armour has now been built
             buildableList.remove("midnight_armour");
         } 
-    }
-
-    public int getDurability() {
-        return durability;
-    }
-
-    public void setDurability(int durability) {
-        this.durability = durability;
     }
 
     public static int getCounter() {

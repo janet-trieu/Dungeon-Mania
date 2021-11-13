@@ -2,8 +2,9 @@ package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.MidnightArmour;
 
-public class NoArmourState implements PlayerState {
+public class NoMidnightArmourState implements PlayerState {
 
     // storing required attributes
     private Player player;
@@ -12,7 +13,7 @@ public class NoArmourState implements PlayerState {
      * Constructor for NoArmourState
      * @param player
      */
-    public NoArmourState(Player player) {
+    public NoMidnightArmourState(Player player) {
         this.player = player;
     }
 
@@ -21,8 +22,14 @@ public class NoArmourState implements PlayerState {
      */
     @Override
     public void applyEffect() {
-        player.changeArmourState(new ArmourState(player));
-        player.setProtection(player.getProtection() * Armour.protection);
+        player.changeMidnightArmourState(new MidnightArmourState(player));
+        // if player has armour, unequip and wear midnight instead
+        if (player.isArmour()) {
+            player.setProtection(player.getProtection() / Armour.protection);
+        }
+        player.setProtection(player.getProtection() * MidnightArmour.protection);
+        player.setDamage(player.getDamage() * MidnightArmour.damage);
+        
     }
 
     /**
@@ -31,7 +38,8 @@ public class NoArmourState implements PlayerState {
     @Override
     public void loadDuration(int durability) {
         player.changeArmourState(new ArmourState(player, durability));
-        player.setProtection(player.getProtection() * Armour.protection);
+        player.setProtection(player.getProtection() * MidnightArmour.protection);
+        player.setDamage(player.getDamage() * MidnightArmour.damage);
     }
 
     /**

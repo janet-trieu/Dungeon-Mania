@@ -38,6 +38,7 @@ public class Player extends Entity {
     private PlayerState bowState;
     private PlayerState oneRingState;
     private PlayerState andurilState;
+    private PlayerState midnightArmourState;
 
     /**
      * Constructor for Player with only position
@@ -47,6 +48,7 @@ public class Player extends Entity {
     public Player(int x, int y) {
         super(x, y, "player");
         invincibleState = new NoInvincibleState(this);
+        midnightArmourState = new NoArmourState(this);
         invisibleState = new NoInvisibleState(this);
         oneRingState = new NoOneRingState(this);
         andurilState = new NoAndurilState(this);
@@ -134,7 +136,7 @@ public class Player extends Entity {
         for (Entity entity : Dungeon.getDungeon().getEntityList()) {
             if (entity instanceof Mercenary) {
                 Mercenary mercenary = (Mercenary) entity;
-                if (mercenary.IsBribed()) {
+                if (mercenary.isBribed()) {
                     otherEntity.takeDamage(mercenary.getHealth(), mercenary.getDamage());
                 }
             }
@@ -344,6 +346,10 @@ public class Player extends Entity {
         this.andurilState = state;
     }
 
+    public void changeMidnightArmourState(PlayerState state) {
+        this.midnightArmourState = state;
+    }
+
     /**
      * Apply state
      */
@@ -383,18 +389,27 @@ public class Player extends Entity {
         andurilState.applyEffect();
     }
 
+    public void equipMidnightArmour() {
+        midnightArmourState.applyEffect();
+    }
+
     public void equipCombat() {
         Inventory inventory = Dungeon.getDungeon().getInventory();
-        if (inventory.numberOfItem("armour") >= 1) {
+        // Equip midnight armour over armour
+        if (inventory.numberOfItem("midnight_armour") >= 1) {
+            equipMidnightArmour();
+        } else if (inventory.numberOfItem("armour") >= 1) {
             equipArmour();
         }
-        if (inventory.numberOfItem("shield") >= 1) {
-            equipShield();
-        }
+        // equip anduril over sword
         if (inventory.numberOfItem("anduril") >= 1) {
             equipAnduril();
         } else if (inventory.numberOfItem("sword") >= 1) {
             equipSword();
+        }
+
+        if (inventory.numberOfItem("shield") >= 1) {
+            equipShield();
         }
         if (inventory.numberOfItem("bow") >= 1) {
             equipBow();
@@ -413,17 +428,19 @@ public class Player extends Entity {
     }
 
     public void updateCombatDurability() {
-        armourState.reduceDuration();
         shieldState.reduceDuration();
         bowState.reduceDuration();
-        if (andurilState.isApplied()) {
-            andurilState.reduceDuration();
+        if (midnightArmourState.isApplied()) {
+            midnightArmourState.reduceDuration();
         } else {
+            armourState.reduceDuration();
+        } 
+        if (!andurilState.isApplied()) {
             swordState.reduceDuration();
-        }
+        } 
     }
 
-    public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur, int andurilDur) {
+    public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur, int midnightArmourDur) {
         if (invinDur > 0) {
             invincibleState.loadDuration(invinDur);
         }
@@ -442,8 +459,8 @@ public class Player extends Entity {
         if (shieldDur > 0) {
             shieldState.loadDuration(shieldDur);
         }
-        if (andurilDur > 0) {
-            andurilState.loadDuration(andurilDur);
+        if (midnightArmourDur > 0) {
+            midnightArmourState.loadDuration(midnightArmourDur);
         }
     }
 
