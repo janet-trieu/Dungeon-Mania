@@ -5,7 +5,7 @@ public class SwampTile extends StaticEntity {
     // SwampTile is passable for a player
     private boolean isPassable = true;
 
-    private int movementFactor;
+    private int movementFactor = 0;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;

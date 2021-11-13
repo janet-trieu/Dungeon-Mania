@@ -277,7 +277,7 @@ public class DungeonManiaController {
                 return hydra;
             case "swamp_tile":
                 int movementFactor = -1;
-                if (obj.has("movementFactor")) { movementFactor = obj.getInt("movementFactor"); }
+                if (obj.has("movement_factor")) { movementFactor = obj.getInt("movement_factor"); }
                 SwampTile swampTile = new SwampTile(x, y, movementFactor);
                 return swampTile;
             case "anduril":
