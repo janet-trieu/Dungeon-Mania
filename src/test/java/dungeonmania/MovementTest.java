@@ -32,7 +32,7 @@ public class MovementTest {
     @Test
     public void testSimpleMovement() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("advanced", "Standard");
+        controller.newGame("advanced", "standard");
         Dungeon dungeon = controller.getDungeon();
         Player player = (Player) dungeon.getPlayer();
         Mercenary mercenary = new Mercenary(3,5, dungeon);
@@ -56,7 +56,7 @@ public class MovementTest {
     @Test
     public void testPlayerWall() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("advanced", "Standard");
+        controller.newGame("advanced", "standard");
         Dungeon dungeon = controller.getDungeon();
         Player player = (Player) dungeon.getPlayer();
        
@@ -75,7 +75,7 @@ public class MovementTest {
     @Test
     public void testWasteMovement() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("advanced", "Standard");
+        controller.newGame("advanced", "standard");
         Dungeon dungeon = controller.getDungeon();
         Player player = (Player) dungeon.getPlayer();
         Mercenary mercenary = new Mercenary(3,5, dungeon);
@@ -99,7 +99,7 @@ public class MovementTest {
     @Test
     public void testSpiderMovement() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("advanced", "Standard");
+        controller.newGame("advanced", "standard");
         Dungeon dungeon = controller.getDungeon();
        
         Spider spider = new Spider(7,13, dungeon);
@@ -120,7 +120,7 @@ public class MovementTest {
     @Test
     public void testSpiderBoulder() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("advanced", "Standard");
+        controller.newGame("advanced", "standard");
         Dungeon dungeon = controller.getDungeon();
         
 
@@ -145,7 +145,7 @@ public class MovementTest {
     @Test
     public void testZombieToast() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("advanced", "Standard");
+        controller.newGame("advanced", "standard");
         Dungeon dungeon = controller.getDungeon();
         
         ZombieToast zombie = new ZombieToast(7,13, dungeon);

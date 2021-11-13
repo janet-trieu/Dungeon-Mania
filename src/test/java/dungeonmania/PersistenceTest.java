@@ -3,7 +3,6 @@ package dungeonmania;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ public class PersistenceTest {
         controller0.clearData();
 
         // LOAD MAP (response0)
-        DungeonResponse response0 = controller0.newGame("spawnable-entity", "Standard");
+        DungeonResponse response0 = controller0.newGame("all-entities", "standard");
 
         // SAVE GAME
         String save0 = "SaveData0";
@@ -60,7 +59,7 @@ public class PersistenceTest {
         controller0.clearData();
 
         // LOAD MAP
-        controller0.newGame("portals", "Standard");
+        controller0.newGame("portals", "standard");
 
         // TELEPORT AND MAKE SURE POSITION IS CORRECT
         controller0.tick(null, Direction.RIGHT);
@@ -96,7 +95,7 @@ public class PersistenceTest {
         controller0.clearData();
 
         // LOAD MAP + SAVE
-        controller0.newGame("portals", "Standard");
+        controller0.newGame("portals", "standard");
         controller0.saveGame("SaveData0");
 
         // TELPORT AND MOVE + SAVE
@@ -124,12 +123,12 @@ public class PersistenceTest {
         controller0.clearData();
 
         // LOAD MAP + SAVE
-        controller0.newGame("portals", "Standard");
+        controller0.newGame("portals", "standard");
         controller0.saveGame("SaveData0");
 
         // RESTART, LOAD DIFFERENT MAP AND SAVE
         DungeonManiaController controller1 = new DungeonManiaController();
-        controller1.newGame("testBow", "Standard");
+        controller1.newGame("testBow", "standard");
         controller1.tick(null, Direction.RIGHT);
         controller1.tick(null, Direction.RIGHT);
         controller1.tick(null, Direction.RIGHT);
@@ -140,4 +139,5 @@ public class PersistenceTest {
         assertEquals(2, controller1.allGames().size());
         controller1.clearData();
     }
+
 }

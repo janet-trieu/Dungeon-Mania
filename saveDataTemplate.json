@@ -31,6 +31,11 @@
 			"isBribed": "boolean"
 		},
 		{
+			"type": "spider",
+			"spiderNum": "int",
+			"tickCounter": "int"
+		},
+		{
 			"type": "portal",
 			"colour": "String"
 		},
@@ -43,42 +48,30 @@
 			"key": "int"
 		},
 		{
-			"type": "ZombieToastSpawner",
+			"type": "zombie_toast",
 			"tickCounter": "int"
+		},
+		{
+			"type": "sceptre",
+			"durability": "int"
+		},
+		{
+			"type": "swamp_tile",
+			"movementFactor": "int"
 		}
 	],
 	"inventory": [
 		{
 			"id": "String",
 			"type": "String"
+		},
+		{
+			"type": "sceptre",
+			"durability": "int"
 		}
 	],
 	"buildables": [
 		"String"
 	],
-	"goals": "String",
-	"animations": [],
-	"TO MAYBE DO BELOW FOR NOW SACK CAUSE ITS AN EDGE CASE": "int",
-	"FloorSwitchCounter": "int",
-	"WallCounter": "int",
-	"ExitCounter": "int",
-	"DoorCounter": "int",
-	"BoulderCounter": "int",
-	"PortalCounter": "int",
-	"ZombieToastSpawnerCounter": "int",
-	"SpiderCounter": "int",
-	"ZombieToastCounter": "int",
-	"MercenaryCounter": "int",
-	"TreasureCounter": "int",
-	"KeyCounter": "int",
-	"ArrowCounter": "int",
-	"WoodCounter": "int",
-	"BombCounter": "int",
-	"InvincibilityPotionCounter": "int",
-	"InvisibilityPotionCounter": "int",
-	"HealthPotionCounter": "int",
-	"TheOneRingCounter": "int",
-	"ArmourCounter": "int",
-	"SwordCounter": "int",
-	"ShieldCounter": "int"
+	"goals": "String"
 }

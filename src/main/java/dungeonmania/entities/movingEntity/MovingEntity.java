@@ -77,8 +77,8 @@ public abstract class MovingEntity extends Entity {
      * Sets damage to 0 if gamemode is peaceful
      * @param dungeon
      */
-    public void setDamagePeaceful(Dungeon dungeon) {
-        if (dungeon.getGameMode().equals("Peaceful")) {
+    public void setDamagepeaceful(Dungeon dungeon) {
+        if (dungeon.getGameMode().equals("peaceful")) {
             setDamage(0);
         }
     }
@@ -106,6 +106,14 @@ public abstract class MovingEntity extends Entity {
         }
         entity.setPosition(move.getX(), move.getY());
     }
+    public void takeDamage(double otherHealth, double otherDamage) {
+        setHealth(getHealth() - (otherHealth * otherDamage)/5);
+    }
+
+    public void takeDamagePlayer(Player player) {
+        takeDamage(player.getHealth(), player.getDamage());
+    }
+
 
     /**
      * Returns list of distance between adjacent positions of entities and player's positions

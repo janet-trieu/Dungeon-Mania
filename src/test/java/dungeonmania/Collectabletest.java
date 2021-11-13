@@ -12,7 +12,6 @@ import dungeonmania.entities.collectableEntity.potionEntity.HealthPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
-import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -108,9 +107,6 @@ public class Collectabletest {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
 
-        // get the inventory
-        Inventory inventory = dungeon.getInventory();
-
         // create a player at position (0,0)
         Player player = new Player(0, 0);
         dungeon.addEntity(player);
@@ -188,7 +184,7 @@ public class Collectabletest {
         // createa a boulder at position (2,1)
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBomb", "Standard");
+        controller.newGame("testBomb", "standard");
 
         Position exitPosition = new Position(0, 2, 0);
         Position portalPosition = new Position(1, 3, 0);
@@ -215,7 +211,6 @@ public class Collectabletest {
         // there is a boulder at position (2,1), which the player will push into the switch with position (2,2)
         controller.tick(null, Direction.DOWN);
 
-        Position newBoulderPosition = new Position(2, 2, 1);
         assertEquals(null, controller.getInfo("Boulder0"));
 
         // as there is a bomb that is adjacent to the switch that a boulder has been pushed into, the bomb has now exploded
@@ -241,7 +236,7 @@ public class Collectabletest {
     public void healthPotionAtFullHealth() {
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("health-potion", "Standard");
+        controller.newGame("health-potion", "standard");
 
         controller.tick(null, Direction.RIGHT);
         controller.tick("HealthPotion0", Direction.RIGHT);
@@ -253,7 +248,7 @@ public class Collectabletest {
     @Test
     public void healBeforeAndAfterBattle() {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("health-potion", "Standard");
+        controller.newGame("health-potion", "standard");
 
         assertEquals(new EntityResponse("HealthPotion0", "health_potion", new Position (1, 0, 2), false), controller.getInfo("HealthPotion0"));
         // pick up potion
@@ -272,7 +267,7 @@ public class Collectabletest {
     @Test
     public void healAfterBattle() {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("health-potion", "Standard");
+        controller.newGame("health-potion", "standard");
 
         assertEquals(new EntityResponse("HealthPotion0", "health_potion", new Position (1, 0, 2), false), controller.getInfo("HealthPotion0"));
         // pick up potion
@@ -291,7 +286,7 @@ public class Collectabletest {
     // @Test
     // public void useItemOnFloor() {
     //     DungeonManiaController controller = new DungeonManiaController();
-    //     controller.newGame("health-potion", "Standard");
+    //     controller.newGame("health-potion", "standard");
     //     assertEquals(new EntityResponse("HealthPotion0", "health_potion", new Position (1, 0, 2), false), controller.getInfo("HealthPotion0"));
     //     assertThrows(InvalidActionException.class, () -> controller.tick("HealthPotion0", Direction.NONE));
 
@@ -303,7 +298,7 @@ public class Collectabletest {
     @Test
     public void unusableItem() {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("bribe", "Standard");
+        controller.newGame("bribe", "standard");
 
         controller.tick(null, Direction.RIGHT);
         

@@ -7,7 +7,9 @@ import java.util.List;
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Sceptre;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.SwampTile;
@@ -17,7 +19,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import dungeonmania.entities.Player;
 
-public class Mercenary extends MovingEntity {
+public class Mercenary extends MovingEntity implements Bribeable {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -81,7 +83,6 @@ public class Mercenary extends MovingEntity {
         }
 
         List<Integer> distance = Path(this, dungeon);
-        Direction move = Direction.NONE;
 
         int index = distance.indexOf(Collections.min(distance));
         int mindist = distance.get(index);
@@ -151,32 +152,57 @@ public class Mercenary extends MovingEntity {
         dungeon.addItem(armour);
     }
 
+    @Override
+    public void takeDamage(double otherHealth, double otherDamage) {
+        if (getHasArmour()) {
+            setHealth(getHealth() - ((otherHealth * otherDamage)/5)/2);
+        } else {
+            super.takeDamage(otherHealth, otherDamage);
+        }
+    }
+
+    @Override
+    public void takeDamagePlayer(Player player) {
+        takeDamage(player.getHealth(), player.getDamage());
+    }
+    
     /**
      * Method to bribe the mercenary with treasure to become an ally 
      */
+    @Override
     public void bribe() {
         Inventory inventory = dungeon.getInventory();
+        if (inventory.numberOfItem("sceptre") > 0) {
+            CollectableEntity item = inventory.invGetInstance("sceptre");
+            Sceptre sceptre = (Sceptre)item;
+            sceptre.mindControl(this);
+            return;
+        }
         // if player has sun stone, use to bribe mercenary
         if (inventory.numberOfItem("sun_stone") > 0) {
             setIsBribed(true);
             return;
+
         // else, player uses treasure to bribe mercenary    
         } else if (inventory.numberOfItem("treasure") > 0) {
             setIsBribed(true);
             inventory.breakItem("treasure");
             return;
+
         // player cannot bribe mercenary    
         } else {
             throw new InvalidActionException("Cannot bribe without treasure or sun stone");
         }
     }
 
-    /**
-     * Getter for the bribe boolean
-     * @return
-     */
-    public Boolean IsBribed() {
+    @Override
+    public boolean isBribed() {
         return isBribed;
+    }
+
+    @Override
+    public void setIsBribed(boolean isBribed) {
+        this.isBribed = isBribed;
     }
 
     /**

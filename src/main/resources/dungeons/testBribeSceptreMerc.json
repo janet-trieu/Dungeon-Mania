@@ -8,17 +8,17 @@
         {
             "x": 1,
             "y": 0,
-            "type": "sun_stone"
+            "type": "sceptre"
         },
         {
             "x": 2,
             "y": 0,
-            "type": "one_ring"
+            "type": "treasure"
         },
         {
-            "x": 5,
+            "x": 6,
             "y": 0,
-            "type": "assassin"
+            "type": "mercenary"
         }
     ]
 }

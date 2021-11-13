@@ -15,6 +15,7 @@ import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
+import dungeonmania.entities.movingEntity.Bribeable;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,7 +46,7 @@ public class DungeonManiaController {
     }
 
     public List<String> getGameModes() {
-        return Arrays.asList("Standard", "Peaceful", "Hard");
+        return Arrays.asList("standard", "peaceful", "hard");
     }
 
     /**
@@ -94,18 +95,14 @@ public class DungeonManiaController {
             System.err.println("Invalid directory: " + e.getMessage());
         }
 
-        try {
-            // EXCEPTION CHECKS //
-            // If dungeonName does not exist
-            if (!maps.contains(dungeonName)) {
-                throw new IllegalArgumentException("Invalid dungeonName");
-            }
-            // If gameMode is invalid
-            if (!getGameModes().contains(gameMode)) {
-                throw new IllegalArgumentException("Invalid gameMode");
-            }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
+        // EXCEPTION CHECKS //
+        // If dungeonName does not exist
+        if (!maps.contains(dungeonName)) {
+            throw new IllegalArgumentException("Invalid dungeonName");
+        }
+        // If gameMode is invalid
+        if (!getGameModes().contains(gameMode)) {
+            throw new IllegalArgumentException("Invalid gameMode");
         }
 
         // Generate dungeonId
@@ -132,82 +129,43 @@ public class DungeonManiaController {
         if (mapObj.has("goal-condition")) {
             JSONObject goalObj = mapObj.getJSONObject("goal-condition");
             Goal goal = createGoal(goalObj, dungeon);
-            dungeon.addGoal(goal);
+            dungeon.setGoal(goal);
             return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
         }
 
         Goal goal = new ExitGoal(dungeon);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
 
-        // For maps that do not have goals
+        // For maps that do not have goals; make the goal 'exit'
         return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
     }
 
     /**
-     * Calls create entity to create class and if needs more attributes, add. Then add to dungeon
+     * Calls create entity to create entity, then adds to dungeon
      * @param mapEntities
      */
     private void addEntitiesDungeon(JSONArray mapEntities) {
         for (int i = 0; i < mapEntities.length(); i++) {
             JSONObject obj = mapEntities.getJSONObject(i);
             Entity entity = createEntity(obj);
-            if (entity instanceof Player) {
-                if (obj.has("health")) {
-                    Player player = (Player) entity;
-                    player.setHealth(obj.getInt("health"));
-                    int invinDur = obj.getInt("invincibilityDuration");
-                    int invisDur = obj.getInt("invisibilityDuration");
-                    int bowDur = obj.getInt("bowDurability");
-                    int armourDur = obj.getInt("armourDurability");
-                    int swordDur = obj.getInt("swordDurability");
-                    int shieldDur = obj.getInt("shieldDurability");
-                    player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur);
-                }
-            } else if (entity instanceof ZombieToast) {
-                if (obj.has("hasArmour")) {
-                    ZombieToast zombieToast = (ZombieToast) entity;
-                    zombieToast.setHasArmour(obj.getBoolean("hasArmour"));
-                }
-            } else if (entity instanceof Mercenary) {
-                if (obj.has("hasArmour")) {
-                    Mercenary mercenary = (Mercenary) entity;
-                    mercenary.setHasArmour(obj.getBoolean("hasArmour"));
-                    mercenary.setIsBribed(obj.getBoolean("isBribed"));
-                }
-            } else if (entity instanceof ZombieToastSpawner) {
-                if (obj.has("tickCounter")) {
-                    ZombieToastSpawner.setTickCounter(obj.getInt("tickCounter"));
-                }
-            }
             dungeon.addEntity(entity);
         }
     }
 
     /**
-     * Loop through JSON "entities" and adds each data to the Dungeon class
+     * Given a JSONObject, it creates the entity given the object's info. and returns it
      * @param mapObj
      */
     private Entity createEntity(JSONObject obj) {
         int x = -1;
         int y = -1;
+        String type = "";
         int keyId = -1;
-        int movementFactor = -1;
-        String colour = "";
-        if (obj.has("x")) {
-            x = obj.getInt("x");
-            y = obj.getInt("y");
-        }
-        String type = obj.getString("type");
         
-        if (obj.has("key")) {
-            keyId = obj.getInt("key");
-        }
-        if (obj.has("colour")) {
-            colour = obj.getString("colour");
-        }
-        if (obj.has("movement_factor")) {
-            movementFactor = obj.getInt("movement_factor");
-        }
+        if (obj.has("x")) { x = obj.getInt("x"); }
+        if (obj.has("y")) { y = obj.getInt("y"); }
+        if (obj.has("type")) { type = obj.getString("type"); }
+        if (obj.has("key")) { keyId = obj.getInt("key"); }
 
         switch (type) {
             case "armour":
@@ -222,9 +180,6 @@ public class DungeonManiaController {
             case "boulder":
                 Boulder boulder = new Boulder(x, y);
                 return boulder;
-            case "swamp_tile":
-                SwampTile tile = new SwampTile(x,y, movementFactor);
-                return tile;
             case "bow":
                 Bow bow = new Bow(x, y);
                 return bow;
@@ -248,11 +203,25 @@ public class DungeonManiaController {
                 return key;
             case "mercenary":
                 Mercenary mercenary = new Mercenary(x, y, dungeon);
+                if (obj.has("hasArmour")) { mercenary.setHasArmour(obj.getBoolean("hasArmour")); }
+                if (obj.has("isBribed")) { mercenary.setIsBribed(obj.getBoolean("isBribed")); }
                 return mercenary;
             case "player":
                 Player player = new Player(x, y);
+                if (obj.has("health")) {
+                    player.setHealth(obj.getInt("health"));
+                    int invinDur = obj.getInt("invincibilityDuration");
+                    int invisDur = obj.getInt("invisibilityDuration");
+                    int bowDur = obj.getInt("bowDurability");
+                    int armourDur = obj.getInt("armourDurability");
+                    int swordDur = obj.getInt("swordDurability");
+                    int shieldDur = obj.getInt("shieldDurability");
+                    player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur);
+                }
                 return player;
             case "portal":
+                String colour = "";
+                if (obj.has("colour")) { colour = obj.getString("colour"); }
                 Portal portal = new Portal(x, y, colour);
                 return portal;
             case "shield":
@@ -260,6 +229,8 @@ public class DungeonManiaController {
                 return shield;
             case "spider":
                 Spider spider = new Spider(x, y, dungeon);
+                if (obj.has("tickCounter")) { Spider.setTickCounter(obj.getInt("tickCounter")); }
+                if (obj.has("spiderNum")) { Spider.setSpiderNum(obj.getInt("spiderNum")); }
                 return spider;
             case "switch":
                 FloorSwitch floorSwitch = new FloorSwitch(x, y);
@@ -281,15 +252,39 @@ public class DungeonManiaController {
                 return wood;
             case "zombie_toast":
                 ZombieToast zombieToast = new ZombieToast(x, y, dungeon);
+                if (obj.has("hasArmour")) { zombieToast.setHasArmour(obj.getBoolean("hasArmour")); }
                 return zombieToast;
             case "zombie_toast_spawner":
                 ZombieToastSpawner zombieToastSpawner = new ZombieToastSpawner(x, y);
+                if (obj.has("tickCounter")) { ZombieToastSpawner.setTickCounter(obj.getInt("tickCounter")); }
                 return zombieToastSpawner;
             case "sun_stone":
                 SunStone sunStone = new SunStone(x, y);
                 return sunStone;
+            case "sceptre":
+                Sceptre sceptre = new Sceptre(x, y);
+                if (obj.has("durability")) { sceptre.setDurability(obj.getInt("durability")); }
+                return sceptre;
+            case "midnight_armour":
+                MidnightArmour midnightArmour = new MidnightArmour(x, y);
+                return midnightArmour;
+            case "assassin":
+                Assassin assassin = new Assassin(x ,y, dungeon);
+                return assassin;
+            case "hydra":
+                Hydra hydra = new Hydra(x, y, dungeon);
+                return hydra;
+            case "swamp_tile":
+                int movementFactor = -1;
+                if (obj.has("movementFactor")) { movementFactor = obj.getInt("movementFactor"); }
+                SwampTile swampTile = new SwampTile(x, y, movementFactor);
+                return swampTile;
+            case "anduril":
+                Anduril anduril = new Anduril(x, y);
+                return anduril;
             default:
                 break;
+            // TODO: IF YOU ADD MORE ATTRIBUTES THAT NEED TO BE PERSISTED, UPDATE IT HERE!!!!
         }
         return null;
     }
@@ -312,6 +307,7 @@ public class DungeonManiaController {
                 compositeGoal = new OrGoal(dungeon);
             }
             JSONArray subgoals = goalObj.getJSONArray("subgoals");
+            // Recursively create subgoals
             for (int i = 0; i < subgoals.length(); i++) {
                 Goal leafGoal = createGoal(subgoals.getJSONObject(i), dungeon);
                 compositeGoal.addSubGoal(leafGoal);
@@ -344,30 +340,57 @@ public class DungeonManiaController {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        Dungeon currDungeon = Dungeon.getDungeon();
 
+        Dungeon currDungeon = Dungeon.getDungeon();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
-        DungeonResponse response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                                    currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
-
-        // Save general game info
         JSONObject saveObj = new JSONObject();
+
+        // General game info. saving
         saveObj.put("filename", name);
         saveObj.put("gameMode", currDungeon.getGameMode());
         saveObj.put("dungeonId", dungeonId);
         saveObj.put("dungeonName", currDungeon.getDungeonName());
         saveObj.put("goals", currDungeon.getGoalString());
         
-        // Save all entities in entityList and update ID counter
+        // Entity saving
+        saveObj.put("entities", saveEntities());
+
+        // Inventory saving
+        saveObj.put("inventory", saveInventory());
+
+        // Buildable saving
+        saveObj.put("buildables", saveBuilable());
+
+        // Insert object into file
+         try {
+            FileWriter writer = new FileWriter("savedGames/" + name + ".json");
+            writer.write(saveObj.toString());
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Data creation error in saveGame: " + e.getMessage());
+        }
+
+        DungeonResponse response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                                    currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+
+        return response;
+    }
+
+    /**
+     * Loops through current dungeon entity list and returns it as a JSONArray
+     * @return JSONArray of all dungeon's entities
+     */
+    private JSONArray saveEntities() {
+        Dungeon currDungeon = Dungeon.getDungeon();
         JSONArray entityArray = new JSONArray();
+
         for (Entity entity : currDungeon.getEntityList()) {
             JSONObject entityInfo = new JSONObject();
             entityInfo.put("id", entity.getId());
             entityInfo.put("type", entity.getType());
             entityInfo.put("x", entity.getX());
             entityInfo.put("y", entity.getY());
-
             if (entity instanceof Player) {
                 Player player = (Player) entity;
                 entityInfo.put("health", player.getHealth());
@@ -383,7 +406,7 @@ public class DungeonManiaController {
             } else if (entity instanceof Mercenary) {
                 Mercenary mercenary = (Mercenary) entity;
                 entityInfo.put("hasArmour", mercenary.getHasArmour());
-                entityInfo.put("isBribed", mercenary.IsBribed());
+                entityInfo.put("isBribed", mercenary.isBribed());
             } else if (entity instanceof Portal) {
                 Portal portal = (Portal) entity;
                 entityInfo.put("colour", portal.getColour());
@@ -395,39 +418,53 @@ public class DungeonManiaController {
                 entityInfo.put("key", key.getKeyId());
             } else if (entity instanceof ZombieToastSpawner) {
                 entityInfo.put("tickCounter", ZombieToastSpawner.getTickCounter());
+            } else if (entity instanceof Sceptre) {
+                Sceptre sceptre = (Sceptre) entity;
+                entityInfo.put("durability", sceptre.getDurability());
+            } else if (entity instanceof SwampTile) {
+                SwampTile swampTile = (SwampTile) entity;
+                entityInfo.put("movementFactor", swampTile.getMovementFactor());
             }
+            // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES
             entityArray.put(entityInfo);
         }
-        saveObj.put("entities", entityArray);
+        return entityArray;
+    }
 
-        // Save all items in inventory
+    /**
+     * Loops through current dungeon inventory and returns it as a JSONArray
+     * @return JSONArray of current inventory
+     */
+    private JSONArray saveInventory() {
+        Dungeon currDungeon = Dungeon.getDungeon();
         JSONArray inventoryArray = new JSONArray();
         Inventory inventory = currDungeon.getInventory();
+
         for (CollectableEntity item : inventory.getItems()) {
             JSONObject itemInfo = new JSONObject();
             itemInfo.put("id", item.getId());
             itemInfo.put("type", item.getType());
+            if (item instanceof Sceptre) {
+                Sceptre sceptre = (Sceptre) item;
+                itemInfo.put("durability", sceptre.getDurability());
+            }
+            // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES IN INVENTORY!!!
             inventoryArray.put(itemInfo);
         }
-        saveObj.put("inventory", inventoryArray);
+        return inventoryArray;
+    }
 
-        // Save all current buildable items
+    /**
+     * Loops through current dungeon buildable list and returns it as a JSONArray
+     * @return JSONArray of current buildable items
+     */
+    private JSONArray saveBuilable() {
+        Dungeon currDungeon = Dungeon.getDungeon();
         JSONArray buildableArray = new JSONArray();
         for (String item : currDungeon.getBuildableString()) {
             buildableArray.put(item);
         }
-        saveObj.put("buildables", buildableArray);
-
-        // Insert object into file
-         try {
-            FileWriter writer = new FileWriter("savedGames/" + name + ".json");
-            writer.write(saveObj.toString());
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("Data creation error in saveGame: " + e.getMessage());
-        }
-
-        return response;
+        return buildableArray;
     }
 
     /**
@@ -469,8 +506,9 @@ public class DungeonManiaController {
             e.printStackTrace();
         }
 
-        // Set general dungeon info
         JSONObject dataObj = new JSONObject(data);
+
+        // Set general dungeon info
         String dungeonName = dataObj.getString("dungeonName");
         String gameMode = dataObj.getString("gameMode");
         String dungeonId = dataObj.getString("dungeonId");
@@ -482,28 +520,15 @@ public class DungeonManiaController {
         JSONArray mapEntities = dataObj.getJSONArray("entities");
         addEntitiesDungeon(mapEntities);
         
-        // Get inventory (id, type), set necessary attributes
-        Inventory inventory = new Inventory();
-        JSONArray inventoryJSON = dataObj.getJSONArray("inventory");
-        for (int i = 0; i < inventoryJSON.length(); i++) {
-            JSONObject itemObj = inventoryJSON.getJSONObject(i);
-            CollectableEntity item = (CollectableEntity) createEntity(itemObj);
-            inventory.addItem(item);
-        }
-        dungeon.setInventory(inventory);
+        // Inventory loading
+        dungeon.setInventory(loadInventory(dataObj));
         
-        // Set buildables
-        List<String> buildable = new ArrayList<String>();
-        JSONArray buildableJSONArray = dataObj.getJSONArray("buildables");
-        for (int i = 0; i < buildableJSONArray.length(); i++) {
-            String buildableType = (String) buildableJSONArray.get(i);
-            buildable.add(buildableType);
-        }
-        dungeon.setBuildableList(buildable);
+        // Buildable loading
+        dungeon.setBuildableList(loadBuilable(dataObj));
 
-        // Get goal
-        Goal goal = createGoalFromString(dataObj.getString("goals"), dungeon);
-        dungeon.addGoal(goal);
+        // Goal loading
+        Goal goal = loadGoal(dataObj.getString("goals"), dungeon);
+        dungeon.setGoal(goal);
 
         // Create new dungeonResponse from dungeon class to ensure its correct and return
         DungeonResponse response = new DungeonResponse(dungeonId, dungeon.getDungeonName(), dungeon.getEntityResponse(),
@@ -513,13 +538,43 @@ public class DungeonManiaController {
     }
 
     /**
-     * Makes a goal from a string
-     * Unsure if this works for composite goals
+     * Loads the inventory
+     * @param dataObj
+     * @return loaded inventory
+     */
+    private Inventory loadInventory(JSONObject dataObj) {
+        Inventory inventory = new Inventory();
+        JSONArray inventoryJSON = dataObj.getJSONArray("inventory");
+        for (int i = 0; i < inventoryJSON.length(); i++) {
+            JSONObject itemObj = inventoryJSON.getJSONObject(i);
+            CollectableEntity item = (CollectableEntity) createEntity(itemObj);
+            inventory.addItem(item);
+        }
+        return inventory;
+    }
+
+    /**
+     * Loads buildables
+     * @param dataObj
+     * @return list of all buildable items
+     */
+    private List<String> loadBuilable(JSONObject dataObj) {
+        List<String> buildable = new ArrayList<String>();
+        JSONArray buildableJSONArray = dataObj.getJSONArray("buildables");
+        for (int i = 0; i < buildableJSONArray.length(); i++) {
+            String buildableType = (String) buildableJSONArray.get(i);
+            buildable.add(buildableType);
+        }
+        return buildable;
+    }
+
+    /**
+     * Loads a goal from a string
      * @param goal
      * @param dungeon
      * @return
      */
-    private Goal createGoalFromString(String goal, Dungeon dungeon) {
+    private Goal loadGoal(String goal, Dungeon dungeon) {
         if (goal.contains("(")) {
             CompositeGoal compositeGoal;
             if (goal.contains("AND")) {
@@ -536,7 +591,7 @@ public class DungeonManiaController {
                 if (goals[i].equals("")) {
                     continue;
                 }
-                Goal leafGoal = createGoalFromString(goals[i], dungeon);
+                Goal leafGoal = loadGoal(goals[i], dungeon);
                 compositeGoal.addSubGoal(leafGoal);
             }
             return compositeGoal;
@@ -612,6 +667,7 @@ public class DungeonManiaController {
             throw new InvalidActionException("Item is not in the inventory");
         }
 
+        // Moving
         if (!movementDirection.equals(Direction.NONE)) {
             player.move(movementDirection);
             
@@ -620,7 +676,7 @@ public class DungeonManiaController {
                 if (player.getPosition().equals(enemy.getPosition())) {
                     if (enemy instanceof Mercenary) {
                         Mercenary mercenary = (Mercenary) enemy;
-                        if (!mercenary.IsBribed()) {
+                        if (!mercenary.isBribed()) {
                             while (player.battle(enemy)) {
                             }
                         }
@@ -629,7 +685,10 @@ public class DungeonManiaController {
                     }
                 }
             }
-        } else {
+        }
+        
+        // Item use
+        if (itemUsed != null) {
             switch (type) {
                 case "bomb":
                     Bomb bomb = new Bomb(player.getX(), player.getY());
@@ -660,7 +719,7 @@ public class DungeonManiaController {
             if (player.getPosition().equals(enemy.getPosition())) {
                 if (enemy instanceof Mercenary) {
                     Mercenary mercenary = (Mercenary) enemy;
-                    if (!mercenary.IsBribed()) {
+                    if (!mercenary.isBribed()) {
                         while (player.battle(enemy)) {
                         }
                     }
@@ -727,17 +786,41 @@ public class DungeonManiaController {
         // check whether the entityId is valid
         if (!entityIds.contains(entityId)) {
             throw new IllegalArgumentException("Incorrect interactable entity");
-        } else if (entityId.contains("Mercenary")) {
+        } else if (entityId.contains("Mercenary") || entityId.contains("Assassin")) {
+            System.out.println("entityId");
             for (Entity entity : entities) {
-                if (entity instanceof Mercenary) {
+                if (entity instanceof Bribeable) {
                     if (!currDungeon.checkBribeRange(entity)) {
                         throw new InvalidActionException("Not close enough to bribe");
                     } else if (currDungeon.checkBribeRange(entity)) {
-                        Mercenary mercenary = (Mercenary)entity;
-                        mercenary.bribe();
+                        Bribeable bribeableEntity = (Bribeable)entity;
+                        System.out.println("hi");
+                        bribeableEntity.bribe();
                     }
                 }
             }
+        // } else if (entityId.contains("Mercenary")) {
+        //     for (Entity entity : entities) {
+        //         if (entity instanceof Mercenary) {
+        //             if (!currDungeon.checkBribeRange(entity)) {
+        //                 throw new InvalidActionException("Not close enough to bribe");
+        //             } else if (currDungeon.checkBribeRange(entity)) {
+        //                 Mercenary mercenary = (Mercenary)entity;
+        //                 mercenary.bribe();
+        //             }
+        //         }
+        //     }
+        // } else if (entityId.contains("Assassin")) {
+        //     for (Entity entity : entities) {
+        //         if (entity instanceof Assassin) {
+        //             if (!currDungeon.checkBribeRange(entity)) {
+        //                 throw new InvalidActionException("Not close enough to bribe");
+        //             } else if (currDungeon.checkBribeRange(entity)) {
+        //                 Assassin assassin = (Assassin)entity;
+        //                 assassin.bribe();
+        //             }
+        //         }
+        //     }
         } else if (entityId.contains("ZombieToastSpawner")) {
             for (Entity entity : entityCardinallyAdjacent) {
                 if (entity instanceof ZombieToastSpawner) {
@@ -769,17 +852,25 @@ public class DungeonManiaController {
         DungeonResponse response = null;
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
+        Boolean canBuildSceptre = currDungeon.updateBuildableListSceptre();
+        Boolean canBuildMidnightArmour = currDungeon.updateBuildableListMidnightArmour();
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
         Inventory currInventory = currDungeon.getInventory();
 
-        if (!(buildable.equals("bow") || buildable.equals("shield"))) {
+        if (!buildable.equals("bow") && !buildable.equals("shield") && 
+            !buildable.equals("sceptre") && !buildable.equals("midnight_armour")) {
+        // if (!(buildable.equals("bow")) || !(buildable.equals("shield")) || !(buildable.equals("sceptre"))) {
             throw new IllegalArgumentException("Incorrect buildable entity");
         }
         // check for InvalidActionException
         if (buildable.equals("bow") && !canBuildBow) {
-            throw new InvalidActionException("Not enough ingredients to build this");
+            throw new InvalidActionException("Not enough ingredients to build bow");
         } else if (buildable.equals("shield") && !canBuildShield) {
-            throw new InvalidActionException("Not enough ingredients to build this");
+            throw new InvalidActionException("Not enough ingredients to build shield");
+        } else if (buildable.equals("sceptre") && !canBuildSceptre) {
+            throw new InvalidActionException("Not enough ingredients to build sceptre");
+        } else if (buildable.equals("midnight_armour") && !canBuildMidnightArmour) {
+            throw new InvalidActionException("Not enough ingredients to build midnight armour");
         }
 
         if (canBuildBow && buildable.equals("bow")) {
@@ -794,6 +885,20 @@ public class DungeonManiaController {
             shield.useIngredient();
             currDungeon.updateBuildableListShield();
             currInventory.addItem(shield);
+            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+        } else if (canBuildSceptre && buildable.equals("sceptre")) {
+            Sceptre sceptre = new Sceptre(-1, -1);
+            sceptre.useIngredient();
+            currDungeon.updateBuildableListShield();
+            currInventory.addItem(sceptre);
+            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
+                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
+        } else if (canBuildMidnightArmour && buildable.equals("midnight_armour")) {
+            MidnightArmour midnightArmour = new MidnightArmour(-1, -1);
+            midnightArmour.useIngredient();
+            currDungeon.updateBuildableListMidnightArmour();
+            currInventory.addItem(midnightArmour);
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         }

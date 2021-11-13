@@ -23,7 +23,7 @@ public class SwampTileTest {
 
     public DungeonManiaController setUp() {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("swamp-tile", "Standard");
+        controller.newGame("swamp-tile", "standard");
         return controller; 
     }
 

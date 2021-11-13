@@ -364,7 +364,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("bribe", "Standard");
+        controller.newGame("bribe", "standard");
 
         // 20 TICKS
         controller.tick(null, Direction.RIGHT);
@@ -380,7 +380,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("bribe-far", "Standard");
+        controller.newGame("bribe-far", "standard");
 
         controller.tick(null, Direction.RIGHT);
 
@@ -395,7 +395,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("bribe-far", "Standard");
+        controller.newGame("bribe-far", "standard");
         
         controller.tick(null, Direction.DOWN);
 
@@ -414,7 +414,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeSunStone", "Standard");
+        controller.newGame("testBribeSunStone", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -438,7 +438,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeFarSunStone", "Standard");
+        controller.newGame("testBribeFarSunStone", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -465,7 +465,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribePriority", "Standard");
+        controller.newGame("testBribePriority", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -500,7 +500,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeAssassin", "Standard");
+        controller.newGame("testBribeAssassin", "standard");
         
         // player moves 1 cell to the right to pick up treasure
         controller.tick(null, Direction.RIGHT);
@@ -508,10 +508,7 @@ public class BattleTest {
 
         // player moves 1 cell to the right to pick up one ring
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
-
-        // assassin started at (5, 0), now is at (3, 0)
-        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(3,0,3), true), controller.getInfo("Assassin0"));
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // attempt to bribe assassin with treasure + one ring
         assertDoesNotThrow(() -> {
@@ -533,7 +530,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeAssassinSunStone", "Standard");
+        controller.newGame("testBribeAssassinSunStone", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -541,10 +538,7 @@ public class BattleTest {
 
         // player moves 1 cell to the right to pick up one ring
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
-
-        // assassin started at (5, 0), now is at (3, 0)
-        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(3,0,3), true), controller.getInfo("Assassin0"));
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // attempt to bribe assassin with sun stone + one ring
         assertDoesNotThrow(() -> {
@@ -574,7 +568,7 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeAssassinPriority", "Standard");
+        controller.newGame("testBribeAssassinPriority", "standard");
         
         // player moves 1 cell to the right to pick up sun stone
         controller.tick(null, Direction.RIGHT);
@@ -582,14 +576,11 @@ public class BattleTest {
 
         // player moves 1 cell to the right to pick up one ring
         controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // player moves 1 cell to the right to pick up treasure
         controller.tick(null, Direction.RIGHT);
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
-
-        // assassin started at (7, 0), now is at (4, 0)
-        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(4,0,3), true), controller.getInfo("Assassin0"));
 
         // attempt to bribe assassin
         assertDoesNotThrow(() -> {
@@ -622,18 +613,15 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.clearData();
 
-        controller.newGame("testBribeAssassinFar", "Standard");
-
-        // player moves 1 cell to the right to pick up one ring
-        controller.tick(null, Direction.RIGHT);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+        controller.newGame("testBribeAssassinFar", "standard");
 
         // player moves 1 cell to the right to pick up treasure
         controller.tick(null, Direction.RIGHT);
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
 
-        // assassin started at (10, 0), now is at (7, 0)
-        assertEquals(new EntityResponse("Assassin0", "assassin", new Position(4,0,3), true), controller.getInfo("Assassin0"));
+        // player moves 1 cell to the right to pick up one ring
+        controller.tick(null, Direction.RIGHT);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
 
         // attempt to bribe assassin
         // player is currently at (3, 0), while assassin is at (7, 0)
@@ -667,7 +655,7 @@ public class BattleTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBribeSceptreMerc", "Standard");
+        controller.newGame("testBribeSceptreMerc", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
@@ -699,7 +687,7 @@ public class BattleTest {
          */
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("testBribeSceptreAssa", "Standard");
+        controller.newGame("testBribeSceptreAssa", "standard");
 
         // player moves to the right, while picking up the items
         controller.tick(null, Direction.RIGHT);
@@ -714,7 +702,7 @@ public class BattleTest {
         // assert that the sceptre has been used to mind-control the assassin
         // hence, treasure and one ring still remains in the inventory
         assertEquals(controller.getDungeon().getInventory().numberOfItem("treasure") == 1, true);
-        assertEquals(controller.getDungeon().getInventory().numberOfItem("one_ring") == 1, true);
+        assertEquals(controller.getDungeon().getInventory().numberOfItem("the_one_ring") == 1, true);
         
     }
 

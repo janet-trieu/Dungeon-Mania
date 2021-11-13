@@ -10,6 +10,7 @@ import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.breakableEntity.*;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.*;
 import dungeonmania.entities.collectableEntity.potionEntity.*;
+import dungeonmania.entities.collectableEntity.rareCollectableEntity.Anduril;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
 import dungeonmania.entities.movingEntity.*;
 import dungeonmania.entities.staticEntity.*;
@@ -114,14 +115,6 @@ public class Dungeon {
      */
     public String getGameMode() {
         return gameMode;
-    }
-
-    /**
-     * Add goal to goal
-     * @param goal
-     */
-    public void addGoal(Goal goal) {
-        this.goal = goal;
     }
     
     /**
@@ -524,6 +517,10 @@ public class Dungeon {
         this.gameMode = gameMode;
     }
 
+    public String getDungeonId() {
+        return dungeonId;
+    }
+
     public void setDungeonId(String dungeonId) {
         this.dungeonId = dungeonId;
     }
@@ -570,9 +567,10 @@ public class Dungeon {
     }
 
     /**
-     * Resets static id counter when loading a game
+     * Resets static counters when loading a game
      */
     public void resetCounters() {
+        // Static IDs
         FloorSwitch.setCounter(0);
         Door.setCounter(0);
         Boulder.setCounter(0);
@@ -580,11 +578,16 @@ public class Dungeon {
         Exit.setCounter(0);
         Portal.setCounter(0);
         ZombieToastSpawner.setCounter(0);
+        SwampTile.setCounter(0);
 
+        // Moving IDs
         Spider.setCounter(0);
         ZombieToast.setCounter(0);
         Mercenary.setCounter(0);
+        Assassin.setCounter(0);
+        Hydra.setCounter(0);
 
+        // Collectable IDs
         Treasure.setCounter(0);
         Key.setCounter(0);
         Arrow.setCounter(0);
@@ -598,6 +601,100 @@ public class Dungeon {
         Sword.setCounter(0);
         Shield.setCounter(0);
         Bow.setCounter(0);
+        SunStone.setCounter(0);
+        Anduril.setCounter(0);
+        Sceptre.setCounter(0);
+        MidnightArmour.setCounter(0);
+
+        // Tick counters
+        Spider.setSpiderNum(0);
+        Spider.setTickCounter(0);
+        ZombieToastSpawner.setTickCounter(1);
+
+        // TODO: ADD ANY OTHER MILESTONE 3 STATIC ID/TICK COUNTER RESETS!!!
     }
     
+    /**
+     * Checks if 'sceptre' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if sceptre is buildable
+     */
+    public Boolean updateBuildableListSceptre() {
+        if (buildableList.contains("sceptre")) {
+            return true;
+        }
+        Boolean bool = false;
+        List<CollectableEntity> inventory = getInventory().getItems();
+        int woodCounter = 0;
+        int arrowCounter = 0;
+        int treasureCounter = 0;
+        int keyCounter = 0;
+        int sunStoneCounter = 0;
+        for (CollectableEntity entity : inventory) {
+            if (entity instanceof Wood) {
+                woodCounter++;
+            } else if (entity instanceof Arrow) {
+                arrowCounter++;
+            } else if (entity instanceof Treasure) {
+                treasureCounter++;
+            } else if (entity instanceof Key) {
+                keyCounter++;
+            } else if (entity instanceof SunStone) {
+                sunStoneCounter++;
+            }
+        }
+        // Can be crafted with one wood or two arrows, one key or treasure, and one sun stone.
+        if ((woodCounter >= 1 && keyCounter >= 1 && sunStoneCounter >= 1) ||        // 1 wood, 1 key, 1 sun stone
+            (woodCounter >= 1 && treasureCounter >= 1 && sunStoneCounter >= 1) ||   // 1 wood, 1 treasure, 1 sun stone
+            (woodCounter >= 1 && sunStoneCounter >= 2) ||                           // 1 wood, 2 sun stones
+            (arrowCounter >= 2 && keyCounter >= 1 && sunStoneCounter >= 1) ||       // 2 arrows, 1 key, 1 sun stone
+            (arrowCounter >= 2 && treasureCounter >= 1 && sunStoneCounter >= 1) ||  // 2 arrows, 1 treasure, 1 sun stone
+            (arrowCounter >= 2 && sunStoneCounter >= 2)) {                          // 2 arrows, 2 sun stones
+                
+            buildableList.add("sceptre");
+            bool = true;
+        }
+        return bool;
+    }
+
+    /**
+     * Checks if 'midnight_armour' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if sceptre is buildable
+     */
+    public Boolean updateBuildableListMidnightArmour() {
+        Boolean bool = false;
+        List<MovingEntity> enemies = getMovingEntities();
+
+        // check if there are any zombie toasts in dungeon
+        for (MovingEntity enemy : enemies) {
+            if (enemy instanceof ZombieToast) {
+                return false;
+            }
+        }
+
+        if (buildableList.contains("midnight_armour")) {
+            return true;
+        }
+
+        List<CollectableEntity> inventory = getInventory().getItems();
+        int armourCounter = 0;
+        int sunStoneCounter = 0;
+        for (CollectableEntity entity : inventory) {
+            if (entity instanceof Armour) {
+                armourCounter++;
+            } else if (entity instanceof SunStone) {
+                sunStoneCounter++;
+            }
+        }
+        
+        // Can be crafted with one armour and one sun stone
+        if (armourCounter >= 1 && sunStoneCounter >= 1) {
+            buildableList.add("midnight_armour");
+            bool = true;
+        }
+                
+        return bool;
+    }
+
 }

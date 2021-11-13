@@ -5,11 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.SunStone;
@@ -43,7 +41,7 @@ public class StaticTest {
     public void testPortals() throws IllegalArgumentException, IOException {
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("portals", "Standard");
+        controller.newGame("portals", "standard");
 
         // CASE: TELEPORT RIGHT
         // Player: (0,0) -> (5,0)
@@ -157,7 +155,7 @@ public class StaticTest {
         dungeon.addEntity(key);
         dungeon.addEntity(door);
         dungeon.addEntity(exit);
-        dungeon.addGoal(goal);
+        dungeon.setGoal(goal);
         assertEquals(false, goal.isComplete());
         assertEquals(":exit", goal.toString());
 
@@ -193,21 +191,18 @@ public class StaticTest {
     }
 
     /**
-     * Testing for ZombieToastSpawner and Wall functionality in Standard
+     * Testing for ZombieToastSpawner and Wall functionality in standard
      * - Wall stays put
-     * - ZombieToast spawns every 20 ticks in Standard
+     * - ZombieToast spawns every 20 ticks in standard
      */
     
     @Test
-    public void testStandardSpawner() throws IOException {
+    public void teststandardSpawner() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("simple-spawner-wall", "Standard");
-
-        List<Entity> list = controller.getDungeon().getEntityList();
+        controller.newGame("simple-spawner-wall", "standard");
 
         // 20 TICKS
-
         controller.tick(null, Direction.RIGHT);
         for (int i = 0; i <= 19; i++) {
             controller.tick(null, Direction.LEFT);
@@ -234,15 +229,15 @@ public class StaticTest {
     }
     
     /**
-     * Testing for ZombieToastSpawner and Wall functionality in Standard
+     * Testing for ZombieToastSpawner and Wall functionality in standard
      * - Wall stays put
-     * - ZombieToast spawns every 20 ticks in Standard
+     * - ZombieToast spawns every 20 ticks in standard
      */
     @Test
     public void testDestroy() {
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("simple-spawner-wall", "Standard");
+        controller.newGame("simple-spawner-wall", "standard");
 
         // 20 TICKS
 
@@ -263,15 +258,15 @@ public class StaticTest {
     }
     
     /**
-     * Testing for ZombieToastSpawner and Wall functionality in Hard
+     * Testing for ZombieToastSpawner and Wall functionality in hard
      * - Wall stays put
-     * - ZombieToast spawns every 15 ticks in Hard
+     * - ZombieToast spawns every 15 ticks in hard
      */
     @Test
-    public void testHardSpawner() throws IOException {
+    public void testhardSpawner() throws IOException {
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("simple-spawner-wall", "Hard");
+        controller.newGame("simple-spawner-wall", "hard");
 
         // 15 TICKS
         for (int i = 0; i <= 15; i++) {
@@ -286,7 +281,7 @@ public class StaticTest {
     public void testDestroyNoWeapon() {
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("simple-spawner-wall", "Standard");
+        controller.newGame("simple-spawner-wall", "standard");
 
         controller.tick(null, Direction.DOWN);
         
@@ -302,7 +297,7 @@ public class StaticTest {
     public void testInteractIllegalArgument() {
         DungeonManiaController controller = new DungeonManiaController();
 
-        controller.newGame("simple-spawner-wall", "Standard");
+        controller.newGame("simple-spawner-wall", "standard");
 
         controller.tick(null, Direction.DOWN);
         
