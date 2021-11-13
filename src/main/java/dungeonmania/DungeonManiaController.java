@@ -216,7 +216,8 @@ public class DungeonManiaController {
                     int armourDur = obj.getInt("armourDurability");
                     int swordDur = obj.getInt("swordDurability");
                     int shieldDur = obj.getInt("shieldDurability");
-                    player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur);
+                    int midnightArmourDur = obj.getInt("midnightArmourDurability");
+                    player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur, midnightArmourDur);
                 }
                 return player;
             case "portal":

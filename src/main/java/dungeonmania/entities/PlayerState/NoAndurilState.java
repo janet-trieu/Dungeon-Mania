@@ -1,6 +1,8 @@
 package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
+import dungeonmania.entities.collectableEntity.rareCollectableEntity.Anduril;
 
 public class NoAndurilState implements PlayerState {
 
@@ -22,18 +24,17 @@ public class NoAndurilState implements PlayerState {
     public void applyEffect() {
         player.changeAndurilState(new AndurilState(player));
         if (player.isSword()) {
-            player.setDamage(player.getDamage() / 2);
+            player.setDamage(player.getDamage() / Sword.damage);
         }
-        player.setDamage(player.getDamage() * 2);
+        player.setDamage(player.getDamage() * Anduril.damage);
     }
 
     /**
-     * player equips armour and gains benefits of increased protection
+     * Does not get loaded in as persistence does not matter for Anduril
      */
     @Override
     public void loadDuration(int durability) {
-        player.changeAndurilState(new AndurilState(player, durability));
-        player.setDamage(player.getProtection() * 2);
+
     }
 
     /**

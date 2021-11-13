@@ -11,7 +11,8 @@ import dungeonmania.entities.collectableEntity.Wood;
 public class Bow extends BuildableEntity {
 
     // durability attribute of bow is set to 3 (ticks)
-    private int durability = 3;
+    public final static int durability = 3;
+    public final static int damage = 2;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -28,7 +29,6 @@ public class Bow extends BuildableEntity {
         super(x, y, "bow");
         setId("Bow" + String.valueOf(counter));
         counter++;
-        setDurability(durability);
     }
 
     @Override
