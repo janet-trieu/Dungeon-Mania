@@ -7,6 +7,7 @@ public class Hydra extends ZombieToast{
     
     int counter = 0;
 
+
     public Hydra(int x, int y, Dungeon dungeon){
         super(x, y, dungeon, "hydra");
         setId("Hydra" + String.valueOf(counter));
@@ -15,8 +16,7 @@ public class Hydra extends ZombieToast{
 
     @Override
     public void takeDamage(double otherHealth, double otherDamage) {
-        // TODO: change condition
-        if (true) {
+        if (getRandom().nextInt(100) % 2 == 0) {
             super.takeDamage(otherHealth, otherDamage);
         } else {
             setHealth(getHealth() + 5);
@@ -31,4 +31,5 @@ public class Hydra extends ZombieToast{
             takeDamage(player.getHealth(), player.getDamage());
         }
     }
+
 }
