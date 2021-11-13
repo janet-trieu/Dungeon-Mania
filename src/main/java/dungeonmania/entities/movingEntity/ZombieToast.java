@@ -69,10 +69,10 @@ public class ZombieToast extends MovingEntity {
         }
 
         int way = random.nextInt(100) % 4;
-        if(way == 1) {move(Direction.UP, this);}
-        if(way == 2) {move(Direction.DOWN, this);}
-        if(way == 3) {move(Direction.LEFT, this);}
-        if(way == 4) {move(Direction.RIGHT, this);}
+        if (way == 0) {move(Direction.UP, this);}
+        if (way == 1) {move(Direction.DOWN, this);}
+        if (way == 2) {move(Direction.LEFT, this);}
+        if (way == 3) {move(Direction.RIGHT, this);}
     }
 
     /**
