@@ -53,7 +53,7 @@ public class MidnightArmourState implements PlayerState {
         if (player.isArmour()) {
             player.setProtection(player.getProtection() * Armour.protection);
         }
-        player.changeArmourState(new NoArmourState(player));
+        player.changeMidnightArmourState(new NoMidnightArmourState(player));
         Dungeon.getDungeon().getInventory().breakItem("midnight_armour");
     }
 

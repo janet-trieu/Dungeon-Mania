@@ -8,22 +8,22 @@
         {
             "x": 1,
             "y": 0,
-            "type": "sceptre"
+            "type": "wood"
         },
         {
             "x": 2,
             "y": 0,
-            "type": "treasure"
+            "type": "wood"
         },
         {
             "x": 3,
             "y": 0,
-            "type": "the_one_ring"
+            "type": "sun_stone"
         },
         {
-            "x": 8,
+            "x": 4,
             "y": 0,
-            "type": "assassin"
+            "type": "treasure"
         }
     ]
 }

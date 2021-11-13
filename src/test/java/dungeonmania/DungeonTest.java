@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -158,16 +157,6 @@ public class DungeonTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("all-entities", "standard");
         assertThrows(IllegalArgumentException.class, () -> controller.tick("pizzashape", Direction.NONE));
-    }
-
-    /**
-     * Test for item is not in player's inventory
-     */
-    @Test
-    public void testTickItemNotInInventory() {
-        DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("testBomb", "standard");
-        assertThrows(InvalidActionException.class, () -> controller.tick("Bomb0", Direction.NONE));
     }
 
     /**

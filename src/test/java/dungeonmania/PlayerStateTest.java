@@ -346,7 +346,7 @@ public class PlayerStateTest {
         while (player.battle(mercenary)) {
         }
         assertEquals(true, player.isSword());
-        assertEquals(2, player.getSwordDurability());
+        assertEquals(3, player.getSwordDurability());
         // mercenary is not alive after 6 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
         player.moveRight();

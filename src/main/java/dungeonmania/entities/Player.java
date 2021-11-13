@@ -48,7 +48,7 @@ public class Player extends Entity {
     public Player(int x, int y) {
         super(x, y, "player");
         invincibleState = new NoInvincibleState(this);
-        midnightArmourState = new NoArmourState(this);
+        midnightArmourState = new NoMidnightArmourState(this);
         invisibleState = new NoInvisibleState(this);
         oneRingState = new NoOneRingState(this);
         andurilState = new NoAndurilState(this);
