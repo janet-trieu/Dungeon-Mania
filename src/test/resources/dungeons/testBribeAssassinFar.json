@@ -8,20 +8,15 @@
         {
             "x": 1,
             "y": 0,
-            "type": "sceptre"
+            "type": "treasure"
         },
         {
             "x": 2,
             "y": 0,
-            "type": "treasure"
-        },
-        {
-            "x": 3,
-            "y": 0,
             "type": "the_one_ring"
         },
         {
-            "x": 8,
+            "x": 10,
             "y": 0,
             "type": "assassin"
         }

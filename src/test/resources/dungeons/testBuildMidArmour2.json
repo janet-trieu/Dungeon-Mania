@@ -1,3 +1,4 @@
+
 {
     "entities": [
         {
@@ -8,22 +9,17 @@
         {
             "x": 1,
             "y": 0,
-            "type": "sceptre"
+            "type": "armour"
         },
         {
             "x": 2,
             "y": 0,
-            "type": "treasure"
+            "type": "sun_stone"
         },
         {
-            "x": 3,
+            "x": 7,
             "y": 0,
-            "type": "the_one_ring"
-        },
-        {
-            "x": 8,
-            "y": 0,
-            "type": "assassin"
+            "type": "zombie_toast"
         }
     ]
 }
