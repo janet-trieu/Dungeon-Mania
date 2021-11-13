@@ -49,20 +49,6 @@ public class ZombieToast extends MovingEntity {
         }
     }
 
-    @Override
-    public void takeDamage(double otherHealth, double otherDamage) {
-        if (getHasArmour()) {
-            setHealth(getHealth() - ((otherHealth * otherDamage)/5)/2);
-        } else {
-            super.takeDamage(otherHealth, otherDamage);
-        }
-    }
-    
-    @Override
-    public void takeDamagePlayer(Player player) {
-        takeDamage(player.getHealth(), player.getDamage());
-    }
-
     /**
      * Method for movement of zombie toast
      */
