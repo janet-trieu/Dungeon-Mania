@@ -1,6 +1,7 @@
 package dungeonmania.entities.movingEntity;
 
 import dungeonmania.Dungeon;
+import dungeonmania.entities.Player;
 import dungeonmania.Inventory;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Sceptre;
@@ -25,6 +26,15 @@ public class Assassin extends BossEntity implements Bribeable {
         setIsInteractable(isInteractable);
         this.dungeon = dungeon;
         counter++;
+    }
+
+    @Override
+    public void takeDamagePlayer(Player player) {
+        if (player.isAnduril()) {
+            super.takeDamage(player.getHealth(), player.getDamage() * 3);
+        } else {
+            super.takeDamage(player.getHealth(), player.getDamage());
+        }
     }
 
     public static int getCounter() {
