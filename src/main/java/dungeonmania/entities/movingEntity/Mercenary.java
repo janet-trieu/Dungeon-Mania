@@ -18,7 +18,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import dungeonmania.entities.Player;
 
-public class Mercenary extends MovingEntity {
+public class Mercenary extends MovingEntity implements Bribeable {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -72,7 +72,6 @@ public class Mercenary extends MovingEntity {
         }
 
         List<Integer> distance = Path(this, dungeon);
-        Direction move = Direction.NONE;
 
         int index = distance.indexOf(Collections.min(distance));
         int mindist = distance.get(index);
@@ -155,6 +154,7 @@ public class Mercenary extends MovingEntity {
     /**
      * Method to bribe the mercenary with treasure to become an ally 
      */
+    @Override
     public void bribe() {
         Inventory inventory = dungeon.getInventory();
         if (inventory.numberOfItem("sceptre") > 0) {
@@ -167,23 +167,27 @@ public class Mercenary extends MovingEntity {
         if (inventory.numberOfItem("sun_stone") > 0) {
             setIsBribed(true);
             return;
+
         // else, player uses treasure to bribe mercenary    
         } else if (inventory.numberOfItem("treasure") > 0) {
             setIsBribed(true);
             inventory.breakItem("treasure");
             return;
+
         // player cannot bribe mercenary    
         } else {
             throw new InvalidActionException("Cannot bribe without treasure or sun stone");
         }
     }
 
-    /**
-     * Getter for the bribe boolean
-     * @return
-     */
-    public Boolean IsBribed() {
+    @Override
+    public boolean isBribed() {
         return isBribed;
+    }
+
+    @Override
+    public void setIsBribed(boolean isBribed) {
+        this.isBribed = isBribed;
     }
 
     /**

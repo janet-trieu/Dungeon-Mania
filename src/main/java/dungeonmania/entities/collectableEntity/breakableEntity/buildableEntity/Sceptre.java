@@ -11,8 +11,7 @@ import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.SunStone;
 import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.Wood;
-import dungeonmania.entities.movingEntity.Mercenary;
-import dungeonmania.entities.movingEntity.MovingEntity;
+import dungeonmania.entities.movingEntity.Bribeable;
 
 public class Sceptre extends BuildableEntity {
 
@@ -100,16 +99,14 @@ public class Sceptre extends BuildableEntity {
         }
     }
 
-    public void mindControl(MovingEntity entity) {
+    public void mindControl(Bribeable entity) {
         if (getDurability() <= 0) {
             return;
         }
-
-        if (entity instanceof Mercenary) {
-            Mercenary mercenary = (Mercenary)entity;
-            mercenary.setIsBribed(true);
-            setDurability(getDurability() - 1);
-        }
+        System.out.println(getDurability());
+        entity.setIsBribed(true);
+        setDurability(getDurability() - 1);
+        System.out.println(getDurability());
     }
 
     public int getDurability() {

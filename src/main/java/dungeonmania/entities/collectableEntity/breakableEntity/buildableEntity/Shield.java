@@ -6,9 +6,6 @@ import java.util.ListIterator;
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
-import dungeonmania.entities.collectableEntity.Key;
-import dungeonmania.entities.collectableEntity.SunStone;
-import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.Wood;
 
 public class Shield extends BuildableEntity {

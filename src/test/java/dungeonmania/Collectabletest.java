@@ -12,7 +12,6 @@ import dungeonmania.entities.collectableEntity.potionEntity.HealthPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
-import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -107,9 +106,6 @@ public class Collectabletest {
     public void testInvincibilityPotionKillEnemy() {
         // create a dungeon instance
         Dungeon dungeon = new Dungeon();
-
-        // get the inventory
-        Inventory inventory = dungeon.getInventory();
 
         // create a player at position (0,0)
         Player player = new Player(0, 0);
@@ -215,7 +211,6 @@ public class Collectabletest {
         // there is a boulder at position (2,1), which the player will push into the switch with position (2,2)
         controller.tick(null, Direction.DOWN);
 
-        Position newBoulderPosition = new Position(2, 2, 1);
         assertEquals(null, controller.getInfo("Boulder0"));
 
         // as there is a bomb that is adjacent to the switch that a boulder has been pushed into, the bomb has now exploded

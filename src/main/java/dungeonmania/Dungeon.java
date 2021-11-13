@@ -10,6 +10,7 @@ import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.breakableEntity.*;
 import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.*;
 import dungeonmania.entities.collectableEntity.potionEntity.*;
+import dungeonmania.entities.collectableEntity.rareCollectableEntity.Anduril;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
 import dungeonmania.entities.movingEntity.*;
 import dungeonmania.entities.staticEntity.*;
@@ -577,11 +578,14 @@ public class Dungeon {
         Exit.setCounter(0);
         Portal.setCounter(0);
         ZombieToastSpawner.setCounter(0);
+        SwampTile.setCounter(0);
 
         // Moving IDs
         Spider.setCounter(0);
         ZombieToast.setCounter(0);
         Mercenary.setCounter(0);
+        Assassin.setCounter(0);
+        Hydra.setCounter(0);
 
         // Collectable IDs
         Treasure.setCounter(0);
@@ -597,13 +601,17 @@ public class Dungeon {
         Sword.setCounter(0);
         Shield.setCounter(0);
         Bow.setCounter(0);
+        SunStone.setCounter(0);
+        Anduril.setCounter(0);
+        Sceptre.setCounter(0);
+        MidnightArmour.setCounter(0);
 
         // Tick counters
         Spider.setSpiderNum(0);
         Spider.setTickCounter(0);
         ZombieToastSpawner.setTickCounter(1);
 
-        // TODO: ADD ANY OTHER MILESTONE 3 ID COUNTER RESETS!!!
+        // TODO: ADD ANY OTHER MILESTONE 3 STATIC ID/TICK COUNTER RESETS!!!
     }
     
     /**
@@ -646,6 +654,46 @@ public class Dungeon {
             buildableList.add("sceptre");
             bool = true;
         }
+        return bool;
+    }
+
+    /**
+     * Checks if 'midnight_armour' is buildable.
+     * If so and not already in 'buildableList', add to 'buildableList' and return true
+     * @return boolean if sceptre is buildable
+     */
+    public Boolean updateBuildableListMidnightArmour() {
+        Boolean bool = false;
+        List<MovingEntity> enemies = getMovingEntities();
+
+        // check if there are any zombie toasts in dungeon
+        for (MovingEntity enemy : enemies) {
+            if (enemy instanceof ZombieToast) {
+                return false;
+            }
+        }
+
+        if (buildableList.contains("midnight_armour")) {
+            return true;
+        }
+
+        List<CollectableEntity> inventory = getInventory().getItems();
+        int armourCounter = 0;
+        int sunStoneCounter = 0;
+        for (CollectableEntity entity : inventory) {
+            if (entity instanceof Armour) {
+                armourCounter++;
+            } else if (entity instanceof SunStone) {
+                sunStoneCounter++;
+            }
+        }
+        
+        // Can be crafted with one armour and one sun stone
+        if (armourCounter >= 1 && sunStoneCounter >= 1) {
+            buildableList.add("midnight_armour");
+            bool = true;
+        }
+                
         return bool;
     }
 
