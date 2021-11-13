@@ -10,7 +10,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.breakableEntity.*;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.*;
+import dungeonmania.entities.collectableEntity.buildableEntity.*;
 import dungeonmania.entities.collectableEntity.potionEntity.*;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.Anduril;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
@@ -711,7 +711,7 @@ public class Dungeon {
                 }
             }
         }
-        
+
         return mindControlledEntities;
     }
 

@@ -2,15 +2,14 @@ package dungeonmania.entities.PlayerState;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.MidnightArmour;
+import dungeonmania.entities.collectableEntity.Armour;
+import dungeonmania.entities.collectableEntity.buildableEntity.MidnightArmour;
 
 
 public class MidnightArmourState implements PlayerState {
 
     // storing required attributes
     private Player player;
-    private int durability;
 
     /**
      * Constructor for ArmourState
@@ -18,18 +17,16 @@ public class MidnightArmourState implements PlayerState {
      */
     public MidnightArmourState(Player player) {
         this.player = player;
-        durability = MidnightArmour.durability;
     }
 
-    /**
-     * 
-     * @param player
-     * @param durability
-     */
-    public MidnightArmourState(Player player, int durability) {
-        this.player = player;
-        this.durability = durability;
-    }
+    // /**
+    //  * 
+    //  * @param player
+    //  * @param durability
+    //  */
+    // public MidnightArmourState(Player player, int durability) {
+    //     this.player = player;
+    // }
 
     /**
      * Cannot apply another armour if player has already equipped armour
@@ -41,36 +38,55 @@ public class MidnightArmourState implements PlayerState {
         // does nothing
     }
 
+    // /**
+    //  * Armour breaks and is removed from inventory and no longer gains benefits from armour
+    //  */
+    // @Override
+    // public void removeEffect() {
+    //     // remove stats from midnight armour
+    //     player.setProtection(player.getProtection() / MidnightArmour.protection);
+    //     player.setDamage(player.getDamage() / MidnightArmour.damage);
+    //     // reapply stats of armour if applicable
+    //     if (player.isArmour()) {
+    //         player.setProtection(player.getProtection() * Armour.protection);
+    //     }
+    //     player.changeArmourState(new NoArmourState(player));
+    //     Dungeon.getDungeon().getInventory().breakItem("midnight_armour");
+    // }
+
+    // /**
+    //  * armour reduces in durability
+    //  */
+    // @Override
+    // public void reduceDuration() {
+    //     durability--;
+    //     if (durability <= 0) {
+    //         removeEffect();
+    //     }
+    // }
+
+    // @Override
+    // public int getDuration() {
+    //     return this.durability;
+    // }
+
     /**
-     * Armour breaks and is removed from inventory and no longer gains benefits from armour
+     * Midnight Armour cannot break
      */
     @Override
     public void removeEffect() {
-        // remove stats from midnight armour
-        player.setProtection(player.getProtection() / MidnightArmour.protection);
-        player.setDamage(player.getDamage() / MidnightArmour.damage);
-        // reapply stats of armour if applicable
-        if (player.isArmour()) {
-            player.setProtection(player.getProtection() * Armour.protection);
-        }
-        player.changeArmourState(new NoArmourState(player));
-        Dungeon.getDungeon().getInventory().breakItem("midnight_armour");
     }
 
     /**
-     * armour reduces in durability
+     * Midnight Armour does not reduce in durability
      */
     @Override
     public void reduceDuration() {
-        durability--;
-        if (durability <= 0) {
-            removeEffect();
-        }
     }
 
     @Override
     public int getDuration() {
-        return this.durability;
+        return 100;
     }
 
     /**

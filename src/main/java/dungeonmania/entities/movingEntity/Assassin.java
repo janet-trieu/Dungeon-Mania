@@ -9,7 +9,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.Inventory;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Sceptre;
+import dungeonmania.entities.collectableEntity.buildableEntity.Sceptre;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.SwampTile;

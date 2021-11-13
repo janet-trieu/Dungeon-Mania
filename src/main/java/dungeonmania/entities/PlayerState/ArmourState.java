@@ -2,7 +2,7 @@ package dungeonmania.entities.PlayerState;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
+import dungeonmania.entities.collectableEntity.Armour;
 
 
 public class ArmourState implements PlayerState {
@@ -17,7 +17,7 @@ public class ArmourState implements PlayerState {
      */
     public ArmourState(Player player) {
         this.player = player;
-        durability = Armour.durability;
+        durability = Armour.maxDurability;
     }
 
     /**

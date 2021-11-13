@@ -1,8 +1,8 @@
 package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.MidnightArmour;
+import dungeonmania.entities.collectableEntity.Armour;
+import dungeonmania.entities.collectableEntity.buildableEntity.MidnightArmour;
 
 public class NoMidnightArmourState implements PlayerState {
 

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
+import dungeonmania.entities.collectableEntity.Armour;
 import dungeonmania.util.Direction;
 
 public class ZombieToast extends MovingEntity {

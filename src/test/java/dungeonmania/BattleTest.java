@@ -4,15 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
-import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
+import dungeonmania.entities.collectableEntity.Armour;
+import dungeonmania.entities.collectableEntity.Sword;
+import dungeonmania.entities.collectableEntity.buildableEntity.Bow;
+import dungeonmania.entities.collectableEntity.buildableEntity.Shield;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;

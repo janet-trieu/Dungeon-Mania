@@ -1,4 +1,4 @@
-package dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity;
+package dungeonmania.entities.collectableEntity.buildableEntity;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -11,17 +11,11 @@ import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.SunStone;
 import dungeonmania.entities.collectableEntity.Treasure;
 import dungeonmania.entities.collectableEntity.Wood;
-import dungeonmania.entities.movingEntity.Assassin;
-import dungeonmania.entities.movingEntity.Bribeable;
-import dungeonmania.entities.movingEntity.Mercenary;
 
 public class Sceptre extends BuildableEntity {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
-
-    // storing the number of tick duration for mind control
-    private int mindControlDuration = 10;
 
     // dungeon instance
     Dungeon currDungeon = Dungeon.getDungeon();

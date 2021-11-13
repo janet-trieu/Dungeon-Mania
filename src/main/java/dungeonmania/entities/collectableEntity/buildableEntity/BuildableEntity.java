@@ -1,8 +1,8 @@
-package dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity;
+package dungeonmania.entities.collectableEntity.buildableEntity;
 
-import dungeonmania.entities.collectableEntity.breakableEntity.BreakableEntity;
+import dungeonmania.entities.collectableEntity.CollectableEntity;
 
-public abstract class BuildableEntity extends BreakableEntity {
+public abstract class BuildableEntity extends CollectableEntity {
     
     /**
      * Constructor for a buildable entity

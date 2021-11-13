@@ -8,7 +8,7 @@ import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.*;
 import dungeonmania.entities.collectableEntity.potionEntity.*;
 import dungeonmania.entities.collectableEntity.breakableEntity.*;
-import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.*;
+import dungeonmania.entities.collectableEntity.buildableEntity.*;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -264,7 +264,6 @@ public class DungeonManiaController {
                 return sunStone;
             case "sceptre":
                 Sceptre sceptre = new Sceptre(x, y);
-                if (obj.has("durability")) { sceptre.setDurability(obj.getInt("durability")); }
                 return sceptre;
             case "midnight_armour":
                 MidnightArmour midnightArmour = new MidnightArmour(x, y);
@@ -419,9 +418,6 @@ public class DungeonManiaController {
                 entityInfo.put("key", key.getKeyId());
             } else if (entity instanceof ZombieToastSpawner) {
                 entityInfo.put("tickCounter", ZombieToastSpawner.getTickCounter());
-            } else if (entity instanceof Sceptre) {
-                Sceptre sceptre = (Sceptre) entity;
-                entityInfo.put("durability", sceptre.getDurability());
             } else if (entity instanceof SwampTile) {
                 SwampTile swampTile = (SwampTile) entity;
                 entityInfo.put("movementFactor", swampTile.getMovementFactor());
@@ -445,10 +441,6 @@ public class DungeonManiaController {
             JSONObject itemInfo = new JSONObject();
             itemInfo.put("id", item.getId());
             itemInfo.put("type", item.getType());
-            if (item instanceof Sceptre) {
-                Sceptre sceptre = (Sceptre) item;
-                itemInfo.put("durability", sceptre.getDurability());
-            }
             // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES IN INVENTORY!!!
             inventoryArray.put(itemInfo);
         }

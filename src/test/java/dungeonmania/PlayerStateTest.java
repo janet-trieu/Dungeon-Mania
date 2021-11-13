@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.breakableEntity.Armour;
-import dungeonmania.entities.collectableEntity.breakableEntity.Sword;
+import dungeonmania.entities.collectableEntity.Armour;
+import dungeonmania.entities.collectableEntity.Sword;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
