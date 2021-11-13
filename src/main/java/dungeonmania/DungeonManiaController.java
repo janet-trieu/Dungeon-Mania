@@ -788,14 +788,12 @@ public class DungeonManiaController {
         if (!entityIds.contains(entityId)) {
             throw new IllegalArgumentException("Incorrect interactable entity");
         } else if (entityId.contains("Mercenary") || entityId.contains("Assassin")) {
-            System.out.println("entityId");
             for (Entity entity : entities) {
                 if (entity instanceof Bribeable) {
                     if (!currDungeon.checkBribeRange(entity)) {
                         throw new InvalidActionException("Not close enough to bribe");
                     } else if (currDungeon.checkBribeRange(entity)) {
                         Bribeable bribeableEntity = (Bribeable)entity;
-                        System.out.println("hi");
                         bribeableEntity.bribe();
                     }
                 }
