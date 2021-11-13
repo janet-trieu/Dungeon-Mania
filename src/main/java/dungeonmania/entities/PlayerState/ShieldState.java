@@ -2,12 +2,12 @@ package dungeonmania.entities.PlayerState;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
 
 public class ShieldState implements PlayerState {
 
     // storing required attributes
     private Player player;
-    private int maxDurability = 5;
     private int durability;
 
     /**
@@ -16,7 +16,7 @@ public class ShieldState implements PlayerState {
      */
     public ShieldState(Player player) {
         this.player = player;
-        durability = maxDurability;
+        durability = Shield.durability;
     }
 
     /**
@@ -40,7 +40,7 @@ public class ShieldState implements PlayerState {
      */
     @Override
     public void removeEffect() {
-        player.setProtection(player.getProtection() / 2);
+        player.setProtection(player.getProtection() / Shield.protection);
         player.changeShieldState(new NoShieldState(player));
         Dungeon.getDungeon().getInventory().breakItem("shield");
     }

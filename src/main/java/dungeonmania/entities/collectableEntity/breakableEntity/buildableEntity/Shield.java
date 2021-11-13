@@ -11,7 +11,8 @@ import dungeonmania.entities.collectableEntity.Wood;
 public class Shield extends BuildableEntity {
 
     // durability attribute of shield is set to 5 (ticks)
-    private int durability = 5;
+    public final static int durability = 5;
+    public final static int protection = 2;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -28,7 +29,6 @@ public class Shield extends BuildableEntity {
         super(x, y, "shield");
         setId("Shield" + String.valueOf(counter));
         counter++;
-        setDurability(durability);
     }
 
     @Override

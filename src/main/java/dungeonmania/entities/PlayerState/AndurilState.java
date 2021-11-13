@@ -7,8 +7,6 @@ public class AndurilState implements PlayerState {
 
     // storing required attributes
     private Player player;
-    private int maxDurability = 10;
-    private int durability;
 
     /**
      * Constructor for ArmourState
@@ -16,17 +14,6 @@ public class AndurilState implements PlayerState {
      */
     public AndurilState(Player player) {
         this.player = player;
-        durability = maxDurability;
-    }
-
-    /**
-     * 
-     * @param player
-     * @param durability
-     */
-    public AndurilState(Player player, int durability) {
-        this.player = player;
-        this.durability = durability;
     }
 
     /**
@@ -40,32 +27,22 @@ public class AndurilState implements PlayerState {
     }
 
     /**
-     * Anduril breaks and is removed from inventory and no longer gains benefits from armour
+     * Anduril cannot break
      */
     @Override
     public void removeEffect() {
-        player.setDamage(player.getDamage() / 2);
-        if (player.isSword()) {
-            player.setDamage(player.getDamage() * 2);
-        }
-        player.changeAndurilState(new NoAndurilState(player));
-        Dungeon.getDungeon().getInventory().breakItem("anduril");
     }
 
     /**
-     * Anduril reduces in durability
+     * Anduril does not reduce in durability
      */
     @Override
     public void reduceDuration() {
-        durability--;
-        if (durability <= 0) {
-            removeEffect();
-        }
     }
 
     @Override
     public int getDuration() {
-        return this.durability;
+        return 100;
     }
 
     /**

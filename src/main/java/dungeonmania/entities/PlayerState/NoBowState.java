@@ -1,6 +1,7 @@
 package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Bow;
 
 public class NoBowState implements PlayerState {
 
@@ -21,7 +22,7 @@ public class NoBowState implements PlayerState {
     @Override
     public void applyEffect() {
         player.changeBowState(new BowState(player));
-        player.setDamage(player.getDamage() * 2);
+        player.setDamage(player.getDamage() * Bow.damage);
     }
 
     /**
@@ -30,7 +31,7 @@ public class NoBowState implements PlayerState {
     @Override
     public void loadDuration(int durability) {
         player.changeBowState(new BowState(player, durability));
-        player.setDamage(player.getDamage() * 2);
+        player.setDamage(player.getDamage() * Bow.damage);
     }
 
     /**

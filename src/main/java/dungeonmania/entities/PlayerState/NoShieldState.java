@@ -1,6 +1,7 @@
 package dungeonmania.entities.PlayerState;
 
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.breakableEntity.buildableEntity.Shield;
 
 public class NoShieldState implements PlayerState {
 
@@ -21,7 +22,7 @@ public class NoShieldState implements PlayerState {
     @Override
     public void applyEffect() {
         player.changeShieldState(new ShieldState(player));
-        player.setProtection(player.getProtection() * 2);
+        player.setProtection(player.getProtection() * Shield.protection);
     }
 
     /**
@@ -30,7 +31,7 @@ public class NoShieldState implements PlayerState {
     @Override
     public void loadDuration(int duration) {
         player.changeShieldState(new ShieldState(player, duration));
-        player.setProtection(player.getProtection() * 2);
+        player.setProtection(player.getProtection() * Shield.protection);
     }
 
     @Override
