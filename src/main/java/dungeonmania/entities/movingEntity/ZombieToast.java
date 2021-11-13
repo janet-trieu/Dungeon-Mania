@@ -43,6 +43,7 @@ public class ZombieToast extends MovingEntity {
         this.hasArmour = Math.random() <= 0.2;
         this.dungeon = dungeon;
         this.setLayer(3);
+        random = new Random(System.currentTimeMillis());
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }

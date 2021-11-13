@@ -3,12 +3,15 @@ package dungeonmania;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingEntity.Assassin;
 import dungeonmania.entities.movingEntity.Hydra;
 import dungeonmania.entities.movingEntity.Mercenary;
+import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
 import dungeonmania.util.Direction;
@@ -145,8 +148,9 @@ public class SwampTileTest {
         // Add hydra in map (same tile as swamp because hydra movement is random)
         // ASSUMPTION: If entity is spawned on top of Swamp tile, that already counts as 1 tick
         Hydra hydra = new Hydra(1, 0, dungeon);
-        dungeon.addEntity(hydra);
-
+        dungeon.addEntity(hydra);  
+        System.out.println(hydra.getPosition());
+        
         controller.tick(null, Direction.LEFT);
 
         // Ensure hydra is still in the same tile as swamptile
@@ -155,7 +159,7 @@ public class SwampTileTest {
         controller.tick(null, Direction.LEFT);
 
         // Ensure hydra is not in the same tile as swamptile (1,0,0)
-        assertNotEquals(swampPosition, hydra.getPosition());
+       assertNotEquals(swampPosition, hydra.getPosition());
     }
 
 }
