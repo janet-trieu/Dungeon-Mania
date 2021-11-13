@@ -19,7 +19,8 @@
 			"bowDurability": "int",
 			"armourDurability": "int",
 			"swordDurability": "int",
-			"shieldDurability": "int"
+			"shieldDurability": "int",
+			"midnightArmourDurability": "int"
 		},
 		{
 			"type": "zombie_toast",

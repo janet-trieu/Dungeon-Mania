@@ -401,6 +401,7 @@ public class DungeonManiaController {
                 entityInfo.put("armourDurability", player.getArmourDurability());
                 entityInfo.put("swordDurability", player.getSwordDurability());
                 entityInfo.put("shieldDurability", player.getShieldDurability());
+                entityInfo.put("midnightArmourDurability", player.getMidnightArmourDurability());
             } else if (entity instanceof ZombieToast) {
                 ZombieToast zombieToast = (ZombieToast) entity;
                 entityInfo.put("hasArmour", zombieToast.getHasArmour());
@@ -788,14 +789,12 @@ public class DungeonManiaController {
         if (!entityIds.contains(entityId)) {
             throw new IllegalArgumentException("Incorrect interactable entity");
         } else if (entityId.contains("Mercenary") || entityId.contains("Assassin")) {
-            System.out.println("entityId");
             for (Entity entity : entities) {
                 if (entity instanceof Bribeable) {
                     if (!currDungeon.checkBribeRange(entity)) {
                         throw new InvalidActionException("Not close enough to bribe");
                     } else if (currDungeon.checkBribeRange(entity)) {
                         Bribeable bribeableEntity = (Bribeable)entity;
-                        System.out.println("hi");
                         bribeableEntity.bribe();
                     }
                 }

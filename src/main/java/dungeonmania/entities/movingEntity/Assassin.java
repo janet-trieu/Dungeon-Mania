@@ -61,7 +61,6 @@ public class Assassin extends BossEntity implements Bribeable {
      */
     @Override
     public void bribe() {
-        System.out.println("HI");
         Inventory inventory = dungeon.getInventory();
         if (inventory.numberOfItem("sceptre") > 0) {
             CollectableEntity item = inventory.invGetInstance("sceptre");
