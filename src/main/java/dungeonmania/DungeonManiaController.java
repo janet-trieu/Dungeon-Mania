@@ -401,6 +401,7 @@ public class DungeonManiaController {
                 entityInfo.put("armourDurability", player.getArmourDurability());
                 entityInfo.put("swordDurability", player.getSwordDurability());
                 entityInfo.put("shieldDurability", player.getShieldDurability());
+                entityInfo.put("midnightArmourDurability", player.getMidnightArmourDurability());
             } else if (entity instanceof ZombieToast) {
                 ZombieToast zombieToast = (ZombieToast) entity;
                 entityInfo.put("hasArmour", zombieToast.getHasArmour());
