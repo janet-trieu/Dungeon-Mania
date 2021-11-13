@@ -22,6 +22,7 @@ public class OrGoal extends CompositeGoal {
      */
     @Override
     public String toString() {
+        update();
         if (isComplete()){
             return "";
         } if (getSubGoalList().size() == 1) {

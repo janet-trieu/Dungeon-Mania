@@ -21,6 +21,7 @@ public class AndGoal extends CompositeGoal {
      */
     @Override
     public String toString() {
+        update();
         if (getSubGoalList().size() == 0) {
             return "";
         } else if (getSubGoalList().size() == 1) {

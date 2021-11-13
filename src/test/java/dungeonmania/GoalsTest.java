@@ -322,4 +322,59 @@ public class GoalsTest {
         dungeon.updateGoal();
         assertEquals("", goal.toString());
     }
+
+    /**
+     * test map with enemy goal but no enemies, automatically achieved
+     */
+    @Test
+    public void testNoEnemies() {
+        Dungeon dungeon = new Dungeon();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.addEntity(player);
+
+        Goal enemyGoal = new EnemyGoal(dungeon);
+
+        dungeon.setGoal(enemyGoal);
+
+        assertEquals("", dungeon.getGoalString());
+    }
+
+    /**
+     * test map with switch goal but no switches, automatically achieved
+     */
+    @Test
+    public void testNoSwitch() {
+        Dungeon dungeon = new Dungeon();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.addEntity(player);
+
+        Goal switchGoal = new SwitchGoal(dungeon);
+
+        dungeon.setGoal(switchGoal);
+
+        assertEquals("", dungeon.getGoalString());
+    }
+
+    /**
+     * test map with switch goal but no switches, automatically achieved
+     */
+    @Test
+    public void testNoTreasure() {
+        Dungeon dungeon = new Dungeon();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.addEntity(player);
+
+        Goal treasureGoal = new TreasureGoal(dungeon);
+
+        dungeon.setGoal(treasureGoal);
+
+        assertEquals("", dungeon.getGoalString());
+    }
+
 }

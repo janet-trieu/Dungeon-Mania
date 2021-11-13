@@ -25,6 +25,7 @@ public class EnemyGoal extends LeafGoal {
      */
     @Override
     public String toString() {
+        update();
         if (isComplete()) {
             return "";
         } else {
