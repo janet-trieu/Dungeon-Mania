@@ -817,10 +817,12 @@ public class DungeonManiaController {
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
         // Update
-        player.updatePotionDuration();
+        if (player != null) {player.updatePotionDuration();}
+        currDungeon.updateGoal();
         currDungeon.updateBuildableListBow();
         currDungeon.updateBuildableListShield();
-        currDungeon.updateGoal();
+        currDungeon.updateBuildableListSceptre();
+        currDungeon.updateBuildableListMidnightArmour();
 
         DungeonResponse response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                                         currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
