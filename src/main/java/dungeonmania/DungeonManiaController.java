@@ -477,7 +477,7 @@ public class DungeonManiaController {
             e1.printStackTrace();
         }
 
-        File gameFile = new File("savedGames" + "\\" + name + ".json");
+        File gameFile = new File("savedGames/" + name + ".json");
 
         // EXCEPTION CHECKING
         // If filename does not exist/valid
@@ -487,7 +487,7 @@ public class DungeonManiaController {
 
         // Read gameMode and dungeonResponse data
         try {
-            FileLoader.listFileNamesInDirectoryOutsideOfResources("savedGames" + "\\" + name + ".json");
+            FileLoader.listFileNamesInDirectoryOutsideOfResources("savedGames/" + name + ".json");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -903,7 +903,7 @@ public class DungeonManiaController {
      */
     public void clearData() {
         for (String games : allGames()) {
-            File gameFile = new File("savedGames" + "\\" + games + ".json");
+            File gameFile = new File("savedGames/" + games + ".json");
             gameFile.delete();
         }
     }
