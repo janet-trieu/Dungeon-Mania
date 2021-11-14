@@ -183,13 +183,9 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
 
     @Override
     public void updateMindControl() {
-        System.out.println(getMindControlDuration());
-        System.out.println("is bribed? "+isBribed);
         if (getMindControlDuration() == 0) {
             setIsInteractable(true);
             setIsBribed(false);
-            System.out.println("inside duration = 0 "+getMindControlDuration());
-            System.out.println("is bribed? inside duration == 0 "+isBribed);
         }
     }
 

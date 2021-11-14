@@ -46,27 +46,13 @@ public class MidnightArmour extends BuildableEntity {
                 sunStoneCounter++;
             }
         }
-        System.out.println("fuck this hsit");
-        System.out.println(items);
-        System.out.println(armourCounter);
-        System.out.println(sunStoneCounter);
         // Can be crafted with one armour and one sun stone
         if (armourCounter > 0 && sunStoneCounter > 0) {
-            System.out.println("before removal "+items);
             items.remove(currInventory.invGetInstance("armour"));
             items.remove(currInventory.invGetInstance("sun_stone"));
-            System.out.println("after removal "+items);
             // update the buildable list, as midnight armour has now been built
             buildableList.remove("midnight_armour");
         }
-        // if (currInventory.invGetInstance("treasure") != null && currInventory.invGetInstance("sun_stone") != null) {
-        //     System.out.println("before removal "+items);
-        //     items.remove(currInventory.invGetInstance("treasure"));
-        //     items.remove(currInventory.invGetInstance("sun_stone"));
-        //     System.out.println("after removal "+items);
-        //     // update the buildable list, as midnight armour has now been built
-        //     buildableList.remove("midnight_armour");
-        // } 
     }
 
     public static void setCounter(int counter) {
