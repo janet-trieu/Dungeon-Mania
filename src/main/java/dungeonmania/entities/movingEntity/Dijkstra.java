@@ -121,9 +121,14 @@ public interface Dijkstra {
         Map<Position, Position> dijkstra = dijkstra(dungeon, entity);
         Position curr = new Position(entity.getX(), entity.getY());
         Position next = dijkstra.get(curr);
+        if (next != null) {
+            entity.setX(next.getX());
+            entity.setY(next.getY());
+        }
+
         
-        entity.setX(next.getX());
-        entity.setY(next.getY());
+        dijkstra.clear();
+        dijkstra = null;
     }
 
 
