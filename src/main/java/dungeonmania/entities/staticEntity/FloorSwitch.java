@@ -37,10 +37,6 @@ public class FloorSwitch extends StaticEntity {
         this.isActive = isActive;
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         FloorSwitch.counter = counter;
     }

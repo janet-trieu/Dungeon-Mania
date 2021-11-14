@@ -20,10 +20,6 @@ public class Exit extends StaticEntity {
         setPassable(isPassable);
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         Exit.counter = counter;
     }

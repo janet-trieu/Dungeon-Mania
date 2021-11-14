@@ -69,10 +69,6 @@ public class MidnightArmour extends BuildableEntity {
         // } 
     }
 
-    // public static int getCounter() {
-    //     return counter;
-    // }
-
     public static void setCounter(int counter) {
         MidnightArmour.counter = counter;
     }

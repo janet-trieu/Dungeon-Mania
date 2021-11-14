@@ -274,6 +274,13 @@ public class PlayerStateTest {
         for (int i = 0; i < 8; i++) {
             player.battle(mercenary1);
         }
+
+        // remove onering or anduril or armour
+        inventory.breakItem("anduril");
+        inventory.breakItem("the_one_ring");
+        inventory.breakItem("the_one_ring");
+        inventory.breakItem("armour");
+
         // player battling mercenary0 and mercenary1 consecutively, dies but respawns
         assertEquals(true, dungeon.getEntityList().contains(player));
         assertEquals(false, player.isRing());

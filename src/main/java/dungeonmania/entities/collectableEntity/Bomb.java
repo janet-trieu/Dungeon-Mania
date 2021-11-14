@@ -48,10 +48,6 @@ public class Bomb extends CollectableEntity {
         existingEntities.remove(this);
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         Bomb.counter = counter;
     }

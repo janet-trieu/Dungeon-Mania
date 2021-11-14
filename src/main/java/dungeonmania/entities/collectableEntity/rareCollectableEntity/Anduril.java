@@ -17,10 +17,6 @@ public class Anduril extends RareCollectableEntity {
         counter++;
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         Anduril.counter = counter;
     }

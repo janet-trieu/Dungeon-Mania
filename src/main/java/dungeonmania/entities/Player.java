@@ -102,6 +102,7 @@ public class Player extends Entity {
      * @param otherEntity
      */
     public Boolean battle(MovingEntity otherEntity) {
+        System.out.println(otherEntity.getId());
         // check inventory and change states accordingly
         equipCombat();
         // Character Health = Character Health - ((Enemy Health * Enemy Attack Damage) / 10) / protection

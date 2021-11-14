@@ -16,10 +16,6 @@ public class SunStone extends CollectableEntity {
         counter++;
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         SunStone.counter = counter;
     }

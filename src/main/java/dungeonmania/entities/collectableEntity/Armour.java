@@ -21,10 +21,6 @@ public class Armour extends CollectableEntity implements Breakable {
         counter++;
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         Armour.counter = counter;
     }
