@@ -16,10 +16,6 @@ public class TheOneRing extends RareCollectableEntity {
         counter++;
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         TheOneRing.counter = counter;
     }

@@ -60,18 +60,6 @@ public class Mercenary extends MovingEntity implements Bribeable {
         }
         super.setDamagepeaceful(dungeon);
     }
-
-    public Mercenary(int x, int y, Dungeon dungeon, String type) {
-        super(x,y, type, 30, 5);
-        setIsInteractable(isInteractable);
-        this.hasArmour = Math.random() <= 0.2;
-        this.dungeon = dungeon;
-        this.setLayer(3);
-        if (checkSpawn(dungeon) != null) {
-            setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
-        }
-        super.setDamagepeaceful(dungeon);
-    }
     
     /**
      * Method to spawn the mercenary or assassin
@@ -129,7 +117,7 @@ public class Mercenary extends MovingEntity implements Bribeable {
             return;
         }
         Player player = (Player) dungeon.getPlayer();
-        if (player.isInvincible()) {
+        if (player != null && player.isInvincible()) {
             if(!isBribed) {
             run(this, dungeon);
             }
@@ -289,10 +277,6 @@ public class Mercenary extends MovingEntity implements Bribeable {
 
     public void setHasArmour(Boolean hasArmour) {
         this.hasArmour = hasArmour;
-    }
-    
-    public static int getCounter() {
-        return counter;
     }
 
     public static void setCounter(int counter) {

@@ -666,6 +666,10 @@ public class DungeonManiaController {
 
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
+        if (player == null) {
+            return getDungeonResponse();
+        }
+
         // EXCEPTION CHECKS
         // If itemUsed is not a usable item or not null
         if (!(getUsableItems().contains(itemUsed)) && itemUsed != null) {

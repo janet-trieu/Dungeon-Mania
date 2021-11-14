@@ -50,10 +50,6 @@ public class Assassin extends BossEntity implements Bribeable {
         }
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         Assassin.counter = counter;
     }
@@ -122,7 +118,7 @@ public class Assassin extends BossEntity implements Bribeable {
             return;
         }
         Player player = (Player) dungeon.getPlayer();
-        if (player.isInvincible()) {
+        if (player != null && player.isInvincible()) {
             if(!isBribed) {
             run(this, dungeon);
             }

@@ -15,10 +15,6 @@ public class Treasure extends CollectableEntity {
         setId("Treasure" + String.valueOf(counter));
         counter++;
     }
-    
-    public static int getCounter() {
-        return counter;
-    }
 
     public static void setCounter(int counter) {
         Treasure.counter = counter;

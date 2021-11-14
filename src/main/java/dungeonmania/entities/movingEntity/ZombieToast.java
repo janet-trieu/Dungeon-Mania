@@ -62,7 +62,7 @@ public class ZombieToast extends MovingEntity {
         }
         Player player = (Player) dungeon.getPlayer();
 
-        if (player.isInvincible()) {
+        if (player != null && player.isInvincible()) {
             run(this, dungeon);
             return;
         }
@@ -92,10 +92,6 @@ public class ZombieToast extends MovingEntity {
 
     public void setHasArmour(Boolean hasArmour) {
         this.hasArmour = hasArmour;
-    }
-    
-    public static int getCounter() {
-        return counter;
     }
 
     public static void setCounter(int counter) {

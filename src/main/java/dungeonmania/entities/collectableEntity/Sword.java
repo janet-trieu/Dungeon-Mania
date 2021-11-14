@@ -20,10 +20,6 @@ public class Sword extends CollectableEntity implements Breakable {
         setId("Sword" + String.valueOf(counter));
         counter++;
     }
-    
-    public static int getCounter() {
-        return counter;
-    }
 
     public static void setCounter(int counter) {
         Sword.counter = counter;

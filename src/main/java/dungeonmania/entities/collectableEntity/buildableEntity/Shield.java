@@ -66,10 +66,6 @@ public class Shield extends BuildableEntity implements Breakable {
         // update the buildable list
         buildableList.remove("shield");
     }
-    
-    public static int getCounter() {
-        return counter;
-    }
 
     public static void setCounter(int counter) {
         Shield.counter = counter;
