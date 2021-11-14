@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
+import dungeonmania.entities.movingEntity.Assassin;
 import dungeonmania.entities.movingEntity.Hydra;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.util.Direction;
@@ -14,28 +16,26 @@ public class BossTest {
 
     public DungeonManiaController setUp() {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("advanced", "standard");
+        controller.newGame("bosses", "hard");
         return controller; 
     }
 
     @Test
-    public void testHydra() {
+    public void testBossesSpawn() {
         DungeonManiaController controller = setUp();
         Dungeon dungeon = controller.getDungeon();
 
-        for(int i = 0; i < 50; i++) {
+        for(int i = 0; i < 51; i++) {
             controller.tick(null, Direction.NONE);
         }
 
         List<MovingEntity> list = dungeon.getMovingEntities();
         assertTrue(list.stream().anyMatch(e -> e instanceof Hydra));
-    }
-
-    @Test
-    public void testAssassin() {
-        DungeonManiaController controller = setUp();
-        Dungeon dungeon = controller.getDungeon();
+        assertTrue(list.stream().anyMatch(e -> e instanceof Assassin));
 
     }
+
+   
+    
     
 }
