@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import dungeonmania.util.*;
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
@@ -167,7 +166,6 @@ public class MovementTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = (Player) dungeon.getPlayer();
         Spider spider = new Spider(7,13,dungeon);
-        InvincibilityPotion invinciblePotion = new InvincibilityPotion(2, 1);
         player.move(Direction.RIGHT);
         dungeon.addEntity(spider);
         player.consumeInvincibilityPotion();

@@ -32,16 +32,6 @@ public class NoMidnightArmourState implements PlayerState {
         
     }
 
-    // /**
-    //  * player equips armour and gains benefits of increased protection
-    //  */
-    // @Override
-    // public void loadDuration(int durability) {
-    //     player.changeMidnightArmourState(new MidnightArmourState(player, durability));
-    //     player.setProtection(player.getProtection() * MidnightArmour.protection);
-    //     player.setDamage(player.getDamage() * MidnightArmour.damage);
-    // }
-
     /**
      * player equips armour and gains benefits of increased protection
      */

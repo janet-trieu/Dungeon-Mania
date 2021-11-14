@@ -1,7 +1,5 @@
 package dungeonmania.entities.movingEntity;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -9,13 +7,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableEntity.Armour;
-import dungeonmania.entities.staticEntity.Boulder;
-import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.SwampTile;
-import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.exceptions.InvalidActionException;
-import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 import dungeonmania.entities.Player;
 
 public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
@@ -26,7 +19,7 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
     // mercenary is interactable with player ( for bribing )
     private boolean isInteractable = true;
 
-    //
+    // storing duration of mind control effect
     private int mindControlDuration = 0;
 
     // boolean to check if the spawned mercenary has armour
@@ -79,7 +72,6 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
         tickCounter++;
     }
 
-
     /**
      * get number of enemies
      */
@@ -87,7 +79,7 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
     public Boolean hostileInDungeon() {
         for (Entity entity : Dungeon.getDungeon().getEntityList()) {
             if (entity instanceof MovingEntity) {
-                if (entity instanceof Mercenary && !isMercenaryBribed(entity)) {
+                if (entity instanceof Mercenary && !this.isBribed()) {
                     return true;
                 }
                 else {
@@ -97,15 +89,6 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
         }
         return false;
     }
-
-    public Boolean isMercenaryBribed(Entity entity) {
-        Mercenary mercenary = (Mercenary) entity;
-        if (mercenary.isBribed()) {
-            return true;
-        }
-        return false;
-    }
-
 
     /**
      * Method for the mercenary to move
@@ -133,6 +116,7 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
             }
         }
     }
+    
     /**
      * Method for the mercenary to drop armour
      */
@@ -183,13 +167,9 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
 
     @Override
     public void updateMindControl() {
-        System.out.println(getMindControlDuration());
-        System.out.println("is bribed? "+isBribed);
         if (getMindControlDuration() == 0) {
             setIsInteractable(true);
             setIsBribed(false);
-            System.out.println("inside duration = 0 "+getMindControlDuration());
-            System.out.println("is bribed? inside duration == 0 "+isBribed);
         }
     }
 

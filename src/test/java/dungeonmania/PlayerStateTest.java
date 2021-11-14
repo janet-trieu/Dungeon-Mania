@@ -10,7 +10,9 @@ import dungeonmania.entities.collectableEntity.Sword;
 import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.collectableEntity.potionEntity.InvisibilityPotion;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
+import dungeonmania.entities.movingEntity.Assassin;
 import dungeonmania.entities.movingEntity.Mercenary;
+import dungeonmania.util.Position;
 
 public class PlayerStateTest {
     /**
@@ -235,58 +237,31 @@ public class PlayerStateTest {
         Player player = new Player(0, 0);
         dungeon.addEntity(player);
 
+        // Create ring at (1, 0)
         TheOneRing ring = new TheOneRing(1, 0);
         dungeon.addEntity(ring);
 
-        // Create mercenary0 at (2, 0)
-        Mercenary mercenary0 = new Mercenary(2, 0, dungeon);
-        dungeon.addEntity(mercenary0);
- 
-        // Create mercenary1 at (3, 0)
-        Mercenary mercenary1 = new Mercenary(3, 0, dungeon);
-        dungeon.addEntity(mercenary1);      
-        // pick up ring 
-        player.moveRight();
-        assertEquals(false, player.isRing());
-        assertEquals(0, player.getOneRingDurability());
+        // Create assassin at (2, 0)
+        Assassin assassin = new Assassin(2, 0, dungeon);
+        dungeon.addEntity(assassin);
 
-        // battle mercenary0
+        // Picks up ring
         player.moveRight();
-        player.battle(mercenary0);
-        assertEquals(true, player.isRing());
-        assertEquals(1, player.getOneRingDurability());
-        // mercenary is alive after 1 tick
-        assertEquals(true, dungeon.getEntityList().contains(mercenary0));
-        // Player received damage
-        assertEquals(true, player.getMaxHealth() > player.getHealth());
-        for (int i = 0; i < 6; i++) {
-            player.battle(mercenary0);
-        }
-        // mercenary is dead
-        assertEquals(false, dungeon.getEntityList().contains(mercenary0));
-        // battle mercenary1
+        assertEquals(true, inventory.contains(ring));
+
+        // Battle assassin once
         player.moveRight();
-        player.battle(mercenary1);
-        // mercenary is alive after 1 tick
-        assertEquals(true, dungeon.getEntityList().contains(mercenary1));
-        // Player received damage
-        assertEquals(true, player.getMaxHealth() > player.getHealth());
-        for (int i = 0; i < 8; i++) {
-            player.battle(mercenary1);
-        }
+        player.battle(assassin);
 
-        // remove onering or anduril or armour
-        inventory.breakItem("anduril");
-        inventory.breakItem("the_one_ring");
-        inventory.breakItem("the_one_ring");
-        inventory.breakItem("armour");
-
-        // player battling mercenary0 and mercenary1 consecutively, dies but respawns
+        // Player should be alive and ring is used up
         assertEquals(true, dungeon.getEntityList().contains(player));
-        assertEquals(false, player.isRing());
-        assertEquals(0, player.getOneRingDurability());
         assertEquals(false, inventory.contains(ring));
+
+        // Battle again and die
+        player.battle(assassin);
+        assertEquals(false, dungeon.getEntityList().contains(player));
     }
+
     @Test
     public void testArmour(){
         Dungeon dungeon = new Dungeon();
@@ -356,14 +331,9 @@ public class PlayerStateTest {
         assertEquals(true, player.getMaxHealth() > player.getHealth());
         while (player.battle(mercenary)) {
         }
+        // Sword durability decreased
         assertEquals(true, player.isSword());
         assertEquals(3, player.getSwordDurability());
-        // mercenary is not alive after 6 ticks instead of 7
-        assertEquals(false, dungeon.getEntityList().contains(mercenary));
-        player.moveRight();
-        while(player.battle(mercenary1)) {
-        }
-        assertEquals(false, player.isSword());
-        assertEquals(0, player.getSwordDurability());
     }
+    
 }

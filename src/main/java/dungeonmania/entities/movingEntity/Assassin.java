@@ -1,30 +1,24 @@
 package dungeonmania.entities.movingEntity;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.Inventory;
-import dungeonmania.entities.staticEntity.Boulder;
-import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.SwampTile;
-import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.exceptions.InvalidActionException;
-import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 
-public class Assassin extends BossEntity implements Bribeable, Dijkstra {
+public class Assassin extends MovingEntity implements Bribeable, Dijkstra {
     
+    // id counter
     private static int counter = 0;
 
     // assassin is interactable with player ( for bribing )
     private boolean isInteractable = true;
 
-    //
-    private int mindControlDuration = 10;
+    // storing duration for mind control effect
+    private int mindControlDuration = 0;
 
     // assassin is spawned as hostile
     private boolean isBribed = false;

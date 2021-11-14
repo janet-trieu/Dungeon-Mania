@@ -2,7 +2,6 @@ package dungeonmania.entities.collectableEntity.buildableEntity;
 
 import java.util.List;
 
-import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.collectableEntity.Armour;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
@@ -10,15 +9,12 @@ import dungeonmania.entities.collectableEntity.SunStone;
 
 public class MidnightArmour extends BuildableEntity {
 
-    // TODO: change damage and protection later
+    // storing midnight armour attributes
     public final static int protection = 10;
     public final static int damage = 10;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
-
-    // dungeon instance
-    Dungeon currDungeon = Dungeon.getDungeon();
 
     /**
      * Constructor for a sceptre
@@ -46,27 +42,13 @@ public class MidnightArmour extends BuildableEntity {
                 sunStoneCounter++;
             }
         }
-        System.out.println("fuck this hsit");
-        System.out.println(items);
-        System.out.println(armourCounter);
-        System.out.println(sunStoneCounter);
         // Can be crafted with one armour and one sun stone
         if (armourCounter > 0 && sunStoneCounter > 0) {
-            System.out.println("before removal "+items);
             items.remove(currInventory.invGetInstance("armour"));
             items.remove(currInventory.invGetInstance("sun_stone"));
-            System.out.println("after removal "+items);
             // update the buildable list, as midnight armour has now been built
             buildableList.remove("midnight_armour");
         }
-        // if (currInventory.invGetInstance("treasure") != null && currInventory.invGetInstance("sun_stone") != null) {
-        //     System.out.println("before removal "+items);
-        //     items.remove(currInventory.invGetInstance("treasure"));
-        //     items.remove(currInventory.invGetInstance("sun_stone"));
-        //     System.out.println("after removal "+items);
-        //     // update the buildable list, as midnight armour has now been built
-        //     buildableList.remove("midnight_armour");
-        // } 
     }
 
     public static void setCounter(int counter) {

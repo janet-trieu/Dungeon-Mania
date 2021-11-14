@@ -52,7 +52,6 @@ public abstract class MovingEntity extends Entity {
      * Getter for health of moving entity
      * @return
      */
-
     public double getHealth() {return health;}
 
     /**
@@ -82,7 +81,9 @@ public abstract class MovingEntity extends Entity {
             setDamage(0);
         }
     }
+    
     public int getDebuff() {return debuff;}
+
     /**
      * Sets the entity's debuff factor
      * @param movementFactor 
@@ -106,6 +107,7 @@ public abstract class MovingEntity extends Entity {
         }
         entity.setPosition(move.getX(), move.getY());
     }
+
     public void takeDamage(double otherHealth, double otherDamage) {
         setHealth(getHealth() - (otherHealth * otherDamage)/5);
     }
@@ -113,7 +115,6 @@ public abstract class MovingEntity extends Entity {
     public void takeDamagePlayer(Player player) {
         takeDamage(player.getHealth(), player.getDamage());
     }
-
 
     /**
      * Returns list of distance between adjacent positions of entities and player's positions
@@ -188,7 +189,6 @@ public abstract class MovingEntity extends Entity {
                 return;
             }
         }
-
         entity.setX(next.getX());
         entity.setY(next.getY());
     }
@@ -204,8 +204,7 @@ public abstract class MovingEntity extends Entity {
                 return tile;
             }
         }
-
         return null;
-
     }
+
 }

@@ -105,4 +105,5 @@ public class ZombieToast extends MovingEntity {
     public Random getRandom() {
         return random;
     }
+    
 }

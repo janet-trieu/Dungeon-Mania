@@ -101,9 +101,7 @@ public class SwampTileTest {
         controller.getDungeon().addEntity(mercenary);
 
         controller.tick(null, Direction.RIGHT);
-        //System.out.println(mercenary.getPosition());
         controller.tick(null, Direction.RIGHT);
-        //System.out.println(mercenary.getPosition());
 
         // Ensure mercenary is still in the same tile as swamptile
         assertEquals(new Position(2, 0, 3), mercenary.getPosition());
@@ -150,8 +148,7 @@ public class SwampTileTest {
         // Add hydra in map (same tile as swamp because hydra movement is random)
         // ASSUMPTION: If entity is spawned on top of Swamp tile, that already counts as 1 tick
         Hydra hydra = new Hydra(1, 0, dungeon);
-        dungeon.addEntity(hydra);  
-        System.out.println(hydra.getPosition());
+        dungeon.addEntity(hydra);
         
         controller.tick(null, Direction.LEFT);
 

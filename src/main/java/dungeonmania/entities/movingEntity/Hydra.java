@@ -5,6 +5,7 @@ import dungeonmania.entities.Player;
 
 public class Hydra extends ZombieToast{
     
+    // id counter
     private static int counter = 0;
     
     // storing the number of occurences this method is called, to know when to spawn the spider
@@ -52,4 +53,5 @@ public class Hydra extends ZombieToast{
     public static int getTickCounter() {
         return tickCounter;
     }
+    
 }

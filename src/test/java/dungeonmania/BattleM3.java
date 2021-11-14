@@ -1,29 +1,16 @@
 package dungeonmania;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.Player;
-import dungeonmania.entities.collectableEntity.Armour;
-import dungeonmania.entities.collectableEntity.Sword;
-import dungeonmania.entities.collectableEntity.buildableEntity.Bow;
 import dungeonmania.entities.collectableEntity.buildableEntity.MidnightArmour;
 import dungeonmania.entities.collectableEntity.buildableEntity.Shield;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.Anduril;
 import dungeonmania.entities.movingEntity.Assassin;
 import dungeonmania.entities.movingEntity.Hydra;
-import dungeonmania.entities.movingEntity.Mercenary;
-import dungeonmania.entities.movingEntity.Spider;
-import dungeonmania.entities.movingEntity.ZombieToast;
-import dungeonmania.exceptions.InvalidActionException;
-import dungeonmania.response.models.EntityResponse;
-import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 
 public class BattleM3 {
     @Test
