@@ -170,16 +170,18 @@ public class Mercenary extends MovingEntity implements Bribeable {
 
             if (current instanceof Portal) {
                 Portal portal = (Portal) current;
-                next = portal.correspondingPortalPosition().translateBy(min.get(a));
-
-                List<Entity> lis = dungeon.getEntitiesOnSamePosition(next);
-                for (Entity spot : lis) {
-                    if(spot instanceof Wall) {
-                        return;
-                    }
-                    if (spot instanceof Boulder) {
-                        player.interactBoulder(spot, next, min.get(a));
-                        break;
+                if (portal.correspondingPortalPosition() != null) {
+                    next = portal.correspondingPortalPosition().translateBy(min.get(a));
+    
+                    List<Entity> lis = dungeon.getEntitiesOnSamePosition(next);
+                    for (Entity spot : lis) {
+                        if(spot instanceof Wall) {
+                            return;
+                        }
+                        if (spot instanceof Boulder) {
+                            player.interactBoulder(spot, next, min.get(a));
+                            break;
+                        }
                     }
                 }
             }
