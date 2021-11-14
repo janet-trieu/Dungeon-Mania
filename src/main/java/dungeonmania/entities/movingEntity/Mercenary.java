@@ -3,6 +3,7 @@ package dungeonmania.entities.movingEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
@@ -74,9 +75,16 @@ public class Mercenary extends MovingEntity implements Bribeable {
      * Method to spawn the spider
      */
     public void spawnMercenary() {
-        if (tickCounter >= 15 && hostileInDungeon()) {
+        if (tickCounter >= 25 && hostileInDungeon()) {
+            Random random = new Random(System.currentTimeMillis());
+            int assOrMerc = random.nextInt(100) % 5;
+            if (assOrMerc == 0) {
+                Assassin assassin = new Assassin(getX(), getY(), getDungeon());
+                dungeon.addEntity(assassin);
+            } else {
+                dungeon.addEntity(this);
+            }
             setTickCounter(0);
-            dungeon.addEntity(this);
         } 
         tickCounter++;
     }
@@ -305,6 +313,10 @@ public class Mercenary extends MovingEntity implements Bribeable {
     @Override
     public void setMindControlDuration(int mindControlDuration) {
         this.mindControlDuration = mindControlDuration;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
     }
 
 }
