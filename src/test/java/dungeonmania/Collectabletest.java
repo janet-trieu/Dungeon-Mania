@@ -308,4 +308,40 @@ public class Collectabletest {
         
         assertThrows(IllegalArgumentException.class, () -> controller.tick("Treasure0", Direction.RIGHT));
     }
+
+    @Test
+    public void testBombCardinallyAdjacent() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("testBomb2", "standard");
+
+        // player moves 1 cell to the right to pick up bomb
+        controller.tick(null, Direction.RIGHT);
+
+        // player moves 1 cell to the right and 1 cell down to push boulder onto switch
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.DOWN);
+
+        // player moves 1 cell to the left and places a bomb
+        controller.tick(null, Direction.LEFT);
+        controller.tick("Bomb0", Direction.NONE);
+
+        // assert bomb is at (1,1) and switch is at (2,2) - not cardinally adjacent
+        // assert boulder is also at (2,2) where switch is
+        // hence, bomb does not explode and the surrounding entities are not destroyed
+        Position bombPos = new Position(1, 1, 2);
+        Position switchPos = new Position(2, 2, 0);
+        Position boulderPos = new Position(2, 2, 1);
+        assertEquals(new EntityResponse("Bomb0", "bomb", bombPos, false), controller.getInfo("Bomb0"));
+        assertEquals(new EntityResponse("Switch0", "switch", switchPos, false), controller.getInfo("Switch0"));
+        assertEquals(new EntityResponse("Boulder0", "boulder", boulderPos, false), controller.getInfo("Boulder0"));
+
+        Position wall0Pos = new Position(0, 1, 0);
+        Position wall1Pos = new Position(0, 2, 0);
+        Position wall2Pos = new Position(1, 2, 0);
+        assertEquals(new EntityResponse("Wall0", "wall", wall0Pos, false), controller.getInfo("Wall0"));
+        assertEquals(new EntityResponse("Wall1", "wall", wall1Pos, false), controller.getInfo("Wall1"));
+        assertEquals(new EntityResponse("Wall2", "wall", wall2Pos, false), controller.getInfo("Wall2"));
+
+    }
+
 }

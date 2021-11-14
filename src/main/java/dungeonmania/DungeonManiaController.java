@@ -737,9 +737,9 @@ public class DungeonManiaController {
         // Case 1: bomb is placed and a boulder activates switch
         for (Bomb bomb : bombList) {
 
-            List<Entity> adjacentEntities = currDungeon.adjacentEntityList((Entity)bomb);
+            List<Entity> cardinallyAdjaceEntities = currDungeon.getEntitiesCardinallyAdjacent(bomb.getPosition());
 
-            for (Entity entity : adjacentEntities) {
+            for (Entity entity : cardinallyAdjaceEntities) {
                 if (entity instanceof FloorSwitch) {
                     FloorSwitch floorSwitch = (FloorSwitch) entity;
                     if (floorSwitch.getIsActive()) {
