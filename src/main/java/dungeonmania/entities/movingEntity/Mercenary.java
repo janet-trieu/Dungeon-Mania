@@ -1,7 +1,5 @@
 package dungeonmania.entities.movingEntity;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -9,13 +7,8 @@ import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableEntity.Armour;
-import dungeonmania.entities.staticEntity.Boulder;
-import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.SwampTile;
-import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.exceptions.InvalidActionException;
-import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 import dungeonmania.entities.Player;
 
 public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {

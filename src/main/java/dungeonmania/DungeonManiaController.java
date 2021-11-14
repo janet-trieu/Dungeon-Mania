@@ -290,7 +290,6 @@ public class DungeonManiaController {
                 return anduril;
             default:
                 break;
-            // TODO: IF YOU ADD MORE ATTRIBUTES THAT NEED TO BE PERSISTED, UPDATE IT HERE!!!!
         }
         return null;
     }
@@ -436,14 +435,11 @@ public class DungeonManiaController {
                 SwampTile swampTile = (SwampTile) entity;
                 entityInfo.put("movementFactor", swampTile.getMovementFactor());
             } else if (entity instanceof Spider) {
-                Spider spider = (Spider) entity;
                 entityInfo.put("SpiderNum", Spider.getSpiderNum());
                 entityInfo.put("tickCounter", Spider.getTickCounter());
             } else if (entity instanceof Hydra) {
-                Hydra hydra = (Hydra) entity;
                 entityInfo.put("tickCounter", Hydra.getTickCounter());
             }
-            // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES
             entityArray.put(entityInfo);
         }
         return entityArray;
@@ -462,7 +458,6 @@ public class DungeonManiaController {
             JSONObject itemInfo = new JSONObject();
             itemInfo.put("id", item.getId());
             itemInfo.put("type", item.getType());
-            // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES IN INVENTORY!!!
             inventoryArray.put(itemInfo);
         }
         return inventoryArray;
@@ -663,8 +658,6 @@ public class DungeonManiaController {
         List<ZombieToastSpawner> spawnerList = currDungeon.getZombieToastSpawners();
         List<Bomb> bombList = currDungeon.getBombs();
         List<Entity> entityList = currDungeon.getEntityList();
-
-        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
         if (player == null) {
             return getDungeonResponse();

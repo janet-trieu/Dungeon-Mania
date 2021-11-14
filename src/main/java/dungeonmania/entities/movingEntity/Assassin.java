@@ -1,20 +1,13 @@
 package dungeonmania.entities.movingEntity;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.Inventory;
-import dungeonmania.entities.staticEntity.Boulder;
-import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.entities.staticEntity.SwampTile;
-import dungeonmania.entities.staticEntity.Wall;
 import dungeonmania.exceptions.InvalidActionException;
-import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 
 public class Assassin extends BossEntity implements Bribeable, Dijkstra {
     
