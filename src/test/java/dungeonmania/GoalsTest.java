@@ -377,4 +377,44 @@ public class GoalsTest {
         assertEquals("", dungeon.getGoalString());
     }
 
+    /**
+     * OrGoal but there is only one subgoal, automatically complete
+     */
+    @Test
+    public void testOrOneGoal() {
+        Dungeon dungeon = new Dungeon();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.addEntity(player);
+
+        OrGoal orGoal = new OrGoal(dungeon);
+        Goal enemyGoal = new EnemyGoal(dungeon);
+        orGoal.addSubGoal(enemyGoal);
+
+        dungeon.setGoal(orGoal);
+        assertEquals("", dungeon.getGoalString());
+    }
+
+        /**
+     * OrGoal but there is only one subgoal, automatically complete
+     */
+    @Test
+    public void testTwoOrOneGoal() {
+        Dungeon dungeon = new Dungeon();
+
+        // Create player at (0, 0)
+        Player player = new Player(0, 0);
+        dungeon.addEntity(player);
+
+        OrGoal orGoal = new OrGoal(dungeon);
+        OrGoal orGoal1 = new OrGoal(dungeon);
+        Goal enemyGoal = new EnemyGoal(dungeon);
+        orGoal.addSubGoal(enemyGoal);
+        orGoal1.addSubGoal(orGoal);
+
+        dungeon.setGoal(orGoal);
+
+        assertEquals("", dungeon.getGoalString());
+    }
 }

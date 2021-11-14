@@ -17,7 +17,6 @@ public class OrGoal extends CompositeGoal {
      * toString method for OrGoal
      * return:
      *  - "" or
-     *  - Goal.toString
      *  - (Goal.toString OR Goal.toString)
      */
     @Override
@@ -25,8 +24,6 @@ public class OrGoal extends CompositeGoal {
         update();
         if (isComplete()){
             return "";
-        } if (getSubGoalList().size() == 1) {
-            return getSubGoalList().get(0).toString();
         } else {
             return "(" + getSubGoalList().get(0).toString() + " OR " + getSubGoalList().get(1).toString() + ")";
         }
@@ -38,9 +35,8 @@ public class OrGoal extends CompositeGoal {
     @Override
     public void update() {
         super.update();
-        if (getSubGoalList().size() <= 1 || subGoalsIsComplete()) {
+        if (subGoalsIsComplete() || getSubGoalList().size() <= 1) {
             setComplete(true);
         }
     }
-    
 }
