@@ -408,7 +408,7 @@ public class BattleTest {
         
         controller.tick(null, Direction.DOWN);
 
-        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(5,1,3), true), controller.getInfo("Mercenary0"));
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(4,0,3), true), controller.getInfo("Mercenary0"));
         controller.tick(null, Direction.RIGHT);
         controller.tick(null, Direction.RIGHT);
         assertThrows(InvalidActionException.class, () -> controller.interact("Mercenary0"));
