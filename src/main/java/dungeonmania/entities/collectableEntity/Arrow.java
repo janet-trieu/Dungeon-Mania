@@ -15,10 +15,6 @@ public class Arrow extends CollectableEntity {
         setId("Arrow" + String.valueOf(counter));
         counter++;
     }
-    
-    public static int getCounter() {
-        return counter;
-    }
 
     public static void setCounter(int counter) {
         Arrow.counter = counter;

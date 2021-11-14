@@ -16,10 +16,6 @@ public class Wall extends StaticEntity {
         counter++;
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         Wall.counter = counter;
     }

@@ -38,6 +38,7 @@ public class Assassin extends BossEntity implements Bribeable {
         setIsInteractable(isInteractable);
         this.dungeon = dungeon;
         counter++;
+        super.setDamagepeaceful(dungeon);
     }
 
     @Override
@@ -47,10 +48,6 @@ public class Assassin extends BossEntity implements Bribeable {
         } else {
             super.takeDamage(player.getHealth(), player.getDamage());
         }
-    }
-
-    public static int getCounter() {
-        return counter;
     }
 
     public static void setCounter(int counter) {
@@ -121,7 +118,7 @@ public class Assassin extends BossEntity implements Bribeable {
             return;
         }
         Player player = (Player) dungeon.getPlayer();
-        if (player.isInvincible()) {
+        if (player != null && player.isInvincible()) {
             if(!isBribed) {
             run(this, dungeon);
             }

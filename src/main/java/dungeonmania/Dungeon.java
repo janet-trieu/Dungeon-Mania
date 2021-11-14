@@ -31,6 +31,7 @@ public class Dungeon {
     private static Dungeon thisDungeon = null;
     private String gameMode;
     private String dungeonId;
+    private Position spawnPoint;
 
     /**
      * USED FOR TESTING
@@ -40,6 +41,7 @@ public class Dungeon {
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<String>();
         this.inventory = new Inventory();
+        this.gameMode = "standard";
         thisDungeon = this;
         resetCounters();
     }
@@ -609,6 +611,8 @@ public class Dungeon {
         Spider.setSpiderNum(0);
         Spider.setTickCounter(0);
         ZombieToastSpawner.setTickCounter(1);
+        Mercenary.setTickCounter(0);
+        Hydra.setTickCounter(0);
 
         // TODO: ADD ANY OTHER MILESTONE 3 STATIC ID/TICK COUNTER RESETS!!!
     }
@@ -710,6 +714,14 @@ public class Dungeon {
         }
 
         return mindControlledEntities;
+    }
+
+    public Position getSpawnPoint() {
+        return spawnPoint;
+    }
+
+    public void setSpawnPoint(Position spawnPoint) {
+        this.spawnPoint = spawnPoint;
     }
 
 }

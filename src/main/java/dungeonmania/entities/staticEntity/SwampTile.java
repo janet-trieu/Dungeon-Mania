@@ -24,10 +24,6 @@ public class SwampTile extends StaticEntity {
         setPassable(isPassable);
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         SwampTile.counter = counter;
     }

@@ -118,6 +118,7 @@ public class BattleTest {
         }
         // mercenary is not alive after 3 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
+
     }
 
     @Test
@@ -345,6 +346,13 @@ public class BattleTest {
         }
         // mercenary is dead
         assertEquals(false, dungeon.getEntityList().contains(mercenary0));
+
+        // remove onering or anduril or armour
+        Inventory inventory = dungeon.getInventory();
+        inventory.breakItem("anduril");
+        inventory.breakItem("the_one_ring");
+        inventory.breakItem("armour");
+
         // battle mercenary1
         player.moveRight();
         player.battle(mercenary1);

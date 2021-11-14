@@ -36,6 +36,7 @@ public class ZombieToast extends MovingEntity {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
+        super.setDamagepeaceful(dungeon);
     }
 
     public ZombieToast(int x, int y, Dungeon dungeon, String type) {
@@ -47,6 +48,7 @@ public class ZombieToast extends MovingEntity {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
+        super.setDamagepeaceful(dungeon);
     }
 
     /**
@@ -60,7 +62,7 @@ public class ZombieToast extends MovingEntity {
         }
         Player player = (Player) dungeon.getPlayer();
 
-        if (player.isInvincible()) {
+        if (player != null && player.isInvincible()) {
             run(this, dungeon);
             return;
         }
@@ -90,10 +92,6 @@ public class ZombieToast extends MovingEntity {
 
     public void setHasArmour(Boolean hasArmour) {
         this.hasArmour = hasArmour;
-    }
-    
-    public static int getCounter() {
-        return counter;
     }
 
     public static void setCounter(int counter) {

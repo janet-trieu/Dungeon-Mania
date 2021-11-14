@@ -123,6 +123,10 @@ public class DungeonManiaController {
         // Add "entities"
         JSONArray mapEntities = mapObj.getJSONArray("entities");
         addEntitiesDungeon(mapEntities);
+
+        // Set spawnPoint
+        Position spawnPoint = dungeon.getPlayer().getPosition();
+        dungeon.setSpawnPoint(spawnPoint);
         
         // Add "goals"
         if (mapObj.has("goal-condition")) {
@@ -204,6 +208,7 @@ public class DungeonManiaController {
                 Mercenary mercenary = new Mercenary(x, y, dungeon);
                 if (obj.has("hasArmour")) { mercenary.setHasArmour(obj.getBoolean("hasArmour")); }
                 if (obj.has("isBribed")) { mercenary.setIsBribed(obj.getBoolean("isBribed")); }
+                if (obj.has("tickCounter")) { Mercenary.setTickCounter(obj.getInt("tickCounter")); }
                 return mercenary;
             case "player":
                 Player player = new Player(x, y);
@@ -273,6 +278,7 @@ public class DungeonManiaController {
                 return assassin;
             case "hydra":
                 Hydra hydra = new Hydra(x, y, dungeon);
+                if (obj.has("tickCounter")) { Hydra.setTickCounter(obj.getInt("tickCounter")); }
                 return hydra;
             case "swamp_tile":
                 int movementFactor = -1;
@@ -362,6 +368,13 @@ public class DungeonManiaController {
         // Buildable saving
         saveObj.put("buildables", saveBuilable());
 
+        // SpawnPoint saving
+        Position spawnPoint = currDungeon.getSpawnPoint();
+        JSONObject spawnObj = new JSONObject();
+        spawnObj.put("x", spawnPoint.getX());
+        spawnObj.put("y", spawnPoint.getY());
+        saveObj.put("spawnPoint", spawnObj);
+
         // Insert object into file
          try {
             FileWriter writer = new FileWriter("savedGames/" + name + ".json");
@@ -422,6 +435,13 @@ public class DungeonManiaController {
             } else if (entity instanceof SwampTile) {
                 SwampTile swampTile = (SwampTile) entity;
                 entityInfo.put("movementFactor", swampTile.getMovementFactor());
+            } else if (entity instanceof Spider) {
+                Spider spider = (Spider) entity;
+                entityInfo.put("SpiderNum", Spider.getSpiderNum());
+                entityInfo.put("tickCounter", Spider.getTickCounter());
+            } else if (entity instanceof Hydra) {
+                Hydra hydra = (Hydra) entity;
+                entityInfo.put("tickCounter", Hydra.getTickCounter());
             }
             // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES
             entityArray.put(entityInfo);
@@ -523,6 +543,11 @@ public class DungeonManiaController {
         // Goal loading
         Goal goal = loadGoal(dataObj.getString("goals"), dungeon);
         dungeon.setGoal(goal);
+
+        // SpawnPoint loading
+        JSONObject spawnObj = dataObj.getJSONObject("spawnPoint");
+        Position spawnPoint = new Position(spawnObj.getInt("x"), spawnObj.getInt("y"));
+        dungeon.setSpawnPoint(spawnPoint);
 
         // Create new dungeonResponse from dungeon class to ensure its correct and return
         DungeonResponse response = new DungeonResponse(dungeonId, dungeon.getDungeonName(), dungeon.getEntityResponse(),
@@ -641,6 +666,10 @@ public class DungeonManiaController {
 
         String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
+        if (player == null) {
+            return getDungeonResponse();
+        }
+
         // EXCEPTION CHECKS
         // If itemUsed is not a usable item or not null
         if (!(getUsableItems().contains(itemUsed)) && itemUsed != null) {
@@ -673,9 +702,16 @@ public class DungeonManiaController {
                         if (!mercenary.isBribed()) {
                             while (player.battle(enemy)) {
                             }
+                            if (player.getHealth() <= 0) {
+                                return getDungeonResponse();
+                            }
                         }
                     } else {
-                        player.battle(enemy);
+                        while(player.battle(enemy)) {
+                        }
+                        if (player.getHealth() <= 0) {
+                            return getDungeonResponse();
+                        }
                     }
                 }
             }
@@ -716,9 +752,16 @@ public class DungeonManiaController {
                     if (!mercenary.isBribed()) {
                         while (player.battle(enemy)) {
                         }
+                        if (player.getHealth() <= 0) {
+                            return getDungeonResponse();
+                        }
                     }
                 } else {
-                    player.battle(enemy);
+                    while(player.battle(enemy)) {
+                    }
+                    if (player.getHealth() <= 0) {
+                        return getDungeonResponse();
+                    }
                 }
             }
         }
@@ -732,6 +775,17 @@ public class DungeonManiaController {
         Position spawnPos = currDungeon.spawnDistance(player);
         Spider spider = new Spider(spawnPos.getX(), spawnPos.getY(), dungeon);
         spider.spawnSpider();
+
+        Position spawnPoint = currDungeon.getSpawnPoint();
+        Mercenary mercenary = new Mercenary(spawnPoint.getX(), spawnPoint.getY(), dungeon);
+        mercenary.spawnMercenary();
+
+        if (currDungeon.getGameMode().equals("hard")) {
+            Position hydraPos = currDungeon.spawnDistance(player);
+            Hydra hydra = new Hydra(hydraPos.getX(), hydraPos.getY(), dungeon);
+            hydra.spawnHydra();
+        }
+
 
         // check the floor switch's isActive and position, as well as bomb position
         // Case 1: bomb is placed and a boulder activates switch
@@ -755,12 +809,24 @@ public class DungeonManiaController {
             entity.setMindControlDuration(entity.getMindControlDuration() - 1);
             entity.updateMindControl();
         }
+        return getDungeonResponse();
+    }
+
+    /**
+     * Method for returning current dungeon Response
+     */
+    public DungeonResponse getDungeonResponse() {
+        Dungeon currDungeon = Dungeon.getDungeon();
+        Player player = (Player) currDungeon.getPlayer();
+        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
         // Update
-        player.updatePotionDuration();
+        if (player != null) {player.updatePotionDuration();}
+        currDungeon.updateGoal();
         currDungeon.updateBuildableListBow();
         currDungeon.updateBuildableListShield();
-        currDungeon.updateGoal();
+        currDungeon.updateBuildableListSceptre();
+        currDungeon.updateBuildableListMidnightArmour();
 
         DungeonResponse response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                                         currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
@@ -776,8 +842,6 @@ public class DungeonManiaController {
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         Dungeon currDungeon = Dungeon.getDungeon();
-        DungeonResponse response = null;
-        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
         Position playerPos = currDungeon.getPlayer().getPosition();
         List<Entity> entityCardinallyAdjacent = currDungeon.getEntitiesCardinallyAdjacent(playerPos);
         List<Entity> entities = currDungeon.getEntityList();
@@ -810,11 +874,7 @@ public class DungeonManiaController {
                 }
             }
         }
-        currDungeon.updateGoal();
-        response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                        currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
-  
-        return response;
+        return getDungeonResponse();
     }
 
     /**
@@ -826,12 +886,10 @@ public class DungeonManiaController {
      */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
         Dungeon currDungeon = Dungeon.getDungeon();
-        DungeonResponse response = null;
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
         Boolean canBuildSceptre = currDungeon.updateBuildableListSceptre();
         Boolean canBuildMidnightArmour = currDungeon.updateBuildableListMidnightArmour();
-        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
         Inventory currInventory = currDungeon.getInventory();
 
         if (!buildable.equals("bow") && !buildable.equals("shield") && 
@@ -855,32 +913,24 @@ public class DungeonManiaController {
             bow.useIngredient();
             currDungeon.updateBuildableListBow();
             currInventory.addItem(bow);
-            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         } else if (canBuildShield && buildable.equals("shield")) {
             Shield shield = new Shield(-1, -1);
             shield.useIngredient();
             currDungeon.updateBuildableListShield();
             currInventory.addItem(shield);
-            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         } else if (canBuildSceptre && buildable.equals("sceptre")) {
             Sceptre sceptre = new Sceptre(-1, -1);
             sceptre.useIngredient();
-            currDungeon.updateBuildableListShield();
+            currDungeon.updateBuildableListSceptre();
             currInventory.addItem(sceptre);
-            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         } else if (canBuildMidnightArmour && buildable.equals("midnight_armour")) {
             MidnightArmour midnightArmour = new MidnightArmour(-1, -1);
             midnightArmour.useIngredient();
             currDungeon.updateBuildableListMidnightArmour();
             currInventory.addItem(midnightArmour);
-            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         }
 
-        return response;
+        return getDungeonResponse();
     }
 
     /**

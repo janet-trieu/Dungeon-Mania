@@ -3,6 +3,7 @@ package dungeonmania.entities.movingEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
@@ -37,6 +38,9 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
     // getting the dungeon instance
     Dungeon dungeon;
 
+    // storing the number of occurences this method is called, to know when to spawn the mercenary
+    private static int tickCounter = 0;
+
     /**
      * Constructor for the mercenary
      * @param x position
@@ -54,19 +58,55 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
-    }
-
-    public Mercenary(int x, int y, Dungeon dungeon, String type) {
-        super(x,y, type, 30, 5);
-        setIsInteractable(isInteractable);
-        this.hasArmour = Math.random() <= 0.2;
-        this.dungeon = dungeon;
-        this.setLayer(3);
-        if (checkSpawn(dungeon) != null) {
-            setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
-        }
+        super.setDamagepeaceful(dungeon);
     }
     
+    /**
+     * Method to spawn the mercenary or assassin
+     */
+    public void spawnMercenary() {
+        if (tickCounter >= 25 && hostileInDungeon()) {
+            Random random = new Random(System.currentTimeMillis());
+            int assOrMerc = random.nextInt(100) % 5;
+            if (assOrMerc == 0) {
+                Assassin assassin = new Assassin(getX(), getY(), getDungeon());
+                dungeon.addEntity(assassin);
+            } else {
+                dungeon.addEntity(this);
+            }
+            setTickCounter(0);
+        } 
+        tickCounter++;
+    }
+
+
+    /**
+     * get number of enemies
+     */
+
+    public Boolean hostileInDungeon() {
+        for (Entity entity : Dungeon.getDungeon().getEntityList()) {
+            if (entity instanceof MovingEntity) {
+                if (entity instanceof Mercenary && !isMercenaryBribed(entity)) {
+                    return true;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Boolean isMercenaryBribed(Entity entity) {
+        Mercenary mercenary = (Mercenary) entity;
+        if (mercenary.isBribed()) {
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * Method for the mercenary to move
      */
@@ -77,7 +117,7 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
             return;
         }
         Player player = (Player) dungeon.getPlayer();
-        if (player.isInvincible()) {
+        if (player != null && player.isInvincible()) {
             if(!isBribed) {
             run(this, dungeon);
             }
@@ -242,13 +282,17 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
     public void setHasArmour(Boolean hasArmour) {
         this.hasArmour = hasArmour;
     }
-    
-    public static int getCounter() {
-        return counter;
-    }
 
     public static void setCounter(int counter) {
         Mercenary.counter = counter;
+    }
+
+    public static int getTickCounter() {
+        return tickCounter;
+    }
+
+    public static void setTickCounter(int tickCounter) {
+        Mercenary.tickCounter = tickCounter;
     }
 
     @Override
@@ -259,6 +303,10 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
     @Override
     public void setMindControlDuration(int mindControlDuration) {
         this.mindControlDuration = mindControlDuration;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
     }
 
 }

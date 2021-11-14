@@ -22,7 +22,7 @@ public class Spider extends MovingEntity {
     // storing the number of spider that is present in the dungeon
     private static int spiderNum = 0;
 
-    // storing the number of occurences this method is called, to know when to spawn the zombie toast
+    // storing the number of occurences this method is called, to know when to spawn the spider
     private static int tickCounter = 0;
 
     /**
@@ -41,6 +41,7 @@ public class Spider extends MovingEntity {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
+        super.setDamagepeaceful(dungeon);
     }
 
     /**
@@ -68,7 +69,7 @@ public class Spider extends MovingEntity {
         }
         Player player = (Player) dungeon.getPlayer();
 
-        if (player.isInvincible()) {
+        if (player != null && player.isInvincible()) {
             run(this, dungeon);
             this.path = new Position(this.getX(), this.getY() + 1).getAdjacentPositions();
         }
@@ -136,10 +137,6 @@ public class Spider extends MovingEntity {
 
     public static void setTickCounter(int tickCounter) {
         Spider.tickCounter = tickCounter;
-    }
-    
-    public static int getCounter() {
-        return counter;
     }
 
     public static void setCounter(int counter) {
