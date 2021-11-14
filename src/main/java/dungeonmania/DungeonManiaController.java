@@ -208,6 +208,7 @@ public class DungeonManiaController {
                 Mercenary mercenary = new Mercenary(x, y, dungeon);
                 if (obj.has("hasArmour")) { mercenary.setHasArmour(obj.getBoolean("hasArmour")); }
                 if (obj.has("isBribed")) { mercenary.setIsBribed(obj.getBoolean("isBribed")); }
+                if (obj.has("tickCounter")) { Mercenary.setTickCounter(obj.getInt("tickCounter")); }
                 return mercenary;
             case "player":
                 Player player = new Player(x, y);
@@ -277,6 +278,7 @@ public class DungeonManiaController {
                 return assassin;
             case "hydra":
                 Hydra hydra = new Hydra(x, y, dungeon);
+                if (obj.has("tickCounter")) { Hydra.setTickCounter(obj.getInt("tickCounter")); }
                 return hydra;
             case "swamp_tile":
                 int movementFactor = -1;
@@ -433,6 +435,13 @@ public class DungeonManiaController {
             } else if (entity instanceof SwampTile) {
                 SwampTile swampTile = (SwampTile) entity;
                 entityInfo.put("movementFactor", swampTile.getMovementFactor());
+            } else if (entity instanceof Spider) {
+                Spider spider = (Spider) entity;
+                entityInfo.put("SpiderNum", Spider.getSpiderNum());
+                entityInfo.put("tickCounter", Spider.getTickCounter());
+            } else if (entity instanceof Hydra) {
+                Hydra hydra = (Hydra) entity;
+                entityInfo.put("tickCounter", Hydra.getTickCounter());
             }
             // TODO: ADD ANY OTHER MILESTONE 3 ENTITIES THAT NEED TO PERSIST THEIR ATTRIBUTES
             entityArray.put(entityInfo);

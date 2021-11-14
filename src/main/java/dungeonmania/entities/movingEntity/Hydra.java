@@ -48,4 +48,8 @@ public class Hydra extends ZombieToast{
     public static void setTickCounter(int counter) {
         Hydra.tickCounter = counter;
     }
+
+    public static int getTickCounter() {
+        return tickCounter;
+    }
 }

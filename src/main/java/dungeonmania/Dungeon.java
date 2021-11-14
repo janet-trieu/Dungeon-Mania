@@ -610,6 +610,8 @@ public class Dungeon {
         Spider.setSpiderNum(0);
         Spider.setTickCounter(0);
         ZombieToastSpawner.setTickCounter(1);
+        Mercenary.setTickCounter(0);
+        Hydra.setTickCounter(0);
 
         // TODO: ADD ANY OTHER MILESTONE 3 STATIC ID/TICK COUNTER RESETS!!!
     }

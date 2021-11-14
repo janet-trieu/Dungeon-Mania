@@ -32,7 +32,8 @@
 		{
 			"type": "mercenary",
 			"hasArmour": "boolean",
-			"isBribed": "boolean"
+			"isBribed": "boolean",
+			"tickCounter": "int"
 		},
 		{
 			"type": "spider",
@@ -58,6 +59,10 @@
 		{
 			"type": "swamp_tile",
 			"movementFactor": "int"
+		},
+		{
+			"type": "hydra",
+			"tickCounter": "int"
 		}
 	],
 	"inventory": [
