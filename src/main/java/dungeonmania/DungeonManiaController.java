@@ -760,6 +760,8 @@ public class DungeonManiaController {
         player.updatePotionDuration();
         currDungeon.updateBuildableListBow();
         currDungeon.updateBuildableListShield();
+        currDungeon.updateBuildableListSceptre();
+        currDungeon.updateBuildableListMidnightArmour();
         currDungeon.updateGoal();
 
         DungeonResponse response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
@@ -867,7 +869,7 @@ public class DungeonManiaController {
         } else if (canBuildSceptre && buildable.equals("sceptre")) {
             Sceptre sceptre = new Sceptre(-1, -1);
             sceptre.useIngredient();
-            currDungeon.updateBuildableListShield();
+            currDungeon.updateBuildableListSceptre();
             currInventory.addItem(sceptre);
             response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
                                             currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
