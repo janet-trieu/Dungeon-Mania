@@ -698,9 +698,16 @@ public class DungeonManiaController {
                         if (!mercenary.isBribed()) {
                             while (player.battle(enemy)) {
                             }
+                            if (player.getHealth() <= 0) {
+                                return getDungeonResponse();
+                            }
                         }
                     } else {
-                        player.battle(enemy);
+                        while(player.battle(enemy)) {
+                        }
+                        if (player.getHealth() <= 0) {
+                            return getDungeonResponse();
+                        }
                     }
                 }
             }
@@ -741,9 +748,16 @@ public class DungeonManiaController {
                     if (!mercenary.isBribed()) {
                         while (player.battle(enemy)) {
                         }
+                        if (player.getHealth() <= 0) {
+                            return getDungeonResponse();
+                        }
                     }
                 } else {
-                    player.battle(enemy);
+                    while(player.battle(enemy)) {
+                    }
+                    if (player.getHealth() <= 0) {
+                        return getDungeonResponse();
+                    }
                 }
             }
         }
@@ -791,6 +805,16 @@ public class DungeonManiaController {
             entity.setMindControlDuration(entity.getMindControlDuration() - 1);
             entity.updateMindControl();
         }
+        return getDungeonResponse();
+    }
+
+    /**
+     * Method for returning current dungeon Response
+     */
+    public DungeonResponse getDungeonResponse() {
+        Dungeon currDungeon = Dungeon.getDungeon();
+        Player player = (Player) currDungeon.getPlayer();
+        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
 
         // Update
         player.updatePotionDuration();
@@ -812,8 +836,6 @@ public class DungeonManiaController {
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         Dungeon currDungeon = Dungeon.getDungeon();
-        DungeonResponse response = null;
-        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
         Position playerPos = currDungeon.getPlayer().getPosition();
         List<Entity> entityCardinallyAdjacent = currDungeon.getEntitiesCardinallyAdjacent(playerPos);
         List<Entity> entities = currDungeon.getEntityList();
@@ -846,11 +868,7 @@ public class DungeonManiaController {
                 }
             }
         }
-        currDungeon.updateGoal();
-        response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                        currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
-  
-        return response;
+        return getDungeonResponse();
     }
 
     /**
@@ -862,12 +880,10 @@ public class DungeonManiaController {
      */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
         Dungeon currDungeon = Dungeon.getDungeon();
-        DungeonResponse response = null;
         Boolean canBuildBow = currDungeon.updateBuildableListBow();
         Boolean canBuildShield = currDungeon.updateBuildableListShield();
         Boolean canBuildSceptre = currDungeon.updateBuildableListSceptre();
         Boolean canBuildMidnightArmour = currDungeon.updateBuildableListMidnightArmour();
-        String dungeonId = currDungeon.getDungeonName() + Instant.now().getEpochSecond();
         Inventory currInventory = currDungeon.getInventory();
 
         if (!buildable.equals("bow") && !buildable.equals("shield") && 
@@ -891,32 +907,24 @@ public class DungeonManiaController {
             bow.useIngredient();
             currDungeon.updateBuildableListBow();
             currInventory.addItem(bow);
-            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         } else if (canBuildShield && buildable.equals("shield")) {
             Shield shield = new Shield(-1, -1);
             shield.useIngredient();
             currDungeon.updateBuildableListShield();
             currInventory.addItem(shield);
-            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         } else if (canBuildSceptre && buildable.equals("sceptre")) {
             Sceptre sceptre = new Sceptre(-1, -1);
             sceptre.useIngredient();
             currDungeon.updateBuildableListShield();
             currInventory.addItem(sceptre);
-            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         } else if (canBuildMidnightArmour && buildable.equals("midnight_armour")) {
             MidnightArmour midnightArmour = new MidnightArmour(-1, -1);
             midnightArmour.useIngredient();
             currDungeon.updateBuildableListMidnightArmour();
             currInventory.addItem(midnightArmour);
-            response = new DungeonResponse(dungeonId, currDungeon.getDungeonName(), currDungeon.getEntityResponse(),
-                                            currDungeon.getItemResponse(), currDungeon.getBuildableString(), currDungeon.getGoalString());
         }
 
-        return response;
+        return getDungeonResponse();
     }
 
     /**
