@@ -94,22 +94,25 @@ public class SwampTileTest {
      */
     @Test
     public void testMercenarySwamp() {
-        DungeonManiaController controller = setUp();
-        Dungeon dungeon = controller.getDungeon();
-        // Add mercenary in dungeon
-        Mercenary mercenary = new Mercenary(2, 0, dungeon);
-        dungeon.addEntity(mercenary);
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("swamp-tile2", "standard");
+        
+        Mercenary mercenary = new Mercenary(0, 0, controller.getDungeon());
+        controller.getDungeon().addEntity(mercenary);
 
-        controller.tick(null, Direction.LEFT);
-        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.RIGHT);
+        //System.out.println(mercenary.getPosition());
+        controller.tick(null, Direction.RIGHT);
+        //System.out.println(mercenary.getPosition());
 
         // Ensure mercenary is still in the same tile as swamptile
-        assertEquals(swampPosition, mercenary.getPosition());
+        assertEquals(new Position(2, 0, 3), mercenary.getPosition());
         
-        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
 
-        // Ensure zombie is not in the same tile as swamptile (1,0,0)
-        assertNotEquals(swampPosition, mercenary.getPosition());
+        // Ensure mercenary is not in the same tile as swamptile (1,0,0)
+        assertNotEquals(new Position(2,0,3), mercenary.getPosition());
     }
 
     /**
@@ -117,22 +120,24 @@ public class SwampTileTest {
      */
     @Test
     public void testAssassinSwamp() {
-        DungeonManiaController controller = setUp();
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("swamp-tile2", "standard");
         Dungeon dungeon = controller.getDungeon();
         // Add assassin in dungeon
-        Assassin assassin = new Assassin(2, 0, dungeon);
+        Assassin assassin = new Assassin(0, 0, dungeon);
         dungeon.addEntity(assassin);
 
-        controller.tick(null, Direction.LEFT);
-        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
 
         // Ensure assassin is still in the same tile as swamptile
-        assertEquals(swampPosition, assassin.getPosition());
+        assertEquals(new Position(2,0,3), assassin.getPosition());
         
-        controller.tick(null, Direction.LEFT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
 
         // Ensure assassin is not in the same tile as swamptile (1,0,0)
-        assertNotEquals(swampPosition, assassin.getPosition());
+        assertNotEquals(new Position(2,0,3), assassin.getPosition());
     }
 
     /**
