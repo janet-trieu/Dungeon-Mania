@@ -1,0 +1,34 @@
+{
+    "entities": [
+        {
+            "x": 3,
+            "y": 3,
+            "type": "player"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "type": "boulder"
+        },
+        {
+            "x": 3,
+            "y": 4,
+            "type": "boulder"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "type": "boulder"
+        },
+        {
+            "x": 4,
+            "y": 3,
+            "type": "boulder"
+        },
+        {
+            "x": 100,
+            "y": 100,
+            "type": "assassin"
+        }                                                      
+    ]
+}

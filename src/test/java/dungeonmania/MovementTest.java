@@ -1,5 +1,6 @@
 package dungeonmania;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import dungeonmania.util.*;
 import dungeonmania.entities.Player;
+import dungeonmania.entities.collectableEntity.potionEntity.InvincibilityPotion;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.Spider;
 import dungeonmania.entities.movingEntity.ZombieToast;
@@ -156,6 +158,22 @@ public class MovementTest {
         Position now = new Position(zombie.getX(), zombie.getY());
 
         assertTrue(possible.contains(now));
+    }
+
+    @Test
+    public void testRun() throws IOException {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("advanced-4", "standard");
+        Dungeon dungeon = controller.getDungeon();
+        Player player = (Player) dungeon.getPlayer();
+        Spider spider = new Spider(7,13,dungeon);
+        InvincibilityPotion invinciblePotion = new InvincibilityPotion(2, 1);
+        player.move(Direction.RIGHT);
+        dungeon.addEntity(spider);
+        player.consumeInvincibilityPotion();
+        spider.move(); 
+        
+        assertNotEquals(new Position(7,12,3), spider.getPosition());
     }
 
 }

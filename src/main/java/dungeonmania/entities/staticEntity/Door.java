@@ -23,18 +23,18 @@ public class Door extends StaticEntity {
         setKey(key);
     }
 
-    /**
-     * Constructor for a door that is unlocked
-     * @param x
-     * @param y
-     * @param isPassable
-     */
-    public Door(int x, int y, Boolean isPassable) {
-        super(x, y, "door");
-        setId("Door" + String.valueOf(counter));
-        counter++;
-        setPassable(isPassable);
-    }
+    // /**
+    //  * Constructor for a door that is unlocked
+    //  * @param x
+    //  * @param y
+    //  * @param isPassable
+    //  */
+    // public Door(int x, int y, Boolean isPassable) {
+    //     super(x, y, "door");
+    //     setId("Door" + String.valueOf(counter));
+    //     counter++;
+    //     setPassable(isPassable);
+    // }
 
     /**
      * Method that checks whether the key in player's inventory is the corresponding key to the door
@@ -62,10 +62,6 @@ public class Door extends StaticEntity {
      */
     public void setKey(int key) {
         this.key = key;
-    }
-
-    public static int getCounter() {
-        return counter;
     }
 
     public static void setCounter(int counter) {

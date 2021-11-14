@@ -69,7 +69,7 @@ public class Spider extends MovingEntity {
         }
         Player player = (Player) dungeon.getPlayer();
 
-        if (player.isInvincible()) {
+        if (player != null && player.isInvincible()) {
             run(this, dungeon);
             this.path = new Position(this.getX(), this.getY() + 1).getAdjacentPositions();
         }
