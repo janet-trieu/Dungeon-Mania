@@ -21,6 +21,7 @@ public class ExitGoal extends LeafGoal {
      */
     @Override
     public String toString() {
+        update();
         if (isComplete()) {
             return "";
         } else {
