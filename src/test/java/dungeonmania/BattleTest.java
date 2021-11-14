@@ -118,6 +118,7 @@ public class BattleTest {
         }
         // mercenary is not alive after 3 ticks instead of 7
         assertEquals(false, dungeon.getEntityList().contains(mercenary));
+
     }
 
     @Test

@@ -94,10 +94,6 @@ public class Sceptre extends BuildableEntity {
         }
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
     public static void setCounter(int counter) {
         Sceptre.counter = counter;
     }

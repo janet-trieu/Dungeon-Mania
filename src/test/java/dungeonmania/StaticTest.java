@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -386,6 +387,43 @@ public class StaticTest {
         // key is still in inventory
         assertTrue(dungeon.getInventory().getItems().contains(key));
 
+    }
+
+    @Test
+    public void doorTest2() {
+        Dungeon dungeon = new Dungeon();
+        Player player = new Player(0, 0);
+        Key key = new Key(1, 0, 0);
+        Door door1 = new Door(1, 1, 1);
+        Door door2 = new Door(2, 1, 0);
+
+        dungeon.addEntity(player);
+        dungeon.addEntity(key);
+        dungeon.addEntity(door1);
+        dungeon.addEntity(door2);
+
+        // player moves 1 cell to the right to pick up key
+        // player moves 1 cell down to try to open door 1
+        player.moveRight();
+        player.moveDown();
+
+        // door 1 is not the correct door for player's key,
+        // hence player cannot move through the door, and stays still
+        Position playerPos = new Position(1, 0, 4);
+        assertEquals(playerPos, player.getPosition());
+        assertFalse(door1.isPassable());
+
+        // player moves 1 cell to the right to pick up key
+        // player moves 1 cell down to try to open door 2
+        player.moveRight();
+        player.moveDown();
+
+        // door 2 is the correct door for player's key, 
+        // hence player can move through the door
+        assertTrue(door2.isPassable());
+        Position door2Pos = new Position(2, 1, 4);
+        assertEquals(door2Pos, player.getPosition());
+        
     }
     
 }

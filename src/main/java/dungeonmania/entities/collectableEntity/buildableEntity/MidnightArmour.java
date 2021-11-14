@@ -4,7 +4,9 @@ import java.util.List;
 
 import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
+import dungeonmania.entities.collectableEntity.Armour;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
+import dungeonmania.entities.collectableEntity.SunStone;
 
 public class MidnightArmour extends BuildableEntity {
 
@@ -35,19 +37,41 @@ public class MidnightArmour extends BuildableEntity {
         List<CollectableEntity> items = currInventory.getItems();
         List<String> buildableList = currDungeon.getBuildableString();
 
+        int armourCounter = 0;
+        int sunStoneCounter = 0;
+        for (CollectableEntity item : items) {
+            if (item instanceof Armour) {
+                armourCounter++;
+            } else if (item instanceof SunStone) {
+                sunStoneCounter++;
+            }
+        }
+        System.out.println("fuck this hsit");
+        System.out.println(items);
+        System.out.println(armourCounter);
+        System.out.println(sunStoneCounter);
         // Can be crafted with one armour and one sun stone
-        if (currInventory.invGetInstance("treasure") != null && currInventory.invGetInstance("sun_stone") != null) {
-            items.remove(currInventory.invGetInstance("treasure"));
+        if (armourCounter > 0 && sunStoneCounter > 0) {
+            System.out.println("before removal "+items);
+            items.remove(currInventory.invGetInstance("armour"));
             items.remove(currInventory.invGetInstance("sun_stone"));
-
+            System.out.println("after removal "+items);
             // update the buildable list, as midnight armour has now been built
             buildableList.remove("midnight_armour");
-        } 
+        }
+        // if (currInventory.invGetInstance("treasure") != null && currInventory.invGetInstance("sun_stone") != null) {
+        //     System.out.println("before removal "+items);
+        //     items.remove(currInventory.invGetInstance("treasure"));
+        //     items.remove(currInventory.invGetInstance("sun_stone"));
+        //     System.out.println("after removal "+items);
+        //     // update the buildable list, as midnight armour has now been built
+        //     buildableList.remove("midnight_armour");
+        // } 
     }
 
-    public static int getCounter() {
-        return counter;
-    }
+    // public static int getCounter() {
+    //     return counter;
+    // }
 
     public static void setCounter(int counter) {
         MidnightArmour.counter = counter;
