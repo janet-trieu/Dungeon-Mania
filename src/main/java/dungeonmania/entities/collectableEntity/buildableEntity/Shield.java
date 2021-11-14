@@ -3,7 +3,6 @@ package dungeonmania.entities.collectableEntity.buildableEntity;
 import java.util.List;
 import java.util.ListIterator;
 
-import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.collectableEntity.Breakable;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
@@ -18,9 +17,6 @@ public class Shield extends BuildableEntity implements Breakable {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
-
-    // dungeon instance
-    Dungeon currDungeon = Dungeon.getDungeon();
 
     /**
      * Constructor for a shield

@@ -2,7 +2,6 @@ package dungeonmania.entities.collectableEntity.buildableEntity;
 
 import java.util.List;
 
-import dungeonmania.Dungeon;
 import dungeonmania.Inventory;
 import dungeonmania.entities.collectableEntity.Armour;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
@@ -10,15 +9,12 @@ import dungeonmania.entities.collectableEntity.SunStone;
 
 public class MidnightArmour extends BuildableEntity {
 
-    // TODO: change damage and protection later
+    // storing midnight armour attributes
     public final static int protection = 10;
     public final static int damage = 10;
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
-
-    // dungeon instance
-    Dungeon currDungeon = Dungeon.getDungeon();
 
     /**
      * Constructor for a sceptre

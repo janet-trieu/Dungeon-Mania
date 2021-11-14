@@ -15,15 +15,6 @@ public class MidnightArmourState implements PlayerState {
         this.player = player;
     }
 
-    // /**
-    //  * 
-    //  * @param player
-    //  * @param durability
-    //  */
-    // public MidnightArmourState(Player player, int durability) {
-    //     this.player = player;
-    // }
-
     /**
      * Cannot apply another armour if player has already equipped armour
      * Player can only wear one armour at a time and multiple armour does
@@ -33,38 +24,6 @@ public class MidnightArmourState implements PlayerState {
     public void applyEffect() {
         // does nothing
     }
-
-    // /**
-    //  * Armour breaks and is removed from inventory and no longer gains benefits from armour
-    //  */
-    // @Override
-    // public void removeEffect() {
-    //     // remove stats from midnight armour
-    //     player.setProtection(player.getProtection() / MidnightArmour.protection);
-    //     player.setDamage(player.getDamage() / MidnightArmour.damage);
-    //     // reapply stats of armour if applicable
-    //     if (player.isArmour()) {
-    //         player.setProtection(player.getProtection() * Armour.protection);
-    //     }
-    //     player.changeArmourState(new NoArmourState(player));
-    //     Dungeon.getDungeon().getInventory().breakItem("midnight_armour");
-    // }
-
-    // /**
-    //  * armour reduces in durability
-    //  */
-    // @Override
-    // public void reduceDuration() {
-    //     durability--;
-    //     if (durability <= 0) {
-    //         removeEffect();
-    //     }
-    // }
-
-    // @Override
-    // public int getDuration() {
-    //     return this.durability;
-    // }
 
     /**
      * Midnight Armour cannot break

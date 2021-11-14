@@ -612,8 +612,6 @@ public class Dungeon {
         ZombieToastSpawner.setTickCounter(1);
         Mercenary.setTickCounter(0);
         Hydra.setTickCounter(0);
-
-        // TODO: ADD ANY OTHER MILESTONE 3 STATIC ID/TICK COUNTER RESETS!!!
     }
     
     /**
@@ -699,6 +697,10 @@ public class Dungeon {
         return bool;
     }
 
+    /**
+     * Method to return list of mind controlled entities
+     * @return list of mind controlled entities
+     */
     public List<Bribeable> mindControlledEntities() {
         List<MovingEntity> movingEntities = getMovingEntities();
         List<Bribeable> mindControlledEntities = new ArrayList<Bribeable>();

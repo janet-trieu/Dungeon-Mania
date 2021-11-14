@@ -52,7 +52,6 @@ public abstract class MovingEntity extends Entity {
      * Getter for health of moving entity
      * @return
      */
-
     public double getHealth() {return health;}
 
     /**

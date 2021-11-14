@@ -19,7 +19,7 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
     // mercenary is interactable with player ( for bribing )
     private boolean isInteractable = true;
 
-    //
+    // storing duration of mind control effect
     private int mindControlDuration = 0;
 
     // boolean to check if the spawned mercenary has armour
@@ -72,7 +72,6 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
         tickCounter++;
     }
 
-
     /**
      * get number of enemies
      */
@@ -80,7 +79,7 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
     public Boolean hostileInDungeon() {
         for (Entity entity : Dungeon.getDungeon().getEntityList()) {
             if (entity instanceof MovingEntity) {
-                if (entity instanceof Mercenary && !isMercenaryBribed(entity)) {
+                if (entity instanceof Mercenary && !this.isBribed()) {
                     return true;
                 }
                 else {
@@ -90,15 +89,6 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
         }
         return false;
     }
-
-    public Boolean isMercenaryBribed(Entity entity) {
-        Mercenary mercenary = (Mercenary) entity;
-        if (mercenary.isBribed()) {
-            return true;
-        }
-        return false;
-    }
-
 
     /**
      * Method for the mercenary to move
@@ -126,6 +116,7 @@ public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
             }
         }
     }
+    
     /**
      * Method for the mercenary to drop armour
      */

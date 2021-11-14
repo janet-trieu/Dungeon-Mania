@@ -152,7 +152,6 @@ public class Player extends Entity {
         }
     }
 
-    /** */
     public void giveRareItems() {
         Inventory inventory = Dungeon.getDungeon().getInventory();
         Random random = new Random(System.currentTimeMillis());
@@ -333,11 +332,11 @@ public class Player extends Entity {
         move(Direction.RIGHT);
     }
 
-    /**
+    /** ==========
      * States Methods
-     */
+     *  =========== /
     /**
-     * Change States
+     * Change methods
      */
     public void changeInvisibleState(PlayerState state) {
         this.invisibleState = state;
@@ -376,7 +375,7 @@ public class Player extends Entity {
     }
 
     /**
-     * Apply state
+     * Apply methods
      */
     public void consumeInvisibilityPotion() {
         invisibleState.applyEffect();
@@ -465,29 +464,6 @@ public class Player extends Entity {
         } 
     }
 
-    // public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur, int midnightArmourDur) {
-    //     if (invinDur > 0) {
-    //         invincibleState.loadDuration(invinDur);
-    //     }
-    //     if (invisDur > 0) {
-    //         invisibleState.loadDuration(invisDur);
-    //     }
-    //     if (bowDur > 0) {
-    //         bowState.loadDuration(bowDur);
-    //     }
-    //     if (armourDur > 0) {
-    //         armourState.loadDuration(armourDur);
-    //     }
-    //     if (swordDur > 0) {
-    //         swordState.loadDuration(swordDur);
-    //     }
-    //     if (shieldDur > 0) {
-    //         shieldState.loadDuration(shieldDur);
-    //     }
-    //     if (midnightArmourDur > 0) {
-    //         midnightArmourState.loadDuration(midnightArmourDur);
-    //     }
-    // }
     public void setPlayerStates(int invinDur, int invisDur, int bowDur, int armourDur, int swordDur, int shieldDur) {
         if (invinDur > 0) {
             invincibleState.loadDuration(invinDur);

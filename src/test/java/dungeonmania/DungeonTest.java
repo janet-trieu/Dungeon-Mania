@@ -175,4 +175,30 @@ public class DungeonTest {
         controller.newGame("testBomb", "standard");
         assertThrows(IllegalArgumentException.class, () -> controller.interact("Chicken0"));
     }
+
+    /**
+     * Test to load map enemy AND exit
+     */
+    @Test
+    public void testEnemyAndExit() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("enemy-and-exit", "standard");
+        controller.saveGame("save0");
+        controller.loadGame("save0");
+        assertEquals("(:enemy AND :exit)", controller.getDungeon().getGoalString());
+        controller.clearData();
+    }
+
+     /**
+     * Test to load map switch OR treasure
+     */
+    @Test
+    public void testSwitchOrExit() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("switch-or-treasure", "standard");
+        controller.saveGame("save0");
+        controller.loadGame("save0");
+        assertEquals("(:switch OR :treasure)", controller.getDungeon().getGoalString());
+        controller.clearData();
+    }
 }

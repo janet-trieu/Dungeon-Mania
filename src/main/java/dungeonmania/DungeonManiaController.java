@@ -133,14 +133,16 @@ public class DungeonManiaController {
             JSONObject goalObj = mapObj.getJSONObject("goal-condition");
             Goal goal = createGoal(goalObj, dungeon);
             dungeon.setGoal(goal);
-            return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
+            return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(),
+                                        dungeon.getBuildableString(), dungeon.getGoalString());
         }
 
         Goal goal = new ExitGoal(dungeon);
         dungeon.setGoal(goal);
 
         // For maps that do not have goals; make the goal 'exit'
-        return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(), dungeon.getBuildableString(), dungeon.getGoalString());
+        return new DungeonResponse(dungeonId, dungeonName, dungeon.getEntityResponse(), dungeon.getItemResponse(),
+                                    dungeon.getBuildableString(), dungeon.getGoalString());
     }
 
     /**
@@ -220,8 +222,6 @@ public class DungeonManiaController {
                     int armourDur = obj.getInt("armourDurability");
                     int swordDur = obj.getInt("swordDurability");
                     int shieldDur = obj.getInt("shieldDurability");
-                    // int midnightArmourDur = obj.getInt("midnightArmourDurability");
-                    // player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur, midnightArmourDur);
                     player.setPlayerStates(invinDur, invisDur, bowDur, armourDur, swordDur, shieldDur);
                 }
                 return player;
@@ -412,7 +412,6 @@ public class DungeonManiaController {
                 entityInfo.put("armourDurability", player.getArmourDurability());
                 entityInfo.put("swordDurability", player.getSwordDurability());
                 entityInfo.put("shieldDurability", player.getShieldDurability());
-                // entityInfo.put("midnightArmourDurability", player.getMidnightArmourDurability());
             } else if (entity instanceof ZombieToast) {
                 ZombieToast zombieToast = (ZombieToast) entity;
                 entityInfo.put("hasArmour", zombieToast.getHasArmour());
@@ -769,6 +768,7 @@ public class DungeonManiaController {
         Spider spider = new Spider(spawnPos.getX(), spawnPos.getY(), dungeon);
         spider.spawnSpider();
 
+        // Attempt to spawn mercenary or assassin
         Position spawnPoint = currDungeon.getSpawnPoint();
         Mercenary mercenary = new Mercenary(spawnPoint.getX(), spawnPoint.getY(), dungeon);
         mercenary.spawnMercenary();
@@ -783,9 +783,7 @@ public class DungeonManiaController {
         // check the floor switch's isActive and position, as well as bomb position
         // Case 1: bomb is placed and a boulder activates switch
         for (Bomb bomb : bombList) {
-
             List<Entity> cardinallyAdjaceEntities = currDungeon.getEntitiesCardinallyAdjacent(bomb.getPosition());
-
             for (Entity entity : cardinallyAdjaceEntities) {
                 if (entity instanceof FloorSwitch) {
                     FloorSwitch floorSwitch = (FloorSwitch) entity;
