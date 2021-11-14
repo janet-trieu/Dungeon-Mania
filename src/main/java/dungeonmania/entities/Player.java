@@ -8,6 +8,8 @@ import dungeonmania.entities.PlayerState.*;
 import dungeonmania.entities.collectableEntity.CollectableEntity;
 import dungeonmania.entities.collectableEntity.Key;
 import dungeonmania.entities.collectableEntity.SunStone;
+import dungeonmania.entities.collectableEntity.rareCollectableEntity.Anduril;
+import dungeonmania.entities.collectableEntity.rareCollectableEntity.TheOneRing;
 import dungeonmania.entities.movingEntity.Mercenary;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.entities.movingEntity.Spider;
@@ -16,6 +18,7 @@ import dungeonmania.entities.staticEntity.Door;
 import dungeonmania.entities.staticEntity.Portal;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
+import java.util.Random;
 
 public class Player extends Entity {
 
@@ -104,6 +107,7 @@ public class Player extends Entity {
         // Character Health = Character Health - ((Enemy Health * Enemy Attack Damage) / 10) / protection
         if (isInvincible()) {
             Dungeon.getDungeon().removeEntity(otherEntity);
+            pickupItems(getPosition());
             return false;
         }
         setHealth(getHealth() - ((otherEntity.getHealth() * otherEntity.getDamage()) / 10) / getProtection());
@@ -123,8 +127,13 @@ public class Player extends Entity {
                 Spider.setSpiderNum(Spider.getSpiderNum() - 1);
             }
             Dungeon.getDungeon().removeEntity(otherEntity);
+            // gacha chance to add anduil or one ring
+            giveRareItems();
+            // pick up all items on ground
+            pickupItems(getPosition());
             return false;
         }
+        pickupItems(getPosition());
         return true;
     }
 
@@ -140,6 +149,22 @@ public class Player extends Entity {
                     otherEntity.takeDamage(mercenary.getHealth(), mercenary.getDamage());
                 }
             }
+        }
+    }
+
+    /** */
+    public void giveRareItems() {
+        Inventory inventory = Dungeon.getDungeon().getInventory();
+        Random random = new Random(System.currentTimeMillis());
+        int gacha = random.nextInt(100) % 10;
+        if (gacha == 0) {
+            TheOneRing ring = new TheOneRing(-1, -1);
+            inventory.addItem(ring);
+        }
+        gacha = random.nextInt(100) % 10;
+        if (gacha == 0) {
+            Anduril anduril = new Anduril(-1, -1);
+            inventory.addItem(anduril);
         }
     }
 
