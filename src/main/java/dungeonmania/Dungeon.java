@@ -41,6 +41,7 @@ public class Dungeon {
         this.spawnedCollectablesList = new ArrayList<CollectableEntity>();
         this.buildableList = new ArrayList<String>();
         this.inventory = new Inventory();
+        this.gameMode = "standard";
         thisDungeon = this;
         resetCounters();
     }
