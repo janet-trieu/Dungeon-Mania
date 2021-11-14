@@ -3,6 +3,7 @@ package dungeonmania;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
@@ -12,10 +13,13 @@ import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
 
 /**
- * Class to test Buildable Entity
- * P.S this is currently initial stages of testing!!
+ * Class to test Buildable Entity and their build implementation
  */
 public class BuildableTest {
+
+// ============================================================================================== //
+//                              TEST FOR BOW  BUILDING IMPLEMENTATION                             //
+// ============================================================================================== //
     /**
      * Test for building a bow
      * @throws IOException
@@ -67,7 +71,12 @@ public class BuildableTest {
         assertEquals(controller.getInfo("Arrow2"), null);
         assertEquals(controller.getInfo("Wood0"), null);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("bow") == 1);
+
     }
+
+// ============================================================================================== //
+//                             TEST FOR SHIELD  BUILDING IMPLEMENTATION                           //
+// ============================================================================================== //
 
     /**
      * Test for building a shield
@@ -369,6 +378,9 @@ public class BuildableTest {
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("shield") == 1);
     }
 
+// ============================================================================================== //
+//                             TEST FOR SCEPTRE  BUILDING IMPLEMENTATION                          //
+// ============================================================================================== //
     /**
      * Test for building a sceptre
      * Can be crafted with: 
@@ -440,10 +452,9 @@ public class BuildableTest {
      * with 2 sun stones
      * Can be crafted with: 
      * - Assumption: if the player has 2 sun stones, player does not need a key or treasure
-     * @throws IllegalArgumentException
      */
     @Test
-    public void testBuildSceptreTwoSunStones() throws IllegalArgumentException {
+    public void testBuildSceptreTwoSunStones() {
         /**
          * Entities are spawned in:
          * player       (0,0)
@@ -485,8 +496,51 @@ public class BuildableTest {
         assertEquals(controller.getInfo("SunStone1"), null);
 
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sceptre") == 1);
+
     }
 
+    /**
+     * Build Sceptre with: 
+     * - wood instead of arrow
+     * - key instead of treasure
+     */
+    @Test
+    public void testBuildSceptre1() {
+
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBuildSceptre1", "standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [wood]
+
+        controller.tick(null, Direction.RIGHT);
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
+        // current inventory = [wood, key]
+
+        controller.tick(null, Direction.RIGHT);
+        // current inventory = [wood, key, sun stone]
+
+        // build the sceptre
+        assertDoesNotThrow(() -> {
+            controller.build("sceptre");
+        });
+
+        // assert that sceptre has been added to inventory, 
+        // assert that the used collectable entities are removed
+        assertEquals(controller.getInfo("Wood0"), null);
+        assertEquals(controller.getInfo("Key0"), null);
+        assertEquals(controller.getInfo("SunStone0"), null);
+
+        assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sceptre") == 1);
+
+    }
+
+// ============================================================================================== //
+//                      TEST FOR MIDNIGHT ARMOUR BUILDING IMPLEMENTATION                          //
+// ============================================================================================== //
     /**
      * Test build for midnight armour
      * - with no zombie toasts in the dungeon
@@ -559,6 +613,47 @@ public class BuildableTest {
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("armour") == 1);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("sun_stone") == 1);
         assertEquals(true, controller.getDungeon().getInventory().numberOfItem("midnight_armour") == 0);
+
+    }
+
+    @Test
+    public void MidnightArmourBuildTwoTimes() {
+        DungeonManiaController controller = new DungeonManiaController();
+
+        controller.newGame("testBuildMidArmour3", "standard");
+
+        // player moves to the right, while picking up the items
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+        controller.tick(null, Direction.RIGHT);
+
+        assertTrue(controller.getDungeon().getInventory().numberOfItem("sun_stone") == 2);
+        assertTrue(controller.getDungeon().getInventory().numberOfItem("armour") == 2);
+
+        // build midnight armour once
+        assertDoesNotThrow(() -> {
+            controller.build("midnight_armour");
+        });
+
+        // assert that the used entities are removed
+        // assert that the midnight armour is in inventory
+        assertEquals(controller.getInfo("Armour0"), null);
+        assertEquals(controller.getInfo("SunStone0"), null);
+
+        assertTrue(controller.getDungeon().getInventory().numberOfItem("midnight_armour") == 1);
+
+        // build midnight armour twice
+        assertDoesNotThrow(() -> {
+            controller.build("midnight_armour");
+        });
+
+        // assert that the used entities are removed
+        // assert that the midnight armour is in inventory
+        assertEquals(controller.getInfo("Armour1"), null);
+        assertEquals(controller.getInfo("SunStone1"), null);
+
+        assertTrue(controller.getDungeon().getInventory().numberOfItem("midnight_armour") == 2);
 
     }
 

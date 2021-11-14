@@ -917,7 +917,7 @@ public class DungeonManiaController {
         } else if (canBuildSceptre && buildable.equals("sceptre")) {
             Sceptre sceptre = new Sceptre(-1, -1);
             sceptre.useIngredient();
-            currDungeon.updateBuildableListShield();
+            currDungeon.updateBuildableListSceptre();
             currInventory.addItem(sceptre);
         } else if (canBuildMidnightArmour && buildable.equals("midnight_armour")) {
             MidnightArmour midnightArmour = new MidnightArmour(-1, -1);
