@@ -11,6 +11,7 @@ import dungeonmania.entities.movingEntity.Assassin;
 import dungeonmania.entities.movingEntity.Hydra;
 import dungeonmania.entities.movingEntity.MovingEntity;
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class BossTest {
 
@@ -24,6 +25,7 @@ public class BossTest {
     public void testBossesSpawn() {
         DungeonManiaController controller = setUp();
         Dungeon dungeon = controller.getDungeon();
+        dungeon.setSpawnPoint(new Position(10000, 10000));
 
         for(int i = 0; i < 51; i++) {
             controller.tick(null, Direction.NONE);

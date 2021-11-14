@@ -100,9 +100,6 @@ public class DungeonTest {
         // Assassin
         position = new Position(0, 1, 3);
         assertEquals(new EntityResponse("Assassin0", "assassin", position, true), controller.getInfo("Assassin0"));
-        // Hydra
-        position = new Position(1, 1, 3);
-        assertEquals(new EntityResponse("Hydra0", "hydra", position, false), controller.getInfo("Hydra0"));
         // SwampTile
         position = new Position(2, 1, 0);
         assertEquals(new EntityResponse("SwampTile0", "swamp_tile", position, false), controller.getInfo("SwampTile0"));
