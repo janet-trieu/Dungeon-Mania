@@ -697,9 +697,9 @@ public class DungeonManiaController {
             // tick implementation for battle + enemy movement
             for (MovingEntity enemy : enemyList) {
                 if (player.getPosition().equals(enemy.getPosition())) {
-                    if (enemy instanceof Mercenary) {
-                        Mercenary mercenary = (Mercenary) enemy;
-                        if (!mercenary.isBribed()) {
+                    if (enemy instanceof Bribeable) {
+                        Bribeable mercAss = (Bribeable) enemy;
+                        if (!mercAss.isBribed()) {
                             while (player.battle(enemy)) {
                             }
                             if (player.getHealth() <= 0) {
@@ -747,8 +747,8 @@ public class DungeonManiaController {
         for (MovingEntity enemy : enemyList) {
             enemy.move();
             if (player.getPosition().equals(enemy.getPosition())) {
-                if (enemy instanceof Mercenary) {
-                    Mercenary mercenary = (Mercenary) enemy;
+                if (enemy instanceof Bribeable) {
+                    Bribeable mercenary = (Bribeable) enemy;
                     if (!mercenary.isBribed()) {
                         while (player.battle(enemy)) {
                         }
@@ -853,7 +853,7 @@ public class DungeonManiaController {
             throw new IllegalArgumentException("Incorrect interactable entity");
         } else if (entityId.contains("Mercenary") || entityId.contains("Assassin")) {
             for (Entity entity : entities) {
-                if (entity instanceof Bribeable) {
+                if (entity instanceof Bribeable && entity.getId().equals(entityId)) {
                     if (!currDungeon.checkBribeRange(entity)) {
                         throw new InvalidActionException("Not close enough to bribe");
                     } else if (currDungeon.checkBribeRange(entity)) {
@@ -866,9 +866,10 @@ public class DungeonManiaController {
             for (Entity entity : entityCardinallyAdjacent) {
                 if (entity instanceof ZombieToastSpawner) {
                     // check if player has weapon
-                    if (inventory.numberOfItem("sword") < 1 && inventory.numberOfItem("bow") < 1) {
+                    if (inventory.numberOfItem("sword") < 1 && inventory.numberOfItem("bow") < 1 && 
+                        inventory.numberOfItem("anduril") < 1 && inventory.numberOfItem("midnight_armour") < 1 ) {
                         throw new InvalidActionException("Cannot destroy zombie toast spawner without a weapon");
-                    } else if (inventory.numberOfItem("sword") >=1 || inventory.numberOfItem("bow") >= 1) { 
+                    } else { 
                         entities.remove(entity);
                     }
                 }

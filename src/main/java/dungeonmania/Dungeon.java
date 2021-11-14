@@ -450,7 +450,6 @@ public class Dungeon {
         Position otherPos = otherEntity.getPosition();
         List<Position> twoCellList = getCardinalAdjacent2Cells(getPlayer());
         List<Position> oneCellList = getCardinalAdjacentCell(getPlayer());
-
         // check if player and mercenary positions' are within 2 cardinally adjacent cells
         for (Position position : twoCellList) {
             if (position.equals(otherPos)) {
