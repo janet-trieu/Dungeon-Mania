@@ -753,6 +753,13 @@ public class DungeonManiaController {
         Mercenary mercenary = new Mercenary(spawnPoint.getX(), spawnPoint.getY(), dungeon);
         mercenary.spawnMercenary();
 
+        if (currDungeon.getGameMode().equals("hard")) {
+            Position hydraPos = currDungeon.spawnDistance(player);
+            Hydra hydra = new Hydra(hydraPos.getX(), hydraPos.getY(), dungeon);
+            hydra.spawnHydra();
+        }
+
+
         // check the floor switch's isActive and position, as well as bomb position
         // Case 1: bomb is placed and a boulder activates switch
         for (Bomb bomb : bombList) {

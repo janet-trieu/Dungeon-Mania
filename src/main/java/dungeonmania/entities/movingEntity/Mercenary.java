@@ -72,7 +72,7 @@ public class Mercenary extends MovingEntity implements Bribeable {
     }
     
     /**
-     * Method to spawn the spider
+     * Method to spawn the mercenary or assassin
      */
     public void spawnMercenary() {
         if (tickCounter >= 25 && hostileInDungeon()) {

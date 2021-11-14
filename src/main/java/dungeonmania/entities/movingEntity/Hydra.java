@@ -6,7 +6,9 @@ import dungeonmania.entities.Player;
 public class Hydra extends ZombieToast{
     
     int counter = 0;
-
+    
+    // storing the number of occurences this method is called, to know when to spawn the spider
+    private static int tickCounter = 0;
 
     public Hydra(int x, int y, Dungeon dungeon){
         super(x, y, dungeon, "hydra");
@@ -32,4 +34,18 @@ public class Hydra extends ZombieToast{
         }
     }
 
+    /**
+     * Method to spawn the spider
+     */
+    public void spawnHydra() {
+        if (tickCounter >= 50) {
+            dungeon.addEntity(this);
+            setTickCounter(0);
+        } 
+        tickCounter++;
+    }
+
+    public static void setTickCounter(int counter) {
+        Hydra.tickCounter = counter;
+    }
 }
