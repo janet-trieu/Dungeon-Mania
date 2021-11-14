@@ -33,8 +33,8 @@ public interface Dijkstra {
         if (player.getY() > entity.getY()) {maxY = player.getY();}
         else {maxY = entity.getY();}
 
-        for(int i = 0; i <= maxY; i++) {
-            for (int j = 0; j <= maxX; j++) {
+        for(int i = -100; i <= maxY; i++) {
+            for (int j = -100; j <= maxX; j++) {
                 Double cost = 1.0;
                 Position point = new Position(j,i);
                 List<Entity> type = dungeon.getEntitiesOnSamePosition(point);
@@ -121,9 +121,14 @@ public interface Dijkstra {
         Map<Position, Position> dijkstra = dijkstra(dungeon, entity);
         Position curr = new Position(entity.getX(), entity.getY());
         Position next = dijkstra.get(curr);
+        if (next != null) {
+            entity.setX(next.getX());
+            entity.setY(next.getY());
+        }
+
         
-        entity.setX(next.getX());
-        entity.setY(next.getY());
+        dijkstra.clear();
+        dijkstra = null;
     }
 
 

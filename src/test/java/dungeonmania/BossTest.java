@@ -25,7 +25,7 @@ public class BossTest {
     public void testBossesSpawn() {
         DungeonManiaController controller = setUp();
         Dungeon dungeon = controller.getDungeon();
-        dungeon.setSpawnPoint(new Position(10000, 10000));
+        dungeon.setSpawnPoint(new Position(10, 10));
 
         for(int i = 0; i < 51; i++) {
             controller.tick(null, Direction.NONE);
