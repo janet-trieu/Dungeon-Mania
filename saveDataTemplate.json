@@ -4,6 +4,10 @@
 	"gameMode": "String",
 	"dungeonId": "String",
 	"dungeonName": "String",
+	"spawnPoint": {
+		"x": "int",
+		"y": "int"
+	},
 	"entities": [
 		{
 			"id": "int",

@@ -123,6 +123,10 @@ public class DungeonManiaController {
         // Add "entities"
         JSONArray mapEntities = mapObj.getJSONArray("entities");
         addEntitiesDungeon(mapEntities);
+
+        // Set spawnPoint
+        Position spawnPoint = dungeon.getPlayer().getPosition();
+        dungeon.setSpawnPoint(spawnPoint);
         
         // Add "goals"
         if (mapObj.has("goal-condition")) {
@@ -362,6 +366,13 @@ public class DungeonManiaController {
         // Buildable saving
         saveObj.put("buildables", saveBuilable());
 
+        // SpawnPoint saving
+        Position spawnPoint = currDungeon.getSpawnPoint();
+        JSONObject spawnObj = new JSONObject();
+        spawnObj.put("x", spawnPoint.getX());
+        spawnObj.put("y", spawnPoint.getY());
+        saveObj.put("spawnPoint", spawnObj);
+
         // Insert object into file
          try {
             FileWriter writer = new FileWriter("savedGames/" + name + ".json");
@@ -523,6 +534,11 @@ public class DungeonManiaController {
         // Goal loading
         Goal goal = loadGoal(dataObj.getString("goals"), dungeon);
         dungeon.setGoal(goal);
+
+        // SpawnPoint loading
+        JSONObject spawnObj = dataObj.getJSONObject("spawnPoint");
+        Position spawnPoint = new Position(spawnObj.getInt("x"), spawnObj.getInt("y"));
+        dungeon.setSpawnPoint(spawnPoint);
 
         // Create new dungeonResponse from dungeon class to ensure its correct and return
         DungeonResponse response = new DungeonResponse(dungeonId, dungeon.getDungeonName(), dungeon.getEntityResponse(),
