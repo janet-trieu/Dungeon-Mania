@@ -697,9 +697,9 @@ public class DungeonManiaController {
             // tick implementation for battle + enemy movement
             for (MovingEntity enemy : enemyList) {
                 if (player.getPosition().equals(enemy.getPosition())) {
-                    if (enemy instanceof Mercenary) {
-                        Mercenary mercenary = (Mercenary) enemy;
-                        if (!mercenary.isBribed()) {
+                    if (enemy instanceof Bribeable) {
+                        Bribeable mercAss = (Bribeable) enemy;
+                        if (!mercAss.isBribed()) {
                             while (player.battle(enemy)) {
                             }
                             if (player.getHealth() <= 0) {
