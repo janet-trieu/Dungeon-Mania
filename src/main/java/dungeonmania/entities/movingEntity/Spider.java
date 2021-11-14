@@ -22,7 +22,7 @@ public class Spider extends MovingEntity {
     // storing the number of spider that is present in the dungeon
     private static int spiderNum = 0;
 
-    // storing the number of occurences this method is called, to know when to spawn the zombie toast
+    // storing the number of occurences this method is called, to know when to spawn the spider
     private static int tickCounter = 0;
 
     /**
