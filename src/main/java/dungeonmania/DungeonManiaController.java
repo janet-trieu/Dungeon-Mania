@@ -843,6 +843,7 @@ public class DungeonManiaController {
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         Dungeon currDungeon = Dungeon.getDungeon();
         Position playerPos = currDungeon.getPlayer().getPosition();
+        Player player = (Player) currDungeon.getPlayer();
         List<Entity> entityCardinallyAdjacent = currDungeon.getEntitiesCardinallyAdjacent(playerPos);
         List<Entity> entities = currDungeon.getEntityList();
         List<String> entityIds = currDungeon.entityIdList();
@@ -866,7 +867,7 @@ public class DungeonManiaController {
             for (Entity entity : entityCardinallyAdjacent) {
                 if (entity instanceof ZombieToastSpawner) {
                     // check if player has weapon
-                    if (inventory.numberOfItem("sword") < 1 && inventory.numberOfItem("bow") < 1) {
+                    if (player.getDamage() <= 1) {
                         throw new InvalidActionException("Cannot destroy zombie toast spawner without a weapon");
                     } else if (inventory.numberOfItem("sword") >=1 || inventory.numberOfItem("bow") >= 1) { 
                         entities.remove(entity);
