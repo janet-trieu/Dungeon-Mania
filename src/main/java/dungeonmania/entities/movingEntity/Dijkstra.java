@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 import dungeonmania.Dungeon;
@@ -14,98 +15,116 @@ import dungeonmania.util.Position;
 
 public interface Dijkstra {
     
-   public default void dijksmove(Dungeon dungeon, Entity entity) {
-    Player player = (Player) dungeon.getPlayer();
-    HashMap<Position, Integer> Grid = Grid(dungeon, entity);
-    HashMap<Position, Position> prev = dikjstra(Grid, player);
-    Position curr = new Position(entity.getX(), entity.getY());
-    Position next = prev.get(curr);
-
-    entity.setX(next.getX());
-    entity.setY(next.getY());
-
-   }
-
-public default HashMap<Position, Position> dikjstra(HashMap<Position, Integer> Grid, Player player) {
-    HashMap<Position, Integer> dist = new HashMap<>();
-    HashMap<Position, Position> prev = new HashMap<>();
-    Queue<Position> queue = new LinkedList<>();
-    Position playerPos = new Position(player.getX(), player.getY());
-    queue.add(playerPos);
-    dist.put(playerPos, 0);
-
-    for(Position pos : Grid.keySet()) {
-        if (pos != playerPos) {
-            dist.put(pos, Integer.MAX_VALUE);
-            prev.put(pos, null);
-                
-        }
-    } 
-    
-        
-    while(!queue.isEmpty()) {
-        Position u = queue.peek();
-        queue.remove(u);
-        for(Position v : CardAdj(u)) {
-            if(Grid.containsKey(v)){
-                queue.add(v);
-                if (dist.get(u) + Grid.get(v) <= dist.get(v)) {
-                    dist.put(v, dist.get(u)+ Grid.get(v)); 
-                    prev.put(v, u); 
-                }
-            }
-        }
-    }
-    return prev;
-}
-
-
-
-public default HashMap<Position, Integer> Grid(Dungeon dungeon, Entity entity) {
-    HashMap<Position, Integer> grid = new HashMap<>();
+    /**
+     * Returns a map based on entitys position relative to player
+     * and the cost of moving to a position
+     * @param dungeon
+     * @param entity
+     * @return
+     */
+    public default HashMap<Position, Double> grid(Dungeon dungeon, Entity entity) {
+        HashMap<Position, Double> grid = new HashMap<>();
+        Player player = (Player) dungeon.getPlayer();
         int maxX;
         int maxY;
-        Player player = (Player) dungeon.getPlayer();
-        if(player.getX() > entity.getX()) {maxX = player.getX();}
+
+        if (player.getX() > entity.getX()) {maxX = player.getX();} 
         else {maxX = entity.getX();}
-        if(player.getY() > entity.getY()){maxY = player.getY();}
-        else {maxY = entity.getY();};
+        if (player.getY() > entity.getY()) {maxY = player.getY();}
+        else {maxY = entity.getY();}
 
         for(int i = 0; i <= maxY; i++) {
-            for(int j = 0; j <= maxX; j++) {
-                Position pos = new Position(j,i);
-                int cost = 1;
-                List<Entity> list = dungeon.getEntitiesOnSamePosition(pos);
+            for (int j = 0; j <= maxX; j++) {
+                Double cost = 1.0;
+                Position point = new Position(j,i);
+                List<Entity> type = dungeon.getEntitiesOnSamePosition(point);
 
-                for(Entity current : list) {
-                    if (current instanceof Wall) {
-                        cost = 50;
-                    }
-                    if (current instanceof Boulder) {
-                        cost = 10;
-                    }
-                    if (current instanceof SwampTile) {
-                        SwampTile tile = (SwampTile) current;
-                        cost = tile.getMovementFactor();
+                for (Entity curr : type) {
+                    if (curr instanceof Wall) {cost = 10000.0;}
+                    if (curr instanceof Boulder) {cost = 50.0;}
+                    if (curr instanceof Portal) {cost = 1000.0;}
+                    if (curr instanceof SwampTile) {
+                        SwampTile tile = (SwampTile) curr;
+                        cost = Double.valueOf(tile.getMovementFactor());
                     }
                 }
-                grid.put(pos, cost);
-
+                grid.put(point, cost);
             }
         }
         return grid;
     }
 
-    public default List<Position> CardAdj(Position pos) {
-        List<Position> CardAdj = new ArrayList<>();
-        CardAdj.add(new Position(pos.getX(), pos.getY() - 1));
-        CardAdj.add(new Position(pos.getX(), pos.getY() + 1));
-        CardAdj.add(new Position(pos.getX() - 1, pos.getY()));
-        CardAdj.add(new Position(pos.getX() + 1, pos.getY()));
+    /**
+     * Returns a map of positions, and their previous position with shortest path
+     * @param dungeon
+     * @param entity
+     * @return
+     */
+    public default Map<Position, Position> dijkstra(Dungeon dungeon, Entity entity) {
+        Player player = (Player) dungeon.getPlayer();
+        Position posP = new Position(player.getX(), player.getY());
+
+        HashMap<Position, Double> grid = grid(dungeon, entity);
+
+        Map<Position, Double> dist = new HashMap<>();
+        Map<Position, Position> prev = new HashMap<>();
+        Queue<Position> queue = new LinkedList<>();
         
-        return CardAdj;
+        queue.add(posP);
+        for(Position point : grid.keySet()) {
+            dist.put(point, Double.POSITIVE_INFINITY);
+        }
+        dist.put(posP, 0.0);
+
+        while(!queue.isEmpty()) {
+            Position u = queue.element();
+            queue.remove();
+            List<Position> neighbours = neighbour(u);
+            
+            for (Position v : neighbours) {
+                if(grid.containsKey(v)) {
+                    if(prev.get(v) == null) {
+                        queue.add(v);
+                    }
+                    if(dist.get(u) + grid.get(v) < dist.get(v)) {
+                        dist.put(v, dist.get(u) + grid.get(v));
+                        prev.put(v,u);
+                    }
+                }
+            }
+        }
+
+
+        return prev;
+    }
+    /**
+     * Returns a list of a position's cardinally adjacent positions
+     * @param position
+     * @return
+     */
+    public default List<Position> neighbour(Position position) {
+        List<Position> neighbours = new ArrayList<>();
+        neighbours.add(new Position(position.getX(), position.getY()-1));
+        neighbours.add(new Position(position.getX(), position.getY()+1));
+        neighbours.add(new Position(position.getX()-1, position.getY()));
+        neighbours.add(new Position(position.getX()+1, position.getY()));
+        
+        return neighbours;
     }
 
+    /**
+     * Moves the entity
+     * @param dungeon
+     * @param entity
+     */
+    public default void move(Dungeon dungeon, Entity entity) {
+        Map<Position, Position> dijkstra = dijkstra(dungeon, entity);
+        Position curr = new Position(entity.getX(), entity.getY());
+        Position next = dijkstra.get(curr);
+        
+        entity.setX(next.getX());
+        entity.setY(next.getY());
+    }
 
 
 }
