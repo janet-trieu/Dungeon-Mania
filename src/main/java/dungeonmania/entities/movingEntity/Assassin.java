@@ -16,7 +16,7 @@ import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class Assassin extends BossEntity implements Bribeable {
+public class Assassin extends BossEntity implements Bribeable, Dijkstra {
     
     private static int counter = 0;
 
@@ -111,88 +111,32 @@ public class Assassin extends BossEntity implements Bribeable {
         }
     }
     
+    /**
+     * Method for assassin to move
+     */
     @Override
     public void move() {
         if(this.getDebuff() > 0) {
             setDebuff(this.getDebuff() - 1);
             return;
         }
+
         Player player = (Player) dungeon.getPlayer();
         if (player != null && player.isInvincible()) {
             if(!isBribed) {
             run(this, dungeon);
             }
         }
-
-        List<Integer> distance = Path(this, dungeon);
-
-        int index = distance.indexOf(Collections.min(distance));
-        int mindist = distance.get(index);
-        List<Direction> min = new ArrayList<>();
-
-        for(int i = 0; i < 5; i++) {
-            if(distance.get(i) == mindist) {
-                if (i == 0) {return;}
-                if (i == 1) {min.add(Direction.UP);}
-                if (i == 2) {min.add(Direction.DOWN);}
-                if (i == 3) {min.add(Direction.LEFT);}
-                if (i == 4) {min.add(Direction.RIGHT);}
-            }
-        }
-       
+        move(dungeon, this);
         
-        int a = 0;
-        Position next = this.getPosition().translateBy(min.get(a));
-
-        // if Position to move to is wall, do nothing;
-        List<Entity> list = dungeon.getEntitiesOnSamePosition(next);
+        List<Entity> list = dungeon.getEntitiesOnSamePosition(getPosition());
         for(Entity current : list) {
-            if (current instanceof Boulder) {
-                player.interactBoulder(current, next, min.get(a));
-                break;
-            }
-            if (current instanceof Wall) {
-                if(min.size() == 1) {
-                    return;
-                }
-                a++;
-                next = this.getPosition().translateBy(min.get(a));
-            }
-            if (current instanceof Player) {
-                if (min.size() == 1) {
-                    return;
-                }
-                if (!isBribed()) {
-                    break;
-                }
-                a++;
-                next = this.getPosition().translateBy(min.get(a));
-            }
-
-            if (current instanceof Portal) {
-                Portal portal = (Portal) current;
-                next = portal.correspondingPortalPosition().translateBy(min.get(a));
-
-                List<Entity> lis = dungeon.getEntitiesOnSamePosition(next);
-                for (Entity spot : lis) {
-                    if(spot instanceof Wall) {
-                        return;
-                    }
-                    if (spot instanceof Boulder) {
-                        player.interactBoulder(spot, next, min.get(a));
-                        break;
-                    }
-                }
-            }
             if (current instanceof SwampTile) {
                 SwampTile tile = (SwampTile) current;
-                setDebuff(tile.getMovementFactor() - 1);
+                setDebuff(tile.getMovementFactor()- 1);
             }
         }
-        this.setX(next.getX());
-        this.setY(next.getY());
     }
-
     @Override
     public boolean isBribed() {
         return isBribed;

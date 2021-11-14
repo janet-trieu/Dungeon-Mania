@@ -43,7 +43,7 @@ public class MovementTest {
         mercenary.move();
         
         Position posP = new Position(1,2,4);
-        Position posM = new Position(3,4,3);
+        Position posM = new Position(2,5,3);
         
         assertEquals(posP, player.getPosition());
         assertEquals(posM, mercenary.getPosition());
@@ -87,7 +87,7 @@ public class MovementTest {
         mercenary.move();
 
         Position posP = new Position(1,1,4);
-        Position posM = new Position(3,4,3);
+        Position posM = new Position(2,5,3);
        
         assertEquals(posP, player.getPosition());
         assertEquals(posM, mercenary.getPosition());
