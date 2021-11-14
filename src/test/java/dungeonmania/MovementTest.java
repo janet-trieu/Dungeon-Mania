@@ -174,5 +174,28 @@ public class MovementTest {
         assertNotEquals(new Position(7,12,3), spider.getPosition());
     }
 
+    /**
+     * Test to further check the "running-away" of entities when player is invincible
+     * - also moving entities contact of wall and boulder
+     */
+    @Test
+    public void testRunExtra() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("testRunExtra", "standard");
+
+        // player moves one cell to the right to pick up an invincibility potion
+        controller.tick(null, Direction.RIGHT);
+
+        // player uses the invincibility potion
+        controller.tick("InvincibilityPotion0", Direction.NONE);
+
+        assertEquals(new Position(1, 2, 3), controller.getInfo("Mercenary0").getPosition());
+        assertEquals(new Position(4, -1, 3), controller.getInfo("Spider0").getPosition());
+        assertEquals(new Position(1, 2, 3), controller.getInfo("Assassin0").getPosition());
+        assertEquals(new Position(3, 1, 3), controller.getInfo("ZombieToast0").getPosition());
+        assertEquals(new Position(3, 1, 3), controller.getInfo("Hydra0").getPosition());
+
+    }
+
 }
 
