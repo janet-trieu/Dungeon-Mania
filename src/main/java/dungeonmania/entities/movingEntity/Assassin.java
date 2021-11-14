@@ -133,7 +133,7 @@ public class Assassin extends BossEntity implements Bribeable, Dijkstra {
         for(Entity current : list) {
             if (current instanceof SwampTile) {
                 SwampTile tile = (SwampTile) current;
-                setDebuff(tile.getMovementFactor());
+                setDebuff(tile.getMovementFactor()- 1);
             }
         }
     }
