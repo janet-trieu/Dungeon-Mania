@@ -331,8 +331,8 @@ public class Collectabletest {
         Position bombPos = new Position(1, 1, 2);
         Position switchPos = new Position(2, 2, 0);
         Position boulderPos = new Position(2, 2, 1);
-        assertEquals(new EntityResponse("Bomb0", "bomb", bombPos, false), controller.getInfo("Bomb0"));
-        assertEquals(new EntityResponse("Switch0", "switch", switchPos, false), controller.getInfo("Switch0"));
+        assertEquals(new EntityResponse("Bomb1", "bomb", bombPos, false), controller.getInfo("Bomb1"));
+        assertEquals(new EntityResponse("FloorSwitch0", "switch", switchPos, false), controller.getInfo("FloorSwitch0"));
         assertEquals(new EntityResponse("Boulder0", "boulder", boulderPos, false), controller.getInfo("Boulder0"));
 
         Position wall0Pos = new Position(0, 1, 0);
