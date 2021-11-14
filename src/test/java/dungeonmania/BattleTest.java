@@ -381,7 +381,7 @@ public class BattleTest {
         controller.interact("Mercenary0");
         controller.tick(null, Direction.RIGHT);
         // mercenary is now "false" for isInteractable as the mercenary is now bribed
-        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(2,0,3), false), controller.getInfo("Mercenary0"));
+        assertEquals(new EntityResponse("Mercenary0", "mercenary", new Position(3,0,3), false), controller.getInfo("Mercenary0"));
     }
 
     @Test
