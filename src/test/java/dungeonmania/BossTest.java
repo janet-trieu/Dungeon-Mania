@@ -24,6 +24,8 @@ public class BossTest {
     public void testBossesSpawn() {
         DungeonManiaController controller = setUp();
         Dungeon dungeon = controller.getDungeon();
+        // set spawnpoint far so player doesnt potentially die
+        dungeon.setSpawnPoint(new Position(100, 100));
 
         for(int i = 0; i < 51; i++) {
             controller.tick(null, Direction.NONE);
