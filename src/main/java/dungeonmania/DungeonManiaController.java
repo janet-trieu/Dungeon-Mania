@@ -7,7 +7,6 @@ import dungeonmania.entities.movingEntity.*;
 import dungeonmania.entities.collectableEntity.*;
 import dungeonmania.entities.collectableEntity.rareCollectableEntity.*;
 import dungeonmania.entities.collectableEntity.potionEntity.*;
-import dungeonmania.entities.collectableEntity.breakableEntity.*;
 import dungeonmania.entities.collectableEntity.buildableEntity.*;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
@@ -478,7 +477,7 @@ public class DungeonManiaController {
             e1.printStackTrace();
         }
 
-        File gameFile = new File("savedGames" + "\\" + name + ".json");
+        File gameFile = new File("savedGames/" + name + ".json");
 
         // EXCEPTION CHECKING
         // If filename does not exist/valid
@@ -488,7 +487,7 @@ public class DungeonManiaController {
 
         // Read gameMode and dungeonResponse data
         try {
-            FileLoader.listFileNamesInDirectoryOutsideOfResources("savedGames" + "\\" + name + ".json");
+            FileLoader.listFileNamesInDirectoryOutsideOfResources("savedGames/" + name + ".json");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -738,9 +737,9 @@ public class DungeonManiaController {
         // Case 1: bomb is placed and a boulder activates switch
         for (Bomb bomb : bombList) {
 
-            List<Entity> adjacentEntities = currDungeon.adjacentEntityList((Entity)bomb);
+            List<Entity> cardinallyAdjaceEntities = currDungeon.getEntitiesCardinallyAdjacent(bomb.getPosition());
 
-            for (Entity entity : adjacentEntities) {
+            for (Entity entity : cardinallyAdjaceEntities) {
                 if (entity instanceof FloorSwitch) {
                     FloorSwitch floorSwitch = (FloorSwitch) entity;
                     if (floorSwitch.getIsActive()) {
@@ -904,7 +903,7 @@ public class DungeonManiaController {
      */
     public void clearData() {
         for (String games : allGames()) {
-            File gameFile = new File("savedGames" + "\\" + games + ".json");
+            File gameFile = new File("savedGames/" + games + ".json");
             gameFile.delete();
         }
     }
