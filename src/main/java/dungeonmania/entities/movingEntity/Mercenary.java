@@ -17,7 +17,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import dungeonmania.entities.Player;
 
-public class Mercenary extends MovingEntity implements Bribeable {
+public class Mercenary extends MovingEntity implements Bribeable, Dijkstra {
 
     // storing the number of entities created to help with fluid entityId generation
     private static int counter = 0;
@@ -70,8 +70,8 @@ public class Mercenary extends MovingEntity implements Bribeable {
     /**
      * Method for the mercenary to move
      */
-    @Override
-    public void move() {
+    
+    public void move2() {
         if(this.getDebuff() > 0) {
             setDebuff(this.getDebuff() - 1);
             return;
@@ -151,7 +151,11 @@ public class Mercenary extends MovingEntity implements Bribeable {
         this.setX(next.getX());
         this.setY(next.getY());
     }
+    @Override
+    public void move() {
+        dijksmove(dungeon, this);
 
+    }
     /**
      * Method for the mercenary to drop armour
      */
