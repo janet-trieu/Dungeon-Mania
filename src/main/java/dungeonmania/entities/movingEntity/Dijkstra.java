@@ -1,10 +1,12 @@
 package dungeonmania.entities.movingEntity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 import dungeonmania.Dungeon;
@@ -40,9 +42,9 @@ public interface Dijkstra {
                 List<Entity> type = dungeon.getEntitiesOnSamePosition(point);
 
                 for (Entity curr : type) {
-                    if (curr instanceof Wall) {cost = 10000.0;}
-                    if (curr instanceof Boulder) {cost = 50.0;}
-                    if (curr instanceof Portal) {cost = 1000.0;}
+                    if (curr instanceof Wall) {cost = 100.0;}
+                    if (curr instanceof Boulder) {cost = 5.0;}
+                    if (curr instanceof Portal) {cost = 10.0;}
                     if (curr instanceof SwampTile) {
                         SwampTile tile = (SwampTile) curr;
                         cost = Double.valueOf(tile.getMovementFactor());
@@ -68,11 +70,18 @@ public interface Dijkstra {
 
         Map<Position, Double> dist = new HashMap<>();
         Map<Position, Position> prev = new HashMap<>();
-        Queue<Position> queue = new LinkedList<>();
+        PriorityQueue<Position> queue = new PriorityQueue<>(grid.size(), new Comparator<Position>() {
+            @Override
+            public int compare(Position a, Position b) {
+                return Double.compare(dist.get(a), dist.get(b));
+            }
+        });
         
-        queue.add(posP);
+        
         for(Position point : grid.keySet()) {
             dist.put(point, Double.POSITIVE_INFINITY);
+            prev.put(point, null);
+            queue.add(point);
         }
         dist.put(posP, 0.0);
 
@@ -93,7 +102,8 @@ public interface Dijkstra {
                 }
             }
         }
-
+        dist.clear();
+        grid.clear();
 
         return prev;
     }
@@ -124,6 +134,7 @@ public interface Dijkstra {
         
         entity.setX(next.getX());
         entity.setY(next.getY());
+        dijkstra.clear();
     }
 
 
