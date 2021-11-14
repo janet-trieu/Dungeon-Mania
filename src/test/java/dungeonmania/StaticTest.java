@@ -413,8 +413,11 @@ public class StaticTest {
         assertEquals(playerPos, player.getPosition());
         assertFalse(door1.isPassable());
 
+        // player moves 1 cell to the right to pick up key
+        // player moves 1 cell down to try to open door 2
         player.moveRight();
         player.moveDown();
+
         // door 2 is the correct door for player's key, 
         // hence player can move through the door
         assertTrue(door2.isPassable());
