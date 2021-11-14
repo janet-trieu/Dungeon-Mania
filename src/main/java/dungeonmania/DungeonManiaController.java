@@ -733,6 +733,10 @@ public class DungeonManiaController {
         Spider spider = new Spider(spawnPos.getX(), spawnPos.getY(), dungeon);
         spider.spawnSpider();
 
+        Position spawnPoint = currDungeon.getSpawnPoint();
+        Mercenary mercenary = new Mercenary(spawnPoint.getX(), spawnPoint.getY(), dungeon);
+        mercenary.spawnMercenary();
+
         // check the floor switch's isActive and position, as well as bomb position
         // Case 1: bomb is placed and a boulder activates switch
         for (Bomb bomb : bombList) {

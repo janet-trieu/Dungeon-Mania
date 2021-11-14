@@ -37,6 +37,9 @@ public class Mercenary extends MovingEntity implements Bribeable {
     // getting the dungeon instance
     Dungeon dungeon;
 
+    // storing the number of occurences this method is called, to know when to spawn the mercenary
+    private static int tickCounter = 0;
+
     /**
      * Constructor for the mercenary
      * @param x position
@@ -67,6 +70,45 @@ public class Mercenary extends MovingEntity implements Bribeable {
         }
     }
     
+    /**
+     * Method to spawn the spider
+     */
+    public void spawnMercenary() {
+        if (tickCounter >= 15 && hostileInDungeon()) {
+            setTickCounter(0);
+            dungeon.addEntity(this);
+        } 
+        tickCounter++;
+    }
+
+
+    /**
+     * get number of enemies
+     */
+
+    public Boolean hostileInDungeon() {
+        for (Entity entity : Dungeon.getDungeon().getEntityList()) {
+            if (entity instanceof MovingEntity) {
+                if (entity instanceof Mercenary && !isMercenaryBribed(entity)) {
+                    return true;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Boolean isMercenaryBribed(Entity entity) {
+        Mercenary mercenary = (Mercenary) entity;
+        if (mercenary.isBribed()) {
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * Method for the mercenary to move
      */
@@ -245,6 +287,14 @@ public class Mercenary extends MovingEntity implements Bribeable {
 
     public static void setCounter(int counter) {
         Mercenary.counter = counter;
+    }
+
+    public static int getTickCounter() {
+        return tickCounter;
+    }
+
+    public static void setTickCounter(int tickCounter) {
+        Mercenary.tickCounter = tickCounter;
     }
 
     @Override
