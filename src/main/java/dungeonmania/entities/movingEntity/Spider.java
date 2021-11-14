@@ -41,6 +41,7 @@ public class Spider extends MovingEntity {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
+        super.setDamagepeaceful(dungeon);
     }
 
     /**

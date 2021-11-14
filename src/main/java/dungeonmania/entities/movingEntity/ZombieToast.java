@@ -36,6 +36,7 @@ public class ZombieToast extends MovingEntity {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
+        super.setDamagepeaceful(dungeon);
     }
 
     public ZombieToast(int x, int y, Dungeon dungeon, String type) {
@@ -47,6 +48,7 @@ public class ZombieToast extends MovingEntity {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
+        super.setDamagepeaceful(dungeon);
     }
 
     /**

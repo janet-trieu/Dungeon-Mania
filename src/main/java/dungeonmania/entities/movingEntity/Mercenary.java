@@ -58,6 +58,7 @@ public class Mercenary extends MovingEntity implements Bribeable {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
+        super.setDamagepeaceful(dungeon);
     }
 
     public Mercenary(int x, int y, Dungeon dungeon, String type) {
@@ -69,6 +70,7 @@ public class Mercenary extends MovingEntity implements Bribeable {
         if (checkSpawn(dungeon) != null) {
             setDebuff(checkSpawn(dungeon).getMovementFactor() - 1);
         }
+        super.setDamagepeaceful(dungeon);
     }
     
     /**

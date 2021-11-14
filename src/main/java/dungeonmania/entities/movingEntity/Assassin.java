@@ -38,6 +38,7 @@ public class Assassin extends BossEntity implements Bribeable {
         setIsInteractable(isInteractable);
         this.dungeon = dungeon;
         counter++;
+        super.setDamagepeaceful(dungeon);
     }
 
     @Override
