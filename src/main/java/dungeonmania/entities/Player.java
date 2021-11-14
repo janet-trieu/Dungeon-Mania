@@ -382,6 +382,7 @@ public class Player extends Entity {
     public void consumeInvisibilityPotion() {
         invisibleState.applyEffect();
     }
+
     public void consumeInvincibilityPotion() {
         invincibleState.applyEffect();
     }
@@ -411,6 +412,7 @@ public class Player extends Entity {
     public void equipOneRing() {
         oneRingState.applyEffect();
     }
+    
     public void equipAnduril() {
         andurilState.applyEffect();
     }
