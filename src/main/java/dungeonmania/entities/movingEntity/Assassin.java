@@ -76,7 +76,7 @@ public class Assassin extends BossEntity implements Bribeable, Dijkstra {
         // one ring is used up, sun stone remains
         if (inventory.numberOfItem("sun_stone") > 0 && inventory.numberOfItem("the_one_ring") > 0) {
             setIsBribed(true);
-            inventory.breakItem("one_ring");
+            inventory.breakItem("the_one_ring");
             setIsInteractable(false);
             return;
 
@@ -84,7 +84,7 @@ public class Assassin extends BossEntity implements Bribeable, Dijkstra {
         } else if (inventory.numberOfItem("treasure") > 0 && inventory.numberOfItem("the_one_ring") > 0) {
             setIsBribed(true);
             inventory.breakItem("treasure");
-            inventory.breakItem("one_ring");
+            inventory.breakItem("the_one_ring");
             setIsInteractable(false);
             return;
 
