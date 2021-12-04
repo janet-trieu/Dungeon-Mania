@@ -1,0 +1,547 @@
+Autotesting Result = 124.0/110, the final cap hasn't been defined yet but will be around 80-90
+Test 1-1
+SUCCESS
+DONE
+Test 1-2
+
+GamemodesTest > 1-2 Testing zombies spawn every 15 ticks in hard mode FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.GamemodesTest.testHardZombieSpawning(GamemodesTest.java:32)
+FAILURE
+DONE
+Test 1-3
+
+ZombieTest > 1-3 Testing zombies spawn with armour intermittently (at least once every 200 ticks) -- fix test?? FAILED
+    org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+        at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)
+        at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:179)
+        at dungeonmania.controllerTest.ZombieTest.testZombiesHaveArmour(ZombieTest.java:86)
+FAILURE
+DONE
+Test 2-1
+SUCCESS
+DONE
+Test 2-2
+
+ZombieTest > 2-2 Testing zombies cannot move through doors and walls FAILED
+    org.opentest4j.AssertionFailedError: expected: <Position [x=1, y=1, z=3]> but was: <Position [x=1, y=0, z=3]>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+        at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1141)
+        at dungeonmania.controllerTest.ZombieTest.testZombieNotMovingThroughBlockingEntities(ZombieTest.java:57)
+FAILURE
+DONE
+Test 2-3
+SUCCESS
+DONE
+Test 2-4
+SUCCESS
+DONE
+Test 2-5
+SUCCESS
+DONE
+Test 3-1
+SUCCESS
+DONE
+Test 3-2
+
+MercenaryTest > 3-2 Testing mercenaries cannot move through doors and walls FAILED
+    org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+        at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)
+        at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:179)
+        at dungeonmania.controllerTest.MercenaryTest.testMercenaryNotMovingThroughBlockingEntities(MercenaryTest.java:57)
+FAILURE
+DONE
+Test 3-3
+SUCCESS
+DONE
+Test 3-4
+
+MercenaryTest > Testing mercenaries spawn with armour FAILED
+    org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+        at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)
+        at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:179)
+        at dungeonmania.controllerTest.MercenaryTest.testMercenarySpawningWithArmour(MercenaryTest.java:119)
+
+MercenaryTest > Testing mercenaries pathfind around doors and walls FAILED
+    org.opentest4j.AssertionFailedError: expected: <Position [x=3, y=2, z=0]> but was: <Position [x=2, y=1, z=3]>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+        at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1141)
+        at dungeonmania.controllerTest.MercenaryTest.testMercenaryPathfindsWithBlockers(MercenaryTest.java:141)
+FAILURE
+DONE
+Test 4-1
+SUCCESS
+DONE
+Test 4-2
+SUCCESS
+DONE
+Test 4-3
+SUCCESS
+DONE
+Test 4-4
+
+CollectablesTest > 4-4 Test invincibility potions cause enemies to run away FAILED
+    org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+        at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)
+        at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:179)
+        at dungeonmania.controllerTest.CollectablesTest.testInvincibilityPotion(CollectablesTest.java:108)
+FAILURE
+DONE
+Test 5-1
+SUCCESS
+DONE
+Test 5-2
+SUCCESS
+DONE
+Test 6-1
+SUCCESS
+DONE
+Test 6-2
+SUCCESS
+DONE
+Test 6-3
+SUCCESS
+DONE
+Test 6-4
+SUCCESS
+DONE
+Test 6-5
+SUCCESS
+DONE
+Test 6-6
+SUCCESS
+DONE
+Test 7-1
+SUCCESS
+DONE
+Test 7-2
+SUCCESS
+DONE
+Test 7-3
+SUCCESS
+DONE
+Test 7-4
+SUCCESS
+DONE
+Test 7-5
+SUCCESS
+DONE
+Test 7-6
+SUCCESS
+DONE
+Test 7-7
+SUCCESS
+DONE
+Test 7-8
+SUCCESS
+DONE
+Test 7-9
+SUCCESS
+DONE
+Test 8-1
+SUCCESS
+DONE
+Test 8-2
+SUCCESS
+DONE
+Test 8-3
+SUCCESS
+DONE
+Test 8-4
+SUCCESS
+DONE
+Test 9-1
+SUCCESS
+DONE
+Test 9-2
+SUCCESS
+DONE
+Test 9-3
+SUCCESS
+DONE
+Test 10-1
+SUCCESS
+DONE
+Test 10-2
+SUCCESS
+DONE
+Test 10-3
+SUCCESS
+DONE
+Test 10-4
+SUCCESS
+DONE
+Test 10-5
+SUCCESS
+DONE
+Test 10-6
+SUCCESS
+DONE
+Test 10-7
+SUCCESS
+DONE
+Test 10-8
+
+BombsTest > 10-8 Test placing a bomb diagonally adjacent to an inactive switch does not cause the bomb to explode FAILED
+    org.opentest4j.AssertionFailedError: expected: <1> but was: <0>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+        at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:527)
+        at dungeonmania.controllerTest.BombsTest.testBombPlaceMapDiagonallyAdjacentInactiveSwitch(BombsTest.java:215)
+FAILURE
+DONE
+Test 11-1
+SUCCESS
+DONE
+Test 11-2
+SUCCESS
+DONE
+Test 11-3
+SUCCESS
+DONE
+Test 12-1
+SUCCESS
+DONE
+Test 12-2
+SUCCESS
+DONE
+Test 12-3
+SUCCESS
+DONE
+Test 12-4
+SUCCESS
+DONE
+Test 13-1
+SUCCESS
+DONE
+Test 13-2
+SUCCESS
+DONE
+Test 13-3
+SUCCESS
+DONE
+Test 13-4
+SUCCESS
+DONE
+Test 13-5
+SUCCESS
+DONE
+Test 13-6
+SUCCESS
+DONE
+Test 13-7
+SUCCESS
+DONE
+Test 14-1
+SUCCESS
+DONE
+Test 14-2
+SUCCESS
+DONE
+Test 14-3
+SUCCESS
+DONE
+Test 14-4
+SUCCESS
+DONE
+Test 14-5
+SUCCESS
+DONE
+Test 14-6
+SUCCESS
+DONE
+Test 15-1
+SUCCESS
+DONE
+Test 15-2
+SUCCESS
+DONE
+Test 15-3
+SUCCESS
+DONE
+Test 15-4
+SUCCESS
+DONE
+Test 15-5
+SUCCESS
+DONE
+Test 15-6
+SUCCESS
+DONE
+Test 15-7
+SUCCESS
+DONE
+Test 15-8
+SUCCESS
+DONE
+Test 15-9
+SUCCESS
+DONE
+Test 15-10
+SUCCESS
+DONE
+Test 15-11
+SUCCESS
+DONE
+Test 15-12
+SUCCESS
+DONE
+Test 15-13
+SUCCESS
+DONE
+Test 15-14
+SUCCESS
+DONE
+Test 15-15
+SUCCESS
+DONE
+Test 15-16
+SUCCESS
+DONE
+Test 16-1
+SUCCESS
+DONE
+Test 16-2
+SUCCESS
+DONE
+Test 16-3
+SUCCESS
+DONE
+Test 16-4
+
+BattleTest > 16-4 Test player wins a battle against a spider with an invinicibility potion FAILED
+    org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+        at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:527)
+        at dungeonmania.controllerTest.BattleTest.testPlayerWinsSpiderBattleWithInvincibilityPotion(BattleTest.java:114)
+FAILURE
+DONE
+Test 16-5
+SUCCESS
+DONE
+Test 16-6
+SUCCESS
+DONE
+Test 16-7
+SUCCESS
+DONE
+Test 17-1
+SUCCESS
+DONE
+Test 17-2
+SUCCESS
+DONE
+Test 17-3
+SUCCESS
+DONE
+Test 17-4
+SUCCESS
+DONE
+Test 18-1
+
+BossTest > 18-1 Testing bribing an assassin with the correct items ensures there is no battle FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.BossTest.testAssassinBribing(BossTest.java:20)
+FAILURE
+DONE
+Test 18-2
+SUCCESS
+DONE
+Test 18-3
+SUCCESS
+DONE
+Test 19-1
+SUCCESS
+DONE
+Test 19-2
+SUCCESS
+DONE
+Test 19-3
+SUCCESS
+DONE
+Test 19-4
+SUCCESS
+DONE
+Test 20-1
+SUCCESS
+DONE
+Test 20-2
+SUCCESS
+DONE
+Test 23-1
+SUCCESS
+DONE
+Test 23-2
+
+SwampTileTest > 23-2 Testing mercenaries can take double moves through swamps FAILED
+    org.opentest4j.AssertionFailedError: expected: <Position [x=3, y=1, z=0]> but was: <Position [x=2, y=1, z=3]>
+        at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+        at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+        at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+        at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1141)
+        at dungeonmania.controllerTest.SwampTileTest.testSwampSlowsMovementMercDoubleMove(SwampTileTest.java:52)
+FAILURE
+DONE
+Test 23-3
+
+SwampTileTest > 23-3 Testing if mercenaries take into account movement factor when pathfinding FAILED
+    java.util.NoSuchElementException: No value present
+        at java.base/java.util.Optional.get(Optional.java:141)
+        at dungeonmania.controllerTest.SwampTileTest.testMercenaryPathfindsWithSwamp(SwampTileTest.java:69)
+FAILURE
+DONE
+Test 21-1
+
+GenerateTest > 21-1 Testing dungeon generation creates reasonable proportion of walls FAILED
+    java.lang.RuntimeException: generateDungeon(int, int, int, int, String) doesn't exist
+        at dungeonmania.controllerTest.GenerateTest.testGenerateDungeon(GenerateTest.java:44)
+FAILURE
+DONE
+Test 21-2
+
+GenerateTest > 21-2 Testing generated dungeons are solvable FAILED
+    java.lang.RuntimeException: generateDungeon(int, int, int, int, String) doesn't exist
+        at dungeonmania.controllerTest.GenerateTest.testGeneratedDungeonPath(GenerateTest.java:86)
+FAILURE
+DONE
+Test 22-1
+
+TimeTravelTest > 22-1 Testing rewinding fails without a time turner FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.TimeTravelTest.testRewindMethod(TimeTravelTest.java:32)
+FAILURE
+DONE
+Test 22-2
+
+TimeTravelTest > 22-2 Test picking up a time turner adds to inventory FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.TimeTravelTest.testPickUpTimeTurner(TimeTravelTest.java:61)
+FAILURE
+DONE
+Test 22-3
+
+TimeTravelTest > 22-3 Test using a time turner, 1 tick back FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.TimeTravelTest.testUseTimeTurnerOneTick(TimeTravelTest.java:77)
+FAILURE
+DONE
+Test 22-4
+
+TimeTravelTest > 22-4 Test using a time turner, 5 ticks back FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.TimeTravelTest.testUseTimeTurnerFiveTicks(TimeTravelTest.java:114)
+FAILURE
+DONE
+Test 22-5
+
+TimeTravelTest > 22-5 Test time travel portals FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.TimeTravelTest.testTimeTravellingPortal(TimeTravelTest.java:160)
+FAILURE
+DONE
+Test 22-6
+
+TimeTravelTest > 22-6 Test non player moving entities cannot move through time travel portal FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.TimeTravelTest.testTimeTravellingPortalNotPlayer(TimeTravelTest.java:206)
+FAILURE
+DONE
+Test 22-7
+
+TimeTravelTest > 22-7 Test older self is present when time travelling through portal FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.TimeTravelTest.testOlderSelfTimeTravellingPortal(TimeTravelTest.java:226)
+FAILURE
+DONE
+Test 24-1
+
+LogicGatesTest > 24-1 Test light bulbs and wires are not collectable FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.LogicGatesTest.LightBulbAndWireNotCollectable(LogicGatesTest.java:23)
+FAILURE
+DONE
+Test 24-2
+
+LogicGatesTest > 24-2 Test turning on a light bulb FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.LogicGatesTest.TurnOnLightBulb(LogicGatesTest.java:49)
+FAILURE
+DONE
+Test 24-3
+
+LogicGatesTest > 24-3 Test activating a wire and exploding a bomb FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.LogicGatesTest.ActivateWireAndExplodeBomb(LogicGatesTest.java:71)
+FAILURE
+DONE
+Test 24-4
+
+LogicGatesTest > 24-4 Test complex logic switches light bulb And FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.LogicGatesTest.ComplexLogicSwitchesLightBulbAnd(LogicGatesTest.java:108)
+FAILURE
+DONE
+Test 24-5
+
+LogicGatesTest > 24-5 Test complex logic switches light bulb Xor FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.LogicGatesTest.ComplexLogicSwitchesLightBulbXor(LogicGatesTest.java:146)
+FAILURE
+DONE
+Test 24-6
+
+LogicGatesTest > 24-6 Test activate switch door FAILED
+    java.lang.IllegalArgumentException: Invalid gameMode
+        at dungeonmania.DungeonManiaController.newGame(DungeonManiaController.java:104)
+        at dungeonmania.controllerTest.Utils.newGame(Utils.java:37)
+        at dungeonmania.controllerTest.LogicGatesTest.SwitchDoor(LogicGatesTest.java:184)
+FAILURE
+DONE
